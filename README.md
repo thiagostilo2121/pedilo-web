@@ -60,8 +60,8 @@ src/
 
 1. **Clonar el repositorio**:
    ```bash
-   git clone <url-del-repositorio>
-   cd pedilo-frontend
+   git clone https://github.com/thiagostilo2121/pedilo-web.git
+   cd pedilo-web
    ```
 
 2. **Instalar dependencias**:
@@ -111,7 +111,7 @@ Este proyecto está bajo la Licencia [MIT](LICENSE).
 
 Este proyecto ha sido creado en una semana y media (Back + Front) donde el backend (Python + FastAPI) fue creado por mí con ayuda de IA como herramienta (como normalmente se utiliza). Por otro lado y siendo honestos, el frontend no fue hecho completamente por mí, la ayuda de la inteligencia artificial fue crucial para poder terminar el proyecto debido a que no poseo conocimientos avanzados en React y Tailwind CSS. Sin embargo, me siento orgulloso del resultado final y espero que sea de utilidad para quienes lo utilicen. El proyecto está pensado para ser escalable y modular, permitiendo agregar nuevas funcionalidades en el futuro.
 
-- Pueden ver el open source del back [aquí](https://github.com/thiagostilo2121/pedilo-backend)
+- Pueden ver el open source del back [aquí](https://github.com/thiagostilo2121/pedilo-backapí)
 
 - El proyecto está desplegado en Netlify, pueden verlo [aquí](https://pediloarg.netlify.app)
 
