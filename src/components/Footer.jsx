@@ -16,17 +16,18 @@
  */
 
 import { Link } from "react-router-dom";
+import { Github } from "lucide-react";
 
 export default function Footer() {
   return (
     <footer className="bg-orange-600 text-orange-50">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
-        
+
         {/* Columna 1: Marca y Propuesta */}
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <img
-              src="/favicons/favicon2.png" // Simplificado: la carpeta public se sirve desde la raíz
+              src="/favicons/favicon2.png"
               alt="Pedilo Logo"
               className="w-10 h-10 object-contain bg-white rounded-lg p-1"
             />
@@ -68,7 +69,7 @@ export default function Footer() {
           <h4 className="text-white font-bold uppercase tracking-wider text-xs text-orange-200">Seguridad del Pedido</h4>
           <div className="bg-orange-700/40 p-3 rounded-lg border border-orange-400/20">
             <p className="text-xs leading-normal text-orange-50">
-              <strong>Validación necesaria:</strong> Para procesar tu pedido, es indispensable contactar al negocio vía WhatsApp. 
+              <strong>Validación necesaria:</strong> Para procesar tu pedido, es indispensable contactar al negocio vía WhatsApp.
               <span className="block mt-2 font-semibold text-white">
                 Los comercios están autorizados a rechazar pedidos sin confirmación por mensaje por razones de seguridad.
               </span>
@@ -77,11 +78,40 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Barra inferior */}
-      <div className="border-t border-orange-500 bg-orange-700/30 py-6 text-center text-sm">
-        <p className="text-orange-100">
-          © {new Date().getFullYear()} Pedilo. Hecho para impulsar el comercio local.
-        </p>
+      {/* Barra inferior con créditos */}
+      <div className="border-t border-orange-500 bg-orange-700/30 py-6">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-orange-100 text-sm">
+            © {new Date().getFullYear()} Pedilo. Hecho para impulsar el comercio local.
+          </p>
+          <div className="flex items-center gap-6 text-sm">
+            <a
+              href="https://github.com/thiagostilo2121"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-orange-100 hover:text-white transition-colors"
+            >
+              <Github size={18} />
+              <span className="hidden sm:inline">@thiagostilo2121</span>
+            </a>
+            <a
+              href="https://github.com/thiagostilo2121/pedilo-web"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-200 hover:text-white transition-colors"
+            >
+              Frontend
+            </a>
+            <a
+              href="https://github.com/thiagostilo2121/pedilo-api"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-orange-200 hover:text-white transition-colors"
+            >
+              Backend
+            </a>
+          </div>
+        </div>
       </div>
     </footer>
   );
