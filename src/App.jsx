@@ -105,7 +105,9 @@ export default function App() {
           <Route path="/n/:slug/pedidos" element={<PublicLayout><PedidoWrapper /></PublicLayout>} />
 
           {/* 4. REDIRECCIÓN POR DEFECTO */}
-          <Route path="/dashboard" element={<ConfiguracionNegocio />} />
+          <Route path="/dashboard" element={
+            <PrivateRoute><DashboardLayout><ConfiguracionNegocio /></DashboardLayout></PrivateRoute>
+          } />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
