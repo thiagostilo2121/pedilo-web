@@ -106,6 +106,7 @@ Si deseas contribuir a este proyecto, por favor abre un issue o envía un pull r
 
 Este proyecto está bajo la Licencia [GNU Affero General Public License v3.0 (AGPLv3)](LICENSE).
 
+---
 
 ### Comentarios del Desarrollador
 
@@ -116,3 +117,9 @@ Este proyecto ha sido creado en una semana y media (Back + Front) donde el backe
 - El proyecto está desplegado en Netlify, pueden verlo [aquí](https://pediloarg.netlify.app)
 
 - Contamos con negocios DEMO para probar el sistema desde el lado del cliente final, pueden verlos en [Pedilo Oficial](https://pediloarg.netlify.app/n/pedilo-oficial), [Pedilo Oficial 2](https://pediloarg.netlify.app/n/pedilo-oficial-2) y [DEMO](https://pediloarg.netlify.app/n/demo)
+
+- Si quieren probar la dashboard de administrador, pueden hacerlo con las siguientes credenciales:
+  - Email: `pedilo@testing.com`
+  - Contraseña: `12345678`
+
+- Tengan en cuenta que la cuenta es abierta a cualquiera, por lo que si ven que hay pedidos o cosas raras, es porque cualquiera puede entrar y hacer lo que quiera. No es una cuenta privada.
