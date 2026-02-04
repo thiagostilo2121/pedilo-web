@@ -1,128 +1,191 @@
-# 📦 Pedilo - Frontend
+# 🍕 Pedilo - Frontend
 
-**Pedilo** es una plataforma moderna para la gestión de pedidos y negocios, diseñada para ofrecer una experiencia fluida tanto a los dueños de negocios como a sus clientes. Esta aplicación frontend está construida con tecnologías de vanguardia para garantizar rapidez, escalabilidad y un diseño excepcional.
+<div align="center">
+
+[![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind_4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![License](https://img.shields.io/badge/License-AGPL_v3-blue?style=for-the-badge)](LICENSE)
+
+**Sistema de pedidos online sin comisiones para pequeños negocios**
+
+[🔗 Pedilo en Vivo](https://pediloarg.netlify.app) · [⚙️ Backend Repo](https://github.com/thiagostilo2121/pedilo-api) · [🐛 Reportar Bug](https://github.com/thiagostilo2121/pedilo-web/issues)
+
+</div>
 
 ---
 
-## 🚀 Características Principales
+## ✨ Características
 
-- **Gestión de Negocios**: Creación y configuración detallada de perfiles comerciales.
-- **Catálogo de Productos**: Administración completa de productos y categorías.
-- **Sistema de Pedidos**: Seguimiento y gestión de pedidos recibidos.
-- **Página Pública de Negocio**: Interfaz optimizada para que los clientes realicen pedidos.
-- **Checkout Dinámico**: Proceso de compra sencillo para los usuarios finales.
-- **Autenticación Segura**: Sistema de login y registro para dueños de negocios.
-- **Gestión de Suscripciones**: Control de planes y servicios activos.
-- **Diseño Responsivo**: Experiencia de usuario optimizada para móviles y escritorio.
-- **Integración con WhatsApp**: Comunicación directa para la confirmación de pedidos.
+### Para Dueños de Negocios
+- 🏪 **Dashboard Completo** - Gestión de productos, categorías y pedidos
+- 📦 **Catálogo Digital** - Productos con imágenes, precios y stock
+- 🔔 **Pedidos en Tiempo Real** - Actualización automática cada 15 segundos
+- ⚙️ **Configuración Flexible** - Métodos de pago, tipos de entrega, horarios
+- 💳 **Suscripciones** - Integración con MercadoPago para planes premium
+
+### Para Clientes
+- 🛒 **Carrito Persistente** - Se guarda en localStorage
+- 📱 **Mobile First** - Diseño optimizado para celulares
+- 💬 **WhatsApp Ready** - Confirmación de pedidos por WhatsApp
+- 🔍 **Tracking de Pedidos** - Seguimiento por código único
 
 ---
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [React 19](https://react.dev/)
-- **Build Tool**: [Vite](https://vitejs.dev/)
-- **Estilos**: [Tailwind CSS 4](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/) + [Flowbite](https://flowbite.com/)
-- **Navegación**: [React Router DOM 7](https://reactrouter.com/)
-- **Gestión de Formularios**: [React Hook Form](https://react-hook-form.com/)
-- **API Client**: [Axios](https://axios-http.com/)
-- **Multimedia**: [Cloudinary](https://cloudinary.com/) (Gestión de imágenes)
-- **Iconografía**: [Lucide React](https://lucide.dev/)
+| Categoría | Tecnología |
+|-----------|------------|
+| **Framework** | [React 19](https://react.dev/) |
+| **Build Tool** | [Vite](https://vitejs.dev/) |
+| **Estilos** | [Tailwind CSS 4](https://tailwindcss.com/) + [DaisyUI](https://daisyui.com/) |
+| **Routing** | [React Router DOM 7](https://reactrouter.com/) |
+| **Forms** | [React Hook Form](https://react-hook-form.com/) |
+| **HTTP Client** | [Axios](https://axios-http.com/) |
+| **Iconos** | [Lucide React](https://lucide.dev/) |
+| **Imágenes** | [Cloudinary](https://cloudinary.com/) |
 
 ---
 
-## 📂 Estructura del Proyecto
+## 🏗️ Arquitectura
 
-```text
+```
 src/
-├── api/          # Configuraciones de Axios y llamadas base
-├── assets/       # Recursos estáticos (imágenes, logos)
-├── auth/         # Lógica de autenticación
-├── components/   # Componentes UI reutilizables
-├── contexts/     # Contextos globales (Auth, Pedidos, etc.)
-├── layout/       # Componentes de estructura (Navbar, Footer, Sidebar)
-├── pages/        # Pantallas principales de la aplicación
-├── services/     # Lógica de negocio e interacción con APIs
-├── App.jsx       # Componente raíz y configuración de rutas
-└── main.jsx      # Punto de entrada de la aplicación
+├── api/              # Configuración de Axios
+│   ├── api.js        # Cliente autenticado (JWT)
+│   └── apiPublic.js  # Cliente público (sin auth)
+├── components/       # Componentes reutilizables
+│   └── ConfirmModal.jsx
+├── constants/        # Configuración centralizada
+├── contexts/         # Estado global
+│   ├── AuthProvider.jsx
+│   └── ToastProvider.jsx
+├── hooks/            # Custom hooks
+│   ├── useRequirePremium.js
+│   └── useDocumentTitle.js
+├── layout/           # Layouts (Dashboard, Public)
+├── pages/            # Páginas/Vistas
+│   ├── Dashboard/    # Configuracion, Pedidos, Productos, Categorias
+│   └── Public/       # PublicNegocio, Checkout, Tracking
+├── services/         # Lógica de negocio
+└── App.jsx           # Router principal
+```
+
+### Patrones Implementados
+
+| Patrón | Uso |
+|--------|-----|
+| **Context API** | Auth global, Toast notifications |
+| **Custom Hooks** | `useRequirePremium`, `useDocumentTitle` |
+| **Service Layer** | Abstracción de API calls |
+| **Route Guards** | `PrivateRoute` para rutas protegidas |
+
+---
+
+## 🚀 Quick Start
+
+### Requisitos
+
+- Node.js 18+
+- npm o yarn
+
+### Instalación
+
+```bash
+# Clonar repositorio
+git clone https://github.com/thiagostilo2121/pedilo-web.git
+cd pedilo-web
+
+# Instalar dependencias
+npm install
+
+# Configurar variables de entorno
+cp .env.example .env
+# Editar .env con tus valores
+```
+
+### Variables de Entorno
+
+```env
+VITE_API_URL=http://localhost:8000/api
+VITE_API_PUBLIC_URL=http://localhost:8000/public
+VITE_CLOUDINARY_CLOUD_NAME=tu-cloud-name
+VITE_CLOUDINARY_UPLOAD_PRESET=tu-preset
+```
+
+### Ejecutar
+
+```bash
+# Desarrollo
+npm run dev
+
+# Build para producción
+npm run build
+
+# Preview del build
+npm run preview
+
+# Linting
+npm run lint
 ```
 
 ---
 
-## ⚙️ Configuración e Instalación
+## 🎮 Demo
 
-### Requisitos Previos
+### Tiendas de Prueba
+- [Pedilo Oficial](https://pediloarg.netlify.app/n/pedilo-oficial)
+- [Pedilo Oficial 2](https://pediloarg.netlify.app/n/pedilo-oficial-2)
+- [DEMO](https://pediloarg.netlify.app/n/demo)
 
-- [Node.js](https://nodejs.org/) (versión 18 o superior)
-- npm o yarn
+### Acceso al Dashboard
+```
+Email: pedilo@testing.com
+Password: 12345678
+```
 
-### Pasos para iniciar el proyecto
-
-1. **Clonar el repositorio**:
-   ```bash
-   git clone https://github.com/thiagostilo2121/pedilo-web.git
-   cd pedilo-web
-   ```
-
-2. **Instalar dependencias**:
-   ```bash
-   npm install
-   ```
-
-3. **Variables de Entorno**:
-   Crea un archivo `.env` en la raíz del proyecto y configura las variables necesarias.
-   ```env
-   VITE_API_URL=https://tu-api.com/api
-   VITE_API_PUBLIC_URL=https://tu-api.com/public
-   VITE_CLOUDINARY_CLOUD_NAME=tu-cloud-name
-   VITE_CLOUDINARY_UPLOAD_PRESET=tu-preset
-   ```
-
-4. **Iniciar en modo desarrollo**:
-   ```bash
-   npm run dev
-   ```
-
-5. **Construir para producción**:
-   ```bash
-   npm run build
-   ```
+> ⚠️ Esta cuenta es pública. Cualquiera puede acceder y modificar datos.
 
 ---
 
-## 📜 Scripts Disponibles
+## 🤝 Contribuir
 
-- `npm run dev`: Inicia el servidor de desarrollo con Vite.
-- `npm run build`: Genera los archivos estáticos optimizados para producción en la carpeta `/dist`.
-- `npm run lint`: Ejecuta el linter (ESLint) para verificar la calidad del código.
-- `npm run preview`: Previsualiza localmente la construcción de producción.
+¡Las contribuciones son bienvenidas!
 
----
-
-## 🤝 Contribución
-
-Si deseas contribuir a este proyecto, por favor abre un issue o envía un pull request. Todas las contribuciones son bienvenidas.
+1. Fork el proyecto
+2. Creá tu feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add: AmazingFeature'`)
+4. Push a la branch (`git push origin feature/AmazingFeature`)
+5. Abrí un Pull Request
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto está bajo la Licencia [GNU Affero General Public License v3.0 (AGPLv3)](LICENSE).
+Este proyecto está bajo la [GNU Affero General Public License v3.0 (AGPL-3.0)](LICENSE).
+
+Esto significa que si modificás este código y lo usás en un servicio público, **debés liberar tu código fuente**.
 
 ---
 
-### Comentarios del Desarrollador
+## 👤 Autor
 
-Este proyecto ha sido creado en una semana y media (Back + Front) donde el backend (Python + FastAPI) fue creado por mí con ayuda de IA como herramienta (como normalmente se utiliza). Por otro lado y siendo honestos, el frontend no fue hecho completamente por mí, la ayuda de la inteligencia artificial fue crucial para poder terminar el proyecto debido a que no poseo conocimientos avanzados en React y Tailwind CSS. Sin embargo, me siento orgulloso del resultado final y espero que sea de utilidad para quienes lo utilicen. El proyecto está pensado para ser escalable y modular, permitiendo agregar nuevas funcionalidades en el futuro.
+**Thiago Valentín Stilo Limarino**
 
-- El código del backend se encuentra cerrado por seguridad por el momento. Se planea abrirlo en un futuro
+- GitHub: [@thiagostilo2121](https://github.com/thiagostilo2121)
 
-- El proyecto está desplegado en Netlify, pueden verlo [aquí](https://pediloarg.netlify.app)
+---
 
-- Contamos con negocios DEMO para probar el sistema desde el lado del cliente final, pueden verlos en [Pedilo Oficial](https://pediloarg.netlify.app/n/pedilo-oficial), [Pedilo Oficial 2](https://pediloarg.netlify.app/n/pedilo-oficial-2) y [DEMO](https://pediloarg.netlify.app/n/demo)
+## 💬 Nota del Desarrollador
 
-- Si quieren probar la dashboard de administrador, pueden hacerlo con las siguientes credenciales:
-  - Email: `pedilo@testing.com`
-  - Contraseña: `12345678`
+> Este proyecto fue creado en **una semana y media** (Backend + Frontend). El backend fue desarrollado principalmente por mí con asistencia de IA. El frontend, siendo honesto, tuvo una participación mayor de herramientas de IA dado que mi especialidad es el backend (Python/FastAPI).
+>
+> A pesar de eso, me siento orgulloso del resultado. El proyecto está diseñado para ser escalable y modular.
 
-- Tengan en cuenta que la cuenta es abierta a cualquiera, por lo que si ven que hay pedidos o cosas raras, es porque cualquiera puede entrar y hacer lo que quiera. No es una cuenta privada.
+---
+
+<div align="center">
+
+⭐ Si te sirvió este proyecto, dejá una estrella!
+
+</div>
