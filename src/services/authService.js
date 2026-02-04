@@ -16,7 +16,6 @@
  */
 
 import api from "../api/api";
-import apiPublic from "../api/apiPublic";
 
 const authService = {
     login: async (email, password) => {

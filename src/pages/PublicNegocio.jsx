@@ -28,8 +28,9 @@ import {
   MapPin,
   Clock,
   AlertCircle,
-  Search // Nuevo icono para seguimiento
+  Search
 } from "lucide-react";
+import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
 
 export default function PublicNegocio({ slug }) {
   // ... (Estados anteriores se mantienen igual)
@@ -43,8 +44,7 @@ export default function PublicNegocio({ slug }) {
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
 
-  const DEFAULT_LOGO = "https://via.placeholder.com/150x150.png?text=Logo";
-  const DEFAULT_IMAGE = "https://via.placeholder.com/300x200.png?text=Sin+Imagen";
+  const DEFAULT_IMAGE = DEFAULT_PRODUCT_IMAGE;
 
   useEffect(() => {
     async function fetchData() {
