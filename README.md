@@ -72,7 +72,10 @@ src/
 3. **Variables de Entorno**:
    Crea un archivo `.env` en la raíz del proyecto y configura las variables necesarias.
    ```env
-   VITE_API_BASE_URL=https://tu-api.com
+   VITE_API_URL=https://tu-api.com/api
+   VITE_API_PUBLIC_URL=https://tu-api.com/public
+   VITE_CLOUDINARY_CLOUD_NAME=tu-cloud-name
+   VITE_CLOUDINARY_UPLOAD_PRESET=tu-preset
    ```
 
 4. **Iniciar en modo desarrollo**:
