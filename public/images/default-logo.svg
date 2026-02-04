@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="150" height="150" viewBox="0 0 150 150">
+  <rect fill="#f3f4f6" width="150" height="150" rx="12"/>
+  <g fill="#9ca3af">
+    <circle cx="75" cy="55" r="20"/>
+    <path d="M45 100 Q75 80 105 100 Q105 120 75 130 Q45 120 45 100"/>
+  </g>
+  <text x="75" y="145" font-family="system-ui, sans-serif" font-size="10" fill="#9ca3af" text-anchor="middle">Logo</text>
+</svg>
