@@ -18,8 +18,7 @@
 import { useEffect, useState, useCallback } from "react";
 import pedidosService from "../services/pedidosService";
 import DashboardLayout from "../layout/DashboardLayout";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/useAuth";
+import { useRequirePremium } from "../hooks/useRequirePremium";
 import { useToast } from "../contexts/ToastProvider";
 import {
   Clock,
@@ -58,28 +57,8 @@ export default function PedidosDashboard() {
     }
   }, [toast]);
 
-  const { get_usuario } = useAuth();
-  const navigate = useNavigate();
-
-  // Redirigir si ya está logueado
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const u = await get_usuario();
-
-        if (!u.es_premium) {
-          navigate("/planes");
-        } else if (!u.tiene_negocio) {
-          navigate("/crear-negocio");
-        }
-      } catch (err) {
-        console.error("Error verificando sesión:", err);
-        setServerError("No se pudo verificar tu sesión.");
-      }
-    };
-
-    checkSession();
-  }, [navigate, get_usuario]);
+  // Verificar suscripción premium y negocio
+  useRequirePremium();
 
 
   useEffect(() => {

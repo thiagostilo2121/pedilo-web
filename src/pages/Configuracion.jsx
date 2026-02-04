@@ -16,9 +16,8 @@
  */
 
 import { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import api from "../api/api";
-import { useAuth } from "../auth/useAuth";
+import { useRequirePremium } from "../hooks/useRequirePremium";
 import DashboardLayout from "../layout/DashboardLayout";
 import {
   Save,
@@ -36,8 +35,8 @@ import {
 } from "lucide-react";
 import { useToast } from "../contexts/ToastProvider";
 
-const CLOUD_NAME = "dwogfgn9p";
-const UPLOAD_PRESET = "PEDILO";
+const CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 const MAX_FILE_SIZE_MB = 2;
 
 export default function ConfiguracionNegocio() {
@@ -51,7 +50,6 @@ export default function ConfiguracionNegocio() {
   const [logoFile, setLogoFile] = useState(null);
   const fileInputRef = useRef(null);
 
-  const navigate = useNavigate();
   const toast = useToast();
 
   const fetchNegocio = async () => {
@@ -78,27 +76,8 @@ export default function ConfiguracionNegocio() {
   };
 
 
-  const { get_usuario } = useAuth();
-
-  // Redirigir si ya está logueado
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const u = await get_usuario();
-
-        if (!u.es_premium) {
-          navigate("/planes");
-        } else if (!u.tiene_negocio) {
-          navigate("/crear-negocio");
-        }
-      } catch (err) {
-        console.error("Error verificando sesión:", err);
-        toast.error("No se pudo verificar tu sesión.");
-      }
-    };
-
-    checkSession();
-  }, [navigate, get_usuario]);
+  // Verificar suscripción premium y negocio
+  useRequirePremium();
 
   useEffect(() => { fetchNegocio(); }, []);
 

@@ -17,9 +17,8 @@
 
 import { useEffect, useState, useRef } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../auth/useAuth";
 import productService from "../services/productService";
+import { useRequirePremium } from "../hooks/useRequirePremium";
 import { useToast } from "../contexts/ToastProvider";
 import {
   Plus,
@@ -33,6 +32,8 @@ import {
   AlertCircle,
   Tag
 } from "lucide-react";
+import { DEFAULT_PRODUCT_IMAGE } from "../constants";
+import ConfirmModal from "../components/ConfirmModal";
 
 
 export default function ProductosDashboard() {
@@ -56,6 +57,7 @@ export default function ProductosDashboard() {
 
   const [imageFile, setImageFile] = useState(null);
   const fileInputRef = useRef(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ open: false, productId: null });
 
   const fetchData = async () => {
     setLoading(true);
@@ -76,30 +78,8 @@ export default function ProductosDashboard() {
 
   useEffect(() => { fetchData(); }, []);
 
-  const { get_usuario } = useAuth();
-  const [serverError, setServerError] = useState(null);
-  const navigate = useNavigate();
-
-  // Redirigir si ya está logueado
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const u = await get_usuario();
-
-        if (!u.es_premium) {
-          navigate("/planes");
-        } else if (!u.tiene_negocio) {
-          navigate("/crear-negocio");
-        }
-      } catch (err) {
-        console.error("Error verificando sesión:", err);
-        // setServerError("No se pudo verificar tu sesión.");
-        toast.error("No se pudo verificar tu sesión.");
-      }
-    };
-
-    checkSession();
-  }, [navigate, get_usuario]);
+  // Verificar suscripción premium y negocio
+  useRequirePremium();
 
   const openModal = (producto = null) => {
     setEditingProducto(producto);
@@ -208,7 +188,7 @@ export default function ProductosDashboard() {
             <div key={prod.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
               <div className="relative h-44 overflow-hidden">
                 <img
-                  src={prod.imagen_url || "https://via.placeholder.com/300?text=Sin+Imagen"}
+                  src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   alt={prod.nombre}
                 />
@@ -230,17 +210,7 @@ export default function ProductosDashboard() {
                     <button onClick={() => openModal(prod)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 hover:text-orange-600 rounded-lg transition-colors">
                       <Pencil size={18} />
                     </button>
-                    <button onClick={async () => {
-                      if (confirm("¿Eliminar?")) {
-                        try {
-                          await productService.delete(prod.id);
-                          fetchData();
-                          toast.success("Producto eliminado");
-                        } catch (err) {
-                          toast.error("Error al eliminar");
-                        }
-                      }
-                    }} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                    <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
                       <Trash2 size={18} />
                     </button>
                   </div>
@@ -265,10 +235,23 @@ export default function ProductosDashboard() {
               <div className="space-y-4">
                 <div className="aspect-square bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center relative overflow-hidden group">
                   {imageFile || form.imagen_url ? (
-                    <img
-                      src={imageFile ? URL.createObjectURL(imageFile) : form.imagen_url}
-                      className="w-full h-full object-cover"
-                    />
+                    <div className="relative w-full h-full">
+                      <img
+                        src={imageFile ? URL.createObjectURL(imageFile) : form.imagen_url}
+                        className="w-full h-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setImageFile(null);
+                          setForm({ ...form, imagen_url: "" });
+                        }}
+                        className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg hover:bg-red-600 z-10"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
                   ) : (
                     <div className="text-center p-4">
                       <ImageIcon className="mx-auto text-gray-300 mb-2" size={40} />
@@ -352,6 +335,25 @@ export default function ProductosDashboard() {
           </div>
         </div>
       )}
+
+      {/* Confirm Delete Modal */}
+      <ConfirmModal
+        isOpen={deleteConfirm.open}
+        onClose={() => setDeleteConfirm({ open: false, productId: null })}
+        onConfirm={async () => {
+          try {
+            await productService.delete(deleteConfirm.productId);
+            fetchData();
+            toast.success("Producto eliminado");
+          } catch (err) {
+            toast.error("Error al eliminar");
+          }
+        }}
+        title="¿Eliminar producto?"
+        message="Esta acción no se puede deshacer. El producto será eliminado permanentemente."
+        confirmText="Eliminar"
+        variant="danger"
+      />
     </DashboardLayout>
   );
 }

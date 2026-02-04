@@ -19,12 +19,12 @@ import { useEffect, useState, useRef } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
 import api from "../api/api";
 import { Plus, Pencil, Trash2, ImageIcon, Loader2, X } from "lucide-react";
-import { useAuth } from "../auth/useAuth";
-import { useNavigate } from "react-router-dom";
+import { useRequirePremium } from "../hooks/useRequirePremium";
 import { useToast } from "../contexts/ToastProvider";
+import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET, DEFAULT_CATEGORY_IMAGE } from "../constants";
+import ConfirmModal from "../components/ConfirmModal";
 
-const CLOUDINARY_UPLOAD_URL = "https://api.cloudinary.com/v1_1/dwogfgn9p/image/upload";
-const CLOUDINARY_UPLOAD_PRESET = "PEDILO";
+const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
 export default function CategoriasDashboard() {
   const [categorias, setCategorias] = useState([]);
@@ -35,6 +35,7 @@ export default function CategoriasDashboard() {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ nombre: "", imagen_url: "" });
   const fileInputRef = useRef(null);
+  const [deleteConfirm, setDeleteConfirm] = useState({ open: false, categoryId: null });
 
   const fetchData = async () => {
     setLoading(true);
@@ -52,30 +53,9 @@ export default function CategoriasDashboard() {
 
   useEffect(() => { fetchData(); }, []);
 
-  const { get_usuario } = useAuth();
-  const navigate = useNavigate();
+  // Verificar suscripción premium y negocio
+  useRequirePremium();
   const toast = useToast();
-
-  // Redirigir si ya está logueado
-  useEffect(() => {
-    const checkSession = async () => {
-      try {
-        const u = await get_usuario();
-
-        if (!u.es_premium) {
-          navigate("/planes");
-        } else if (!u.tiene_negocio) {
-          navigate("/crear-negocio");
-        }
-      } catch (err) {
-        console.error("Error verificando sesión:", err);
-        // setServerError no está definido, uso toast
-        toast.error("Error al verificar la sesión.");
-      }
-    };
-
-    checkSession();
-  }, [navigate, get_usuario, toast]);
 
 
   const openModal = (categoria = null) => {
@@ -144,7 +124,6 @@ export default function CategoriasDashboard() {
   };
 
   const handleDelete = async (id) => {
-    if (!confirm("¿Seguro que querés borrar esta categoría? Los productos asociados podrían verse afectados.")) return;
     try {
       await api.delete(`/categorias/${id}`);
       setCategorias((prev) => prev.filter((cat) => cat.id !== id));
@@ -154,6 +133,11 @@ export default function CategoriasDashboard() {
       const msg = err?.response?.data?.message || "Error al borrar la categoría.";
       toast.error(msg);
     }
+  };
+
+  const handleRemoveImage = () => {
+    setForm((prev) => ({ ...prev, imagen_url: "" }));
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
@@ -201,7 +185,7 @@ export default function CategoriasDashboard() {
             <div key={cat.id} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all">
               <div className="relative h-40 overflow-hidden">
                 <img
-                  src={cat.imagen_url || "https://via.placeholder.com/400x300?text=Sin+Imagen"}
+                  src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE}
                   alt={cat.nombre}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -217,7 +201,7 @@ export default function CategoriasDashboard() {
                   <span className="text-sm font-medium">Editar</span>
                 </button>
                 <button
-                  onClick={() => handleDelete(cat.id)}
+                  onClick={() => setDeleteConfirm({ open: true, categoryId: cat.id })}
                   className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-600 hover:border-red-100 transition-colors border border-gray-100"
                 >
                   <Trash2 size={16} />
@@ -270,6 +254,16 @@ export default function CategoriasDashboard() {
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
                         <p className="text-white text-xs font-bold">Cambiar imagen</p>
                       </div>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRemoveImage();
+                        }}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full shadow-lg hover:bg-red-600 z-10"
+                      >
+                        <Trash2 size={14} />
+                      </button>
                     </div>
                   ) : (
                     <div className="text-center">
@@ -297,6 +291,17 @@ export default function CategoriasDashboard() {
           </div>
         </div>
       )}
+
+      {/* Confirm Delete Modal */}
+      <ConfirmModal
+        isOpen={deleteConfirm.open}
+        onClose={() => setDeleteConfirm({ open: false, categoryId: null })}
+        onConfirm={() => handleDelete(deleteConfirm.categoryId)}
+        title="¿Eliminar categoría?"
+        message="Los productos asociados a esta categoría se moverán a la categoría 'Otros'. Esta acción no se puede deshacer."
+        confirmText="Eliminar"
+        variant="danger"
+      />
     </DashboardLayout>
   );
 }
