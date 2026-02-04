@@ -29,7 +29,8 @@ import {
   X,
   ChevronLeft,
   ChevronRight,
-  FileText
+  FileText,
+  Github
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
@@ -112,6 +113,19 @@ export default function DashboardLayout({ children }) {
             {sidebarOpen && <span>Privacidad</span>}
           </button>
         </div>
+
+        {/* Mini-footer con créditos */}
+        <div className="px-4 py-3 border-t bg-gray-50">
+          <a
+            href="https://github.com/thiagostilo2121"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 text-xs text-gray-400 hover:text-orange-600 transition-colors"
+          >
+            <Github size={14} />
+            {sidebarOpen && <span>© {new Date().getFullYear()} @thiagostilo2121</span>}
+          </a>
+        </div>
       </aside>
 
       {/* CONTENEDOR PRINCIPAL */}
@@ -126,7 +140,7 @@ export default function DashboardLayout({ children }) {
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          
+
         </header>
 
         {/* MENU MOBILE DESPLEGABLE */}
