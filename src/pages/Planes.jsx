@@ -30,7 +30,7 @@ export default function Planes() {
 
   const plan = {
     nombre: "Plan Profesional",
-    precio: "15.000",
+    precio: "17.000",
     periodo: "mes",
     caracteristicas: [
       "Menú digital personalizado",
