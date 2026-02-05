@@ -33,6 +33,7 @@ import Privacidad from "./pages/PdP";
 import Planes from "./pages/Planes";
 import CrearNegocio from "./pages/CrearNegocio";
 import MiSuscripcion from "./pages/MiSus";
+import SuscripcionSuccess from "./pages/SuscripcionSuccess";
 import { AuthProvider, useAuth } from "./contexts/AuthProvider";
 import { ToastProvider } from "./contexts/ToastProvider";
 
@@ -81,6 +82,7 @@ export default function App() {
           <Route path="/privacidad" element={<PublicLayout><Privacidad /></PublicLayout>} />
           <Route path="/planes" element={<PublicLayout><Planes /></PublicLayout>} />
           <Route path="/crear-negocio" element={<PublicLayout><CrearNegocio /></PublicLayout>} />
+          <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
 
           {/* 2. RUTAS DE DASHBOARD (Protegidas) */}
           <Route path="/dashboard/pedidos" element={
