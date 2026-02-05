@@ -16,14 +16,15 @@
  */
 
 import { useNavigate } from "react-router-dom";
-import { 
-  ShoppingBag, 
-  Zap, 
-  Smartphone, 
+import {
+  ShoppingBag,
+  Zap,
+  Smartphone,
   ChevronRight,
   LayoutDashboard,
   MessageCircle,
-  Link as LinkIcon
+  Link as LinkIcon,
+  Gift
 } from "lucide-react";
 
 export default function Landing() {
@@ -42,13 +43,13 @@ export default function Landing() {
             Crea tu cuenta, configura tu negocio y obtén un enlace único para que tus clientes hagan pedidos de forma profesional.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button 
+            <button
               onClick={() => navigate("/register")}
               className="px-8 py-4 bg-orange-600 text-white font-bold rounded-2xl text-lg shadow-xl shadow-orange-100 hover:bg-orange-700 transition-all flex items-center justify-center gap-2"
             >
               Empezar ahora <ChevronRight size={20} />
             </button>
-            <button 
+            <button
               onClick={() => navigate("/login")}
               className="px-8 py-4 border-2 border-gray-100 text-gray-700 font-bold rounded-2xl text-lg hover:bg-gray-50 transition-all"
             >
@@ -83,15 +84,15 @@ export default function Landing() {
 
             {/* Paso 3 */}
             <div className="bg-white p-8 rounded-3xl shadow-sm">
-			  <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6">
-			    <MessageCircle size={24} />
-			  </div>
-			  <h3 className="font-bold text-xl mb-3">Recibí el pedido</h3>
-			  <p className="text-gray-500">
-			    El pedido te llega al panel y por WhatsApp. 
-			    <b> Coordinás el pago y la entrega directamente con tu cliente</b>, sin intermediarios.
-			  </p>
-			</div>	
+              <div className="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center mb-6">
+                <MessageCircle size={24} />
+              </div>
+              <h3 className="font-bold text-xl mb-3">Recibí el pedido</h3>
+              <p className="text-gray-500">
+                El pedido te llega al panel y por WhatsApp.
+                <b> Coordinás el pago y la entrega directamente con tu cliente</b>, sin intermediarios.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -102,15 +103,23 @@ export default function Landing() {
           <h2 className="text-4xl font-black mb-8">Digitalizá tu negocio hoy</h2>
           <div className="inline-block bg-orange-600 text-white p-10 rounded-[2.5rem] shadow-2xl w-full max-w-md">
             <span className="text-orange-200 font-bold uppercase tracking-widest text-xs">Suscripción Mensual</span>
-            <div className="text-6xl font-black my-4">$15.000</div>
+
+            {/* Badge de Free Trial */}
+            <div className="bg-white/20 text-white px-4 py-2 rounded-full inline-flex items-center gap-2 my-4">
+              <Gift size={18} />
+              <span className="font-bold text-sm">14 días gratis para probar</span>
+            </div>
+
+            <div className="text-6xl font-black my-4">$17.000</div>
 
             <p className="text-orange-100 mb-8">Sin comisiones por venta. <br /> Todo el control es tuyo.</p>
-            <button 
+            <button
               onClick={() => navigate("/register")}
               className="w-full py-4 bg-white text-orange-600 font-black rounded-xl text-lg hover:scale-105 transition-transform"
             >
-              Crear mi cuenta
+              Empezar prueba gratis
             </button>
+            <p className="text-orange-200 text-xs mt-4">Los primeros 14 días son gratis. Cancelá cuando quieras.</p>
           </div>
           <p className="mt-8 text-gray-400 text-sm">Próximamente: Métricas y analíticas de ventas.</p>
         </div>
