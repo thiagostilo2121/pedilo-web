@@ -15,11 +15,18 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import { useState } from "react";
+import { Check, Zap, Loader2 } from "lucide-react";
+import { useAuth } from "../auth/useAuth";
+import { getCheckoutUrl } from "../services/suscripcionService";
+import { useToast } from "../contexts/ToastProvider";
 import { useNavigate } from "react-router-dom";
-import { Check, Zap, Shield, Star } from "lucide-react";
 
 export default function Planes() {
+  const { user } = useAuth();
   const navigate = useNavigate();
+  const toast = useToast();
+  const [loading, setLoading] = useState(false);
 
   const plan = {
     nombre: "Plan Profesional",
@@ -35,6 +42,37 @@ export default function Planes() {
     ]
   };
 
+  const handleSuscribirse = async () => {
+    // Si no está logueado, redirigir a login
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const data = await getCheckoutUrl();
+
+      if (data.has_subscription) {
+        toast.info("Ya tenés una suscripción activa");
+        window.location.href = "/dashboard/mi-suscripcion";
+        return;
+      }
+
+      if (data.url) {
+        // Redirigir al checkout de Mercado Pago
+        window.location.href = data.url;
+      } else {
+        toast.error("No se pudo generar el link de pago");
+      }
+    } catch (err) {
+      console.error("Error al obtener checkout URL:", err);
+      toast.error("Error al procesar. Intentá de nuevo.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 py-20 px-4">
       <div className="max-w-3xl mx-auto text-center">
@@ -45,7 +83,7 @@ export default function Planes() {
           <div className="bg-orange-500 text-white py-2 px-6 absolute top-6 right-[-35px] rotate-45 text-sm font-black uppercase tracking-widest w-40">
             Recomendado
           </div>
-          
+
           <div className="p-10 md:p-16">
             <h2 className="text-2xl font-black mb-2">{plan.nombre}</h2>
             <div className="flex justify-center items-baseline gap-1 mb-8">
@@ -64,15 +102,27 @@ export default function Planes() {
               ))}
             </ul>
 
-            <button 
-              onClick={() => navigate("/pago-checkout")} // Aquí irá tu futura pasarela
-              className="w-full bg-orange-600 text-white py-5 rounded-2xl font-black text-xl shadow-lg shadow-orange-200 hover:bg-orange-700 transition-all active:scale-[0.98]"
+            <button
+              onClick={handleSuscribirse}
+              disabled={loading}
+              className="w-full bg-orange-600 text-white py-5 rounded-2xl font-black text-xl shadow-lg shadow-orange-200 hover:bg-orange-700 transition-all active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-3"
             >
-              Suscribirme ahora
+              {loading ? (
+                <>
+                  <Loader2 className="animate-spin" size={24} />
+                  Preparando pago...
+                </>
+              ) : (
+                "Suscribirme ahora"
+              )}
             </button>
             <p className="mt-6 text-gray-400 text-xs font-medium">Pagas hoy, configurás tu negocio en 1 minuto.</p>
           </div>
         </div>
+
+        <p className="mt-8 text-gray-400 text-sm">
+          Los pagos son procesados de forma segura por Mercado Pago
+        </p>
       </div>
     </div>
   );
