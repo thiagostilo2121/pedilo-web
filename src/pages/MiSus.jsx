@@ -24,7 +24,8 @@ import {
     XCircle,
     Clock,
     ExternalLink,
-    Loader2
+    Loader2,
+    Gift
 } from "lucide-react";
 import { getMiSuscripcion, getCheckoutUrl } from "../services/suscripcionService";
 import { useToast } from "../contexts/ToastProvider";
@@ -70,7 +71,6 @@ export default function MiSuscripcion() {
 
     if (loading) return <div className="p-8 text-center font-bold">Cargando datos de facturación...</div>;
 
-    // Sin suscripción activa - mostrar CTA para suscribirse
     if (!suscripcion || suscripcion.status === "expired" || suscripcion.status === "cancelled") {
         return (
             <div className="p-8 bg-white rounded-3xl border border-dashed border-gray-300 text-center max-w-2xl mx-auto mt-10">
@@ -98,6 +98,11 @@ export default function MiSuscripcion() {
     const isActive = suscripcion.status === "authorized" || suscripcion.status === "active";
     const displayStatus = suscripcion.status === "cancelled" ? "Cancelado" : suscripcion.status;
 
+    // Detectar si está en período de prueba (monto 0)
+    const isTrial = suscripcion.amount === 0;
+    const trialEndDate = suscripcion.next_payment_date ? new Date(suscripcion.next_payment_date) : null;
+    const daysRemaining = trialEndDate ? Math.max(0, Math.ceil((trialEndDate - new Date()) / (1000 * 60 * 60 * 24))) : 0;
+
     return (
         <div className="max-w-2xl mx-auto space-y-6 p-4">
             <h2 className="text-2xl font-black text-gray-900 flex items-center gap-2">
@@ -114,6 +119,15 @@ export default function MiSuscripcion() {
                                 {isActive ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
                                 {isActive ? "Plan Activo" : "Estado: " + displayStatus}
                             </span>
+
+                            {/* Badge de Trial */}
+                            {isTrial && isActive && (
+                                <div className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 w-fit mt-2">
+                                    <Gift size={12} />
+                                    Período de prueba • {daysRemaining} días restantes
+                                </div>
+                            )}
+
                             <h3 className="text-4xl font-black mt-4">
                                 ${suscripcion.amount?.toFixed(0) || "0"}
                                 <span className="text-lg text-gray-400 font-bold uppercase ml-2">

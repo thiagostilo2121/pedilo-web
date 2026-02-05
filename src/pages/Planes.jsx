@@ -16,7 +16,7 @@
  */
 
 import { useState } from "react";
-import { Check, Zap, Loader2 } from "lucide-react";
+import { Check, Loader2, Gift } from "lucide-react";
 import { useAuth } from "../auth/useAuth";
 import { getCheckoutUrl } from "../services/suscripcionService";
 import { useToast } from "../contexts/ToastProvider";
@@ -55,7 +55,7 @@ export default function Planes() {
 
       if (data.has_subscription) {
         toast.info("Ya tenés una suscripción activa");
-        window.location.href = "/dashboard/mi-suscripcion";
+        navigate("/dashboard");
         return;
       }
 
@@ -86,6 +86,13 @@ export default function Planes() {
 
           <div className="p-10 md:p-16">
             <h2 className="text-2xl font-black mb-2">{plan.nombre}</h2>
+
+            {/* Badge de Free Trial */}
+            <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full inline-flex items-center gap-2 mb-4">
+              <Gift size={18} />
+              <span className="font-bold text-sm">14 días gratis para probar</span>
+            </div>
+
             <div className="flex justify-center items-baseline gap-1 mb-8">
               <span className="text-5xl font-black">${plan.precio}</span>
               <span className="text-gray-400 font-bold">/{plan.periodo}</span>
@@ -113,10 +120,10 @@ export default function Planes() {
                   Preparando pago...
                 </>
               ) : (
-                "Suscribirme ahora"
+                "Empezar prueba gratis"
               )}
             </button>
-            <p className="mt-6 text-gray-400 text-xs font-medium">Pagas hoy, configurás tu negocio en 1 minuto.</p>
+            <p className="mt-6 text-gray-400 text-xs font-medium">Los primeros 14 días son gratis. Cancelá cuando quieras.</p>
           </div>
         </div>
 

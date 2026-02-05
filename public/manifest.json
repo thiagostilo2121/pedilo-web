@@ -1,0 +1,46 @@
+{
+    "name": "Pedilo - Pedidos Online",
+    "short_name": "Pedilo",
+    "description": "Sistema de pedidos online para negocios locales. Sin comisiones.",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#EA580C",
+    "background_color": "#FFFFFF",
+    "categories": [
+        "food",
+        "business",
+        "shopping"
+    ],
+    "icons": [
+        {
+            "src": "/favicons/favicon2.png",
+            "sizes": "500x500",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/favicons/favicon2.png",
+            "sizes": "500x500",
+            "type": "image/png",
+            "purpose": "maskable"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "https://via.placeholder.com/1280x720?text=Desktop+Preview",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Dashboard de Pedilo"
+        },
+        {
+            "src": "https://via.placeholder.com/720x1280?text=Mobile+Preview",
+            "sizes": "720x1280",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Vista de Cliente"
+        }
+    ]
+}
