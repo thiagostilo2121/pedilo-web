@@ -36,7 +36,7 @@ export default function Footer() {
         <div className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
             <img
-              src="/favicons/favicon2.png"
+              src="/favicons/Pedilo.png"
               alt="Pedilo Logo"
               className="w-10 h-10 object-contain bg-white rounded-lg p-1"
             />
