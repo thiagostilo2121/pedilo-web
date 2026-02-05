@@ -23,7 +23,7 @@ import { useToast } from "../contexts/ToastProvider";
 import { useNavigate } from "react-router-dom";
 
 export default function Planes() {
-  const { token } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const toast = useToast();
   const [loading, setLoading] = useState(false);
@@ -44,7 +44,7 @@ export default function Planes() {
 
   const handleSuscribirse = async () => {
     // Si no está logueado, redirigir a login
-    if (!token) {
+    if (!user) {
       navigate("/login");
       return;
     }
