@@ -83,14 +83,29 @@ export default function ProductosDashboard() {
 
   const openModal = (producto = null) => {
     setEditingProducto(producto);
-    setForm(producto ? { ...producto } : {
-      nombre: "",
-      descripcion: "",
-      precio: "",
-      imagen_url: "",
-      categoria: categorias[0]?.nombre || "",
-      stock: true,
-    });
+    if (producto) {
+      // Verificar que la categoría del producto existe en la lista de categorías
+      const categoriaValida = categorias.find(c => c.nombre === producto.categoria);
+
+      // Copiar solo los campos necesarios para evitar enviar datos extra
+      setForm({
+        nombre: producto.nombre || "",
+        descripcion: producto.descripcion || "",
+        precio: producto.precio || "",
+        imagen_url: producto.imagen_url || "",
+        categoria: categoriaValida ? producto.categoria : categorias[0]?.nombre || "",
+        stock: producto.stock ?? true,
+      });
+    } else {
+      setForm({
+        nombre: "",
+        descripcion: "",
+        precio: "",
+        imagen_url: "",
+        categoria: categorias[0]?.nombre || "",
+        stock: true,
+      });
+    }
     setImageFile(null);
     setShowModal(true);
   };
