@@ -107,7 +107,7 @@ const Terminos = () => {
               Suscripción y Pagos del SaaS
             </h2>
             <p>
-              El uso del servicio para Comercios tiene un costo mensual de <strong>$15.000 ARS</strong>. 
+              El uso del servicio para Comercios tiene un costo mensual de <strong>$17.000 ARS</strong>. 
               Este pago otorga acceso al Dashboard, gestión de productos y recepción de pedidos ilimitados.
             </p>
             <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4">
