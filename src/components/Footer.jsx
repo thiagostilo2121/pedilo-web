@@ -15,10 +15,19 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Link } from "react-router-dom";
-import { Github } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Github, LogOut } from "lucide-react";
+import { useAuth } from "../auth/useAuth";
 
 export default function Footer() {
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
+
   return (
     <footer className="bg-orange-600 text-orange-50">
       <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -85,6 +94,15 @@ export default function Footer() {
             © {new Date().getFullYear()} Pedilo. Hecho para impulsar el comercio local.
           </p>
           <div className="flex items-center gap-6 text-sm">
+            {user && (
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-orange-200 hover:text-white transition-colors"
+              >
+                <LogOut size={16} />
+                <span>Cerrar sesión</span>
+              </button>
+            )}
             <a
               href="https://github.com/thiagostilo2121"
               target="_blank"
