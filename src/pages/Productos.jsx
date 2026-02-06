@@ -290,14 +290,14 @@ export default function ProductosDashboard() {
 
       {/* Modal Moderno */}
       {showModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-          <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden animate-in zoom-in duration-200">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-2 sm:p-4">
+          <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] md:max-h-none animate-in zoom-in duration-200">
             <div className="p-6 border-b flex justify-between items-center">
               <h2 className="text-xl font-bold">{editingProducto ? "Editar Producto" : "Nuevo Producto"}</h2>
               <button onClick={() => setShowModal(false)}><X /></button>
             </div>
 
-            <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto flex-1 overscroll-contain pb-20 md:pb-6">
               {/* Lado Izquierdo: Imagen */}
               <div className="space-y-4">
                 <div className="aspect-square bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center relative overflow-hidden group">
@@ -464,7 +464,7 @@ export default function ProductosDashboard() {
               </div>
             </div>
 
-            <div className="p-6 bg-gray-50 flex gap-3">
+            <div className="p-4 md:p-6 bg-gray-50 flex gap-3 sticky bottom-0 border-t border-gray-100 mt-auto">
               <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-bold text-gray-500">Cancelar</button>
               <button
                 onClick={handleSubmit}
