@@ -17,6 +17,7 @@
 
 import { useEffect, useState } from "react";
 import apiPublic from "../api/apiPublic";
+import toppingPublicService from "../services/toppingPublicService";
 import { useNavigate } from "react-router-dom";
 import {
   ShoppingBag,
@@ -31,6 +32,7 @@ import {
   Search
 } from "lucide-react";
 import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
+import ToppingSelector from "../components/ToppingSelector";
 
 export default function PublicNegocio({ slug }) {
   // ... (Estados anteriores se mantienen igual)
@@ -43,6 +45,13 @@ export default function PublicNegocio({ slug }) {
   const [carrito, setCarrito] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
+
+  // Estados para toppings
+  const [showToppingModal, setShowToppingModal] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [productToppings, setProductToppings] = useState([]);
+  const [toppingsCache, setToppingsCache] = useState({});
+  const [addingProductId, setAddingProductId] = useState(null);
 
   const DEFAULT_IMAGE = DEFAULT_PRODUCT_IMAGE;
 
@@ -65,7 +74,20 @@ export default function PublicNegocio({ slug }) {
 
         const storedCarrito = localStorage.getItem(`carrito_${slug}`);
         if (storedCarrito) setCarrito(JSON.parse(storedCarrito));
-      } catch (err) {
+
+        // Pre-cargar toppings en background
+        const productIds = productosRes.data.map(p => p.id);
+        Promise.all(productIds.map(id =>
+          toppingPublicService.getProductoToppings(slug, id)
+            .then(toppings => ({ id, toppings }))
+            .catch(() => ({ id, toppings: [] }))
+        )).then(results => {
+          const cache = {};
+          results.forEach(({ id, toppings }) => { cache[id] = toppings || []; });
+          setToppingsCache(cache);
+        });
+
+      } catch (_err) {
         setError("Este menú no está disponible actualmente.");
       } finally {
         setLoading(false);
@@ -95,25 +117,76 @@ export default function PublicNegocio({ slug }) {
     // Por ahora lo dejamos limpio para que el usuario elija.
   }, [categorias]);
 
-  const agregarAlCarrito = (producto) => {
+  // Función para agregar al carrito (verifica toppings)
+  // Función para agregar al carrito (verifica toppings)
+  const handleAddToCart = async (producto) => {
     if (!negocio?.acepta_pedidos) return;
-    setCarrito((prev) => {
-      const existe = prev.find((p) => p.id === producto.id);
-      if (existe) {
-        return prev.map((p) => p.id === producto.id ? { ...p, cantidad: p.cantidad + 1 } : p);
+
+    let toppings = toppingsCache[producto.id];
+
+    // Si no está en caché, buscarlo on-demand
+    if (toppings === undefined) {
+      setAddingProductId(producto.id);
+      try {
+        toppings = await toppingPublicService.getProductoToppings(slug, producto.id);
+        // Actualizar caché para la próxima
+        setToppingsCache(prev => ({ ...prev, [producto.id]: toppings }));
+      } catch (error) {
+        console.error("Error fetching toppings", error);
+        toppings = [];
+      } finally {
+        setAddingProductId(null);
       }
-      return [...prev, { ...producto, cantidad: 1 }];
+    }
+
+    console.log("Product:", producto.nombre, "Toppings:", toppings);
+
+    if (toppings && toppings.length > 0) {
+      setSelectedProduct(producto);
+      setProductToppings(toppings);
+      setShowToppingModal(true);
+    } else {
+      agregarAlCarritoSimple(producto);
+    }
+  };
+
+  const agregarAlCarritoSimple = (producto) => {
+    setCarrito((prev) => {
+      const existe = prev.find((p) => p.id === producto.id && !p.toppings?.length);
+      if (existe) {
+        return prev.map((p) => p.id === producto.id && !p.toppings?.length ? { ...p, cantidad: p.cantidad + 1 } : p);
+      }
+      return [...prev, { ...producto, cantidad: 1, toppings: [], cartItemId: Date.now() }];
     });
   };
 
-  const disminuirCantidad = (productoId) => {
+  const agregarConToppings = (producto, toppingsSeleccionados, cantidad) => {
+    const precioToppings = toppingsSeleccionados.reduce((acc, t) => acc + (t.precio_extra || t.precio || 0), 0);
+    setCarrito((prev) => [...prev, {
+      ...producto,
+      cantidad,
+      toppings: toppingsSeleccionados,
+      precioConToppings: producto.precio + precioToppings,
+      cartItemId: Date.now()
+    }]);
+  };
+
+  const agregarAlCarrito = (item) => {
+    if (!negocio?.acepta_pedidos) return;
     setCarrito((prev) =>
-      prev.map((p) => p.id === productoId ? { ...p, cantidad: p.cantidad - 1 } : p)
+      prev.map((p) => p.cartItemId === item.cartItemId ? { ...p, cantidad: p.cantidad + 1 } : p)
+    );
+  };
+
+  const disminuirCantidad = (cartItemId) => {
+    setCarrito((prev) =>
+      prev.map((p) => p.cartItemId === cartItemId ? { ...p, cantidad: p.cantidad - 1 } : p)
         .filter((p) => p.cantidad > 0)
     );
   };
 
-  const total = carrito.reduce((acc, p) => acc + p.precio * p.cantidad, 0);
+  const calcularPrecioItem = (item) => item.precioConToppings || item.precio;
+  const total = carrito.reduce((acc, p) => acc + calcularPrecioItem(p) * p.cantidad, 0);
   const cantTotal = carrito.reduce((acc, p) => acc + p.cantidad, 0);
 
   const productosNavegacion = (!categoriaSeleccionada || categoriaSeleccionada === "todos")
@@ -320,16 +393,19 @@ export default function PublicNegocio({ slug }) {
                         {canAdd ? (
                           itemInCart ? (
                             <div className="flex items-center gap-1 bg-orange-50 rounded-full p-1 border border-orange-100 animate-in zoom-in spin-in-3 duration-200">
-                              <button onClick={() => disminuirCantidad(prod.id)} className="w-8 h-8 flex items-center justify-center bg-white text-orange-600 rounded-full shadow-sm border border-orange-100 active:scale-90 transition-all font-bold hover:bg-orange-600 hover:text-white"><Minus size={16} /></button>
+                              <button onClick={() => disminuirCantidad(itemInCart.cartItemId)} className="w-8 h-8 flex items-center justify-center bg-white text-orange-600 rounded-full shadow-sm border border-orange-100 active:scale-90 transition-all font-bold hover:bg-orange-600 hover:text-white"><Minus size={16} /></button>
                               <span className="font-bold text-gray-900 w-6 text-center text-sm">{itemInCart.cantidad}</span>
-                              <button onClick={() => agregarAlCarrito(prod)} className="w-8 h-8 flex items-center justify-center bg-orange-600 text-white rounded-full shadow-sm shadow-orange-200 active:scale-90 transition-all font-bold hover:bg-orange-700"><Plus size={16} /></button>
+                              <button onClick={() => handleAddToCart(prod)} disabled={addingProductId === prod.id} className="w-8 h-8 flex items-center justify-center bg-orange-600 text-white rounded-full shadow-sm shadow-orange-200 active:scale-90 transition-all font-bold hover:bg-orange-700">
+                                {addingProductId === prod.id ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Plus size={16} />}
+                              </button>
                             </div>
                           ) : (
                             <button
-                              onClick={() => agregarAlCarrito(prod)}
+                              onClick={() => handleAddToCart(prod)}
+                              disabled={addingProductId === prod.id}
                               className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-orange-600 hover:text-white transition-all active:scale-90 active:rotate-90 shadow-sm"
                             >
-                              <Plus size={22} />
+                              {addingProductId === prod.id ? <div className="w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full animate-spin" /> : <Plus size={22} />}
                             </button>
                           )
                         ) : (
@@ -352,27 +428,30 @@ export default function PublicNegocio({ slug }) {
               </div>
             )}
           </div>
-        )}
-      </main>
+        )
+        }
+      </main >
 
 
       {/* --- CART FLOATING BAR (Mobile First) --- */}
-      {carrito.length > 0 && (
-        <div className="fixed bottom-6 left-4 right-4 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
-          <button
-            onClick={() => setShowCart(true)}
-            className="w-full bg-gray-900 text-white p-2 pl-5 pr-2 rounded-[2rem] shadow-2xl shadow-gray-400 flex items-center justify-between border border-gray-800 backdrop-blur-xl bg-opacity-95"
-          >
-            <div className="flex flex-col items-start">
-              <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">{cantTotal} ITEM{cantTotal > 1 ? 'S' : ''}</span>
-              <span className="text-xl font-black">${total.toFixed(0)}</span>
-            </div>
-            <div className="bg-orange-600 text-white px-6 py-3 rounded-3xl font-bold flex items-center gap-2 shadow-lg shadow-orange-900/50 hover:bg-orange-500 transition-colors">
-              Ver Pedido <ShoppingBag size={18} />
-            </div>
-          </button>
-        </div>
-      )}
+      {
+        carrito.length > 0 && (
+          <div className="fixed bottom-6 left-4 right-4 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300">
+            <button
+              onClick={() => setShowCart(true)}
+              className="w-full bg-gray-900 text-white p-2 pl-5 pr-2 rounded-[2rem] shadow-2xl shadow-gray-400 flex items-center justify-between border border-gray-800 backdrop-blur-xl bg-opacity-95"
+            >
+              <div className="flex flex-col items-start">
+                <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">{cantTotal} ITEM{cantTotal > 1 ? 'S' : ''}</span>
+                <span className="text-xl font-black">${total.toFixed(0)}</span>
+              </div>
+              <div className="bg-orange-600 text-white px-6 py-3 rounded-3xl font-bold flex items-center gap-2 shadow-lg shadow-orange-900/50 hover:bg-orange-500 transition-colors">
+                Ver Pedido <ShoppingBag size={18} />
+              </div>
+            </button>
+          </div>
+        )
+      }
 
 
       {/* --- SLIDE-OVER CART (Full height on mobile) --- */}
@@ -405,16 +484,21 @@ export default function PublicNegocio({ slug }) {
               </div>
             ) : (
               carrito.map((item) => (
-                <div key={item.id} className="flex gap-4 p-4 bg-white border border-gray-50 shadow-sm rounded-2xl relative group">
+                <div key={item.cartItemId} className="flex gap-4 p-4 bg-white border border-gray-50 shadow-sm rounded-2xl relative group">
                   <img src={item.imagen_url || DEFAULT_IMAGE} className="w-16 h-16 object-cover rounded-xl bg-gray-100" />
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-gray-900 truncate">{item.nombre}</p>
-                    <p className="text-orange-600 font-extrabold text-lg">${(item.precio * item.cantidad).toFixed(0)}</p>
+                    {item.toppings?.length > 0 && (
+                      <p className="text-xs text-gray-400 truncate">
+                        +{item.toppings.map(t => t.nombre).join(", ")}
+                      </p>
+                    )}
+                    <p className="text-orange-600 font-extrabold text-lg">${(calcularPrecioItem(item) * item.cantidad).toFixed(0)}</p>
                   </div>
 
                   <div className="flex flex-col items-end gap-2">
                     <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-2 py-1 border border-gray-100">
-                      <button onClick={() => disminuirCantidad(item.id)} className="w-6 h-6 flex items-center justify-center bg-white rounded-lg shadow-sm font-bold text-gray-600 active:scale-95"><Minus size={12} /></button>
+                      <button onClick={() => disminuirCantidad(item.cartItemId)} className="w-6 h-6 flex items-center justify-center bg-white rounded-lg shadow-sm font-bold text-gray-600 active:scale-95"><Minus size={12} /></button>
                       <span className="font-bold text-sm min-w-[16px] text-center">{item.cantidad}</span>
                       <button onClick={() => agregarAlCarrito(item)} className="w-6 h-6 flex items-center justify-center bg-white rounded-lg shadow-sm font-bold text-orange-600 active:scale-95"><Plus size={12} /></button>
                     </div>
@@ -455,6 +539,14 @@ export default function PublicNegocio({ slug }) {
         </div>
       </div>
 
+      {/* Modal de Toppings */}
+      <ToppingSelector
+        isOpen={showToppingModal}
+        onClose={() => setShowToppingModal(false)}
+        onConfirm={agregarConToppings}
+        producto={selectedProduct}
+        gruposToppings={productToppings}
+      />
     </div>
   );
 }

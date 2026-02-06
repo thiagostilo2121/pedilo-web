@@ -162,9 +162,19 @@ export default function SeguimientoPedido() {
               <h3 className="font-bold mb-4 border-b pb-2">Detalle de tu pedido</h3>
               <div className="space-y-3">
                 {pedido.items.map((item, idx) => (
-                  <div key={idx} className="flex justify-between text-sm">
-                    <span className="text-gray-600 font-medium">{item.cantidad}x {item.nombre_producto}</span>
-                    <span className="font-bold">${(item.subtotal).toFixed(0)}</span>
+                  <div key={idx} className="flex justify-between items-start text-sm">
+                    <div className="flex gap-2 min-w-0">
+                      <span className="text-gray-600 font-medium whitespace-nowrap">{item.cantidad}x</span>
+                      <div>
+                        <span className="text-gray-600 font-medium">{item.nombre_producto}</span>
+                        {item.toppings_seleccionados && item.toppings_seleccionados.length > 0 && (
+                          <p className="text-[10px] text-gray-500 mt-0.5 leading-tight">
+                            {item.toppings_seleccionados.map(t => t.nombre).join(", ")}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <span className="font-bold ml-2">${(item.subtotal).toFixed(0)}</span>
                   </div>
                 ))}
                 <div className="pt-3 border-t flex justify-between items-center">

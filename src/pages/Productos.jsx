@@ -59,17 +59,23 @@ export default function ProductosDashboard() {
   const fileInputRef = useRef(null);
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, productId: null });
 
+  const [productoToppingsConfig, setProductoToppingsConfig] = useState({}); // { grupoId: { enabled: bool, min: 0, max: 0 } }
+  const [gruposToppings, setGruposToppings] = useState([]);
+  const [loadingToppings, setLoadingToppings] = useState(false);
+
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [prodRes, catRes] = await Promise.all([
+      const [prodRes, catRes, gruposRes] = await Promise.all([
         productService.getAll(),
         productService.getAllCategories(),
+        productService.getGruposToppings(),
       ]);
       setProductos(prodRes);
       setCategorias(catRes);
+      setGruposToppings(gruposRes || []);
     } catch (err) {
-      console.error("Error al cargar datos");
+      console.error("Error al cargar datos", err);
       toast.error("Error al cargar productos.");
     } finally {
       setLoading(false);
@@ -83,11 +89,19 @@ export default function ProductosDashboard() {
 
   const openModal = (producto = null) => {
     setEditingProducto(producto);
+
+    // Config inicial (todo deshabilitado)
+    const initialConfig = {};
+    gruposToppings.forEach(g => {
+      initialConfig[g.id] = { enabled: false, min: 0, max: g.toppings.length };
+    });
+    setProductoToppingsConfig(initialConfig);
+    setImageFile(null);
+
     if (producto) {
-      // Verificar que la categoría del producto existe en la lista de categorías
+      // Verificar categoría
       const categoriaValida = categorias.find(c => c.nombre === producto.categoria);
 
-      // Copiar solo los campos necesarios para evitar enviar datos extra
       setForm({
         nombre: producto.nombre || "",
         descripcion: producto.descripcion || "",
@@ -96,6 +110,26 @@ export default function ProductosDashboard() {
         categoria: categoriaValida ? producto.categoria : categorias[0]?.nombre || "",
         stock: producto.stock ?? true,
       });
+
+      // Cargar configuración de toppings asíncronamente
+      setLoadingToppings(true);
+      productService.getProductoToppings(producto.id)
+        .then(configs => {
+          if (configs && configs.length > 0) {
+            const newConfig = { ...initialConfig };
+            configs.forEach(c => {
+              newConfig[c.grupo_id] = {
+                enabled: true,
+                min: c.min_selecciones,
+                max: c.max_selecciones || 0
+              };
+            });
+            setProductoToppingsConfig(newConfig);
+          }
+        })
+        .catch(err => console.error("Error al cargar toppings", err))
+        .finally(() => setLoadingToppings(false));
+
     } else {
       setForm({
         nombre: "",
@@ -105,8 +139,9 @@ export default function ProductosDashboard() {
         categoria: categorias[0]?.nombre || "",
         stock: true,
       });
+      setLoadingToppings(false);
     }
-    setImageFile(null);
+
     setShowModal(true);
   };
 
@@ -121,16 +156,33 @@ export default function ProductosDashboard() {
       if (imageFile) imageUrl = await productService.uploadImage(imageFile);
 
       const payload = { ...form, imagen_url: imageUrl };
+      let productoId;
+
       if (editingProducto) {
         await productService.update(editingProducto.id, payload);
+        productoId = editingProducto.id;
         toast.success("Producto actualizado");
       } else {
-        await productService.create(payload);
+        const nuevo = await productService.create(payload);
+        productoId = nuevo.id;
         toast.success("Producto creado");
       }
+
+      // Guardar configuración de toppings
+      const toppingsPayload = Object.entries(productoToppingsConfig)
+        .filter(([_, config]) => config.enabled)
+        .map(([grupoId, config]) => ({
+          grupo_id: parseInt(grupoId),
+          min_selecciones: parseInt(config.min) || 0,
+          max_selecciones: parseInt(config.max) || 1 // Backend requiere >= 1
+        }));
+
+      await productService.configurarProductoToppings(productoId, toppingsPayload);
+
       fetchData();
       setShowModal(false);
     } catch (err) {
+      console.error(err);
       toast.error("Error al guardar producto");
     } finally {
       setUploading(false);
@@ -334,6 +386,81 @@ export default function ProductosDashboard() {
                     placeholder="¿Qué trae el plato?"
                   />
                 </div>
+
+                {/* Sección de Toppings */}
+                <div className="border-t border-gray-100 pt-4">
+                  <div className="flex justify-between items-center mb-2">
+                    <label className="block text-xs font-bold text-gray-500 uppercase">Toppings / Extras</label>
+                    {loadingToppings && <Loader2 className="animate-spin text-orange-600" size={14} />}
+                  </div>
+
+                  <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                    {loadingToppings ? (
+                      <div className="space-y-2 opacity-50 pointer-events-none">
+                        {/* Skeleton loader simple */}
+                        {[1, 2].map(i => <div key={i} className="h-12 bg-gray-100 rounded-xl animate-pulse"></div>)}
+                      </div>
+                    ) : (
+                      <>
+                        {gruposToppings.map(grupo => (
+                          <div key={grupo.id} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
+                            <div className="flex items-center justify-between mb-2">
+                              <div className="flex items-center gap-2">
+                                <input
+                                  type="checkbox"
+                                  checked={productoToppingsConfig[grupo.id]?.enabled || false}
+                                  onChange={(e) => setProductoToppingsConfig(prev => ({
+                                    ...prev,
+                                    [grupo.id]: { ...prev[grupo.id], enabled: e.target.checked }
+                                  }))}
+                                  className="w-4 h-4 accent-orange-600 rounded cursor-pointer"
+                                />
+                                <span className="font-bold text-sm text-gray-700">{grupo.nombre}</span>
+                              </div>
+                              <span className="text-xs text-gray-400">{grupo.toppings?.length || 0} opciones</span>
+                            </div>
+
+                            {productoToppingsConfig[grupo.id]?.enabled && (
+                              <div className="flex gap-2 pl-6 animate-in slide-in-from-top-2 duration-200">
+                                <div className="flex-1">
+                                  <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">Mínimo</label>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    value={productoToppingsConfig[grupo.id]?.min || 0}
+                                    onChange={(e) => setProductoToppingsConfig(prev => ({
+                                      ...prev,
+                                      [grupo.id]: { ...prev[grupo.id], min: e.target.value }
+                                    }))}
+                                    className="w-full bg-white p-1.5 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
+                                  />
+                                </div>
+                                <div className="flex-1">
+                                  <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">Máximo</label>
+                                  <input
+                                    type="number"
+                                    min="0"
+                                    value={productoToppingsConfig[grupo.id]?.max || 0}
+                                    onChange={(e) => setProductoToppingsConfig(prev => ({
+                                      ...prev,
+                                      [grupo.id]: { ...prev[grupo.id], max: e.target.value }
+                                    }))}
+                                    className="w-full bg-white p-1.5 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
+                                  />
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                        {gruposToppings.length === 0 && (
+                          <div className="text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                            <p className="text-xs text-gray-400 italic">No tenés grupos de toppings creados.</p>
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -349,7 +476,8 @@ export default function ProductosDashboard() {
             </div>
           </div>
         </div>
-      )}
+      )
+      }
 
       {/* Confirm Delete Modal */}
       <ConfirmModal
@@ -369,6 +497,6 @@ export default function ProductosDashboard() {
         confirmText="Eliminar"
         variant="danger"
       />
-    </DashboardLayout>
+    </DashboardLayout >
   );
 }

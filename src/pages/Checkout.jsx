@@ -83,6 +83,7 @@ export default function Checkout({ slug }) {
         items: carrito.map((p) => ({
           producto_id: p.id,
           cantidad: p.cantidad,
+          toppings: (p.toppings || []).map(t => ({ topping_id: t.id }))
         })),
       };
 
@@ -176,7 +177,7 @@ export default function Checkout({ slug }) {
     </div>
   );
 
-  const total = carrito.reduce((acc, i) => acc + i.precio * i.cantidad, 0);
+  const total = carrito.reduce((acc, i) => acc + (i.precioConToppings || i.precio) * i.cantidad, 0);
 
   // Helper para iconos inteligentes
   const getIconForOption = (text, type) => {
@@ -314,12 +315,21 @@ export default function Checkout({ slug }) {
           <div className="bg-white rounded-3xl p-6 shadow-sm border border-gray-100 space-y-4">
             <div className="max-h-60 overflow-y-auto space-y-3 pr-2">
               {carrito.map((item) => (
-                <div key={item.id} className="flex justify-between items-start text-sm">
+                <div key={item.cartItemId || item.id} className="flex justify-between items-start text-sm py-2 border-b border-gray-50 last:border-0">
                   <div className="flex gap-2 min-w-0">
-                    <span className="font-bold text-orange-600">{item.cantidad}x</span>
-                    <span className="text-gray-600 truncate">{item.nombre}</span>
+                    <span className="font-bold text-orange-600 whitespace-nowrap">{item.cantidad}x</span>
+                    <div className="min-w-0">
+                      <span className="text-gray-600 block truncate">{item.nombre}</span>
+                      {item.toppings && item.toppings.length > 0 && (
+                        <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">
+                          {item.toppings.map(t => t.nombre).join(", ")}
+                        </p>
+                      )}
+                    </div>
                   </div>
-                  <span className="font-bold text-gray-900 ml-2">${(item.precio * item.cantidad).toFixed(0)}</span>
+                  <span className="font-bold text-gray-900 ml-2 whitespace-nowrap">
+                    ${((item.precioConToppings || item.precio) * item.cantidad).toFixed(0)}
+                  </span>
                 </div>
               ))}
             </div>
