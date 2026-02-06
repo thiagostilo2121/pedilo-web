@@ -187,12 +187,12 @@ export default function ToppingsDashboard() {
             {showModal && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-3xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
-                        <div className="p-6 border-b flex justify-between items-center">
+                        <div className="p-4 md:p-6 border-b flex justify-between items-center">
                             <h2 className="text-xl font-black">{editingGrupo ? "Editar Grupo" : "Nuevo Grupo"}</h2>
                             <button onClick={() => setShowModal(false)}><X /></button>
                         </div>
 
-                        <div className="p-6 space-y-4 overflow-y-auto flex-1">
+                        <div className="p-4 md:p-6 space-y-4 overflow-y-auto flex-1">
                             <div>
                                 <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Nombre del Grupo</label>
                                 <input
@@ -283,7 +283,7 @@ export default function ToppingsDashboard() {
                             </div>
                         </div>
 
-                        <div className="p-6 bg-gray-50 flex gap-3">
+                        <div className="p-4 md:p-6 bg-gray-50 flex gap-3">
                             <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-bold text-gray-500">Cancelar</button>
                             <button onClick={handleSubmit} disabled={saving} className="flex-1 py-3 bg-orange-600 text-white rounded-2xl font-bold hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
                                 {saving && <Loader2 className="animate-spin" size={20} />}
