@@ -30,7 +30,8 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
-  Github
+  Github,
+  Cherry
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
@@ -48,6 +49,7 @@ export default function DashboardLayout({ children }) {
     { name: "Pedidos", path: "/dashboard/pedidos", icon: <ShoppingBag size={20} /> },
     { name: "Productos", path: "/dashboard/productos", icon: <Pizza size={20} /> },
     { name: "Categorías", path: "/dashboard/categorias", icon: <Tags size={20} /> },
+    { name: "Toppings", path: "/dashboard/toppings", icon: <Cherry size={20} /> },
     { name: "Configuración", path: "/dashboard/configuracion", icon: <Settings size={20} /> },
     { name: "Mi Suscripción", path: "/dashboard/mi-suscripcion", icon: <CreditCard size={20} /> },
   ];

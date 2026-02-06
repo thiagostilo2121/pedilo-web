@@ -25,6 +25,7 @@ import SeguimientoPedido from "./pages/BuscarPedido";
 import PedidosDashboard from "./pages/Pedidos";
 import ProductosDashboard from "./pages/Productos";
 import CategoriasDashboard from "./pages/Categorias";
+import ToppingsDashboard from "./pages/Toppings";
 import ConfiguracionNegocio from "./pages/Configuracion";
 import NotFound from "./pages/NotFound";
 import Landing from "./pages/Landing";
@@ -93,6 +94,9 @@ export default function App() {
           } />
           <Route path="/dashboard/categorias" element={
             <PrivateRoute><DashboardLayout><CategoriasDashboard /></DashboardLayout></PrivateRoute>
+          } />
+          <Route path="/dashboard/toppings" element={
+            <PrivateRoute><DashboardLayout><ToppingsDashboard /></DashboardLayout></PrivateRoute>
           } />
           <Route path="/dashboard/configuracion" element={
             <PrivateRoute><DashboardLayout><ConfiguracionNegocio /></DashboardLayout></PrivateRoute>

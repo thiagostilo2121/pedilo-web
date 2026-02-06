@@ -63,6 +63,37 @@ const productService = {
         if (!res.ok) throw new Error("Error al subir imagen");
         const data = await res.json();
         return data.secure_url;
+    },
+
+    // --- Toppings API ---
+    getGruposToppings: async () => {
+        const res = await api.get("/grupos-topping");
+        return res.data;
+    },
+
+    createGrupoTopping: async (data) => {
+        const res = await api.post("/grupos-topping", data);
+        return res.data;
+    },
+
+    updateGrupoTopping: async (id, data) => {
+        const res = await api.put(`/grupos-topping/${id}`, data);
+        return res.data;
+    },
+
+    deleteGrupoTopping: async (id) => {
+        await api.delete(`/grupos-topping/${id}`);
+    },
+
+    // --- Producto-Topping Config ---
+    getProductoToppings: async (productoId) => {
+        const res = await api.get(`/productos/${productoId}/toppings/`);
+        return res.data;
+    },
+
+    configurarProductoToppings: async (productoId, configs) => {
+        const res = await api.put(`/productos/${productoId}/toppings/`, configs);
+        return res.data;
     }
 };
 

@@ -294,9 +294,24 @@ export default function PedidosDashboard() {
                 <div className="space-y-3">
                   {(pedidoActivo.items || []).map((item, i) => (
                     <div key={i} className="flex justify-between items-center text-sm border-b border-gray-50 pb-2">
-                      <div className="flex gap-2">
-                        <span className="font-bold text-orange-600">{item.cantidad || 0}x</span>
-                        <span className="text-gray-700 font-medium">{item.nombre_producto || "Producto"}</span>
+                      <div className="flex gap-2 items-start">
+                        <span className="font-bold text-orange-600 pt-0.5">{item.cantidad || 0}x</span>
+                        <div>
+                          <p className="text-gray-700 font-medium leading-tight">{item.nombre_producto || "Producto"}</p>
+                          {item.toppings_seleccionados && item.toppings_seleccionados.length > 0 && (
+                            <p className="text-[10px] text-gray-500 mt-1 leading-tight">
+                              {(() => {
+                                const counts = item.toppings_seleccionados.reduce((acc, t) => {
+                                  acc[t.nombre] = (acc[t.nombre] || 0) + 1;
+                                  return acc;
+                                }, {});
+                                return Object.entries(counts)
+                                  .map(([name, count]) => count > 1 ? `${count}x ${name}` : name)
+                                  .join(", ");
+                              })()}
+                            </p>
+                          )}
+                        </div>
                       </div>
                       <span className="font-bold text-gray-900">
                         ${Number(item.subtotal || 0).toFixed(0)}
