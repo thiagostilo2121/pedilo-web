@@ -490,7 +490,15 @@ export default function PublicNegocio({ slug }) {
                     <p className="font-bold text-gray-900 truncate">{item.nombre}</p>
                     {item.toppings?.length > 0 && (
                       <p className="text-xs text-gray-400 truncate">
-                        +{item.toppings.map(t => t.nombre).join(", ")}
+                        +{(() => {
+                          const counts = item.toppings.reduce((acc, t) => {
+                            acc[t.nombre] = (acc[t.nombre] || 0) + 1;
+                            return acc;
+                          }, {});
+                          return Object.entries(counts)
+                            .map(([name, count]) => count > 1 ? `${count}x ${name}` : name)
+                            .join(", ");
+                        })()}
                       </p>
                     )}
                     <p className="text-orange-600 font-extrabold text-lg">${(calcularPrecioItem(item) * item.cantidad).toFixed(0)}</p>

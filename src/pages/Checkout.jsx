@@ -322,7 +322,15 @@ export default function Checkout({ slug }) {
                       <span className="text-gray-600 block truncate">{item.nombre}</span>
                       {item.toppings && item.toppings.length > 0 && (
                         <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">
-                          {item.toppings.map(t => t.nombre).join(", ")}
+                          {(() => {
+                            const counts = item.toppings.reduce((acc, t) => {
+                              acc[t.nombre] = (acc[t.nombre] || 0) + 1;
+                              return acc;
+                            }, {});
+                            return Object.entries(counts)
+                              .map(([name, count]) => count > 1 ? `${count}x ${name}` : name)
+                              .join(", ");
+                          })()}
                         </p>
                       )}
                     </div>

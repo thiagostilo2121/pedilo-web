@@ -12,7 +12,7 @@ import DashboardLayout from "../layout/DashboardLayout";
 import productService from "../services/productService";
 import { useToast } from "../contexts/ToastProvider";
 import { useRequirePremium } from "../hooks/useRequirePremium";
-import { Plus, Pencil, Trash2, X, Cherry, Loader2 } from "lucide-react";
+import { Plus, Pencil, Trash2, X, Cherry, Loader2, Check } from "lucide-react";
 import ConfirmModal from "../components/ConfirmModal";
 
 export default function ToppingsDashboard() {
@@ -22,6 +22,8 @@ export default function ToppingsDashboard() {
     const [editingGrupo, setEditingGrupo] = useState(null);
     const [form, setForm] = useState({ nombre: "", toppings: [] });
     const [nuevoTopping, setNuevoTopping] = useState({ nombre: "", precio: "", disponible: true });
+    const [editingToppingIndex, setEditingToppingIndex] = useState(null);
+    const [saving, setSaving] = useState(false);
     const [deleteConfirm, setDeleteConfirm] = useState({ open: false, grupoId: null });
     const toast = useToast();
 
@@ -81,10 +83,18 @@ export default function ToppingsDashboard() {
         }));
     };
 
+    const updateTopping = (index, field, value) => {
+        setForm(prev => ({
+            ...prev,
+            toppings: prev.toppings.map((t, i) => i === index ? { ...t, [field]: value } : t)
+        }));
+    };
+
     const handleSubmit = async () => {
         if (!form.nombre.trim()) return toast.warning("El grupo necesita un nombre");
         if (form.toppings.length === 0) return toast.warning("Agregá al menos un topping");
 
+        setSaving(true);
         try {
             if (editingGrupo) {
                 await productService.updateGrupoTopping(editingGrupo.id, {
@@ -103,6 +113,8 @@ export default function ToppingsDashboard() {
             setShowModal(false);
         } catch (err) {
             toast.error("Error al guardar");
+        } finally {
+            setSaving(false);
         }
     };
 
@@ -197,12 +209,46 @@ export default function ToppingsDashboard() {
                                 <div className="space-y-2 mb-3 max-h-40 overflow-y-auto">
                                     {form.toppings.map((t, i) => (
                                         <div key={i} className="flex items-center gap-2 bg-gray-50 p-2 rounded-lg">
-                                            <span className={`flex-1 text-sm font-medium ${t.disponible === false ? "line-through text-gray-400" : ""}`}>{t.nombre}</span>
-                                            {t.disponible === false && <span className="text-[10px] text-red-500 font-bold whitespace-nowrap">Sin Stock</span>}
-                                            <span className="text-xs text-orange-600 font-bold">{t.precio > 0 ? `+$${t.precio}` : "Gratis"}</span>
-                                            <button onClick={() => removeTopping(i)} className="text-red-500 hover:text-red-700">
-                                                <X size={16} />
-                                            </button>
+                                            {editingToppingIndex === i ? (
+                                                <>
+                                                    <input
+                                                        type="text"
+                                                        value={t.nombre}
+                                                        onChange={(e) => updateTopping(i, "nombre", e.target.value)}
+                                                        className="flex-1 p-1.5 bg-white border border-orange-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-orange-500"
+                                                        autoFocus
+                                                    />
+                                                    <input
+                                                        type="number"
+                                                        value={t.precio}
+                                                        onChange={(e) => updateTopping(i, "precio", parseInt(e.target.value) || 0)}
+                                                        className="w-16 p-1.5 bg-white border border-orange-300 rounded-lg text-sm outline-none focus:ring-2 focus:ring-orange-500"
+                                                    />
+                                                    <label className="flex items-center cursor-pointer">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={t.disponible !== false}
+                                                            onChange={(e) => updateTopping(i, "disponible", e.target.checked)}
+                                                            className="w-4 h-4 text-orange-600 rounded"
+                                                        />
+                                                    </label>
+                                                    <button onClick={() => setEditingToppingIndex(null)} className="text-green-600 hover:text-green-700 p-1">
+                                                        <Check size={16} />
+                                                    </button>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <span className={`flex-1 text-sm font-medium ${t.disponible === false ? "line-through text-gray-400" : ""}`}>{t.nombre}</span>
+                                                    {t.disponible === false && <span className="text-[10px] text-red-500 font-bold whitespace-nowrap">Sin Stock</span>}
+                                                    <span className="text-xs text-orange-600 font-bold">{t.precio > 0 ? `+$${t.precio}` : "Gratis"}</span>
+                                                    <button onClick={() => setEditingToppingIndex(i)} className="text-gray-400 hover:text-orange-600 p-1">
+                                                        <Pencil size={14} />
+                                                    </button>
+                                                    <button onClick={() => removeTopping(i)} className="text-red-500 hover:text-red-700 p-1">
+                                                        <X size={16} />
+                                                    </button>
+                                                </>
+                                            )}
                                         </div>
                                     ))}
                                 </div>
@@ -239,8 +285,9 @@ export default function ToppingsDashboard() {
 
                         <div className="p-6 bg-gray-50 flex gap-3">
                             <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-bold text-gray-500">Cancelar</button>
-                            <button onClick={handleSubmit} className="flex-1 py-3 bg-orange-600 text-white rounded-2xl font-bold hover:bg-orange-700">
-                                Guardar
+                            <button onClick={handleSubmit} disabled={saving} className="flex-1 py-3 bg-orange-600 text-white rounded-2xl font-bold hover:bg-orange-700 disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2">
+                                {saving && <Loader2 className="animate-spin" size={20} />}
+                                {saving ? "Guardando..." : "Guardar"}
                             </button>
                         </div>
                     </div>

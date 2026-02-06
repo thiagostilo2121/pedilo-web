@@ -300,7 +300,15 @@ export default function PedidosDashboard() {
                           <p className="text-gray-700 font-medium leading-tight">{item.nombre_producto || "Producto"}</p>
                           {item.toppings_seleccionados && item.toppings_seleccionados.length > 0 && (
                             <p className="text-[10px] text-gray-500 mt-1 leading-tight">
-                              {item.toppings_seleccionados.map(t => t.nombre).join(", ")}
+                              {(() => {
+                                const counts = item.toppings_seleccionados.reduce((acc, t) => {
+                                  acc[t.nombre] = (acc[t.nombre] || 0) + 1;
+                                  return acc;
+                                }, {});
+                                return Object.entries(counts)
+                                  .map(([name, count]) => count > 1 ? `${count}x ${name}` : name)
+                                  .join(", ");
+                              })()}
                             </p>
                           )}
                         </div>

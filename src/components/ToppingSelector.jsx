@@ -13,14 +13,15 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
     if (!isOpen || !producto) return null;
 
     const updateToppingQuantity = (grupo, topping, delta) => {
-        if (delta > 0 && !topping.disponible) return;
+        if (delta > 0 && topping.disponible === false) return;
 
         setSelecciones(prev => {
             const grupoActual = prev[grupo.id] || [];
             const totalSeleccionados = grupoActual.length;
 
             if (delta > 0) {
-                if (grupo.max_selecciones && totalSeleccionados >= grupo.max_selecciones) return prev;
+                const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
+                if (totalSeleccionados >= maxEscalado) return prev;
                 return { ...prev, [grupo.id]: [...grupoActual, topping] };
             } else {
                 const index = grupoActual.findIndex(t => t.id === topping.id);
@@ -38,11 +39,14 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
 
         gruposToppings.forEach(grupo => {
             const seleccionados = (selecciones[grupo.id] || []).length;
-            if (seleccionados < grupo.min_selecciones) {
-                nuevosErrores.push(`${grupo.nombre}: seleccioná mínimo ${grupo.min_selecciones}`);
+            const minEscalado = (grupo.min_selecciones || 0) * cantidad;
+            const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
+
+            if (seleccionados < minEscalado) {
+                nuevosErrores.push(`${grupo.nombre}: seleccioná mínimo ${minEscalado}`);
             }
-            if (seleccionados > grupo.max_selecciones) {
-                nuevosErrores.push(`${grupo.nombre}: máximo ${grupo.max_selecciones} opciones`);
+            if (seleccionados > maxEscalado) {
+                nuevosErrores.push(`${grupo.nombre}: máximo ${maxEscalado} opciones`);
             }
         });
 
@@ -90,15 +94,16 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                             <div className="flex justify-between items-center mb-2">
                                 <h3 className="font-bold text-gray-900">{grupo.nombre}</h3>
                                 <span className="text-xs text-gray-500">
-                                    {grupo.min_selecciones > 0 ? `Mín ${grupo.min_selecciones}` : "Opcional"}
-                                    {grupo.max_selecciones && ` · Máx ${grupo.max_selecciones}`}
+                                    {(grupo.min_selecciones || 0) * cantidad > 0 ? `Mín ${(grupo.min_selecciones || 0) * cantidad}` : "Opcional"}
+                                    {grupo.max_selecciones && ` · Máx ${(grupo.max_selecciones || 1) * cantidad}`}
                                 </span>
                             </div>
                             <div className="space-y-2">
                                 {(grupo.toppings || []).map(topping => {
                                     const count = (selecciones[grupo.id] || []).filter(t => t.id === topping.id).length;
                                     const totalSelected = (selecciones[grupo.id] || []).length;
-                                    const maxReached = grupo.max_selecciones && totalSelected >= grupo.max_selecciones;
+                                    const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
+                                    const maxReached = totalSelected >= maxEscalado;
                                     const sinStock = topping.disponible === false;
 
                                     return (
