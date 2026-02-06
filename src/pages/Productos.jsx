@@ -30,7 +30,8 @@ import {
   X,
   CheckCircle2,
   AlertCircle,
-  Tag
+  Tag,
+  Star
 } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
@@ -52,7 +53,9 @@ export default function ProductosDashboard() {
     precio: "",
     imagen_url: "",
     categoria: "",
+    categoria: "",
     stock: true,
+    destacado: false,
   });
 
   const [imageFile, setImageFile] = useState(null);
@@ -109,6 +112,7 @@ export default function ProductosDashboard() {
         imagen_url: producto.imagen_url || "",
         categoria: categoriaValida ? producto.categoria : categorias[0]?.nombre || "",
         stock: producto.stock ?? true,
+        destacado: producto.destacado ?? false,
       });
 
       // Cargar configuración de toppings asíncronamente
@@ -137,7 +141,9 @@ export default function ProductosDashboard() {
         precio: "",
         imagen_url: "",
         categoria: categorias[0]?.nombre || "",
+        imagen_url: "",
         stock: true,
+        destacado: false,
       });
       setLoadingToppings(false);
     }
@@ -262,6 +268,11 @@ export default function ProductosDashboard() {
                 <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${prod.stock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                   {prod.stock ? "En Stock" : "Agotado"}
                 </div>
+                {prod.destacado && (
+                  <div className="absolute top-3 left-3 bg-yellow-400 text-white p-1.5 rounded-full shadow-md z-10">
+                    <Star size={12} fill="currentColor" />
+                  </div>
+                )}
               </div>
 
               <div className="p-4 flex-1 flex flex-col">
@@ -340,6 +351,21 @@ export default function ProductosDashboard() {
                     className="w-5 h-5 accent-orange-600"
                   />
                   <label className="text-sm font-bold text-orange-800">Disponible para la venta</label>
+                </div>
+
+                <div className="flex items-center gap-2 p-3 bg-yellow-50 rounded-xl border border-yellow-100">
+                  <input
+                    type="checkbox"
+                    checked={form.destacado}
+                    onChange={(e) => setForm({ ...form, destacado: e.target.checked })}
+                    className="w-5 h-5 accent-yellow-500"
+                  />
+                  <div className="flex flex-col">
+                    <label className="text-sm font-bold text-yellow-800 flex items-center gap-1">
+                      Destacar Producto <Star size={14} fill="currentColor" />
+                    </label>
+                    <span className="text-[10px] text-yellow-600">Aparecerá en "Recomendados"</span>
+                  </div>
                 </div>
               </div>
 

@@ -45,6 +45,8 @@ export default function PublicNegocio({ slug }) {
   const [carrito, setCarrito] = useState([]);
   const [showCart, setShowCart] = useState(false);
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   // Estados para toppings
   const [showToppingModal, setShowToppingModal] = useState(false);
@@ -189,9 +191,16 @@ export default function PublicNegocio({ slug }) {
   const total = carrito.reduce((acc, p) => acc + calcularPrecioItem(p) * p.cantidad, 0);
   const cantTotal = carrito.reduce((acc, p) => acc + p.cantidad, 0);
 
-  const productosNavegacion = (!categoriaSeleccionada || categoriaSeleccionada === "todos")
-    ? productos
-    : productos.filter(p => p.categoria === categoriaSeleccionada);
+  const productosFiltrados = searchTerm
+    ? productos.filter(p =>
+      p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.descripcion?.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    : (!categoriaSeleccionada || categoriaSeleccionada === "todos")
+      ? productos
+      : productos.filter(p => p.categoria === categoriaSeleccionada);
+
+  const mostrarRecomendados = !searchTerm && !categoriaSeleccionada && productos.some(p => p.destacado);
 
   if (loading) return (
     <div className="bg-gray-50 min-h-screen pb-32 font-sans animate-pulse">
@@ -264,9 +273,16 @@ export default function PublicNegocio({ slug }) {
         </div>
       </nav>
 
-      {/* --- HERO SECTION (Minimalist) --- */}
-      <header className="relative w-full bg-white pb-4 pt-24 shadow-sm border-b border-gray-100">
-        <div className="max-w-4xl mx-auto px-4">
+      {/* --- HERO SECTION (Minimalist with Banner) --- */}
+      <header className="relative w-full bg-white pb-4 pt-24 shadow-sm border-b border-gray-100 overflow-hidden">
+        {/* Banner Background */}
+        {negocio.banner_url && (
+          <div className="absolute inset-0 w-full h-full z-0">
+            <img src={negocio.banner_url} className="w-full h-full object-cover blur-1xl opacity-30 scale-110" />
+            <div className="absolute inset-0 bg-white/40"></div>
+          </div>
+        )}
+        <div className="max-w-4xl mx-auto px-4 relative z-10 transition-colors">
           <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
             {/* Logo Area */}
             <div className="relative shrink-0">
@@ -302,6 +318,14 @@ export default function PublicNegocio({ slug }) {
                   {negocio.direccion || "Ubicación no especificada"}
                 </div>
               </div>
+
+              {/* BOTÓN MÁS INFO */}
+              <button
+                onClick={() => setShowInfoModal(true)}
+                className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 font-bold rounded-xl text-sm hover:bg-gray-200 transition-colors flex items-center gap-2 self-start sm:self-auto"
+              >
+                <AlertCircle size={16} /> Más Info y Horarios
+              </button>
             </div>
           </div>
         </div>
@@ -309,7 +333,73 @@ export default function PublicNegocio({ slug }) {
 
 
       <main className="max-w-4xl mx-auto px-4 mt-8 pb-10">
-        {!categoriaSeleccionada ? (
+
+        {/* --- BUSCADOR --- */}
+        <div className="relative mb-8">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder="Buscar productos (ej. Hamburguesa...)"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-12 pr-4 py-4 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-orange-500 outline-none text-gray-800 font-medium transition-all"
+          />
+          {searchTerm && (
+            <button onClick={() => setSearchTerm("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+              <X size={18} />
+            </button>
+          )}
+        </div>
+
+
+        {/* --- RECOMENDADOS (Horizontal) --- */}
+        {mostrarRecomendados && (
+          <div className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-xl font-black text-gray-900 mb-4 flex items-center gap-2">
+              <span className="text-2xl">🔥</span> Recomendados para vos
+            </h2>
+            <div className="flex gap-4 overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide snap-x">
+              {productos.filter(p => p.destacado).map(prod => {
+                const itemInCart = carrito.find(p => p.id === prod.id && (!p.toppings || p.toppings.length === 0));
+                return (
+                  <div key={prod.id} className="min-w-[280px] bg-white p-3 rounded-3xl shadow-sm border border-orange-100 hover:shadow-md transition-all snap-center flex flex-col relative overflow-hidden group">
+                    {/* Badge Destacado Overlay */}
+                    <div className="absolute top-0 right-0 bg-yellow-400 text-white text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl z-10 shadow-sm">
+                      Top
+                    </div>
+
+                    <div className="h-40 rounded-2xl overflow-hidden bg-gray-100 mb-3 relative">
+                      <img
+                        src={prod.imagen_url || DEFAULT_IMAGE}
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        loading="lazy"
+                      />
+                      {!negocio.acepta_pedidos && <div className="absolute inset-0 bg-black/50 flex items-center justify-center"><span className="text-white font-black uppercase text-xs">Cerrado</span></div>}
+                    </div>
+
+                    <div className="flex-1 flex flex-col">
+                      <h3 className="font-bold text-gray-900 text-lg truncate">{prod.nombre}</h3>
+                      <p className="text-gray-500 text-xs line-clamp-2 leading-tight min-h-[2.5em]">{prod.descripcion}</p>
+
+                      <div className="flex items-center justify-between mt-3">
+                        <span className="text-xl font-black text-gray-900">${prod.precio}</span>
+                        <button
+                          onClick={(e) => { e.stopPropagation(); handleAddToCart(prod); }}
+                          className="bg-orange-600 text-white p-2 rounded-full shadow-lg shadow-orange-200 active:scale-90 transition-all hover:bg-orange-700"
+                          disabled={!negocio.acepta_pedidos}
+                        >
+                          <Plus size={20} />
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        )}
+
+        {(!categoriaSeleccionada && !searchTerm) ? (
           /* --- VISTA DE CATEGORÍAS (GRID) --- */
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h2 className="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
@@ -359,7 +449,7 @@ export default function PublicNegocio({ slug }) {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {productosNavegacion.map((prod) => {
+              {productosFiltrados.map((prod) => {
                 const itemInCart = carrito.find(p => p.id === prod.id);
                 const canAdd = prod.stock && negocio.acepta_pedidos;
 
@@ -418,13 +508,13 @@ export default function PublicNegocio({ slug }) {
               })}
             </div>
 
-            {productosNavegacion.length === 0 && (
+            {productosFiltrados.length === 0 && (
               <div className="text-center py-20 opacity-50">
                 <div className="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="text-gray-400" size={32} />
                 </div>
-                <p className="font-bold text-gray-400">No encontramos productos en esta categoría.</p>
-                <button onClick={() => setCategoriaSeleccionada(null)} className="mt-4 text-orange-600 font-bold underline">Ver otras categorías</button>
+                <p className="font-bold text-gray-400">No encontramos productos.</p>
+                {searchTerm && <button onClick={() => setSearchTerm("")} className="mt-4 text-orange-600 font-bold underline">Limpiar búsqueda</button>}
               </div>
             )}
           </div>
@@ -555,6 +645,68 @@ export default function PublicNegocio({ slug }) {
         producto={selectedProduct}
         gruposToppings={productToppings}
       />
+      {/* Modal de Información y Horarios */}
+      {showInfoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setShowInfoModal(false)}>
+          <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+            <div className="p-6 border-b flex justify-between items-center bg-gray-50">
+              <h3 className="font-black text-xl text-gray-900">Información del Local</h3>
+              <button onClick={() => setShowInfoModal(false)} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-colors"><X size={18} /></button>
+            </div>
+
+            <div className="p-6 space-y-6">
+              {/* Dirección */}
+              <div className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
+                  <MapPin size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Dirección</h4>
+                  <p className="text-gray-600 text-sm">{negocio.direccion || "No especificada"}</p>
+                  {negocio.direccion && (
+                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.direccion)}`} target="_blank" rel="noopener noreferrer" className="text-orange-600 text-xs font-bold mt-1 inline-block hover:underline">
+                      Ver en Google Maps
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Horarios */}
+              <div className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                  <Clock size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Horarios de Atención</h4>
+                  <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                    {negocio.horario || "No especificados"}
+                  </p>
+                </div>
+              </div>
+
+              {/* Contacto */}
+              <div className="flex gap-4">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+                  <Phone size={20} />
+                </div>
+                <div>
+                  <h4 className="font-bold text-gray-900">Contacto</h4>
+                  <p className="text-gray-600 text-sm">{negocio.telefono || "No especificado"}</p>
+                  {negocio.telefono && (
+                    <a href={`https://wa.me/${negocio.telefono.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 text-xs font-bold mt-1 inline-block hover:underline">
+                      Enviar mensaje al WhatsApp
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-50 text-center">
+              <button onClick={() => setShowInfoModal(false)} className="w-full py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-colors">Entendido</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
