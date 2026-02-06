@@ -65,7 +65,7 @@ const productService = {
         return data.secure_url;
     },
 
-    // --- Toppings API ---
+        // --- Toppings API ---
     getGruposToppings: async () => {
         const res = await api.get("/grupos-topping");
         return res.data;
