@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Copyright (C) 2026 Thiago Valentín Stilo Limarino
  *
  * This program is free software: you can redistribute it and/or modify
@@ -29,10 +29,31 @@ import {
   MapPin,
   Clock,
   AlertCircle,
+  Share2,
   Search
 } from "lucide-react";
 import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
 import ToppingSelector from "../components/ToppingSelector";
+import { toast } from "react-hot-toast";
+
+
+
+// Componente de Imagen Progresiva
+const ProgressiveImage = ({ src, alt, className, style }) => {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <div className={`relative overflow-hidden ${className}`} style={style}>
+      <img
+        src={src}
+        alt={alt}
+        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 will-change-transform ${loaded ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-xl scale-110"}`}
+        onLoad={() => setLoaded(true)}
+        loading="lazy"
+      />
+      {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+    </div>
+  );
+};
 
 export default function PublicNegocio({ slug }) {
   // ... (Estados anteriores se mantienen igual)
@@ -73,6 +94,26 @@ export default function PublicNegocio({ slug }) {
 
         // Optimización SEO/UX: Título Dinámico
         document.title = `${negocioRes.data.nombre} | Pedilo`;
+
+        // PWA Theme Color Dinámico
+        const metaThemeColor = document.querySelector("meta[name=theme-color]");
+        if (metaThemeColor && negocioRes.data.color_primario) {
+          metaThemeColor.setAttribute("content", negocioRes.data.color_primario);
+        }
+
+        // Scroll to product if query param exists
+        const params = new URLSearchParams(window.location.search);
+        const productId = params.get("p");
+        if (productId) {
+          setTimeout(() => {
+            const element = document.getElementById(`producto-${productId}`);
+            if (element) {
+              element.scrollIntoView({ behavior: "smooth", block: "center" });
+              element.classList.add("ring-2", "ring-orange-500", "ring-offset-2");
+              setTimeout(() => element.classList.remove("ring-2", "ring-orange-500", "ring-offset-2"), 3000);
+            }
+          }, 1000); // Small delay to ensure rendering
+        }
 
         const storedCarrito = localStorage.getItem(`carrito_${slug}`);
         if (storedCarrito) setCarrito(JSON.parse(storedCarrito));
@@ -200,7 +241,17 @@ export default function PublicNegocio({ slug }) {
       ? productos
       : productos.filter(p => p.categoria === categoriaSeleccionada);
 
-  const mostrarRecomendados = !searchTerm && !categoriaSeleccionada && productos.some(p => p.destacado);
+  const handleShareProduct = (e, producto) => {
+    e.stopPropagation();
+    const url = `${window.location.origin}/n/${slug}?p=${producto.id}`;
+    navigator.clipboard.writeText(url);
+    toast.success("Link copiado al portapapeles", {
+      icon: "🔗",
+      style: { borderRadius: "10px", background: "#333", color: "#fff" }
+    });
+  };
+
+  const mostrarRecomendados = !searchTerm && productos.some(p => p.destacado);
 
   if (loading) return (
     <div className="bg-gray-50 min-h-screen pb-32 font-sans animate-pulse">
@@ -274,7 +325,7 @@ export default function PublicNegocio({ slug }) {
       </nav>
 
       {/* --- HERO SECTION (Minimalist with Banner) --- */}
-      <header className="relative w-full bg-white pb-4 pt-24 shadow-sm border-b border-gray-100 overflow-hidden">
+      <header className="relative w-full bg-white pb-4 pt-20 md:pt-24 shadow-sm border-b border-gray-100 overflow-hidden">
         {/* Banner Background */}
         {negocio.banner_url && (
           <div className="absolute inset-0 w-full h-full z-0">
@@ -289,7 +340,7 @@ export default function PublicNegocio({ slug }) {
               <img
                 src={negocio.logo_url || DEFAULT_LOGO}
                 alt={negocio.nombre}
-                className="w-24 h-24 sm:w-28 sm:h-28 object-cover rounded-2xl shadow-lg border border-gray-100"
+                className="w-20 h-20 md:w-28 md:h-28 object-cover rounded-2xl shadow-lg border border-gray-100"
               />
               {!negocio.acepta_pedidos && (
                 <div className="absolute -bottom-2 inset-x-0 mx-auto w-max bg-red-500 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-full shadow-md">
@@ -300,7 +351,7 @@ export default function PublicNegocio({ slug }) {
 
             {/* Text Area */}
             <div className="flex-1 text-center sm:text-left pt-2">
-              <h1 className="text-3xl font-black text-gray-900 leading-tight mb-2 tracking-tight">{negocio.nombre}</h1>
+              <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight mb-2 tracking-tight">{negocio.nombre}</h1>
               {negocio.descripcion && (
                 <p className="text-gray-500 text-sm font-medium leading-relaxed max-w-lg mx-auto sm:mx-0">
                   {negocio.descripcion}
@@ -342,7 +393,7 @@ export default function PublicNegocio({ slug }) {
             placeholder="Buscar productos (ej. Hamburguesa...)"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-12 pr-4 py-4 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-orange-500 outline-none text-gray-800 font-medium transition-all"
+            className="w-full pl-12 pr-4 py-3 md:py-4 bg-white border border-gray-100 rounded-2xl shadow-sm focus:ring-2 focus:ring-orange-500 outline-none text-gray-800 font-medium transition-all"
           />
           {searchTerm && (
             <button onClick={() => setSearchTerm("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
@@ -352,40 +403,38 @@ export default function PublicNegocio({ slug }) {
         </div>
 
 
-        {/* --- RECOMENDADOS (Horizontal) --- */}
-        {mostrarRecomendados && (
-          <div className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-xl font-black text-gray-900 mb-4 flex items-center gap-2">
-              <span className="text-2xl">🔥</span> Recomendados para vos
-            </h2>
-            <div className="flex gap-4 overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide snap-x">
-              {productos.filter(p => p.destacado).map(prod => {
-                const itemInCart = carrito.find(p => p.id === prod.id && (!p.toppings || p.toppings.length === 0));
-                return (
+        {/* --- CONTENIDO PRINCIPAL --- */}
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 min-h-screen pb-20">
+
+          {/* 1. SECCIÓN RECOMENDADOS (Siempre visible si hay destacados y no hay búsqueda) */}
+          {mostrarRecomendados && (
+            <div className="mb-8">
+              <h2 className="text-xl font-black text-gray-900 mb-4 flex items-center gap-2 px-2">
+                <span className="text-2xl">🔥</span> Recomendados
+              </h2>
+              <div className="flex gap-4 overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide snap-x">
+                {productos.filter(p => p.destacado).map(prod => (
                   <div key={prod.id} className="min-w-[280px] bg-white p-3 rounded-3xl shadow-sm border border-orange-100 hover:shadow-md transition-all snap-center flex flex-col relative overflow-hidden group">
                     {/* Badge Destacado Overlay */}
                     <div className="absolute top-0 right-0 bg-yellow-400 text-white text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl z-10 shadow-sm">
                       Top
                     </div>
+                    <ProgressiveImage
+                      src={prod.imagen_url || DEFAULT_IMAGE}
+                      alt={prod.nombre}
+                      className="h-40 rounded-2xl mb-3 bg-gray-100"
+                    />
+                    {!negocio.acepta_pedidos && <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-20 pointer-events-none mb-3 mx-3 rounded-2xl mt-3"><span className="text-white font-black uppercase text-xs">Cerrado</span></div>}
 
-                    <div className="h-40 rounded-2xl overflow-hidden bg-gray-100 mb-3 relative">
-                      <img
-                        src={prod.imagen_url || DEFAULT_IMAGE}
-                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        loading="lazy"
-                      />
-                      {!negocio.acepta_pedidos && <div className="absolute inset-0 bg-black/50 flex items-center justify-center"><span className="text-white font-black uppercase text-xs">Cerrado</span></div>}
-                    </div>
-
+                    {/* ... resto del card de recomendados ... */}
                     <div className="flex-1 flex flex-col">
                       <h3 className="font-bold text-gray-900 text-lg truncate">{prod.nombre}</h3>
-                      <p className="text-gray-500 text-xs line-clamp-2 leading-tight min-h-[2.5em]">{prod.descripcion}</p>
-
-                      <div className="flex items-center justify-between mt-3">
+                      <p className="text-gray-500 text-xs line-clamp-2 leading-tight min-h-[2.5em] mb-2">{prod.descripcion || "Sin descripción"}</p>
+                      <div className="flex items-center justify-between mt-auto pt-1">
                         <span className="text-xl font-black text-gray-900">${prod.precio}</span>
                         <button
                           onClick={(e) => { e.stopPropagation(); handleAddToCart(prod); }}
-                          className="bg-orange-600 text-white p-2 rounded-full shadow-lg shadow-orange-200 active:scale-90 transition-all hover:bg-orange-700"
+                          className="bg-orange-600 text-white p-2 rounded-full shadow-lg shadow-orange-200 active:scale-95 transition-all hover:bg-orange-700"
                           disabled={!negocio.acepta_pedidos}
                         >
                           <Plus size={20} />
@@ -393,134 +442,134 @@ export default function PublicNegocio({ slug }) {
                       </div>
                     </div>
                   </div>
-                );
-              })}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {(!categoriaSeleccionada && !searchTerm) ? (
-          /* --- VISTA DE CATEGORÍAS (GRID) --- */
-          <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-xl font-black text-gray-900 mb-6 flex items-center gap-2">
-              ¿Qué vas a pedir hoy?
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              {categorias.map((cat) => (
+          {/* 2. BARRA DE CATEGORÍAS (Sticky) */}
+          {!searchTerm && (
+            <div className="sticky top-[65px] z-30 bg-gray-50/95 backdrop-blur-md py-4 mb-6 shadow-sm -mx-4 px-4 transition-all">
+              <div className="flex gap-4 overflow-x-auto overflow-y-hidden scrollbar-hide snap-x items-start px-1 pb-2">
                 <button
-                  key={cat.id}
-                  onClick={() => setCategoriaSeleccionada(cat.nombre)}
-                  className="group relative h-40 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all active:scale-[0.98] w-full text-left"
+                  onClick={() => setCategoriaSeleccionada("todos")}
+                  className={`flex flex-col items-center gap-2 group pt-[5px] min-w-[80px] snap-start transition-all ${(!categoriaSeleccionada || categoriaSeleccionada === "todos") ? "scale-105" : "opacity-70 hover:opacity-100"}`}
                 >
-                  <img
-                    src={cat.imagen_url || DEFAULT_IMAGE}
-                    alt={cat.nombre}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex items-end p-5">
-                    <h3 className="text-white font-black text-lg leading-tight group-hover:translate-x-1 transition-transform">{cat.nombre}</h3>
+                  <div className={`w-[70px] h-[70px] rounded-full p-[2px] transition-all ${(!categoriaSeleccionada || categoriaSeleccionada === "todos") ? "bg-gradient-to-tr from-orange-500 to-red-500 shadow-lg shadow-orange-200" : "bg-gray-200"}`}>
+                    <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center">
+                      <span className={`font-black text-xs ${(!categoriaSeleccionada || categoriaSeleccionada === "todos") ? "text-orange-600" : "text-gray-500"}`}>TODO</span>
+                    </div>
                   </div>
+                  <span className={`text-xs font-bold truncate w-full text-center ${(!categoriaSeleccionada || categoriaSeleccionada === "todos") ? "text-orange-600" : "text-gray-500"}`}>Ver Todo</span>
                 </button>
-              ))}
 
-              {/* Opción "Ver Todo" siempre útil */}
-              <button
-                onClick={() => setCategoriaSeleccionada("todos")}
-                className="group relative h-40 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all active:scale-[0.98] w-full text-left bg-orange-600 flex items-center justify-center"
-              >
-                <span className="text-white font-black text-xl z-10 group-hover:scale-110 transition-transform">Ver Todo</span>
-                <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors" />
-              </button>
+                {categorias.map((cat) => {
+                  const isSelected = categoriaSeleccionada === cat.nombre;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setCategoriaSeleccionada(cat.nombre)}
+                      className={`flex flex-col items-center gap-2 group pt-[5px] min-w-[80px] snap-start transition-all ${isSelected ? "scale-105" : "opacity-70 hover:opacity-100"}`}
+                    >
+                      <div className={`w-[70px] h-[70px] rounded-full p-[2px] transition-all ${isSelected ? "bg-gradient-to-tr from-orange-500 to-red-500 shadow-lg shadow-orange-200" : "bg-gray-200"}`}>
+                        <div className="w-full h-full rounded-full bg-white border-2 border-white overflow-hidden">
+                          <img src={cat.imagen_url || DEFAULT_IMAGE} alt={cat.nombre} className="w-full h-full object-cover" />
+                        </div>
+                      </div>
+                      <span className={`text-xs font-bold truncate w-full text-center max-w-[80px] ${isSelected ? "text-orange-600" : "text-gray-500"}`}>{cat.nombre}</span>
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ) : (
-          /* --- VISTA DE PRODUCTOS --- */
-          <div className="animate-in fade-in slide-in-from-right-8 duration-300">
-            <div className="flex items-center justify-between mb-6 sticky top-[70px] z-30 bg-gray-50/95 backdrop-blur py-2">
-              <button
-                onClick={() => setCategoriaSeleccionada(null)}
-                className="flex items-center gap-1 text-gray-500 font-bold hover:text-orange-600 hover:bg-white px-3 py-2 rounded-xl transition-all shadow-sm border border-transparent hover:border-gray-200"
-              >
-                <ChevronLeft size={20} /> Volver
-              </button>
-              <h2 className="text-xl font-black text-gray-900 truncate max-w-[200px] text-right">
-                {categoriaSeleccionada === "todos" ? "Todo el Menú" : categoriaSeleccionada}
+          )}
+
+          {/* 3. LISTA DE PRODUCTOS (Filtrados o Todos) */}
+          <div className="animate-in fade-in slide-in-from-bottom-8 duration-500">
+            <div className="flex items-center justify-between mb-4 px-2">
+              <h2 className="text-xl font-black text-gray-900">
+                {searchTerm ? `Resultados para "${searchTerm}"` : (categoriaSeleccionada === "todos" || !categoriaSeleccionada ? "Menú Completo" : categoriaSeleccionada)}
               </h2>
+              <span className="text-xs font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-lg">{productosFiltrados.length} productos</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {productosFiltrados.map((prod) => {
-                const itemInCart = carrito.find(p => p.id === prod.id);
-                const canAdd = prod.stock && negocio.acepta_pedidos;
+            {productosFiltrados.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {productosFiltrados.map((prod) => {
+                  const itemInCart = carrito.find(p => p.id === prod.id);
+                  const canAdd = prod.stock && negocio.acepta_pedidos;
 
-                return (
-                  <div key={prod.id} className="group bg-white p-4 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-all flex gap-4 overflow-hidden relative">
-                    {/* Image */}
-                    <div className="w-28 h-28 flex-shrink-0 relative rounded-2xl overflow-hidden bg-gray-100">
-                      <img
+                  return (
+                    <div id={`producto-${prod.id}`} key={prod.id} className="group bg-white p-3 md:p-4 rounded-3xl shadow-sm border border-gray-100 hover:border-orange-100 hover:shadow-md transition-all flex gap-4 overflow-hidden relative">
+                      {/* Imagen Progresiva */}
+                      <ProgressiveImage
                         src={prod.imagen_url || DEFAULT_IMAGE}
                         alt={prod.nombre}
-                        loading="lazy"
-                        className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${!canAdd && "grayscale opacity-70"}`}
+                        className={`w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-2xl bg-gray-50 ${!canAdd && "grayscale opacity-70"}`}
                       />
+
+                      {/* Share Button */}
+                      <button
+                        onClick={(e) => handleShareProduct(e, prod)}
+                        className="absolute top-2 right-2 bg-white/90 backdrop-blur p-2 rounded-full text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 transition-all hover:text-orange-600 hover:bg-orange-50 hover:scale-110 z-10"
+                      >
+                        <Share2 size={14} />
+                      </button>
+
                       {!canAdd && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px]">
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] pointer-events-none rounded-3xl z-0">
+                          {/* Only overlay the image ideally, but this works for full card disabled feel */}
+                        </div>
+                      )}
+                      {!canAdd && (
+                        <div className="absolute top-2 left-2 z-10">
                           <span className="text-[10px] font-black text-white bg-black/60 px-2 py-1 rounded uppercase">Agotado</span>
                         </div>
                       )}
-                    </div>
 
-                    {/* Content */}
-                    <div className="flex-1 flex flex-col justify-between min-w-0">
-                      <div>
-                        <h3 className="font-bold text-gray-900 truncate pr-2 text-lg">{prod.nombre}</h3>
-                        <p className="text-gray-500 text-sm line-clamp-2 mt-1 leading-snug">{prod.descripcion || "Sin descripción."}</p>
-                      </div>
+                      {/* ... resto del contenido del producto ... */}
+                      <div className="flex-1 flex flex-col justify-between min-w-0 py-1">
+                        <div>
+                          <h3 className="font-bold text-gray-900 truncate text-base md:text-lg">{prod.nombre}</h3>
+                          <p className="text-gray-500 text-xs md:text-sm line-clamp-2 mt-1 leading-snug">{prod.descripcion || "Sin descripción."}</p>
+                        </div>
 
-                      <div className="flex items-center justify-between mt-3">
-                        <span className="text-xl font-black text-gray-900">${prod.precio}</span>
-
-                        {canAdd ? (
-                          itemInCart ? (
-                            <div className="flex items-center gap-1 bg-orange-50 rounded-full p-1 border border-orange-100 animate-in zoom-in spin-in-3 duration-200">
-                              <button onClick={() => disminuirCantidad(itemInCart.cartItemId)} className="w-8 h-8 flex items-center justify-center bg-white text-orange-600 rounded-full shadow-sm border border-orange-100 active:scale-90 transition-all font-bold hover:bg-orange-600 hover:text-white"><Minus size={16} /></button>
-                              <span className="font-bold text-gray-900 w-6 text-center text-sm">{itemInCart.cantidad}</span>
-                              <button onClick={() => handleAddToCart(prod)} disabled={addingProductId === prod.id} className="w-8 h-8 flex items-center justify-center bg-orange-600 text-white rounded-full shadow-sm shadow-orange-200 active:scale-90 transition-all font-bold hover:bg-orange-700">
-                                {addingProductId === prod.id ? <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <Plus size={16} />}
+                        <div className="flex items-center justify-between mt-2">
+                          <span className="text-lg font-black text-gray-900">${prod.precio}</span>
+                          {canAdd ? (
+                            itemInCart ? (
+                              <div className="flex items-center gap-2 bg-orange-50 rounded-full px-1 py-1 border border-orange-100">
+                                <button onClick={() => disminuirCantidad(itemInCart.cartItemId)} className="w-7 h-7 flex items-center justify-center bg-white text-orange-600 rounded-full shadow-sm hover:bg-orange-100"><Minus size={14} /></button>
+                                <span className="font-bold text-sm min-w-[16px] text-center">{itemInCart.cantidad}</span>
+                                <button onClick={() => handleAddToCart(prod)} disabled={addingProductId === prod.id} className="w-7 h-7 flex items-center justify-center bg-orange-600 text-white rounded-full shadow-sm"> <Plus size={14} /> </button>
+                              </div>
+                            ) : (
+                              <button onClick={() => handleAddToCart(prod)} disabled={addingProductId === prod.id} className="w-9 h-9 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-orange-600 hover:text-white transition-colors shadow-sm border border-gray-100">
+                                <Plus size={20} />
                               </button>
-                            </div>
+                            )
                           ) : (
-                            <button
-                              onClick={() => handleAddToCart(prod)}
-                              disabled={addingProductId === prod.id}
-                              className="w-10 h-10 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-orange-600 hover:text-white transition-all active:scale-90 active:rotate-90 shadow-sm"
-                            >
-                              {addingProductId === prod.id ? <div className="w-4 h-4 border-2 border-gray-400 border-t-gray-600 rounded-full animate-spin" /> : <Plus size={22} />}
-                            </button>
-                          )
-                        ) : (
-                          <span className="text-xs font-bold text-gray-400">No disponible</span>
-                        )}
+                            <span className="text-[10px] font-black uppercase text-gray-400 bg-gray-100 px-2 py-1 rounded">Sin Stock</span>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-
-            {productosFiltrados.length === 0 && (
+                  );
+                })}
+              </div>
+            ) : (
               <div className="text-center py-20 opacity-50">
                 <div className="bg-gray-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Search className="text-gray-400" size={32} />
                 </div>
-                <p className="font-bold text-gray-400">No encontramos productos.</p>
-                {searchTerm && <button onClick={() => setSearchTerm("")} className="mt-4 text-orange-600 font-bold underline">Limpiar búsqueda</button>}
+                <p className="font-bold text-gray-400">No hay productos en esta categoría.</p>
+                <button onClick={() => setCategoriaSeleccionada("todos")} className="mt-4 text-orange-600 font-bold underline">Ver todo el menú</button>
               </div>
             )}
           </div>
-        )
-        }
-      </main >
+
+        </div>
+      </main>
 
 
       {/* --- CART FLOATING BAR (Mobile First) --- */}
@@ -646,67 +695,69 @@ export default function PublicNegocio({ slug }) {
         gruposToppings={productToppings}
       />
       {/* Modal de Información y Horarios */}
-      {showInfoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setShowInfoModal(false)}>
-          <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
-            <div className="p-6 border-b flex justify-between items-center bg-gray-50">
-              <h3 className="font-black text-xl text-gray-900">Información del Local</h3>
-              <button onClick={() => setShowInfoModal(false)} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-colors"><X size={18} /></button>
-            </div>
+      {
+        showInfoModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setShowInfoModal(false)}>
+            <div className="bg-white rounded-3xl w-full max-w-md overflow-hidden shadow-2xl animate-in zoom-in-95 duration-200" onClick={e => e.stopPropagation()}>
+              <div className="p-6 border-b flex justify-between items-center bg-gray-50">
+                <h3 className="font-black text-xl text-gray-900">Información del Local</h3>
+                <button onClick={() => setShowInfoModal(false)} className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-colors"><X size={18} /></button>
+              </div>
 
-            <div className="p-6 space-y-6">
-              {/* Dirección */}
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
-                  <MapPin size={20} />
+              <div className="p-6 space-y-6">
+                {/* Dirección */}
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0">
+                    <MapPin size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">Dirección</h4>
+                    <p className="text-gray-600 text-sm">{negocio.direccion || "No especificada"}</p>
+                    {negocio.direccion && (
+                      <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.direccion)}`} target="_blank" rel="noopener noreferrer" className="text-orange-600 text-xs font-bold mt-1 inline-block hover:underline">
+                        Ver en Google Maps
+                      </a>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Dirección</h4>
-                  <p className="text-gray-600 text-sm">{negocio.direccion || "No especificada"}</p>
-                  {negocio.direccion && (
-                    <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(negocio.direccion)}`} target="_blank" rel="noopener noreferrer" className="text-orange-600 text-xs font-bold mt-1 inline-block hover:underline">
-                      Ver en Google Maps
-                    </a>
-                  )}
+
+                {/* Horarios */}
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                    <Clock size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">Horarios de Atención</h4>
+                    <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
+                      {negocio.horario || "No especificados"}
+                    </p>
+                  </div>
+                </div>
+
+                {/* Contacto */}
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+                    <Phone size={20} />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900">Contacto</h4>
+                    <p className="text-gray-600 text-sm">{negocio.telefono || "No especificado"}</p>
+                    {negocio.telefono && (
+                      <a href={`https://wa.me/${negocio.telefono.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 text-xs font-bold mt-1 inline-block hover:underline">
+                        Enviar mensaje al WhatsApp
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
 
-              {/* Horarios */}
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-                  <Clock size={20} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Horarios de Atención</h4>
-                  <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">
-                    {negocio.horario || "No especificados"}
-                  </p>
-                </div>
+              <div className="p-4 bg-gray-50 text-center">
+                <button onClick={() => setShowInfoModal(false)} className="w-full py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-colors">Entendido</button>
               </div>
-
-              {/* Contacto */}
-              <div className="flex gap-4">
-                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0">
-                  <Phone size={20} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-gray-900">Contacto</h4>
-                  <p className="text-gray-600 text-sm">{negocio.telefono || "No especificado"}</p>
-                  {negocio.telefono && (
-                    <a href={`https://wa.me/${negocio.telefono.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 text-xs font-bold mt-1 inline-block hover:underline">
-                      Enviar mensaje al WhatsApp
-                    </a>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="p-4 bg-gray-50 text-center">
-              <button onClick={() => setShowInfoModal(false)} className="w-full py-3 bg-gray-900 text-white font-bold rounded-xl hover:bg-black transition-colors">Entendido</button>
             </div>
           </div>
-        </div>
-      )}
-    </div>
+        )
+      }
+    </div >
   );
 }
