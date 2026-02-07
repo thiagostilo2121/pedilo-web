@@ -35,7 +35,8 @@ import {
   QrCode,
   Copy,
   Share2,
-  Download
+  Download,
+  Palette
 } from "lucide-react";
 import { useToast } from "../contexts/ToastProvider";
 import { QRCodeSVG } from "qrcode.react";
@@ -406,6 +407,58 @@ export default function ConfiguracionNegocio() {
                   onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
                   className="mt-4 text-xs block w-full text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100"
                 />
+              </div>
+            </div>
+
+            {/* Colors Selection */}
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <h3 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                <Palette size={16} className="text-gray-400" /> Colores de Marca
+              </h3>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Color Principal</label>
+                  <div className="flex items-center gap-3">
+                    <div className="relative overflow-hidden w-10 h-10 rounded-full border border-gray-200 shadow-sm cursor-pointer hover:scale-105 transition-transform">
+                      <input
+                        type="color"
+                        value={negocio.color_primario || "#ea580c"}
+                        onChange={(e) => setNegocio({ ...negocio, color_primario: e.target.value })}
+                        className="absolute -top-2 -left-2 w-16 h-16 cursor-pointer p-0 border-0"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      value={negocio.color_primario || "#ea580c"}
+                      onChange={(e) => setNegocio({ ...negocio, color_primario: e.target.value })}
+                      className="flex-1 p-2 text-sm border border-gray-200 rounded-lg uppercase"
+                      maxLength={7}
+                    />
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-1">Botones, enlaces y barra de estado.</p>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-500 mb-1">Color Secundario</label>
+                  <div className="flex items-center gap-3">
+                    <div className="relative overflow-hidden w-10 h-10 rounded-full border border-gray-200 shadow-sm cursor-pointer hover:scale-105 transition-transform">
+                      <input
+                        type="color"
+                        value={negocio.color_secundario || "#ffffff"}
+                        onChange={(e) => setNegocio({ ...negocio, color_secundario: e.target.value })}
+                        className="absolute -top-2 -left-2 w-16 h-16 cursor-pointer p-0 border-0"
+                      />
+                    </div>
+                    <input
+                      type="text"
+                      value={negocio.color_secundario || "#ffffff"}
+                      onChange={(e) => setNegocio({ ...negocio, color_secundario: e.target.value })}
+                      className="flex-1 p-2 text-sm border border-gray-200 rounded-lg uppercase"
+                      maxLength={7}
+                    />
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-1">Fondos alternativos y detalles.</p>
+                </div>
               </div>
             </div>
 

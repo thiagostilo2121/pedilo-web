@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import pedidosService from "../services/pedidosService";
 import DashboardLayout from "../layout/DashboardLayout";
 import { useRequirePremium } from "../hooks/useRequirePremium";
@@ -30,6 +30,7 @@ import {
   CreditCard,
   Truck,
   Bell,
+  BellOff,
   HandPlatter,
   ChefHat,
   Inbox
@@ -41,13 +42,76 @@ export default function PedidosDashboard() {
   const [pedidoActivo, setPedidoActivo] = useState(null);
   const [filtro, setFiltro] = useState("activos"); // activos | finalizados | todos
   const [updatingId, setUpdatingId] = useState(null);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
   const toast = useToast();
+
+  const notifiedPedidosIds = useRef(new Set());
+  const isFirstFetch = useRef(true);
+  const audioRef = useRef(new Audio("https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3"));
+
+  const playNotification = useCallback((pedido) => {
+    // 1. Sonido
+    audioRef.current.play().catch(e => console.log("Audio play blocked", e));
+
+    // 2. Notificación de Navegador
+    if (Notification.permission === "granted") {
+      const notification = new Notification("¡Nuevo Pedido Recibido! 🔔", {
+        body: `De: ${pedido.nombre_cliente || 'Cliente'} - Total: $${pedido.total}`,
+        icon: "/vite.svg"
+      });
+      notification.onclick = () => {
+        window.focus();
+        setPedidoActivo(pedido);
+      };
+    }
+
+    // 3. Toast visual
+    toast.info(`Nuevo pedido de ${pedido.nombre_cliente || 'Cliente'}`);
+  }, [toast]);
+
+  const toggleNotifications = async () => {
+    if (notificationsEnabled) {
+      setNotificationsEnabled(false);
+      return;
+    }
+
+    if (!("Notification" in window)) {
+      toast.error("Tu navegador no soporta notificaciones.");
+      return;
+    }
+
+    const permission = await Notification.requestPermission();
+    if (permission === "granted") {
+      setNotificationsEnabled(true);
+      toast.success("Notificaciones activas");
+      audioRef.current.play().catch(() => { });
+    } else {
+      toast.error("Permiso denegado");
+    }
+  };
 
   const fetchPedidos = useCallback(async (silencioso = false) => {
     if (!silencioso) setLoading(true);
     try {
       const data = await pedidosService.getAll(40);
       if (!Array.isArray(data)) throw new Error("Formato inválido de pedidos");
+
+      if (!isFirstFetch.current) {
+        const newOrders = data.filter(p =>
+          p.estado === 'pendiente' && !notifiedPedidosIds.current.has(p.id)
+        );
+
+        if (newOrders.length > 0 && notificationsEnabled) {
+          playNotification(newOrders[0]);
+        }
+      }
+
+      // Actualizar set de notificados para incluir todos los actuales
+      data.forEach(p => {
+        if (p.estado === 'pendiente') notifiedPedidosIds.current.add(p.id);
+      });
+
+      isFirstFetch.current = false;
       setPedidos(data);
     } catch (err) {
       console.error("Error al cargar pedidos", err);
@@ -55,7 +119,7 @@ export default function PedidosDashboard() {
     } finally {
       setLoading(false);
     }
-  }, [toast]);
+  }, [toast, notificationsEnabled, playNotification]);
 
   // Verificar suscripción premium y negocio
   useRequirePremium();
@@ -122,18 +186,32 @@ export default function PedidosDashboard() {
           <p className="text-gray-500 text-sm">Gestiona tus ventas en tiempo real.</p>
         </div>
 
-        {/* Filtros de Estado */}
-        <div className="flex bg-gray-100 p-1 rounded-xl">
-          {["activos", "finalizados", "todos"].map((f) => (
-            <button
-              key={f}
-              onClick={() => setFiltro(f)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-bold capitalize transition-all ${filtro === f ? "bg-white text-orange-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
-                }`}
-            >
-              {f}
-            </button>
-          ))}
+        {/* Filtros y Notificaciones */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={toggleNotifications}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl text-sm font-bold transition-all shadow-sm border ${notificationsEnabled
+              ? "bg-orange-50 text-orange-600 border-orange-100 hover:bg-orange-100"
+              : "bg-white text-gray-400 border-gray-100 hover:bg-gray-50"
+              }`}
+            title={notificationsEnabled ? "Desactivar alertas" : "Activar alertas de sonido"}
+          >
+            {notificationsEnabled ? <Bell size={18} className="animate-bounce" /> : <BellOff size={18} />}
+            <span className="hidden sm:inline">{notificationsEnabled ? "Alertas ON" : "Alertas OFF"}</span>
+          </button>
+
+          <div className="flex bg-gray-100 p-1 rounded-xl">
+            {["activos", "finalizados", "todos"].map((f) => (
+              <button
+                key={f}
+                onClick={() => setFiltro(f)}
+                className={`px-4 py-1.5 rounded-lg text-sm font-bold capitalize transition-all ${filtro === f ? "bg-white text-orange-600 shadow-sm" : "text-gray-500 hover:text-gray-700"
+                  }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
