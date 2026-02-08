@@ -1,18 +1,5 @@
 /*
  * Copyright (C) 2026 Thiago Valentín Stilo Limarino
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import { useEffect, useState } from "react";
@@ -38,7 +25,14 @@ export default function Checkout({ slug }) {
   const [negocio, setNegocio] = useState(null);
   const [loading, setLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // State pedido y cupones
   const [pedido, setPedido] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [validatingCoupon, setValidatingCoupon] = useState(false);
+
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -65,12 +59,47 @@ export default function Checkout({ slug }) {
     const parsedCarrito = storedCarrito ? JSON.parse(storedCarrito) : [];
 
     if (parsedCarrito.length === 0 && !pedido) {
-      // Si no hay productos y no venimos de finalizar un pedido, volvemos
       navigate(`/n/${slug}`);
     } else {
       setCarrito(parsedCarrito);
     }
   }, [slug, navigate, pedido]);
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setValidatingCoupon(true);
+    try {
+      const itemsPayload = carrito.map(p => ({
+        producto_id: p.id,
+        cantidad: p.cantidad,
+        toppings: (p.toppings || []).map(t => ({ topping_id: t.id }))
+      }));
+
+      const res = await apiPublic.post(`/${slug}/validate-coupon`, {
+        codigo: couponCode,
+        items: itemsPayload
+      });
+
+      if (res.data.valido) {
+        setDiscount(res.data.descuento);
+        setAppliedCoupon(res.data.promocion);
+        toast.success(`Cupón aplicado: $${res.data.descuento} OFF`);
+      }
+    } catch (error) {
+      console.error(error);
+      setDiscount(0);
+      setAppliedCoupon(null);
+      toast.error(error.response?.data?.detail || "Cupón inválido");
+    } finally {
+      setValidatingCoupon(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setDiscount(0);
+    setAppliedCoupon(null);
+    setCouponCode("");
+  };
 
   const onSubmit = async (data) => {
     if (!carrito.length) return;
@@ -80,6 +109,7 @@ export default function Checkout({ slug }) {
       const payload = {
         ...data,
         telefono_cliente: (data.codigo_pais_cliente || "") + (data.telefono_cliente || "").replace(/\D/g, ""),
+        codigo_cupon: appliedCoupon ? appliedCoupon.codigo : null,
         items: carrito.map((p) => ({
           producto_id: p.id,
           cantidad: p.cantidad,
@@ -87,7 +117,6 @@ export default function Checkout({ slug }) {
         })),
       };
 
-      // Limpiar campos auxiliares del payload si existen
       delete payload.codigo_pais_cliente;
 
       const newOrder = await pedidosService.create(slug, payload);
@@ -131,7 +160,6 @@ export default function Checkout({ slug }) {
     </div>
   );
 
-  // ================== PANTALLA DE ÉXITO ==================
   if (pedido) return (
     <div className="max-w-md mx-auto px-4 py-12 text-center">
       <div className="bg-white rounded-3xl shadow-xl p-8 space-y-6 border border-gray-100">
@@ -179,7 +207,6 @@ export default function Checkout({ slug }) {
 
   const total = carrito.reduce((acc, i) => acc + (i.precioConToppings || i.precio) * i.cantidad, 0);
 
-  // Helper para iconos inteligentes
   const getIconForOption = (text, type) => {
     const t = text.toLowerCase();
     if (type === 'pago') {
@@ -199,7 +226,6 @@ export default function Checkout({ slug }) {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
-      {/* ... (Header y boton volver se mantienen, solo mostramos el form refactorizado) */}
       <button
         onClick={() => navigate(-1)}
         className="flex items-center gap-2 text-gray-500 font-bold mb-6 hover:text-orange-600 transition-colors"
@@ -219,7 +245,7 @@ export default function Checkout({ slug }) {
                 <User size={18} className="text-gray-400" />
                 <input
                   {...register("nombre_cliente", { required: "El nombre es obligatorio" })}
-                  className="w-full p-2 focus:outline-none text-sm font-bold text-gray-700"
+                  className="w-full p-2 focus:outline-none text-base font-bold text-gray-700"
                   placeholder="Ej: Juan Pérez"
                 />
               </div>
@@ -233,7 +259,7 @@ export default function Checkout({ slug }) {
                   <span className="text-gray-400 text-sm font-bold">+</span>
                   <input
                     {...register("codigo_pais_cliente", { required: true })}
-                    className="w-full p-2 focus:outline-none text-sm font-bold text-gray-700"
+                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700"
                     placeholder="54"
                     maxLength={4}
                   />
@@ -248,7 +274,7 @@ export default function Checkout({ slug }) {
                         e.target.value = val;
                       }
                     })}
-                    className="w-full p-2 focus:outline-none text-sm font-bold text-gray-700"
+                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700"
                     placeholder="11 2233 4455"
                   />
                 </div>
@@ -343,9 +369,59 @@ export default function Checkout({ slug }) {
             </div>
 
             <div className="pt-4 border-t-2 border-dashed border-gray-100">
+
+              {/* CUPONES UI */}
+              <div className="mb-4">
+                {!appliedCoupon ? (
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      placeholder="Código de descuento"
+                      className="flex-1 min-w-0 bg-gray-50 border border-gray-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 uppercase font-bold text-gray-700"
+                      value={couponCode}
+                      onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleApplyCoupon}
+                      disabled={validatingCoupon || !couponCode}
+                      className="shrink-0 bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-black disabled:opacity-50"
+                    >
+                      {validatingCoupon ? "..." : "Aplicar"}
+                    </button>
+                  </div>
+                ) : (
+                  <div className="bg-green-50 border border-green-100 rounded-xl p-3 flex justify-between items-center">
+                    <div className="flex items-center gap-2 text-green-700">
+                      <CheckCircle2 size={16} />
+                      <span className="text-sm font-bold">Cupón {appliedCoupon.codigo}</span>
+                    </div>
+                    <button type="button" onClick={removeCoupon} className="text-xs text-red-500 font-bold hover:underline">
+                      Quitar
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* SUBTOTAL y DESCUENTO */}
+              <div className="space-y-2 mb-4">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-gray-400 font-medium">Subtotal</span>
+                  <span className="font-bold text-gray-900">${total.toFixed(0)}</span>
+                </div>
+                {discount > 0 && (
+                  <div className="flex justify-between items-center text-sm text-green-600">
+                    <span className="font-bold">Descuento</span>
+                    <span className="font-bold">-${discount.toFixed(0)}</span>
+                  </div>
+                )}
+              </div>
+
               <div className="flex justify-between items-center mb-6">
                 <span className="text-gray-400 font-bold uppercase text-xs">Total a pagar</span>
-                <span className="text-3xl font-black text-orange-600">${total.toFixed(0)}</span>
+                <span className="text-3xl font-black text-orange-600">
+                  ${Math.max(0, total - discount).toFixed(0)}
+                </span>
               </div>
 
               <button
@@ -369,5 +445,4 @@ export default function Checkout({ slug }) {
       </div>
     </div>
   );
-
 }

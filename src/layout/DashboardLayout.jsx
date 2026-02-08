@@ -31,7 +31,8 @@ import {
   ChevronRight,
   FileText,
   Github,
-  Cherry
+  Cherry,
+  LayoutDashboard
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
@@ -46,7 +47,9 @@ export default function DashboardLayout({ children }) {
   };
 
   const menuItems = [
+    { name: "Inicio", path: "/dashboard", icon: <LayoutDashboard size={20} />, end: true },
     { name: "Pedidos", path: "/dashboard/pedidos", icon: <ShoppingBag size={20} /> },
+    { name: "Marketing", path: "/dashboard/marketing", icon: <Tags size={20} /> },
     { name: "Productos", path: "/dashboard/productos", icon: <Pizza size={20} /> },
     { name: "Categorías", path: "/dashboard/categorias", icon: <Tags size={20} /> },
     { name: "Toppings", path: "/dashboard/toppings", icon: <Cherry size={20} /> },

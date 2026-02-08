@@ -115,9 +115,9 @@ export default function MiSuscripcion() {
 
                 {/* CARD PRINCIPAL INFORMATIVA */}
                 <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-                    <div className={`p-8 ${isActive ? 'bg-green-50/50' : 'bg-gray-50'}`}>
-                        <div className="flex justify-between items-start mb-6">
-                            <div>
+                    <div className={`p-6 md:p-8 ${isActive ? 'bg-green-50/50' : 'bg-gray-50'}`}>
+                        <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
+                            <div className="w-full md:w-auto">
                                 <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1 w-fit ${isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
                                     }`}>
                                     {isActive ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
@@ -132,21 +132,21 @@ export default function MiSuscripcion() {
                                     </div>
                                 )}
 
-                                <h3 className="text-4xl font-black mt-4">
+                                <h3 className="text-3xl md:text-4xl font-black mt-4 flex items-baseline">
                                     ${suscripcion.amount?.toFixed(0) || "0"}
-                                    <span className="text-lg text-gray-400 font-bold uppercase ml-2">
+                                    <span className="text-sm md:text-lg text-gray-400 font-bold uppercase ml-2">
                                         {suscripcion.currency || "ARS"}
                                     </span>
                                 </h3>
-                                <p className="text-gray-500 font-medium">
+                                <p className="text-gray-500 font-medium text-sm md:text-base">
                                     Cobro {suscripcion.frequency_type === "months" ? "Mensual" : "Anual"} • ID: {suscripcion.mp_subscription_id}
                                 </p>
                             </div>
-                            <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center min-w-[140px]">
+                            <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center w-full md:w-auto min-w-[140px]">
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/9/98/Mercado_Pago.svg"
                                     alt="Mercado Pago"
-                                    className="h-10 opacity-90 object-contain"
+                                    className="h-8 md:h-10 opacity-90 object-contain"
                                 />
                             </div>
                         </div>
