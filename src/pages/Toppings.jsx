@@ -119,6 +119,7 @@ export default function ToppingsDashboard() {
     };
 
     return (
+
         <DashboardLayout>
             <div className="flex justify-between items-center mb-6">
                 <div>

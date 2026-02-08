@@ -34,6 +34,10 @@ Encapsulate API calls. All services return promises.
 - **`authService.js`** - Auth endpoints (`/auth/*`)
 - **`productService.js`** - Products CRUD + Cloudinary image upload helper
 - **`pedidosService.js`** - Orders for both dashboard (private) and customers (public via slug)
+- **`negocioService.js`** - Business settings (update info, logo, banner, shipping/payments)
+- **`statsService.js`** - Business stats (overview, charts, top products)
+- **`promotionsService.js`** - Promotions CRUD
+
 
 ### Contexts (`src/contexts/`)
 - **`AuthProvider`** - Manages user state, provides `login`, `register`, `logout`. Wraps app and blocks render until auth initializes.
@@ -57,7 +61,7 @@ Three route categories with layouts:
 - Use `api` for authenticated requests, `apiPublic` for public requests
 - Access auth via `useAuth()` hook from `contexts/AuthProvider`
 - Access toast notifications via `useToast()` hook
-- Image uploads go through `productService.uploadImage()` → Cloudinary
+- Image uploads go through `productService.uploadImage()` or `negocioService.uploadImage()` → Cloudinary
 - Slug-based routes use URL params: `const { slug } = useParams()`
 
 ## Deployment

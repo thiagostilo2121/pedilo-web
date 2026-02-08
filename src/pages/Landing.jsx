@@ -35,7 +35,7 @@ export default function Landing() {
       {/* --- HERO: Foco en la conversión --- */}
       <section className="pt-20 pb-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-black tracking-tight mb-6">
+          <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
             Tu menú digital, <br />
             <span className="text-orange-600">sin vueltas.</span>
           </h1>

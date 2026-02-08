@@ -1,18 +1,5 @@
 /*
  * Copyright (C) 2026 Thiago Valentín Stilo Limarino
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published
- * by the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import { Routes, Route, Navigate, useParams } from "react-router-dom";
@@ -35,14 +22,16 @@ import Planes from "./pages/Planes";
 import CrearNegocio from "./pages/CrearNegocio";
 import MiSuscripcion from "./pages/MiSus";
 import SuscripcionSuccess from "./pages/SuscripcionSuccess";
+import DashboardHome from "./pages/admin/DashboardHome";
+import Marketing from "./pages/admin/Marketing";
 import { AuthProvider, useAuth } from "./contexts/AuthProvider";
 import { ToastProvider } from "./contexts/ToastProvider";
 
-// Componente para proteger rutas privadas
+import DashboardLayout from "./layout/DashboardLayout";
+
+// Wrapper para proteger rutas privadas
 function PrivateRoute({ children }) {
   const { user } = useAuth();
-  // El AuthProvider ya maneja el loading, así que si llegamos aquí, loading es false.
-  // Pero por seguridad:
   return user ? children : <Navigate to="/login" replace />;
 }
 
@@ -52,15 +41,6 @@ function PublicLayout({ children }) {
     <div className="">
       <main className="">{children}</main>
       <Footer />
-    </div>
-  );
-}
-
-// Layout para el Dashboard (dueños) - Podrías agregar un Sidebar aquí luego
-function DashboardLayout({ children }) {
-  return (
-    <div className="">
-      <main className="">{children}</main>
     </div>
   );
 }
@@ -86,23 +66,29 @@ export default function App() {
           <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
 
           {/* 2. RUTAS DE DASHBOARD (Protegidas) */}
+          <Route path="/dashboard" element={
+            <PrivateRoute><DashboardHome /></PrivateRoute>
+          } />
           <Route path="/dashboard/pedidos" element={
-            <PrivateRoute><DashboardLayout><PedidosDashboard /></DashboardLayout></PrivateRoute>
+            <PrivateRoute><PedidosDashboard /></PrivateRoute>
+          } />
+          <Route path="/dashboard/marketing" element={
+            <PrivateRoute><Marketing /></PrivateRoute>
           } />
           <Route path="/dashboard/productos" element={
-            <PrivateRoute><DashboardLayout><ProductosDashboard /></DashboardLayout></PrivateRoute>
+            <PrivateRoute><ProductosDashboard /></PrivateRoute>
           } />
           <Route path="/dashboard/categorias" element={
-            <PrivateRoute><DashboardLayout><CategoriasDashboard /></DashboardLayout></PrivateRoute>
+            <PrivateRoute><CategoriasDashboard /></PrivateRoute>
           } />
           <Route path="/dashboard/toppings" element={
-            <PrivateRoute><DashboardLayout><ToppingsDashboard /></DashboardLayout></PrivateRoute>
+            <PrivateRoute><ToppingsDashboard /></PrivateRoute>
           } />
           <Route path="/dashboard/configuracion" element={
-            <PrivateRoute><DashboardLayout><ConfiguracionNegocio /></DashboardLayout></PrivateRoute>
+            <PrivateRoute><ConfiguracionNegocio /></PrivateRoute>
           } />
           <Route path="/dashboard/mi-suscripcion" element={
-            <PrivateRoute><DashboardLayout><MiSuscripcion /></DashboardLayout></PrivateRoute>
+            <PrivateRoute><MiSuscripcion /></PrivateRoute>
           } />
 
           {/* 3. RUTAS DINÁMICAS (Clientes) */}
@@ -111,9 +97,7 @@ export default function App() {
           <Route path="/n/:slug/pedidos" element={<PublicLayout><PedidoWrapper /></PublicLayout>} />
 
           {/* 4. REDIRECCIÓN POR DEFECTO */}
-          <Route path="/dashboard" element={
-            <PrivateRoute><DashboardLayout><ConfiguracionNegocio /></DashboardLayout></PrivateRoute>
-          } />
+          {/* Si alguien entra a /dashboard/* y no hace match, podría ir a NotFound o a DashboardHome */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>
