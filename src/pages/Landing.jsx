@@ -71,7 +71,7 @@ export default function Landing() {
             Dejá de regalar tu ganancia. <br />
             <span className="text-orange-600 text-shadow-sm">Vendé online con 0% comisión.</span>
           </h1>
-          <p className="text-xl text-gray-500 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
             Tu propio sistema de pedidos profesional, con catálogo digital, cupones de descuento y recepción de órdenes por WhatsApp. Sin intermediarios, sin comisiones ocultas.
           </p>
 
@@ -79,18 +79,20 @@ export default function Landing() {
             <button
               onClick={() => navigate("/register")}
               className="px-10 py-5 bg-orange-600 text-white font-bold rounded-2xl text-lg shadow-2xl shadow-orange-200 hover:bg-orange-700 hover:scale-105 transition-all flex items-center justify-center gap-2 group"
+              aria-label="Comenzar prueba gratuita de 14 días"
             >
               Empezar 14 días gratis <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
-              onClick={() => window.open("/n/pedilo-oficial", "_blank")}
+              onClick={() => window.open("/n/pedilo-oficial", "_blank", "noopener,noreferrer")}
               className="px-10 py-5 bg-white text-gray-700 font-bold rounded-2xl text-lg hover:bg-gray-50 hover:text-orange-600 transition-all border-2 border-gray-100 shadow-sm"
+              aria-label="Ver negocio de ejemplo"
             >
               Ver Negocio de Ejemplo
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4 text-gray-400 text-sm font-bold uppercase tracking-wider">
+          <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4 text-gray-500 text-sm font-bold uppercase tracking-wider">
             <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-green-500" /> Sin tarjeta</span>
             <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-green-500" /> Cancelación simple</span>
             <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-green-500" /> Chat de Soporte</span>
@@ -200,27 +202,27 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-20 items-center">
           <div className="animate-fade-in-up">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-100 text-green-700 text-sm font-black uppercase tracking-wider mb-8">
-              <Timer size={16} /> Carga Instantánea
+              <Timer size={16} aria-hidden="true" /> Carga Instantánea
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-gray-950 mb-8 leading-[1.1]">Tus clientes <br /> no esperan.</h2>
-            <p className="text-xl text-gray-500 font-medium mb-12 leading-relaxed">
+            <p className="text-xl text-gray-600 font-medium mb-12 leading-relaxed">
               Velocidad optimizada para celulares. Abrís el link, elegís tu pedido y lo mandás por WhatsApp en menos de 1 minuto. Sin fricción, más ventas.
             </p>
 
             <div className="space-y-8">
               <div className="flex items-start gap-5">
-                <div className="bg-orange-100 p-4 rounded-2xl text-orange-600"><QrCode size={28} /></div>
+                <div className="bg-orange-100 p-4 rounded-2xl text-orange-600" aria-hidden="true"><QrCode size={28} /></div>
                 <div>
-                  <h4 className="font-black text-gray-900 text-xl mb-1">Marketing Suite (QR Pro)</h4>
-                  <p className="text-gray-500 font-medium">Auto-generá flyers y QRs profesionales con tu marca listos para tus mesas o redes sociales.</p>
+                  <h3 className="font-black text-gray-900 text-xl mb-1">Marketing Suite (QR Pro)</h3>
+                  <p className="text-gray-600 font-medium">Auto-generá flyers y QRs profesionales con tu marca listos para tus mesas o redes sociales.</p>
                 </div>
               </div>
 
               <div className="flex items-start gap-5">
-                <div className="bg-blue-100 p-4 rounded-2xl text-blue-600"><Users size={28} /></div>
+                <div className="bg-blue-100 p-4 rounded-2xl text-blue-600" aria-hidden="true"><Users size={28} /></div>
                 <div>
-                  <h4 className="font-black text-gray-900 text-xl mb-1">Soporte y Setup Gratis</h4>
-                  <p className="text-gray-500 font-medium">Te ayudamos a configurar tu cuenta. Mandanos tu menú y nosotros nos encargamos de todo el setup inicial.</p>
+                  <h3 className="font-black text-gray-900 text-xl mb-1">Soporte y Setup Gratis</h3>
+                  <p className="text-gray-600 font-medium">Te ayudamos a configurar tu cuenta. Mandanos tu menú y nosotros nos encargamos de todo el setup inicial.</p>
                 </div>
               </div>
             </div>
