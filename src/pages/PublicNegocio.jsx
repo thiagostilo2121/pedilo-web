@@ -74,7 +74,50 @@ export default function PublicNegocio({ slug }) {
         setCategorias(categoriasRes.data);
 
         // Optimización SEO/UX: Título Dinámico
-        document.title = `${negocioRes.data.nombre} | Pedilo`;
+        document.title = `${negocioRes.data.nombre} | Pedilo - Pedidos Online`;
+
+        // SEO: Meta Tags Dinámicos (Ayuda a Google y algunos crawlers modernos)
+        const updateMeta = (name, content, attr = "name") => {
+          let meta = document.querySelector(`meta[${attr}="${name}"]`);
+          if (!meta) {
+            meta = document.createElement("meta");
+            meta.setAttribute(attr, name);
+            document.head.appendChild(meta);
+          }
+          meta.setAttribute("content", content);
+        };
+
+        const bizDesc = negocioRes.data.descripcion || `Hacé tu pedido online en ${negocioRes.data.nombre} a través de Pedilo.`;
+        updateMeta("description", bizDesc);
+        updateMeta("og:title", `${negocioRes.data.nombre} | Menú Digital`, "property");
+        updateMeta("og:description", bizDesc, "property");
+        updateMeta("og:image", negocioRes.data.logo_url || "https://pediloarg.netlify.app/favicons/favicon2.png", "property");
+        updateMeta("og:url", window.location.href, "property");
+
+        // SEO: Structured Data (JSON-LD)
+        const structuredData = {
+          "@context": "https://schema.org",
+          "@type": "Restaurant",
+          "name": negocioRes.data.nombre,
+          "description": bizDesc,
+          "image": negocioRes.data.logo_url,
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": negocioRes.data.direccion || ""
+          },
+          "telephone": negocioRes.data.telefono || "",
+          "url": window.location.href,
+          "servesCuisine": "Various"
+        };
+
+        let script = document.getElementById("structured-data");
+        if (!script) {
+          script = document.createElement("script");
+          script.id = "structured-data";
+          script.type = "application/ld+json";
+          document.head.appendChild(script);
+        }
+        script.innerHTML = JSON.stringify(structuredData);
 
         // PWA Theme Color Dinámico
         const metaThemeColor = document.querySelector("meta[name=theme-color]");

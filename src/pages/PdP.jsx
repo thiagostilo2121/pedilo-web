@@ -20,6 +20,10 @@ import { Link } from 'react-router-dom';
 import { Eye, Database, Server, Shield, Globe } from 'lucide-react';
 
 const Privacidad = () => {
+  React.useEffect(() => {
+    document.title = "Política de Privacidad | Pedilo";
+  }, []);
+
   const puntosClave = [
     { id: 'recoleccion', titulo: 'Datos Recolectados', icon: <Database size={20} /> },
     { id: 'imagenes', titulo: 'Almacenamiento de Imágenes', icon: <Server size={20} /> },
@@ -39,7 +43,7 @@ const Privacidad = () => {
       </header>
 
       <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-        
+
         {/* Nav Lateral */}
         <aside className="hidden md:block col-span-1">
           <nav className="sticky top-10 space-y-2">
@@ -58,7 +62,7 @@ const Privacidad = () => {
 
         {/* Contenido */}
         <main className="col-span-1 md:col-span-3 prose prose-orange max-w-none text-gray-700">
-          
+
           <section id="recoleccion" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900">1. Datos que recolectamos</h2>
             <p>En <strong>Pedilo</strong> diferenciamos dos tipos de usuarios:</p>
@@ -73,7 +77,7 @@ const Privacidad = () => {
               <Server size={24} /> 2. Almacenamiento de Archivos e Imágenes
             </h2>
             <p className="text-blue-900/80 mt-4">
-              Las imágenes cargadas por el Comercio (logotipos, fotos de productos y categorías) se almacenan en <strong>servidores de terceros especializados en hosting de infraestructura</strong>. 
+              Las imágenes cargadas por el Comercio (logotipos, fotos de productos y categorías) se almacenan en <strong>servidores de terceros especializados en hosting de infraestructura</strong>.
             </p>
             <p className="text-blue-900/80">
               Al subir contenido, el Comercio acepta que sus archivos sean alojados en estos servicios externos. Pedilo garantiza que el acceso a dichas imágenes es público únicamente para los fines de mostrar el catálogo al Cliente final.

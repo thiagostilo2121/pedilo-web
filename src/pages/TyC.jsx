@@ -20,6 +20,10 @@ import { Link } from 'react-router-dom';
 import { ShieldCheck, Smartphone, CreditCard, UserCheck, AlertTriangle } from 'lucide-react';
 
 const Terminos = () => {
+  React.useEffect(() => {
+    document.title = "Términos y Condiciones | Pedilo";
+  }, []);
+
   const secciones = [
     { id: 'servicio', titulo: 'Naturaleza del Servicio', icon: <Smartphone size={20} /> },
     { id: 'comercios', titulo: 'Cuentas de Comercio', icon: <UserCheck size={20} /> },
@@ -40,7 +44,7 @@ const Terminos = () => {
       </header>
 
       <div className="max-w-5xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
-        
+
         {/* Navegación Lateral Stickey */}
         <aside className="hidden md:block col-span-1">
           <nav className="sticky top-10 space-y-2">
@@ -59,22 +63,22 @@ const Terminos = () => {
 
         {/* Contenido Principal */}
         <main className="col-span-1 md:col-span-3 prose prose-orange max-w-none text-gray-700">
-          
+
           <section id="servicio" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">1</span> 
+              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">1</span>
               Naturaleza del Servicio
             </h2>
             <p>
-              <strong>Pedilo</strong> es una plataforma tecnológica (SaaS) diseñada para optimizar la toma de pedidos en comercios de cercanía. 
-              Actuamos exclusivamente como facilitadores de comunicación entre el Comercio y el Cliente. 
+              <strong>Pedilo</strong> es una plataforma tecnológica (SaaS) diseñada para optimizar la toma de pedidos en comercios de cercanía.
+              Actuamos exclusivamente como facilitadores de comunicación entre el Comercio y el Cliente.
               <strong> Importante:</strong> No somos una empresa de delivery, no poseemos flota logística y no intervenimos en la preparación de productos.
             </p>
           </section>
 
           <section id="comercios" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">2</span> 
+              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">2</span>
               Cuentas y Gestión de Comercios
             </h2>
             <p>
@@ -88,26 +92,26 @@ const Terminos = () => {
 
           <section id="validación" className="mb-12 bg-orange-50 p-6 rounded-xl border border-orange-100">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <span className="p-2 bg-orange-600 text-white rounded-md">3</span> 
+              <span className="p-2 bg-orange-600 text-white rounded-md">3</span>
               Protocolo de Seguridad WhatsApp
             </h2>
             <p className="mt-4 font-semibold text-orange-900">
               Este es el punto más importante para la seguridad de tu operación:
             </p>
             <p>
-              Dado que Pedilo no procesa pagos, la confirmación final del pedido depende del contacto directo vía WhatsApp. 
-              <strong> El Comercio se reserva el derecho de rechazar cualquier pedido que no haya sido validado mediante un mensaje directo del Cliente.</strong> 
+              Dado que Pedilo no procesa pagos, la confirmación final del pedido depende del contacto directo vía WhatsApp.
+              <strong> El Comercio se reserva el derecho de rechazar cualquier pedido que no haya sido validado mediante un mensaje directo del Cliente.</strong>
               Pedilo facilita un botón de acceso rápido al finalizar la orden para este fin.
             </p>
           </section>
 
           <section id="pagos" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">4</span> 
+              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">4</span>
               Suscripción y Pagos del SaaS
             </h2>
             <p>
-              El uso del servicio para Comercios tiene un costo mensual de <strong>$17.000 ARS</strong>. 
+              El uso del servicio para Comercios tiene un costo mensual de <strong>$17.000 ARS</strong>.
               Este pago otorga acceso al Dashboard, gestión de productos y recepción de pedidos ilimitados.
             </p>
             <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4">
@@ -119,7 +123,7 @@ const Terminos = () => {
 
           <section id="responsabilidad" className="mb-12 pb-10 border-b">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
-              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">5</span> 
+              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">5</span>
               Limitación de Responsabilidad
             </h2>
             <p>

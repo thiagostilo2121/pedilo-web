@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Allow: /n/*
+
+# Sitemap
+Sitemap: https://pediloarg.netlify.app/sitemap.xml

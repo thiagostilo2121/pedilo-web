@@ -19,7 +19,6 @@ import apiPublic from "../api/apiPublic";
 import DatosNegocioPanel from "../components/configuracion/DatosNegocioPanel";
 import LogisticaPanel from "../components/configuracion/LogisticaPanel";
 import EstadoPanel from "../components/configuracion/EstadoPanel";
-import QRPanel from "../components/configuracion/QRPanel";
 
 export default function ConfiguracionNegocio() {
   const [negocio, setNegocio] = useState(null);
@@ -182,27 +181,27 @@ export default function ConfiguracionNegocio() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 pb-20">
+      <div className="space-y-8 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Columna Izquierda: Identidad y Logística */}
+          <div className="lg:col-span-2 space-y-6">
+            <DatosNegocioPanel
+              negocio={negocio}
+              setNegocio={setNegocio}
+              logoFile={logoFile}
+              setLogoFile={setLogoFile}
+              fileInputRef={fileInputRef}
+              bannerFile={bannerFile}
+              setBannerFile={setBannerFile}
+              bannerInputRef={bannerInputRef}
+            />
+            <LogisticaPanel negocio={negocio} setNegocio={setNegocio} />
+          </div>
 
-        {/* Columna Izquierda: Identidad y Logística */}
-        <div className="lg:col-span-2 space-y-6">
-          <DatosNegocioPanel
-            negocio={negocio}
-            setNegocio={setNegocio}
-            logoFile={logoFile}
-            setLogoFile={setLogoFile}
-            fileInputRef={fileInputRef}
-            bannerFile={bannerFile}
-            setBannerFile={setBannerFile}
-            bannerInputRef={bannerInputRef}
-          />
-          <LogisticaPanel negocio={negocio} setNegocio={setNegocio} />
-        </div>
-
-        {/* Columna Derecha: Información de Contacto, Estado y QR */}
-        <div className="space-y-6">
-          <EstadoPanel negocio={negocio} setNegocio={setNegocio} />
-          <QRPanel negocio={negocio} />
+          {/* Columna Derecha: Información de Contacto y Estado */}
+          <div className="space-y-6">
+            <EstadoPanel negocio={negocio} setNegocio={setNegocio} />
+          </div>
         </div>
       </div >
     </DashboardLayout >

@@ -12,7 +12,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { toPng } from "html-to-image";
 import { useToast } from "../../contexts/ToastProvider";
 
-export default function QRPanel({ negocio }) {
+export default function FlyerGenerator({ negocio }) {
     const toast = useToast();
     const flyerRef = useRef(null);
 
@@ -29,9 +29,6 @@ export default function QRPanel({ negocio }) {
 
         try {
             setDownloading(true);
-
-            // Forzar carga de fuentes antes de capturar si es necesario, 
-            // aunque html-to-image maneja esto mejor que canvas manual.
 
             const dataUrl = await toPng(flyerRef.current, {
                 cacheBust: true,
@@ -59,6 +56,8 @@ export default function QRPanel({ negocio }) {
         navigator.clipboard.writeText(url);
         toast.success("Link copiado al portapapeles");
     };
+
+    if (!negocio) return null;
 
     return (
         <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
