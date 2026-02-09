@@ -24,6 +24,7 @@ import MiSuscripcion from "./pages/MiSus";
 import SuscripcionSuccess from "./pages/SuscripcionSuccess";
 import DashboardHome from "./pages/admin/DashboardHome";
 import Marketing from "./pages/admin/Marketing";
+import Brochure from "./pages/marketing/Brochure";
 import { AuthProvider, useAuth } from "./contexts/AuthProvider";
 import { ToastProvider } from "./contexts/ToastProvider";
 
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/terminos" element={<PublicLayout><Terminos /></PublicLayout>} />
           <Route path="/privacidad" element={<PublicLayout><Privacidad /></PublicLayout>} />
           <Route path="/planes" element={<PublicLayout><Planes /></PublicLayout>} />
+          <Route path="/marketing/brochure" element={<Brochure />} />
           <Route path="/crear-negocio" element={<PublicLayout><CrearNegocio /></PublicLayout>} />
           <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
 
