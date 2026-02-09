@@ -69,7 +69,7 @@ export default function DashboardLayout({ children }) {
           }`}
       >
         <div className="flex items-center justify-between h-16 px-4 border-b bg-white">
-          {sidebarOpen && <span className="text-xl font-bold text-orange-600">Pedilo</span>}
+          {sidebarOpen && <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
             className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-500 mx-auto"

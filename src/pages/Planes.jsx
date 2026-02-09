@@ -29,16 +29,18 @@ export default function Planes() {
   const [loading, setLoading] = useState(false);
 
   const plan = {
-    nombre: "Plan Profesional",
+    nombre: "Plan Profesional Todo Incluido",
     precio: "17.000",
     periodo: "mes",
     caracteristicas: [
-      "Menú digital personalizado",
-      "Slug único",
-      "Pedidos ilimitados",
-      "Gestión de stock y categorías",
-      "Seguimiento de pedidos para clientes",
-      "Mucho más"
+      "Catálogo Digital Ilimitado",
+      "Pedidos por WhatsApp",
+      "Sistema de Cupones Dinámicos",
+      "Flyer & QR Pro Tool",
+      "Métricas de Ventas en tiempo real",
+      "Personalización de Marca (PWA)",
+      "Toppings y Agregados",
+      "Setup Inicial Asistido Gratis"
     ]
   };
 
@@ -74,35 +76,35 @@ export default function Planes() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-20 px-4">
-      <div className="max-w-3xl mx-auto text-center">
-        <h1 className="text-4xl font-black text-gray-900 mb-4">Elegí tu plan</h1>
-        <p className="text-gray-600 mb-12">Impulsá tu negocio hoy mismo. Sin contratos largos ni comisiones ocultas.</p>
+    <div className="min-h-screen bg-white py-20 px-4">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="text-5xl font-black text-gray-900 mb-6 tracking-tight">Elegí el éxito de tu negocio</h1>
+        <p className="text-xl text-gray-500 mb-16 font-medium">Digitalizá tus ventas hoy mismo. Sin contratos, sin comisiones, 100% transparente.</p>
 
-        <div className="bg-white rounded-[3rem] shadow-xl overflow-hidden border-4 border-orange-500 relative">
-          <div className="bg-orange-500 text-white py-2 px-6 absolute top-6 right-[-35px] rotate-45 text-sm font-black uppercase tracking-widest w-40">
-            Recomendado
+        <div className="bg-white rounded-[3.5rem] shadow-2xl shadow-orange-100 overflow-hidden border border-gray-100 relative max-w-2xl mx-auto">
+          <div className="bg-orange-600 text-white py-2 px-8 absolute top-8 right-[-45px] rotate-45 text-xs font-black uppercase tracking-widest w-48 shadow-lg">
+            Más Elegido
           </div>
 
-          <div className="p-10 md:p-16">
-            <h2 className="text-2xl font-black mb-2">{plan.nombre}</h2>
+          <div className="p-8 md:p-16">
+            <div className="text-orange-600 uppercase tracking-widest text-sm font-black mb-4">{plan.nombre}</div>
 
-            {/* Badge de Free Trial */}
-            <div className="bg-green-100 text-green-700 px-4 py-2 rounded-full inline-flex items-center gap-2 mb-4">
-              <Gift size={18} />
-              <span className="font-bold text-sm">14 días gratis para probar</span>
+            <div className="flex justify-center items-baseline gap-2 mb-8">
+              <span className="text-7xl font-black text-gray-950 tracking-tighter">${plan.precio}</span>
+              <span className="text-gray-400 font-bold text-lg">/{plan.periodo}</span>
             </div>
 
-            <div className="flex justify-center items-baseline gap-1 mb-8">
-              <span className="text-5xl font-black">${plan.precio}</span>
-              <span className="text-gray-400 font-bold">/{plan.periodo}</span>
+            {/* Valor entregado */}
+            <div className="bg-green-50 text-green-700 px-6 py-3 rounded-2xl flex items-center justify-center gap-3 mb-10 border border-green-100">
+              <Gift size={22} className="text-green-600" />
+              <span className="font-black">14 DÍAS DE PRUEBA TOTALMENTE GRATIS</span>
             </div>
 
-            <ul className="text-left space-y-4 mb-10">
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 text-left mb-12">
               {plan.caracteristicas.map((item, index) => (
-                <li key={index} className="flex items-center gap-3 text-gray-700 font-medium">
-                  <div className="bg-orange-100 p-1 rounded-full text-orange-600">
-                    <Check size={16} strokeWidth={3} />
+                <li key={index} className="flex items-center gap-3 text-gray-700 font-bold text-sm">
+                  <div className="bg-orange-100 p-1 rounded-full text-orange-600 flex-shrink-0">
+                    <Check size={14} strokeWidth={4} />
                   </div>
                   {item}
                 </li>

@@ -29,108 +29,14 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-orange-600 text-orange-50">
-      <div className="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-10">
-
-        {/* Columna 1: Marca y Propuesta */}
-        <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-2">
-            <img
-              src="/favicons/Pedilo.png"
-              alt="Pedilo Logo"
-              className="w-10 h-10 object-contain bg-white rounded-lg p-1"
-            />
-            <span className="text-2xl font-bold text-white tracking-tight">Pedilo</span>
-          </div>
-          <p className="text-sm leading-relaxed opacity-90">
-            Potenciamos negocios locales con pedidos directos, sin intermediarios y 100% libres de comisiones.
-          </p>
-        </div>
-
-        {/* Columna 2: Segmentos (Escalabilidad) */}
-        <div className="flex flex-col gap-3">
-          <h4 className="text-white font-bold uppercase tracking-wider text-xs">Soluciones</h4>
-          <nav className="flex flex-col gap-2 text-sm">
-            <span className="opacity-80">Comida Rápida</span>
-            <span className="opacity-50 italic">Heladerías (Próximamente)</span>
-            <span className="opacity-50 italic">Cafeterías (Próximamente)</span>
-          </nav>
-        </div>
-
-        {/* Columna 3: Navegación Legal */}
-        <div className="flex flex-col gap-3">
-          <h4 className="text-white font-bold uppercase tracking-wider text-xs">Soporte y Legal</h4>
-          <nav className="flex flex-col gap-2 text-sm">
-            <Link to="/terminos" className="hover:text-white hover:translate-x-1 transition-all">
-              Términos y condiciones
-            </Link>
-            <Link to="/privacidad" className="hover:text-white hover:translate-x-1 transition-all">
-              Política de privacidad
-            </Link>
-            <Link to="/contacto" className="hover:text-white hover:translate-x-1 transition-all font-medium text-white">
-              Contacto / Ayuda
-            </Link>
-          </nav>
-        </div>
-
-        {/* Columna 4: Seguridad y Proceso */}
-        <div className="flex flex-col gap-3">
-          <h4 className="text-white font-bold uppercase tracking-wider text-xs text-orange-200">Seguridad del Pedido</h4>
-          <div className="bg-orange-700/40 p-3 rounded-lg border border-orange-400/20">
-            <p className="text-xs leading-normal text-orange-50">
-              <strong>Validación necesaria:</strong> Para procesar tu pedido, es indispensable contactar al negocio vía WhatsApp.
-              <span className="block mt-2 font-semibold text-white">
-                Los comercios están autorizados a rechazar pedidos sin confirmación por mensaje por razones de seguridad.
-              </span>
-            </p>
-          </div>
-        </div>
+    <footer className="py-20 bg-white border-t border-gray-100 text-center">
+      <div className="mb-10 text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></div>
+      <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 mb-10 font-bold text-gray-500">
+        <button onClick={() => navigate("/terminos")} className="hover:text-orange-600">Términos del Servicio</button>
+        <button onClick={() => navigate("/privacidad")} className="hover:text-orange-600">Política de Privacidad</button>
+        <a href="https://web.whatsapp.com/send/?phone=1123860316&text=Hola,%20quisiera%20contactarlos%20por%20soporte%20de%20Pedilo" className="hover:text-orange-600">Contacto</a>
       </div>
-
-      {/* Barra inferior con créditos */}
-      <div className="border-t border-orange-500 bg-orange-700/30 py-6">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-orange-100 text-sm">
-            © {new Date().getFullYear()} Pedilo. Hecho para impulsar el comercio local.
-          </p>
-          <div className="flex items-center gap-6 text-sm">
-            {user && (
-              <button
-                onClick={handleLogout}
-                className="flex items-center gap-2 text-orange-200 hover:text-white transition-colors"
-              >
-                <LogOut size={16} />
-                <span>Cerrar sesión</span>
-              </button>
-            )}
-            <a
-              href="https://github.com/thiagostilo2121"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 text-orange-100 hover:text-white transition-colors"
-            >
-              <Github size={18} />
-              <span className="hidden sm:inline">@thiagostilo2121</span>
-            </a>
-            <a
-              href="https://github.com/thiagostilo2121/pedilo-web"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-orange-200 hover:text-white transition-colors"
-            >
-              Frontend
-            </a>
-            <a
-              href="https://github.com/thiagostilo2121/pedilo-api"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-orange-200 hover:text-white transition-colors"
-            >
-              Backend
-            </a>
-          </div>
-        </div>
-      </div>
+      <p className="text-gray-400 font-medium">© 2026 Pedilo Argentina. Todos los derechos reservados.</p>
     </footer>
   );
 }
