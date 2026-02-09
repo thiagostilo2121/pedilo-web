@@ -4,7 +4,7 @@ import StatsCard from "../../components/dashboard/StatsCard";
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2 } from "lucide-react";
+import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
 
 import DashboardLayout from "../../layout/DashboardLayout";
@@ -102,71 +102,128 @@ export default function DashboardHome() {
                 {/* CHARTS SECTION */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* MAIN CHART */}
-                    <div className="lg:col-span-2 bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-bold text-gray-900 mb-6">Ventas últimos 7 días</h3>
-                        <div className="h-80 w-full">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <AreaChart data={chartData}>
-                                    <defs>
-                                        <linearGradient id="colorVentas" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#f97316" stopOpacity={0.1} />
-                                            <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-                                        </linearGradient>
-                                    </defs>
-                                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
-                                    <XAxis
-                                        dataKey="fecha"
-                                        axisLine={false}
-                                        tickLine={false}
-                                        tick={{ fill: '#9ca3af', fontSize: 12 }}
-                                        tickFormatter={(val) => new Date(val).toLocaleDateString(undefined, { weekday: 'short' })}
-                                    />
-                                    <YAxis
-                                        axisLine={false}
-                                        tickLine={false}
-                                        tick={{ fill: '#9ca3af', fontSize: 12 }}
-                                        tickFormatter={(val) => `$${val / 1000}k`}
-                                    />
-                                    <Tooltip
-                                        contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
-                                    />
-                                    <Area
-                                        type="monotone"
-                                        dataKey="ventas"
-                                        stroke="#f97316"
-                                        strokeWidth={3}
-                                        fillOpacity={1}
-                                        fill="url(#colorVentas)"
-                                    />
-                                </AreaChart>
-                            </ResponsiveContainer>
+                    {/* LEFT COLUMN: CHARTS + QUICK ACTIONS */}
+                    <div className="lg:col-span-2 space-y-6">
+                        {/* MAIN CHART */}
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6">Ventas últimos 7 días</h3>
+                            <div className="h-80 w-full">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <AreaChart data={chartData}>
+                                        <defs>
+                                            <linearGradient id="colorVentas" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#f97316" stopOpacity={0.1} />
+                                                <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                                        <XAxis
+                                            dataKey="fecha"
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tick={{ fill: '#9ca3af', fontSize: 12 }}
+                                            tickFormatter={(val) => new Date(val).toLocaleDateString(undefined, { weekday: 'short' })}
+                                        />
+                                        <YAxis
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tick={{ fill: '#9ca3af', fontSize: 12 }}
+                                            tickFormatter={(val) => `$${val / 1000}k`}
+                                        />
+                                        <Tooltip
+                                            contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                        />
+                                        <Area
+                                            type="monotone"
+                                            dataKey="ventas"
+                                            stroke="#f97316"
+                                            strokeWidth={3}
+                                            fillOpacity={1}
+                                            fill="url(#colorVentas)"
+                                        />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+
+                        {/* QUICK ACTIONS */}
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-4">Accesos Rápidos</h3>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                <a href="/dashboard/pedidos" className="p-4 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors flex flex-col items-center gap-2 group">
+                                    <div className="p-2 bg-white rounded-full text-orange-600 shadow-sm group-hover:scale-110 transition-transform">
+                                        <ShoppingBag size={20} />
+                                    </div>
+                                    <span className="text-sm font-semibold text-gray-700">Ver Pedidos</span>
+                                </a>
+                                <a href="/dashboard/productos" className="p-4 rounded-xl bg-blue-50 border border-blue-100 hover:bg-blue-100 transition-colors flex flex-col items-center gap-2 group">
+                                    <div className="p-2 bg-white rounded-full text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
+                                        <Plus size={20} />
+                                    </div>
+                                    <span className="text-sm font-semibold text-gray-700">Nuevo Producto</span>
+                                </a>
+                                <a href="/dashboard/marketing" className="p-4 rounded-xl bg-purple-50 border border-purple-100 hover:bg-purple-100 transition-colors flex flex-col items-center gap-2 group">
+                                    <div className="p-2 bg-white rounded-full text-purple-600 shadow-sm group-hover:scale-110 transition-transform">
+                                        <DollarSign size={20} />
+                                    </div>
+                                    <span className="text-sm font-semibold text-gray-700">Crear Oferta</span>
+                                </a>
+                                <a href="/dashboard/configuracion" className="p-4 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-colors flex flex-col items-center gap-2 group">
+                                    <div className="p-2 bg-white rounded-full text-gray-600 shadow-sm group-hover:scale-110 transition-transform">
+                                        <TrendingUp size={20} />
+                                    </div>
+                                    <span className="text-sm font-semibold text-gray-700">Configurar</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    {/* TOP PRODUCTS */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-bold text-gray-900 mb-6">Más Vendidos</h3>
-                        <div className="space-y-6">
-                            {topProducts.map((prod, idx) => (
-                                <div key={idx} className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
-                                            {idx + 1}
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-gray-900 text-sm line-clamp-1">{prod.nombre}</p>
-                                            <p className="text-xs text-gray-500">{prod.cantidad} ventas</p>
-                                        </div>
-                                    </div>
-                                    <span className="text-sm font-semibold text-gray-900">
-                                        ${prod.ingresos.toLocaleString()}
-                                    </span>
-                                </div>
-                            ))}
+                    {/* RIGHT COLUMN */}
+                    <div className="space-y-6">
+                        {/* SHARE STORE SHORTCUT */}
+                        <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg shadow-orange-200 relative overflow-hidden group">
+                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none transform group-hover:scale-150 transition-transform duration-700" />
 
-                            {topProducts.length === 0 && (
-                                <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
-                            )}
+                            <div className="relative z-10">
+                                <h3 className="text-xl font-bold mb-2">¡Hacé crecer tu negocio!</h3>
+                                <p className="text-orange-100 text-sm mb-6 leading-relaxed">
+                                    Creá un flyer profesional con tu QR y logo para compartir en redes o pegar en tu local.
+                                </p>
+                                <a
+                                    href="/dashboard/marketing"
+                                    className="inline-flex items-center gap-2 bg-white text-orange-600 px-4 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg hover:scale-105 transition-all"
+                                >
+                                    <ShoppingBag size={18} />
+                                    Crear Flyer Gratis
+                                </a>
+                            </div>
+                        </div>
+
+                        {/* TOP PRODUCTS */}
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6">Más Vendidos</h3>
+                            <div className="space-y-6">
+                                {topProducts.map((prod, idx) => (
+                                    <div key={idx} className="flex items-center justify-between">
+                                        <div className="flex items-center gap-3">
+                                            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+                                                {idx + 1}
+                                            </div>
+                                            <div>
+                                                <p className="font-medium text-gray-900 text-sm line-clamp-1">{prod.nombre}</p>
+                                                <p className="text-xs text-gray-500">{prod.cantidad} ventas</p>
+                                            </div>
+                                        </div>
+                                        <span className="text-sm font-semibold text-gray-900">
+                                            ${prod.ingresos.toLocaleString()}
+                                        </span>
+                                    </div>
+                                ))}
+
+                                {topProducts.length === 0 && (
+                                    <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
+                                )}
+                            </div>
                         </div>
                     </div>
                 </div>
