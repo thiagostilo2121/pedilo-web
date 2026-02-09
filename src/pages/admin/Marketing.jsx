@@ -4,6 +4,7 @@ import { promotionsService } from "../../services/promotionsService";
 import toast from "react-hot-toast";
 
 import DashboardLayout from "../../layout/DashboardLayout";
+import Skeleton from "../../components/ui/Skeleton";
 
 export default function Marketing() {
     const [promotions, setPromotions] = useState([]);
@@ -115,7 +116,19 @@ export default function Marketing() {
                 </div>
 
                 {loading ? (
-                    <div className="text-center py-10">Cargando...</div>
+                    <div className="grid gap-4">
+                        {[1, 2, 3].map((i) => (
+                            <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
+                                <div className="flex items-center gap-4 w-full">
+                                    <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
+                                    <div className="space-y-2 w-full">
+                                        <Skeleton className="h-5 w-48" />
+                                        <Skeleton className="h-4 w-32" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
                 ) : promotions.length === 0 ? (
                     <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
                         <div className="w-16 h-16 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">

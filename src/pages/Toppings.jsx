@@ -14,6 +14,7 @@ import { useToast } from "../contexts/ToastProvider";
 import { useRequirePremium } from "../hooks/useRequirePremium";
 import { Plus, Pencil, Trash2, X, Cherry, Loader2, Check } from "lucide-react";
 import ConfirmModal from "../components/ConfirmModal";
+import Skeleton from "../components/ui/Skeleton";
 
 export default function ToppingsDashboard() {
     const [grupos, setGrupos] = useState([]);
@@ -135,8 +136,26 @@ export default function ToppingsDashboard() {
             </div>
 
             {loading ? (
-                <div className="flex items-center justify-center py-20">
-                    <Loader2 className="animate-spin text-orange-600" size={32} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {[1, 2, 3].map(i => (
+                        <div key={i} className="bg-white rounded-2xl border border-gray-100 p-4">
+                            <div className="flex justify-between items-start mb-3">
+                                <div className="flex items-center gap-2">
+                                    <Skeleton className="w-5 h-5 rounded-full" />
+                                    <Skeleton className="h-6 w-32 rounded" />
+                                </div>
+                                <div className="flex gap-1">
+                                    <Skeleton className="w-8 h-8 rounded-lg" />
+                                    <Skeleton className="w-8 h-8 rounded-lg" />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Skeleton className="h-4 w-full rounded" />
+                                <Skeleton className="h-4 w-3/4 rounded" />
+                                <Skeleton className="h-4 w-5/6 rounded" />
+                            </div>
+                        </div>
+                    ))}
                 </div>
             ) : grupos.length === 0 ? (
                 <div className="bg-white border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center">

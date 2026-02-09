@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
 import productService from "../services/productService";
 import { useRequirePremium } from "../hooks/useRequirePremium";
@@ -26,16 +26,12 @@ import {
   Trash2,
   Search,
   Image as ImageIcon,
-  Loader2,
-  X,
-  CheckCircle2,
-  AlertCircle,
-  Tag,
   Star
 } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
-
+import ProductForm from "../components/dashboard/ProductForm";
+import Skeleton from "../components/ui/Skeleton";
 
 export default function ProductosDashboard() {
   const [productos, setProductos] = useState([]);
@@ -47,22 +43,9 @@ export default function ProductosDashboard() {
   const [uploading, setUploading] = useState(false);
   const toast = useToast();
 
-  const [form, setForm] = useState({
-    nombre: "",
-    descripcion: "",
-    precio: "",
-    imagen_url: "",
-    categoria: "",
-    categoria: "",
-    stock: true,
-    destacado: false,
-  });
-
-  const [imageFile, setImageFile] = useState(null);
-  const fileInputRef = useRef(null);
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, productId: null });
 
-  const [productoToppingsConfig, setProductoToppingsConfig] = useState({}); // { grupoId: { enabled: bool, min: 0, max: 0 } }
+  const [productoToppingsConfig, setProductoToppingsConfig] = useState({});
   const [gruposToppings, setGruposToppings] = useState([]);
   const [loadingToppings, setLoadingToppings] = useState(false);
 
@@ -93,29 +76,16 @@ export default function ProductosDashboard() {
   const openModal = (producto = null) => {
     setEditingProducto(producto);
 
-    // Config inicial (todo deshabilitado)
+    // Initial config for toppings
     const initialConfig = {};
-    gruposToppings.forEach(g => {
-      initialConfig[g.id] = { enabled: false, min: 0, max: g.toppings.length };
-    });
+    if (gruposToppings) {
+      gruposToppings.forEach(g => {
+        initialConfig[g.id] = { enabled: false, min: 0, max: g.toppings.length };
+      });
+    }
     setProductoToppingsConfig(initialConfig);
-    setImageFile(null);
 
     if (producto) {
-      // Verificar categoría
-      const categoriaValida = categorias.find(c => c.nombre === producto.categoria);
-
-      setForm({
-        nombre: producto.nombre || "",
-        descripcion: producto.descripcion || "",
-        precio: producto.precio || "",
-        imagen_url: producto.imagen_url || "",
-        categoria: categoriaValida ? producto.categoria : categorias[0]?.nombre || "",
-        stock: producto.stock ?? true,
-        destacado: producto.destacado ?? false,
-      });
-
-      // Cargar configuración de toppings asíncronamente
       setLoadingToppings(true);
       productService.getProductoToppings(producto.id)
         .then(configs => {
@@ -133,35 +103,22 @@ export default function ProductosDashboard() {
         })
         .catch(err => console.error("Error al cargar toppings", err))
         .finally(() => setLoadingToppings(false));
-
     } else {
-      setForm({
-        nombre: "",
-        descripcion: "",
-        precio: "",
-        imagen_url: "",
-        categoria: categorias[0]?.nombre || "",
-        imagen_url: "",
-        stock: true,
-        destacado: false,
-      });
       setLoadingToppings(false);
     }
 
     setShowModal(true);
   };
 
-
-
-  const handleSubmit = async () => {
-    if (!form.nombre.trim() || !form.precio) return toast.warning("Nombre y precio son obligatorios");
+  const handleFormSubmit = async (formData, imageFile, toppingsConfig) => {
+    if (!formData.nombre.trim() || !formData.precio) return toast.warning("Nombre y precio son obligatorios");
 
     setUploading(true);
     try {
-      let imageUrl = form.imagen_url;
+      let imageUrl = formData.imagen_url;
       if (imageFile) imageUrl = await productService.uploadImage(imageFile);
 
-      const payload = { ...form, imagen_url: imageUrl };
+      const payload = { ...formData, imagen_url: imageUrl };
       let productoId;
 
       if (editingProducto) {
@@ -175,12 +132,12 @@ export default function ProductosDashboard() {
       }
 
       // Guardar configuración de toppings
-      const toppingsPayload = Object.entries(productoToppingsConfig)
+      const toppingsPayload = Object.entries(toppingsConfig)
         .filter(([_, config]) => config.enabled)
         .map(([grupoId, config]) => ({
           grupo_id: parseInt(grupoId),
           min_selecciones: parseInt(config.min) || 0,
-          max_selecciones: parseInt(config.max) || 1 // Backend requiere >= 1
+          max_selecciones: parseInt(config.max) || 1
         }));
 
       await productService.configurarProductoToppings(productoId, toppingsPayload);
@@ -194,7 +151,6 @@ export default function ProductosDashboard() {
       setUploading(false);
     }
   };
-
 
   const filteredProductos = productos.filter(p =>
     p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
@@ -229,17 +185,17 @@ export default function ProductosDashboard() {
 
       {
         loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-pulse">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
               <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col h-80">
-                <div className="bg-gray-200 h-44 w-full" />
+                <Skeleton className="h-44 w-full" />
                 <div className="p-4 flex-1 flex flex-col space-y-3">
-                  <div className="h-3 bg-gray-200 rounded w-1/3" />
-                  <div className="h-5 bg-gray-200 rounded w-3/4" />
-                  <div className="h-3 bg-gray-200 rounded w-full" />
-                  <div className="mt-auto pt-4 flex justify-between border-t border-gray-50">
-                    <div className="h-6 bg-gray-200 rounded w-16" />
-                    <div className="h-8 bg-gray-200 rounded w-20" />
+                  <Skeleton className="h-3 w-1/3" />
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-3 w-full" />
+                  <div className="mt-auto pt-4 flex justify-between border-t border-gray-50 animate-pulse">
+                    <Skeleton className="h-6 w-16" />
+                    <Skeleton className="h-8 w-20" />
                   </div>
                 </div>
               </div>
@@ -301,212 +257,17 @@ export default function ProductosDashboard() {
         )
       }
 
-      {/* Modal Moderno */}
-      {
-        showModal && (
-          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-2 sm:p-4">
-            <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] md:max-h-none animate-in zoom-in duration-200">
-              <div className="p-6 border-b flex justify-between items-center">
-                <h2 className="text-xl font-bold">{editingProducto ? "Editar Producto" : "Nuevo Producto"}</h2>
-                <button onClick={() => setShowModal(false)}><X /></button>
-              </div>
-
-              <div className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto flex-1 overscroll-contain pb-20 md:pb-6">
-                {/* Lado Izquierdo: Imagen */}
-                <div className="space-y-4">
-                  <div className="aspect-square bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center relative overflow-hidden group">
-                    {imageFile || form.imagen_url ? (
-                      <div className="relative w-full h-full">
-                        <img
-                          src={imageFile ? URL.createObjectURL(imageFile) : form.imagen_url}
-                          className="w-full h-full object-cover"
-                        />
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setImageFile(null);
-                            setForm({ ...form, imagen_url: "" });
-                          }}
-                          className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg hover:bg-red-600 z-10"
-                        >
-                          <Trash2 size={14} />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="text-center p-4">
-                        <ImageIcon className="mx-auto text-gray-300 mb-2" size={40} />
-                        <p className="text-xs text-gray-400">Click para subir foto del plato</p>
-                      </div>
-                    )}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => setImageFile(e.target.files[0])}
-                      className="absolute inset-0 opacity-0 cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex items-center gap-2 p-3 bg-orange-50 rounded-xl">
-                    <input
-                      type="checkbox"
-                      checked={form.stock}
-                      onChange={(e) => setForm({ ...form, stock: e.target.checked })}
-                      className="w-5 h-5 accent-orange-600"
-                    />
-                    <label className="text-sm font-bold text-orange-800">Disponible para la venta</label>
-                  </div>
-
-                  <div className="flex items-center gap-2 p-3 bg-yellow-50 rounded-xl border border-yellow-100">
-                    <input
-                      type="checkbox"
-                      checked={form.destacado}
-                      onChange={(e) => setForm({ ...form, destacado: e.target.checked })}
-                      className="w-5 h-5 accent-yellow-500"
-                    />
-                    <div className="flex flex-col">
-                      <label className="text-sm font-bold text-yellow-800 flex items-center gap-1">
-                        Destacar Producto <Star size={14} fill="currentColor" />
-                      </label>
-                      <span className="text-[10px] text-yellow-600">Aparecerá en "Recomendados"</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Lado Derecho: Info */}
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Nombre</label>
-                    <input
-                      type="text"
-                      value={form.nombre}
-                      onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                      className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
-                      placeholder="Ej: Hamburguesa Especial"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Precio</label>
-                      <input
-                        type="number"
-                        value={form.precio}
-                        onChange={(e) => setForm({ ...form, precio: e.target.value })}
-                        className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Categoría</label>
-                      <select
-                        value={form.categoria}
-                        onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                        className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
-                      >
-                        {categorias.map(cat => <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>)}
-                      </select>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descripción</label>
-                    <textarea
-                      value={form.descripcion}
-                      onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
-                      className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none resize-none"
-                      rows="3"
-                      placeholder="¿Qué trae el plato?"
-                    />
-                  </div>
-
-                  {/* Sección de Toppings */}
-                  <div className="border-t border-gray-100 pt-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <label className="block text-xs font-bold text-gray-500 uppercase">Toppings / Extras</label>
-                      {loadingToppings && <Loader2 className="animate-spin text-orange-600" size={14} />}
-                    </div>
-
-                    <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
-                      {loadingToppings ? (
-                        <div className="space-y-2 opacity-50 pointer-events-none">
-                          {/* Skeleton loader simple */}
-                          {[1, 2].map(i => <div key={i} className="h-12 bg-gray-100 rounded-xl animate-pulse"></div>)}
-                        </div>
-                      ) : (
-                        <>
-                          {gruposToppings.map(grupo => (
-                            <div key={grupo.id} className="bg-gray-50 rounded-xl p-3 border border-gray-100">
-                              <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center gap-2">
-                                  <input
-                                    type="checkbox"
-                                    checked={productoToppingsConfig[grupo.id]?.enabled || false}
-                                    onChange={(e) => setProductoToppingsConfig(prev => ({
-                                      ...prev,
-                                      [grupo.id]: { ...prev[grupo.id], enabled: e.target.checked }
-                                    }))}
-                                    className="w-4 h-4 accent-orange-600 rounded cursor-pointer"
-                                  />
-                                  <span className="font-bold text-sm text-gray-700">{grupo.nombre}</span>
-                                </div>
-                                <span className="text-xs text-gray-400">{grupo.toppings?.length || 0} opciones</span>
-                              </div>
-
-                              {productoToppingsConfig[grupo.id]?.enabled && (
-                                <div className="flex gap-2 pl-6 animate-in slide-in-from-top-2 duration-200">
-                                  <div className="flex-1">
-                                    <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">Mínimo</label>
-                                    <input
-                                      type="number"
-                                      min="0"
-                                      value={productoToppingsConfig[grupo.id]?.min || 0}
-                                      onChange={(e) => setProductoToppingsConfig(prev => ({
-                                        ...prev,
-                                        [grupo.id]: { ...prev[grupo.id], min: e.target.value }
-                                      }))}
-                                      className="w-full bg-white p-1.5 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
-                                    />
-                                  </div>
-                                  <div className="flex-1">
-                                    <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">Máximo</label>
-                                    <input
-                                      type="number"
-                                      min="0"
-                                      value={productoToppingsConfig[grupo.id]?.max || 0}
-                                      onChange={(e) => setProductoToppingsConfig(prev => ({
-                                        ...prev,
-                                        [grupo.id]: { ...prev[grupo.id], max: e.target.value }
-                                      }))}
-                                      className="w-full bg-white p-1.5 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
-                                    />
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                          {gruposToppings.length === 0 && (
-                            <div className="text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                              <p className="text-xs text-gray-400 italic">No tenés grupos de toppings creados.</p>
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 md:p-6 bg-gray-50 flex gap-3 sticky bottom-0 border-t border-gray-100 mt-auto">
-                <button onClick={() => setShowModal(false)} className="flex-1 py-3 font-bold text-gray-500">Cancelar</button>
-                <button
-                  onClick={handleSubmit}
-                  disabled={uploading}
-                  className="flex-1 py-3 bg-orange-600 text-white rounded-2xl font-bold shadow-lg shadow-orange-200 hover:bg-orange-700 disabled:bg-gray-400 transition-all"
-                >
-                  {uploading ? "Guardando..." : "Guardar Producto"}
-                </button>
-              </div>
-            </div>
-          </div>
-        )
-      }
+      <ProductForm
+        isOpen={showModal}
+        onClose={() => setShowModal(false)}
+        initialData={editingProducto}
+        categories={categorias}
+        toppingsGroups={gruposToppings}
+        initialToppingsConfig={productoToppingsConfig}
+        loadingToppings={loadingToppings}
+        onSubmit={handleFormSubmit}
+        isSubmitting={uploading}
+      />
 
       {/* Confirm Delete Modal */}
       <ConfirmModal

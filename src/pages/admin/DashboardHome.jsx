@@ -5,6 +5,7 @@ import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
 import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2 } from "lucide-react";
+import Skeleton from "../../components/ui/Skeleton";
 
 import DashboardLayout from "../../layout/DashboardLayout";
 
@@ -39,8 +40,24 @@ export default function DashboardHome() {
     if (loading) {
         return (
             <DashboardLayout>
-                <div className="flex justify-center items-center h-96">
-                    <Loader2 className="w-8 h-8 animate-spin text-orange-500" />
+                <div className="space-y-8">
+                    <div>
+                        <Skeleton className="h-8 w-48 mb-2" />
+                        <Skeleton className="h-4 w-64" />
+                    </div>
+
+                    {/* METRICS GRID SKELETON */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {[1, 2, 3, 4].map((i) => (
+                            <Skeleton key={i} className="h-32 rounded-2xl" />
+                        ))}
+                    </div>
+
+                    {/* CHARTS SECTION SKELETON */}
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        <Skeleton className="lg:col-span-2 h-96 rounded-2xl" />
+                        <Skeleton className="h-96 rounded-2xl" />
+                    </div>
                 </div>
             </DashboardLayout>
         );

@@ -37,17 +37,47 @@ Encapsulate API calls. All services return promises.
 - **`negocioService.js`** - Business settings (update info, logo, banner, shipping/payments)
 - **`statsService.js`** - Business stats (overview, charts, top products)
 - **`promotionsService.js`** - Promotions CRUD
-
+- **`suscripcionService.js`** - Subscription management (Mercado Pago checkout URL, subscription status)
+- **`toppingPublicService.js`** - Public topping data for products (via slug)
 
 ### Contexts (`src/contexts/`)
-- **`AuthProvider`** - Manages user state, provides `login`, `register`, `logout`. Wraps app and blocks render until auth initializes.
-- **`ToastProvider`** - Toast notifications via `useToast()` → `toast.success()`, `toast.error()`, etc.
+- **`AuthProvider.jsx`** - Manages user state, provides `login`, `register`, `logout`, `get_usuario`. Wraps app and blocks render until auth initializes.
+- **`ToastProvider.jsx`** - Toast notifications via `useToast()` → `toast.success()`, `toast.error()`, etc.
+
+### Auth (`src/auth/`)
+- **`useAuth.js`** - Re-exports `useAuth` hook from `AuthProvider` for cleaner imports
+
+### Hooks (`src/hooks/`)
+- **`useDocumentTitle.js`** - Sets document title dynamically
+- **`useRequirePremium.js`** - Verifies premium subscription and business ownership, redirects if requirements not met
+
+### Layouts (`src/layout/`)
+- **`DashboardLayout.jsx`** - Sidebar layout for dashboard pages with navigation menu, collapsible sidebar, mobile responsive
+- **`PublicLayout.jsx`** - Simple layout for public pages with footer
+
+### Constants (`src/constants/`)
+- **`index.js`** - App-wide constants: default images, Cloudinary config, file upload limits, refresh intervals
+
+### Components (`src/components/`)
+Organized into subdirectories:
+- **`configuracion/`** - Business configuration components
+- **`dashboard/`** - Dashboard-specific components
+- **`home/`** - Landing page components
+- **`ui/`** - Reusable UI components
+- Root-level components (e.g., `Footer.jsx`)
+
+### Pages (`src/pages/`)
+Top-level page components for routing:
+- **`admin/`** - Dashboard pages (`DashboardHome.jsx`, `Marketing.jsx`)
+- Public pages: `Landing.jsx`, `Login.jsx`, `Register.jsx`, `Planes.jsx`, `CrearNegocio.jsx`, etc.
+- Dashboard pages: `Pedidos.jsx`, `Productos.jsx`, `Categorias.jsx`, `Toppings.jsx`, `Configuracion.jsx`, `MiSus.jsx`
+- Customer pages: `PublicNegocio.jsx`, `Checkout.jsx`, `BuscarPedido.jsx`
 
 ### Routing (`src/App.jsx`)
 Three route categories with layouts:
-1. **Static public** - `/`, `/login`, `/register`, `/terminos`, `/privacidad`, `/planes`, `/crear-negocio`
-2. **Dashboard (protected)** - `/dashboard/*` routes wrapped in `PrivateRoute` (redirects to `/login` if unauthenticated)
-3. **Dynamic public** - `/n/:slug`, `/n/:slug/checkout`, `/n/:slug/pedidos` (customer-facing store pages)
+1. **Static public** - `/`, `/login`, `/register`, `/terminos`, `/privacidad`, `/planes`, `/crear-negocio`, `/suscripcion/success` (wrapped in `PublicLayout`)
+2. **Dashboard (protected)** - `/dashboard/inicio`, `/dashboard/pedidos`, `/dashboard/marketing`, `/dashboard/productos`, `/dashboard/categorias`, `/dashboard/toppings`, `/dashboard/configuracion`, `/dashboard/mi-suscripcion` (wrapped in `PrivateRoute` and use `DashboardLayout`, redirects to `/login` if unauthenticated)
+3. **Dynamic public** - `/n/:slug`, `/n/:slug/checkout`, `/n/:slug/pedidos` (customer-facing store pages, wrapped in `PublicLayout`)
 
 ### UI Stack
 - Tailwind CSS v4 with `@tailwindcss/vite` plugin
@@ -58,11 +88,16 @@ Three route categories with layouts:
 
 ## Key Patterns
 
-- Use `api` for authenticated requests, `apiPublic` for public requests
-- Access auth via `useAuth()` hook from `contexts/AuthProvider`
-- Access toast notifications via `useToast()` hook
+- Use `api` (from `src/api/api.js`) for authenticated requests, `apiPublic` (from `src/api/apiPublic.js`) for public requests
+- Access auth via `useAuth()` hook from `src/auth/useAuth.js` (or directly from `src/contexts/AuthProvider.jsx`)
+- Access toast notifications via `useToast()` hook from `src/contexts/ToastProvider.jsx`
 - Image uploads go through `productService.uploadImage()` or `negocioService.uploadImage()` → Cloudinary
 - Slug-based routes use URL params: `const { slug } = useParams()`
+- Protected routes use `PrivateRoute` wrapper component that checks authentication and redirects to `/login` if not authenticated
+- Dashboard pages should use `DashboardLayout` for consistent sidebar navigation
+- Public customer-facing pages should use `PublicLayout` for consistent footer
+- Constants (defaults, configs, limits) are centralized in `src/constants/index.js`
+- Premium/subscription checks can use `useRequirePremium()` hook to enforce business ownership and subscription status
 
 ## Deployment
 

@@ -66,7 +66,7 @@ export default function App() {
           <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
 
           {/* 2. RUTAS DE DASHBOARD (Protegidas) */}
-          <Route path="/dashboard" element={
+          <Route path="/dashboard/inicio" element={
             <PrivateRoute><DashboardHome /></PrivateRoute>
           } />
           <Route path="/dashboard/pedidos" element={
@@ -98,6 +98,7 @@ export default function App() {
 
           {/* 4. REDIRECCIÓN POR DEFECTO */}
           {/* Si alguien entra a /dashboard/* y no hace match, podría ir a NotFound o a DashboardHome */}
+          <Route path="/dashboard" element={<Navigate to="/dashboard/inicio" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AuthProvider>

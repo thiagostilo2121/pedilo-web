@@ -32,6 +32,7 @@ import {
   FileText,
   Github,
   Cherry,
+  CirclePercent,
   LayoutDashboard
 } from "lucide-react";
 
@@ -47,9 +48,9 @@ export default function DashboardLayout({ children }) {
   };
 
   const menuItems = [
-    { name: "Inicio", path: "/dashboard", icon: <LayoutDashboard size={20} />, end: true },
+    { name: "Inicio", path: "/dashboard/inicio", icon: <LayoutDashboard size={20} />, end: true },
     { name: "Pedidos", path: "/dashboard/pedidos", icon: <ShoppingBag size={20} /> },
-    { name: "Marketing", path: "/dashboard/marketing", icon: <Tags size={20} /> },
+    { name: "Marketing", path: "/dashboard/marketing", icon: <CirclePercent size={20} /> },
     { name: "Productos", path: "/dashboard/productos", icon: <Pizza size={20} /> },
     { name: "Categorías", path: "/dashboard/categorias", icon: <Tags size={20} /> },
     { name: "Toppings", path: "/dashboard/toppings", icon: <Cherry size={20} /> },
@@ -136,25 +137,30 @@ export default function DashboardLayout({ children }) {
       {/* CONTENEDOR PRINCIPAL */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
         {/* NAVBAR MOBILE */}
-        <header className="lg:hidden bg-white border-b h-16 flex items-center justify-between px-6">
-          <span className="text-xl font-bold text-orange-600">Pedilo</span>
+        <header className="lg:hidden bg-white border-b h-16 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-black text-orange-600 tracking-tight">Pedilo</span>
+          </div>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 rounded-md text-gray-600 hover:bg-gray-100"
+            className="p-2 -mr-2 rounded-xl text-gray-600 hover:bg-gray-100 active:scale-95 transition-all"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
-
-
         </header>
 
         {/* MENU MOBILE DESPLEGABLE */}
         <div
-          className={`lg:hidden fixed inset-0 z-50 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-in-out bg-white`}
+          className={`lg:hidden fixed inset-0 z-50 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out bg-gray-50/95 backdrop-blur-xl`}
         >
-          <div className="flex items-center justify-between h-16 px-6 border-b">
-            <span className="text-xl font-bold text-orange-600">Pedilo</span>
-            <button onClick={() => setMobileMenuOpen(false)}><X size={24} /></button>
+          <div className="flex items-center justify-between h-16 px-6 border-b bg-white/50">
+            <span className="text-xl font-black text-orange-600">Pedilo</span>
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="p-2 -mr-2 rounded-xl hover:bg-black/5"
+            >
+              <X size={24} />
+            </button>
           </div>
           <nav className="p-4 space-y-2">
             {menuItems.map((item) => (
