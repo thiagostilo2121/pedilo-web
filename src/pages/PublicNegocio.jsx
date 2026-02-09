@@ -20,40 +20,21 @@ import apiPublic from "../api/apiPublic";
 import toppingPublicService from "../services/toppingPublicService";
 import { useNavigate } from "react-router-dom";
 import {
-  ShoppingBag,
-  ChevronLeft,
-  Plus,
-  Minus,
+  Search,
   X,
   Phone,
   MapPin,
   Clock,
   AlertCircle,
-  Share2,
-  Search
+  ShoppingBag
 } from "lucide-react";
 import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
 import ToppingSelector from "../components/ToppingSelector";
 import { toast } from "react-hot-toast";
-
-
-
-// Componente de Imagen Progresiva
-const ProgressiveImage = ({ src, alt, className, style }) => {
-  const [loaded, setLoaded] = useState(false);
-  return (
-    <div className={`relative overflow-hidden ${className}`} style={style}>
-      <img
-        src={src}
-        alt={alt}
-        className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 will-change-transform ${loaded ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-xl scale-110"}`}
-        onLoad={() => setLoaded(true)}
-        loading="lazy"
-      />
-      {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
-    </div>
-  );
-};
+import ProductCard from "../components/ui/ProductCard";
+import CartDrawer from "../components/ui/CartDrawer";
+import Skeleton from "../components/ui/Skeleton";
+import ProgressiveImage from "../components/ui/ProgressiveImage";
 
 export default function PublicNegocio({ slug }) {
   // ... (Estados anteriores se mantienen igual)
@@ -154,13 +135,11 @@ export default function PublicNegocio({ slug }) {
   }, [carrito, slug]);
 
   // Seleccionar la primera categoría por defecto al cargar
-  // Seleccionar la primera categoría por defecto no es necesario si queremos mostrar la grilla primero
   useEffect(() => {
     // Si quisiéramos redirigir o filtrar por defecto, iría acá. 
     // Por ahora lo dejamos limpio para que el usuario elija.
   }, [categorias]);
 
-  // Función para agregar al carrito (verifica toppings)
   // Función para agregar al carrito (verifica toppings)
   const handleAddToCart = async (producto) => {
     if (!negocio?.acepta_pedidos) return;
@@ -254,31 +233,31 @@ export default function PublicNegocio({ slug }) {
   const mostrarRecomendados = !searchTerm && productos.some(p => p.destacado);
 
   if (loading) return (
-    <div className="bg-gray-50 min-h-screen pb-32 font-sans animate-pulse">
+    <div className="bg-gray-50 min-h-screen pb-32 font-sans">
       {/* Skeleton Navbar */}
-      <div className="h-16 bg-white shadow-sm mb-8"></div>
+      <Skeleton className="h-16 w-full mb-8 bg-white" />
 
       {/* Skeleton Hero */}
-      <div className="bg-white pb-4 pt-4 shadow-sm border-b border-gray-100">
+      <div className="bg-white pb-4 pt-4 shadow-sm border-b border-gray-100 mb-8">
         <div className="max-w-4xl mx-auto px-4 flex gap-6 items-center">
-          <div className="w-24 h-24 bg-gray-200 rounded-2xl shrink-0"></div>
+          <Skeleton className="w-24 h-24 rounded-2xl shrink-0" />
           <div className="flex-1 space-y-3">
-            <div className="h-8 bg-gray-200 rounded w-3/4"></div>
-            <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+            <Skeleton className="h-8 w-3/4" />
+            <Skeleton className="h-4 w-1/2" />
             <div className="flex gap-2 mt-4">
-              <div className="h-6 w-20 bg-gray-200 rounded"></div>
-              <div className="h-6 w-32 bg-gray-200 rounded"></div>
+              <Skeleton className="h-6 w-20" />
+              <Skeleton className="h-6 w-32" />
             </div>
           </div>
         </div>
       </div>
 
       {/* Skeleton Content */}
-      <div className="max-w-4xl mx-auto px-4 mt-8">
-        <div className="h-6 bg-gray-200 rounded w-48 mb-6"></div>
+      <div className="max-w-4xl mx-auto px-4">
+        <Skeleton className="h-6 w-48 mb-6" />
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="h-40 bg-gray-200 rounded-3xl"></div>
+            <Skeleton key={i} className="h-40 rounded-3xl" />
           ))}
         </div>
       </div>
@@ -414,33 +393,16 @@ export default function PublicNegocio({ slug }) {
               </h2>
               <div className="flex gap-4 overflow-x-auto pb-6 -mx-4 px-4 scrollbar-hide snap-x">
                 {productos.filter(p => p.destacado).map(prod => (
-                  <div key={prod.id} className="min-w-[280px] bg-white p-3 rounded-3xl shadow-sm border border-orange-100 hover:shadow-md transition-all snap-center flex flex-col relative overflow-hidden group">
-                    {/* Badge Destacado Overlay */}
-                    <div className="absolute top-0 right-0 bg-yellow-400 text-white text-[10px] font-black uppercase px-3 py-1 rounded-bl-xl z-10 shadow-sm">
-                      Top
-                    </div>
-                    <ProgressiveImage
-                      src={prod.imagen_url || DEFAULT_IMAGE}
-                      alt={prod.nombre}
-                      className="h-40 rounded-2xl mb-3 bg-gray-100"
+                  <div key={prod.id} className="min-w-[350px] snap-center">
+                    <ProductCard
+                      product={prod}
+                      negocio={negocio}
+                      cartItem={carrito.find(p => p.id === prod.id)}
+                      onAdd={handleAddToCart}
+                      onDecrease={disminuirCantidad}
+                      onShare={handleShareProduct}
+                      isAdding={addingProductId === prod.id}
                     />
-                    {!negocio.acepta_pedidos && <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-20 pointer-events-none mb-3 mx-3 rounded-2xl mt-3"><span className="text-white font-black uppercase text-xs">Cerrado</span></div>}
-
-                    {/* ... resto del card de recomendados ... */}
-                    <div className="flex-1 flex flex-col">
-                      <h3 className="font-bold text-gray-900 text-lg truncate">{prod.nombre}</h3>
-                      <p className="text-gray-500 text-xs line-clamp-2 leading-tight min-h-[2.5em] mb-2">{prod.descripcion || "Sin descripción"}</p>
-                      <div className="flex items-center justify-between mt-auto pt-1">
-                        <span className="text-xl font-black text-gray-900">${prod.precio}</span>
-                        <button
-                          onClick={(e) => { e.stopPropagation(); handleAddToCart(prod); }}
-                          className="bg-orange-600 text-white p-2 rounded-full shadow-lg shadow-orange-200 active:scale-95 transition-all hover:bg-orange-700"
-                          disabled={!negocio.acepta_pedidos}
-                        >
-                          <Plus size={20} />
-                        </button>
-                      </div>
-                    </div>
                   </div>
                 ))}
               </div>
@@ -495,67 +457,18 @@ export default function PublicNegocio({ slug }) {
 
             {productosFiltrados.length > 0 ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {productosFiltrados.map((prod) => {
-                  const itemInCart = carrito.find(p => p.id === prod.id);
-                  const canAdd = prod.stock && negocio.acepta_pedidos;
-
-                  return (
-                    <div id={`producto-${prod.id}`} key={prod.id} className="group bg-white p-3 md:p-4 rounded-3xl shadow-sm border border-gray-100 hover:border-orange-100 hover:shadow-md transition-all flex gap-4 overflow-hidden relative">
-                      {/* Imagen Progresiva */}
-                      <ProgressiveImage
-                        src={prod.imagen_url || DEFAULT_IMAGE}
-                        alt={prod.nombre}
-                        className={`w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-2xl bg-gray-50 ${!canAdd && "grayscale opacity-70"}`}
-                      />
-
-                      {/* Share Button */}
-                      <button
-                        onClick={(e) => handleShareProduct(e, prod)}
-                        className="absolute top-2 right-2 bg-white/90 backdrop-blur p-2 rounded-full text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 transition-all hover:text-orange-600 hover:bg-orange-50 hover:scale-110 z-10"
-                      >
-                        <Share2 size={14} />
-                      </button>
-
-                      {!canAdd && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] pointer-events-none rounded-3xl z-0">
-                          {/* Only overlay the image ideally, but this works for full card disabled feel */}
-                        </div>
-                      )}
-                      {!canAdd && (
-                        <div className="absolute top-2 left-2 z-10">
-                          <span className="text-[10px] font-black text-white bg-black/60 px-2 py-1 rounded uppercase">Agotado</span>
-                        </div>
-                      )}
-
-                      {/* ... resto del contenido del producto ... */}
-                      <div className="flex-1 flex flex-col justify-between min-w-0 py-1">
-                        <div>
-                          <h3 className="font-bold text-gray-900 truncate text-base md:text-lg">{prod.nombre}</h3>
-                          <p className="text-gray-500 text-xs md:text-sm line-clamp-2 mt-1 leading-snug">{prod.descripcion || "Sin descripción."}</p>
-                        </div>
-
-                        <div className="flex items-center justify-between mt-2">
-                          <span className="text-lg font-black text-gray-900">${prod.precio}</span>
-                          {canAdd ? (
-                            itemInCart ? (
-                              <div className="flex items-center gap-2 bg-orange-50 rounded-full px-1 py-1 border border-orange-100">
-                                <button onClick={() => disminuirCantidad(itemInCart.cartItemId)} className="w-7 h-7 flex items-center justify-center bg-white text-orange-600 rounded-full shadow-sm hover:bg-orange-100"><Minus size={14} /></button>
-                                <span className="font-bold text-sm min-w-[16px] text-center">{itemInCart.cantidad}</span>
-                                <button onClick={() => handleAddToCart(prod)} disabled={addingProductId === prod.id} className="w-7 h-7 flex items-center justify-center bg-orange-600 text-white rounded-full shadow-sm"> <Plus size={14} /> </button>
-                              </div>
-                            ) : (
-                              <button onClick={() => handleAddToCart(prod)} disabled={addingProductId === prod.id} className="w-9 h-9 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-orange-600 hover:text-white transition-colors shadow-sm border border-gray-100">
-                                <Plus size={20} />
-                              </button>
-                            )
-                          ) : (
-                            <span className="text-[10px] font-black uppercase text-gray-400 bg-gray-100 px-2 py-1 rounded">Sin Stock</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                })}
+                {productosFiltrados.map((prod) => (
+                  <ProductCard
+                    key={prod.id}
+                    product={prod}
+                    negocio={negocio}
+                    cartItem={carrito.find(p => p.id === prod.id)}
+                    onAdd={handleAddToCart}
+                    onDecrease={disminuirCantidad}
+                    onShare={handleShareProduct}
+                    isAdding={addingProductId === prod.id}
+                  />
+                ))}
               </div>
             ) : (
               <div className="text-center py-20 opacity-50">
@@ -593,98 +506,18 @@ export default function PublicNegocio({ slug }) {
       }
 
 
-      {/* --- SLIDE-OVER CART (Full height on mobile) --- */}
-      <div className={`fixed inset-0 z-50 ${showCart ? "visible pointer-events-auto" : "invisible pointer-events-none"}`}>
-        {/* Backdrop */}
-        <div
-          className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${showCart ? "opacity-100" : "opacity-0"}`}
-          onClick={() => setShowCart(false)}
-        />
-
-        {/* Drawer */}
-        <div className={`absolute right-0 bottom-0 top-0 w-full sm:w-[450px] bg-white shadow-2xl transition-transform duration-300 ease-out flex flex-col ${showCart ? "translate-x-0" : "translate-x-full"}`}>
-
-          <div className="p-5 border-b flex justify-between items-center bg-gray-50/50">
-            <h2 className="text-2xl font-black text-gray-900 flex items-center gap-2">Mi Pedido</h2>
-            <button
-              onClick={() => setShowCart(false)}
-              className="w-10 h-10 flex items-center justify-center bg-white border border-gray-200 rounded-full text-gray-500 hover:text-black hover:border-gray-900 transition-all font-bold"
-            >
-              <X size={20} />
-            </button>
-          </div>
-
-          <div className="flex-1 overflow-y-auto p-5 space-y-4">
-            {carrito.length === 0 ? (
-              <div className="h-full flex flex-col items-center justify-center text-center opacity-40">
-                <ShoppingBag size={64} className="mb-4 text-gray-400" />
-                <p className="font-bold text-xl">Carrito vacío</p>
-                <p className="text-sm">¡Agregá algo rico!</p>
-              </div>
-            ) : (
-              carrito.map((item) => (
-                <div key={item.cartItemId} className="flex gap-4 p-4 bg-white border border-gray-50 shadow-sm rounded-2xl relative group">
-                  <img src={item.imagen_url || DEFAULT_IMAGE} className="w-16 h-16 object-cover rounded-xl bg-gray-100" />
-                  <div className="flex-1 min-w-0">
-                    <p className="font-bold text-gray-900 truncate">{item.nombre}</p>
-                    {item.toppings?.length > 0 && (
-                      <p className="text-xs text-gray-400 truncate">
-                        +{(() => {
-                          const counts = item.toppings.reduce((acc, t) => {
-                            acc[t.nombre] = (acc[t.nombre] || 0) + 1;
-                            return acc;
-                          }, {});
-                          return Object.entries(counts)
-                            .map(([name, count]) => count > 1 ? `${count}x ${name}` : name)
-                            .join(", ");
-                        })()}
-                      </p>
-                    )}
-                    <p className="text-orange-600 font-extrabold text-lg">${(calcularPrecioItem(item) * item.cantidad).toFixed(0)}</p>
-                  </div>
-
-                  <div className="flex flex-col items-end gap-2">
-                    <div className="flex items-center gap-3 bg-gray-50 rounded-xl px-2 py-1 border border-gray-100">
-                      <button onClick={() => disminuirCantidad(item.cartItemId)} className="w-6 h-6 flex items-center justify-center bg-white rounded-lg shadow-sm font-bold text-gray-600 active:scale-95"><Minus size={12} /></button>
-                      <span className="font-bold text-sm min-w-[16px] text-center">{item.cantidad}</span>
-                      <button onClick={() => agregarAlCarrito(item)} className="w-6 h-6 flex items-center justify-center bg-white rounded-lg shadow-sm font-bold text-orange-600 active:scale-95"><Plus size={12} /></button>
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-          </div>
-
-          {carrito.length > 0 && (
-            <div className="p-6 bg-white border-t border-gray-100 pb-8 rounded-t-3xl shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.05)] z-10">
-              <div className="flex justify-between items-end mb-6">
-                <div>
-                  <p className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-1">Total a pagar</p>
-                  <p className="text-4xl font-black text-gray-900 tracking-tight">${total.toFixed(0)}</p>
-                </div>
-                <div className="text-right">
-                  <p className="text-xs text-gray-400 font-bold mb-1">{cantTotal} items</p>
-                </div>
-              </div>
-
-              {negocio.acepta_pedidos ? (
-                <button
-                  onClick={() => navigate(`/n/${slug}/checkout`)}
-                  className="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold text-xl hover:bg-black transition-all shadow-lg active:scale-[0.98] flex justify-between items-center px-6 group"
-                >
-                  <span>Confirmar Pedido</span>
-                  <span className="bg-white/20 p-2 rounded-xl group-hover:bg-white/30 transition-colors"><ChevronLeft className="rotate-180" size={20} /></span>
-                </button>
-              ) : (
-                <div className="bg-red-50 text-red-600 p-4 rounded-2xl border border-red-100 font-bold text-center text-sm">
-                  <AlertCircle className="mx-auto mb-2" />
-                  El local se encuentra cerrado.
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-      </div>
+      {/* --- SLIDE-OVER CART --- */}
+      <CartDrawer
+        isOpen={showCart}
+        onClose={() => setShowCart(false)}
+        cart={carrito}
+        negocio={negocio}
+        onIncrease={agregarAlCarrito}
+        onDecrease={disminuirCantidad}
+        onCheckout={() => navigate(`/n/${slug}/checkout`)}
+        total={total}
+        count={cantTotal}
+      />
 
       {/* Modal de Toppings */}
       <ToppingSelector
@@ -694,6 +527,7 @@ export default function PublicNegocio({ slug }) {
         producto={selectedProduct}
         gruposToppings={productToppings}
       />
+
       {/* Modal de Información y Horarios */}
       {
         showInfoModal && (

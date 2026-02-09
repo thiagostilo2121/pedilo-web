@@ -23,6 +23,7 @@ import { useRequirePremium } from "../hooks/useRequirePremium";
 import { useToast } from "../contexts/ToastProvider";
 import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET, DEFAULT_CATEGORY_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
+import Skeleton from "../components/ui/Skeleton";
 
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
@@ -157,13 +158,13 @@ export default function CategoriasDashboard() {
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden h-56 flex flex-col">
-              <div className="bg-gray-200 h-40 w-full" />
+              <Skeleton className="h-40 w-full" />
               <div className="p-3 bg-gray-50 flex-1 flex gap-2">
-                <div className="h-8 bg-gray-200 rounded-lg flex-1" />
-                <div className="h-8 bg-gray-200 rounded-lg w-10" />
+                <Skeleton className="h-8 rounded-lg flex-1" />
+                <Skeleton className="h-8 rounded-lg w-10" />
               </div>
             </div>
           ))}

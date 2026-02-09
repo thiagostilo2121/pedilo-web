@@ -373,7 +373,13 @@ export default function Checkout({ slug }) {
               {/* CUPONES UI */}
               <div className="mb-4">
                 {!appliedCoupon ? (
-                  <div className="flex gap-2">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleApplyCoupon();
+                    }}
+                    className="flex gap-2"
+                  >
                     <input
                       type="text"
                       placeholder="Código de descuento"
@@ -382,14 +388,13 @@ export default function Checkout({ slug }) {
                       onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
                     />
                     <button
-                      type="button"
-                      onClick={handleApplyCoupon}
+                      type="submit"
                       disabled={validatingCoupon || !couponCode}
                       className="shrink-0 bg-gray-900 text-white px-4 py-2 rounded-xl text-sm font-bold hover:bg-black disabled:opacity-50"
                     >
                       {validatingCoupon ? "..." : "Aplicar"}
                     </button>
-                  </div>
+                  </form>
                 ) : (
                   <div className="bg-green-50 border border-green-100 rounded-xl p-3 flex justify-between items-center">
                     <div className="flex items-center gap-2 text-green-700">
