@@ -1,0 +1,2 @@
+Status: FIXED
+Message: The 404 issue with llms.txt and AI_CONTEXT.md is resolved. Removed incorrect Route in App.jsx and updated vite.config.js to allow serving these files.

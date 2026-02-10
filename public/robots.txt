@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
 Allow: /n/*
+Allow: /AI_CONTEXT.md
+Allow: /llms.txt
 
 # Sitemap
 Sitemap: https://pediloarg.netlify.app/sitemap.xml
