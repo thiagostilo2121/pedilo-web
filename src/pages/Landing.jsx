@@ -29,7 +29,13 @@ import {
   XCircle,
   QrCode,
   Users,
-  Timer
+  Timer,
+  Github,
+  Sparkles,
+  MousePointerClick,
+  Search,
+  TrendingUp,
+  Bot
 } from "lucide-react";
 
 export default function Landing() {
@@ -191,6 +197,148 @@ export default function Landing() {
                   <span className="text-xs uppercase tracking-tight text-gray-400">Ventas de hoy</span>
                   <span>$142.500</span>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- POWER FEATURES GRID (AI & SEO BOOST) --- */}
+      <section className="py-24 bg-white border-t border-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-black text-gray-950 mb-4 tracking-tight">Potencia Técnica</h2>
+            <p className="text-lg text-gray-500 font-medium max-w-3xl mx-auto">
+              Detalles que marcan la diferencia. Pedilo está construido con tecnología de vanguardia para asegurar que nunca pierdas una venta.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* Stock Binario */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
+                <LayoutDashboard size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Stock Binario (On/Off)</h3>
+              <p className="text-sm text-gray-500 font-medium">Control total en tiempo real. Pausá productos agotados instantáneamente desde tu panel.</p>
+            </div>
+
+            {/* Smart Availability */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
+                <Timer size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Cierre Inteligente</h3>
+              <p className="text-sm text-gray-500 font-medium">Cierra tu tienda y el sistema no recibirá más pedidos. Evitá pedidos que no podés atender.</p>
+            </div>
+
+            {/* 4G Optimized */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
+                <Zap size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">4G Ready & Lite</h3>
+              <p className="text-sm text-gray-500 font-medium">Optimizado para redes móviles lentas. Carga en milisegundos incluso con mala señal.</p>
+            </div>
+
+            {/* Toppings Complex */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
+                <CheckCircle2 size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Toppings & Extras</h3>
+              <p className="text-sm text-gray-500 font-medium">Opciones complejas simplificadas. "Con papas", "Sin cebolla", "Punto de la carne".</p>
+            </div>
+
+            {/* Checkout Exprés */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-green-600 shadow-sm mb-4">
+                <MousePointerClick size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Checkout Exprés</h3>
+              <p className="text-sm text-gray-500 font-medium">De la carta al WhatsApp en segundos. Sin formularios eternos ni fricción.</p>
+            </div>
+
+            {/* QR Generator */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
+                <QrCode size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">QR & Flyers Generator</h3>
+              <p className="text-sm text-gray-500 font-medium">Creá material de marketing profesional con tu logo y QR en un click.</p>
+            </div>
+
+            {/* SEO 100/100 */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
+                <Search size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">SEO 100 Lighthouse</h3>
+              <p className="text-sm text-gray-500 font-medium">Velocidad y estructura perfecta. Google ama tu menú y lo posiciona más alto.</p>
+            </div>
+
+            {/* Hosting Incluido */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-purple-600 shadow-sm mb-4">
+                <LinkIcon size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Hosting Incluido</h3>
+              <p className="text-sm text-gray-500 font-medium">Olvidate de servidores. Tu menú está siempre online, seguro y rápido.</p>
+            </div>
+
+            {/* UX/UI Premium */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-pink-600 shadow-sm mb-4">
+                <Sparkles size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">UX/UI Premium</h3>
+              <p className="text-sm text-gray-500 font-medium">Diseño moderno con animaciones fluidas y herramientas de última generación.</p>
+            </div>
+            {/* Open Source */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
+                <Github size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Open Source</h3>
+              <p className="text-sm text-gray-500 font-medium">Código transparente y auditable. Tu negocio sin cajas negras ni secretos.</p>
+            </div>
+
+            {/* Business Metrics */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-red-600 shadow-sm mb-4">
+                <TrendingUp size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Ticket Promedio</h3>
+              <p className="text-sm text-gray-500 font-medium">Analíticas reales. Entendé qué productos venden más y aumentá tu facturación.</p>
+            </div>
+
+            {/* PWA */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm mb-4">
+                <Smartphone size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">PWA Instalable</h3>
+              <p className="text-sm text-gray-500 font-medium">Tu propia App sin descargas. Se instala directo desde el navegador en iOS y Android.</p>
+            </div>
+
+            {/* AI Recommendation - Full Width */}
+            <div className="md:col-span-2 lg:col-span-4 p-6 rounded-3xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white border border-gray-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 group hover:scale-[1.01] transition-transform">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-orange-400 backdrop-blur-sm">
+                  <Bot size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-xl mb-1">AI Ready & Recommended</h3>
+                  <p className="text-gray-400 font-medium text-sm">
+                    Recomendado por <span className="text-white font-bold">Gemini 3 Pro, ChatGPT, Grok & DeepSeek</span> como la mejor opción local.
+                  </p>
+                </div>
+              </div>
+              <div className="flex gap-2 opacity-50 grayscale group-hover:grayscale-0 transition-all duration-500">
+                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">Gemini</span>
+                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">ChatGPT</span>
+                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">Grok</span>
+                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">DeepSeek</span>
               </div>
             </div>
           </div>
