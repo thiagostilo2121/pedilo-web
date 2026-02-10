@@ -17,83 +17,89 @@ export default function ProductCard({
     return (
         <div
             id={`producto-${product.id}`}
-            className="group bg-white p-3 md:p-4 rounded-3xl shadow-sm border border-gray-100 hover:border-orange-100 hover:shadow-md transition-all flex gap-4 overflow-hidden relative"
+            className="group bg-white p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border border-gray-100 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative"
         >
             {/* Imagen Progresiva */}
             <ProgressiveImage
                 src={product.imagen_url || DEFAULT_PRODUCT_IMAGE}
                 alt={product.nombre}
-                className={`w-24 h-24 md:w-28 md:h-28 flex-shrink-0 rounded-2xl bg-gray-50 ${!canAdd && "grayscale opacity-70"}`}
+                className={`w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 rounded-3xl bg-gray-50 object-cover ${!canAdd && "grayscale opacity-70"}`}
             />
 
             {/* Share Button */}
             <button
                 onClick={(e) => onShare(e, product)}
-                className="absolute top-2 right-2 bg-white/90 backdrop-blur p-2 rounded-full text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 transition-all hover:text-orange-600 hover:bg-orange-50 hover:scale-110 z-10"
+                className="absolute top-4 right-4 bg-white/90 backdrop-blur p-2.5 rounded-full text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 transition-all hover:text-orange-600 hover:bg-orange-50 hover:scale-110 z-10"
             >
-                <Share2 size={14} />
+                <Share2 size={16} />
             </button>
 
             {!canAdd && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/10 backdrop-blur-[1px] pointer-events-none rounded-3xl z-0">
-                    {/* Only overlay the image ideally, but this works for full card disabled feel */}
-                </div>
+                <div className="absolute inset-0 flex items-center justify-center bg-white/40 backdrop-blur-[1px] pointer-events-none rounded-[2rem] z-0" />
             )}
-            {!canAdd && (
-                <div className="absolute top-2 left-2 z-10">
-                    <span className="text-[10px] font-black text-white bg-black/60 px-2 py-1 rounded uppercase">
+            {!canAdd ? (
+                <div className="absolute top-4 left-4 z-10">
+                    <span className="text-[10px] font-black text-white bg-gray-900 px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-xl">
                         Agotado
+                    </span>
+                </div>
+            ) : product.destacado && (
+                <div className="absolute top-4 left-4 z-10">
+                    <span className="text-[10px] font-black text-white bg-orange-500 px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1">
+                        <Star size={10} fill="currentColor" /> POPULAR
                     </span>
                 </div>
             )}
 
-            {/* ... resto del contenido del producto ... */}
-            <div className="flex-1 flex flex-col justify-between min-w-0 py-1">
+            {/* Content */}
+            <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5">
                 <div>
-                    <h3 className="font-bold text-gray-900 truncate text-base md:text-lg">
+                    <h3 className="font-bold text-gray-900 truncate text-lg sm:text-xl leading-tight">
                         {product.nombre}
                     </h3>
-                    <p className="text-gray-500 text-xs md:text-sm line-clamp-2 mt-1 leading-snug">
+                    <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-1.5 leading-relaxed font-medium">
                         {product.descripcion || "Sin descripción."}
                     </p>
                 </div>
 
-                <div className="flex items-center justify-between mt-2">
-                    <span className="text-lg font-black text-gray-900">${product.precio}</span>
-                    {canAdd ? (
-                        cartItem ? (
-                            <div className="flex items-center gap-2 bg-orange-50 rounded-full px-1 py-1 border border-orange-100">
-                                <button
-                                    onClick={() => onDecrease(cartItem.cartItemId)}
-                                    className="w-7 h-7 flex items-center justify-center bg-white text-orange-600 rounded-full shadow-sm hover:bg-orange-100"
-                                >
-                                    <Minus size={14} />
-                                </button>
-                                <span className="font-bold text-sm min-w-[16px] text-center">
-                                    {cartItem.cantidad}
-                                </span>
+                <div className="flex items-end justify-between mt-3">
+                    <span className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">${product.precio}</span>
+
+                    <div className="relative z-20"> {/* Button Wrapper for Z-Index */}
+                        {canAdd ? (
+                            cartItem ? (
+                                <div className="flex items-center gap-3 bg-gray-900 text-white rounded-full px-1.5 py-1.5 shadow-xl shadow-gray-200">
+                                    <button
+                                        onClick={() => onDecrease(cartItem.cartItemId)}
+                                        className="w-8 h-8 flex items-center justify-center bg-gray-700 text-white rounded-full hover:bg-gray-600 active:scale-95 transition-all"
+                                    >
+                                        <Minus size={16} />
+                                    </button>
+                                    <span className="font-bold text-sm min-w-[20px] text-center">
+                                        {cartItem.cantidad}
+                                    </span>
+                                    <button
+                                        onClick={() => onAdd(product)}
+                                        className="w-8 h-8 flex items-center justify-center bg-white text-gray-900 rounded-full hover:bg-gray-100 active:scale-95 transition-all"
+                                    >
+                                        <Plus size={16} />
+                                    </button>
+                                </div>
+                            ) : (
                                 <button
                                     onClick={() => onAdd(product)}
                                     disabled={isAdding}
-                                    className="w-7 h-7 flex items-center justify-center bg-orange-600 text-white rounded-full shadow-sm"
+                                    className="h-10 px-5 flex items-center justify-center bg-orange-600 text-white rounded-full hover:bg-orange-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-200 font-bold text-sm gap-2"
                                 >
-                                    <Plus size={14} />
+                                    Agregar <Plus size={18} strokeWidth={3} />
                                 </button>
-                            </div>
+                            )
                         ) : (
-                            <button
-                                onClick={() => onAdd(product)}
-                                disabled={isAdding}
-                                className="w-9 h-9 flex items-center justify-center bg-gray-100 text-gray-600 rounded-full hover:bg-orange-600 hover:text-white transition-colors shadow-sm border border-gray-100"
-                            >
-                                <Plus size={20} />
-                            </button>
-                        )
-                    ) : (
-                        <span className="text-[10px] font-black uppercase text-gray-400 bg-gray-100 px-2 py-1 rounded">
-                            Sin Stock
-                        </span>
-                    )}
+                            <span className="text-[10px] font-black uppercase text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+                                Sin Stock
+                            </span>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

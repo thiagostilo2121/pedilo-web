@@ -74,7 +74,7 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
     };
 
     return (
-        <div className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-[100]">
             <div className="bg-white w-full sm:max-w-md sm:rounded-3xl rounded-t-3xl max-h-[85vh] flex flex-col">
                 {/* Header */}
                 <div className="p-4 border-b flex items-center justify-between">
