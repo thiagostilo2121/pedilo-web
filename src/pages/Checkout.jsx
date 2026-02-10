@@ -15,12 +15,13 @@ import {
   User,
   Phone,
   MessageSquare,
-  ShoppingBag
+  ShoppingBag,
+  MapPin
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Checkout({ slug }) {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
   const [carrito, setCarrito] = useState([]);
   const [negocio, setNegocio] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -117,15 +118,23 @@ export default function Checkout({ slug }) {
         })),
       };
 
+      // Guardamos la dirección para el mensaje final pero limpiamos para la API (no la soporta)
+      const direccionWapp = payload.direccion;
       delete payload.codigo_pais_cliente;
+      delete payload.direccion;
 
       const newOrder = await pedidosService.create(slug, payload);
-      setPedido(newOrder);
+
+      // Le inyectamos la dirección al estado local para que el botón de WhatsApp la use
+      setPedido({ ...newOrder, direccion: direccionWapp });
+
       localStorage.removeItem(`carrito_${slug}`);
       setCarrito([]);
       toast.success("¡Pedido enviado con éxito!");
     } catch (err) {
-      toast.error(err.response?.data?.message || "Error al procesar el pedido. Inténtalo de nuevo.");
+      console.error(err);
+      const errorMsg = err.response?.data?.detail || err.response?.data?.message || "Error al procesar el pedido.";
+      toast.error(Array.isArray(errorMsg) ? "Datos de envío inválidos" : errorMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -185,7 +194,7 @@ export default function Checkout({ slug }) {
           {negocio.telefono && (
             <a
               href={`https://wa.me/${(negocio.codigo_pais || "") + negocio.telefono.replace(/\D/g, "")}?text=${encodeURIComponent(
-                `¡Hola ${negocio.nombre}! Acabo de realizar un pedido.\n\nCódigo: *${pedido.codigo}*\nNombre: ${pedido.nombre_cliente}`
+                `¡Hola ${negocio.nombre}! Acabo de realizar un pedido.\n\nCódigo: *${pedido.codigo}*\nNombre: ${pedido.nombre_cliente}${pedido.direccion ? `\nDirección: ${pedido.direccion}` : ""}`
               )}`}
               target="_blank"
               rel="noopener noreferrer"
@@ -314,7 +323,7 @@ export default function Checkout({ slug }) {
               <label className="text-xs font-bold text-gray-400 uppercase ml-1 flex items-center gap-1 mb-2">
                 <Truck size={12} /> Entrega
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-3 mb-4">
                 {(negocio.tipos_entrega || ["Retiro en local"]).map((t) => (
                   <label key={t} className="cursor-pointer">
                     <input
@@ -330,6 +339,27 @@ export default function Checkout({ slug }) {
                   </label>
                 ))}
               </div>
+
+              {/* CAMPO DINÁMICO DE DIRECCIÓN */}
+              {(watch("tipo_entrega")?.toLowerCase().includes("delivery") ||
+                watch("tipo_entrega")?.toLowerCase().includes("envío") ||
+                watch("tipo_entrega")?.toLowerCase().includes("domicilio")) && (
+                  <div className="relative animate-in fade-in slide-in-from-top-2 duration-300">
+                    <label className="text-xs font-bold text-gray-400 uppercase ml-1">Dirección de Entrega</label>
+                    <div className="flex items-start border-2 rounded-2xl focus-within:border-orange-500 transition-colors bg-white px-3 py-2">
+                      <MapPin size={18} className="text-gray-400 mt-2" />
+                      <textarea
+                        {...register("direccion", {
+                          required: "La dirección es necesaria para el envío"
+                        })}
+                        rows={2}
+                        className="w-full p-2 focus:outline-none text-base font-bold text-gray-700 resize-none"
+                        placeholder="Calle 123, Piso/Depto, Referencias..."
+                      />
+                    </div>
+                    {errors.direccion && <span className="text-[10px] text-red-500 font-bold ml-1">{errors.direccion.message}</span>}
+                  </div>
+                )}
             </div>
 
           </form>
