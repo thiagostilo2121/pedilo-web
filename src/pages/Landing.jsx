@@ -35,7 +35,9 @@ import {
   MousePointerClick,
   Search,
   TrendingUp,
-  Bot
+  Bot,
+  MapPin,
+  ClipboardList
 } from "lucide-react";
 
 export default function Landing() {
@@ -68,17 +70,17 @@ export default function Landing() {
       </nav>
 
       {/* --- HERO SECTION --- */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-b from-orange-50/50 to-white">
+      <section className="relative pt-24 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-b from-orange-50/50 to-white">
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-sm font-bold mb-8 animate-fade-in-up">
             <Zap size={14} fill="currentColor" /> Nuevo: Flyer Pro & QR Generator
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950">
             Dejá de regalar tu ganancia. <br />
-            <span className="text-orange-600 text-shadow-sm">Vendé online con 0% comisión.</span>
+            <span className="text-orange-600 text-shadow-sm">Vendé en tu zona con 0% comisión.</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-            Tu propio sistema de pedidos profesional, con catálogo digital, cupones de descuento y recepción de órdenes por WhatsApp. Sin intermediarios, sin comisiones ocultas.
+            Tu propio sistema de pedidos profesional para dominar tu barrio. Catálogo digital, cupones y recepción de órdenes por WhatsApp.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
@@ -124,12 +126,12 @@ export default function Landing() {
                 <li className="flex items-center gap-4"><span className="text-red-500 bg-red-100 px-3 py-1 rounded-lg">-30%</span> Comisiones abusivas</li>
                 <li className="flex items-center gap-4"><span className="text-red-500 bg-red-100 px-3 py-1 rounded-lg">15+ días</span> Demoras en tus cobros</li>
                 <li className="flex items-center gap-4"><XCircle size={20} className="text-red-300" /> No tenés los datos de tus clientes</li>
-                <li className="flex items-center gap-4"><XCircle size={20} className="text-red-300" /> Competís con otros 100 locales</li>
+                <li className="flex items-center gap-4"><XCircle size={20} className="text-red-300" /> Competís con otros 100 locales de tu barrio</li>
               </ul>
             </div>
 
             {/* The Pedilo Way */}
-            <div className="p-10 rounded-[2.5rem] bg-white border-4 border-orange-500 shadow-2xl shadow-orange-100 relative overflow-hidden scale-105">
+            <div className="p-10 rounded-[2.5rem] bg-white border-4 border-orange-500 shadow-2xl shadow-orange-100 relative overflow-hidden md:scale-105 transition-transform">
               <div className="absolute top-0 right-0 bg-orange-600 text-white text-xs font-black px-4 py-2 rounded-bl-2xl uppercase tracking-tighter">MEJOR OPCIÓN</div>
               <h3 className="text-gray-950 font-black text-2xl mb-8 flex items-center gap-3">
                 <CheckCircle2 className="text-green-500" size={28} /> Pedilo
@@ -150,7 +152,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-24 text-center">
             <h2 className="text-4xl md:text-6xl font-black text-gray-950 mb-6 tracking-tight">Todo lo que necesitás</h2>
-            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Potencia tu negocio con herramientas diseñadas específicamente para gastronomía y tiendas locales.</p>
+            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Potencia tu negocio con herramientas diseñadas específicamente para gastronomía y tiendas del barrio.</p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
@@ -278,12 +280,13 @@ export default function Landing() {
             </div>
 
             {/* Hosting Incluido */}
+            {/* Gestión de Pedidos (Ex Stock Binario) */}
             <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-purple-600 shadow-sm mb-4">
-                <LinkIcon size={20} />
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
+                <ClipboardList size={20} />
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">Hosting Incluido</h3>
-              <p className="text-sm text-gray-500 font-medium">Olvidate de servidores. Tu menú está siempre online, seguro y rápido.</p>
+              <h3 className="font-bold text-gray-900 mb-2">Gestión de Pedidos</h3>
+              <p className="text-sm text-gray-500 font-medium">Control total. Aceptá, rechazá y actualizá estados (En cocina, Listo) para notificar al cliente.</p>
             </div>
 
             {/* UX/UI Premium */}
@@ -379,7 +382,7 @@ export default function Landing() {
           <div className="relative lg:pl-10">
             <div className="absolute -inset-4 bg-orange-100/50 rounded-[4rem] blur-3xl -z-10"></div>
             {/* Modern Phone Mockup (White Styling) */}
-            <div className="relative bg-white border-[12px] border-gray-950 rounded-[3.5rem] p-1.5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] max-w-[320px] mx-auto transition-transform duration-500 hover:translate-y-[-10px]">
+            <div className="relative bg-white border-[12px] border-gray-950 rounded-[3.5rem] p-1.5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] w-full max-w-[320px] mx-auto transition-transform duration-500 hover:translate-y-[-10px]">
               <div className="bg-white rounded-[2.8rem] overflow-hidden border border-gray-100 h-[620px] relative flex flex-col">
                 {/* Mockup App Interface */}
                 <div className="bg-orange-600 h-24 p-6 flex items-end">
