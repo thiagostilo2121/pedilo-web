@@ -71,7 +71,7 @@ Top-level page components for routing:
 - **`admin/`** - Dashboard pages (`DashboardHome.jsx`, `Marketing.jsx`)
 - Public pages: `Landing.jsx`, `Login.jsx`, `Register.jsx`, `Planes.jsx`, `CrearNegocio.jsx`, etc.
 - Dashboard pages: `Pedidos.jsx`, `Productos.jsx`, `Categorias.jsx`, `Toppings.jsx`, `Configuracion.jsx`, `MiSus.jsx`
-- Customer pages: `PublicNegocio.jsx`, `Checkout.jsx`, `BuscarPedido.jsx`
+- Customer pages: **`PublicNegocio.jsx`** (Premium store view with scroll spy), `Checkout.jsx`, `BuscarPedido.jsx`
 
 ### Routing (`src/App.jsx`)
 Three route categories with layouts:
@@ -85,19 +85,20 @@ Three route categories with layouts:
 - DaisyUI for additional component styles
 - Lucide React for icons
 - React Hook Form for form handling
+- Recharts for dashboard analytics
 
 ## Key Patterns
 
-- Use `api` (from `src/api/api.js`) for authenticated requests, `apiPublic` (from `src/api/apiPublic.js`) for public requests
-- Access auth via `useAuth()` hook from `src/auth/useAuth.js` (or directly from `src/contexts/AuthProvider.jsx`)
-- Access toast notifications via `useToast()` hook from `src/contexts/ToastProvider.jsx`
-- Image uploads go through `productService.uploadImage()` or `negocioService.uploadImage()` → Cloudinary
-- Slug-based routes use URL params: `const { slug } = useParams()`
-- Protected routes use `PrivateRoute` wrapper component that checks authentication and redirects to `/login` if not authenticated
-- Dashboard pages should use `DashboardLayout` for consistent sidebar navigation
-- Public customer-facing pages should use `PublicLayout` for consistent footer
-- Constants (defaults, configs, limits) are centralized in `src/constants/index.js`
-- Premium/subscription checks can use `useRequirePremium()` hook to enforce business ownership and subscription status
+- **API Usage**: Use `api` for authenticated requests, `apiPublic` for public requests.
+- **State Management**: Context API for global state (Auth, Toast).
+- **Premium UX (Public Store)**:
+    - **Scroll Spy**: Navigation updates based on scroll position using `IntersectionObserver`.
+    - **Smooth Scroll**: Category selection triggers smooth scroll to anchored sections.
+    - **Optimistic Interactions**: Progressive image loading and pre-loading of toppings for zero-latency feel.
+    - **Responsive Layout**: Horizontal scrollbars hidden on mobile but sleekly visible on desktop via custom CSS utilities (`scrollbar-responsive`).
+- **Auth Guards**: `PrivateRoute` for dashboard access, `useRequirePremium()` for subscription-locked features.
+- **Image Handling**: All images (logos, banners, products) are uploaded to Cloudinary via services.
+- **PWA Integration**: Dynamic theme colors and meta tags based on business configuration.
 
 ## Deployment
 

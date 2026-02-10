@@ -18,18 +18,23 @@
 
 ## ✨ Características
 
+### 🎨 Experiencia Premium (Public View v2)
+- 📸 **Instagram-Style Navigation** - Categorías circulares tipo "Stories" con scroll spy automático.
+- ✨ **Immersive Header** - Banner con blur dinámico, logo flotante y estado del negocio (Abierto/Cerrado) animado.
+- 🚀 **Smooth Discovery** - Desplazamiento continuo con anclas automáticas y recomendaciones siempre visibles.
+- 💅 **UI Refinada** - Tarjetas de producto con sombras suaves, badges de "Popular" y botones de acción optimizados.
+
 ### Para Dueños de Negocios
-- 🏪 **Dashboard Completo** - Gestión de productos, categorías y pedidos
-- 📦 **Catálogo Digital** - Productos con imágenes, precios y stock
-- 🔔 **Pedidos en Tiempo Real** - Actualización automática cada 15 segundos
-- ⚙️ **Configuración Flexible** - Métodos de pago, tipos de entrega, horarios
-- 💳 **Suscripciones** - Integración con MercadoPago para planes premium
+- 🏪 **Dashboard Completo** - Gestión de productos, categorías y pedidos en tiempo real.
+- 📊 **Estadísticas Clave** - Visualización de ventas y productos más vendidos con Recharts.
+- ⚙️ **Configuración Total** - Gestión de toppings, horarios, métodos de pago y delivery.
+- 💳 **Monetización** - Integración con Mercado Pago para suscripciones premium automáticas.
 
 ### Para Clientes
-- 🛒 **Carrito Persistente** - Se guarda en localStorage
-- 📱 **Mobile First** - Diseño optimizado para celulares
-- 💬 **WhatsApp Ready** - Confirmación de pedidos por WhatsApp
-- 🔍 **Tracking de Pedidos** - Seguimiento por código único
+- 🛒 **Carrito Inteligente** - Persistente y optimizado para una conversión rápida.
+- 📱 **PWA Ready** - Instalable como app, con colores dinámicos según el negocio.
+- 💬 **WhatsApp Express** - Envío de pedidos directo al WhatsApp del local sin vueltas.
+- 🔍 **Rastreador de Pedidos** - Seguimiento de estado con código único y feedback visual.
 
 ---
 
@@ -44,6 +49,7 @@
 | **Forms** | [React Hook Form](https://react-hook-form.com/) |
 | **HTTP Client** | [Axios](https://axios-http.com/) |
 | **Iconos** | [Lucide React](https://lucide.dev/) |
+| **Gráficos** | [Recharts](https://recharts.org/) |
 | **Imágenes** | [Cloudinary](https://cloudinary.com/) |
 
 ---
