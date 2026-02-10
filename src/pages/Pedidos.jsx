@@ -260,7 +260,7 @@ export default function PedidosDashboard() {
                 className={`bg-white rounded-2xl border-2 transition-all ${pedido.estado === 'pendiente' ? 'border-orange-200 shadow-orange-50 shadow-lg' : 'border-gray-100'
                   }`}
               >
-                <div className="p-5">
+                <div className="p-4 sm:p-5">
                   <div className="flex justify-between items-start mb-4">
                     <span className="text-[10px] font-black bg-gray-900 text-white px-2 py-1 rounded tracking-widest uppercase">
                       #{pedido.codigo || pedido.id?.toString().slice(-4)}
@@ -294,7 +294,7 @@ export default function PedidosDashboard() {
                 </div>
 
                 {/* Acciones Rápidas */}
-                <div className="bg-gray-50 px-5 py-3 rounded-b-2xl flex gap-2">
+                <div className="bg-gray-50 px-4 sm:px-5 py-3 rounded-b-2xl flex gap-2">
                   {pedido.estado === "pendiente" && (
                     <>
                       <button

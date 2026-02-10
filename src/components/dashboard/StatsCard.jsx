@@ -12,7 +12,7 @@ export default function StatsCard({ title, value, subtext, icon, trend }) {
             trend === 'down' ? ArrowDown : Minus;
 
     return (
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-100 transition-all hover:shadow-md">
             <div className="flex justify-between items-start mb-4">
                 <div>
                     <p className="text-sm font-medium text-gray-500 mb-1">{title}</p>

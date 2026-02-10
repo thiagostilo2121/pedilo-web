@@ -264,17 +264,17 @@ export default function Checkout({ slug }) {
             <div className="relative">
               <label className="text-xs font-bold text-gray-400 uppercase ml-1">Teléfono</label>
               <div className="flex gap-2">
-                <div className="flex-[0.3] flex items-center border-2 rounded-2xl focus-within:border-orange-500 transition-colors bg-white px-3 py-1">
+                <div className="w-20 sm:w-24 shrink-0 flex items-center border-2 rounded-2xl focus-within:border-orange-500 transition-colors bg-white px-2 sm:px-3 py-1">
                   <span className="text-gray-400 text-sm font-bold">+</span>
                   <input
                     {...register("codigo_pais_cliente", { required: true })}
-                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700"
+                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700 min-w-0"
                     placeholder="54"
                     maxLength={4}
                   />
                 </div>
-                <div className="flex-[0.7] flex items-center border-2 rounded-2xl focus-within:border-orange-500 transition-colors bg-white px-3 py-1">
-                  <Phone size={18} className="text-gray-400" />
+                <div className="flex-1 min-w-0 flex items-center border-2 rounded-2xl focus-within:border-orange-500 transition-colors bg-white px-3 py-1">
+                  <Phone size={18} className="text-gray-400 shrink-0" />
                   <input
                     {...register("telefono_cliente", {
                       required: "El teléfono es necesario",
@@ -283,7 +283,7 @@ export default function Checkout({ slug }) {
                         e.target.value = val;
                       }
                     })}
-                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700"
+                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700 min-w-0"
                     placeholder="11 2233 4455"
                   />
                 </div>
@@ -300,7 +300,7 @@ export default function Checkout({ slug }) {
               <label className="text-xs font-bold text-gray-400 uppercase ml-1 flex items-center gap-1 mb-2">
                 <CreditCard size={12} /> Método de Pago
               </label>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {(negocio.metodos_pago || ["Efectivo"]).map((m) => (
                   <label key={m} className="cursor-pointer">
                     <input
@@ -311,7 +311,7 @@ export default function Checkout({ slug }) {
                     />
                     <div className="p-3 border-2 border-gray-100 rounded-2xl bg-white hover:bg-gray-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-700 transition-all flex flex-col items-center justify-center gap-1 text-center h-full">
                       <span className="text-2xl">{getIconForOption(m, 'pago')}</span>
-                      <span className="text-xs font-bold">{m}</span>
+                      <span className="text-sm font-bold">{m}</span>
                     </div>
                   </label>
                 ))}
@@ -323,7 +323,7 @@ export default function Checkout({ slug }) {
               <label className="text-xs font-bold text-gray-400 uppercase ml-1 flex items-center gap-1 mb-2">
                 <Truck size={12} /> Entrega
               </label>
-              <div className="grid grid-cols-2 gap-3 mb-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
                 {(negocio.tipos_entrega || ["Retiro en local"]).map((t) => (
                   <label key={t} className="cursor-pointer">
                     <input
@@ -334,7 +334,7 @@ export default function Checkout({ slug }) {
                     />
                     <div className="p-3 border-2 border-gray-100 rounded-2xl bg-white hover:bg-gray-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-700 transition-all flex flex-col items-center justify-center gap-1 text-center h-full">
                       <span className="text-2xl">{getIconForOption(t, 'entrega')}</span>
-                      <span className="text-xs font-bold">{t}</span>
+                      <span className="text-sm font-bold">{t}</span>
                     </div>
                   </label>
                 ))}

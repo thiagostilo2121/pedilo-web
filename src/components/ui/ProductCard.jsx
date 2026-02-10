@@ -23,7 +23,7 @@ export default function ProductCard({
             <ProgressiveImage
                 src={product.imagen_url || DEFAULT_PRODUCT_IMAGE}
                 alt={product.nombre}
-                className={`w-28 h-28 sm:w-32 sm:h-32 flex-shrink-0 rounded-3xl bg-gray-50 object-cover ${!canAdd && "grayscale opacity-70"}`}
+                className={`w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 rounded-3xl bg-gray-50 object-cover ${!canAdd && "grayscale opacity-70"}`}
             />
 
             {/* Share Button */}
@@ -54,7 +54,7 @@ export default function ProductCard({
             {/* Content */}
             <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5">
                 <div>
-                    <h3 className="font-bold text-gray-900 truncate text-lg sm:text-xl leading-tight">
+                    <h3 className="font-bold text-gray-900 truncate text-base sm:text-xl leading-tight">
                         {product.nombre}
                     </h3>
                     <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-1.5 leading-relaxed font-medium">
@@ -63,35 +63,35 @@ export default function ProductCard({
                 </div>
 
                 <div className="flex items-end justify-between mt-3">
-                    <span className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">${product.precio}</span>
+                    <span className="text-lg sm:text-2xl font-black text-gray-900 tracking-tight">${product.precio}</span>
 
                     <div className="relative z-20"> {/* Button Wrapper for Z-Index */}
                         {canAdd ? (
                             cartItem ? (
-                                <div className="flex items-center gap-3 bg-gray-900 text-white rounded-full px-1.5 py-1.5 shadow-xl shadow-gray-200">
+                                <div className="flex items-center gap-2 sm:gap-3 bg-gray-900 text-white rounded-full px-1.5 py-1.5 shadow-xl shadow-gray-200">
                                     <button
                                         onClick={() => onDecrease(cartItem.cartItemId)}
-                                        className="w-8 h-8 flex items-center justify-center bg-gray-700 text-white rounded-full hover:bg-gray-600 active:scale-95 transition-all"
+                                        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-700 text-white rounded-full hover:bg-gray-600 active:scale-95 transition-all"
                                     >
-                                        <Minus size={16} />
+                                        <Minus size={14} />
                                     </button>
-                                    <span className="font-bold text-sm min-w-[20px] text-center">
+                                    <span className="font-bold text-sm min-w-[16px] text-center">
                                         {cartItem.cantidad}
                                     </span>
                                     <button
                                         onClick={() => onAdd(product)}
-                                        className="w-8 h-8 flex items-center justify-center bg-white text-gray-900 rounded-full hover:bg-gray-100 active:scale-95 transition-all"
+                                        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-gray-900 rounded-full hover:bg-gray-100 active:scale-95 transition-all"
                                     >
-                                        <Plus size={16} />
+                                        <Plus size={14} />
                                     </button>
                                 </div>
                             ) : (
                                 <button
                                     onClick={() => onAdd(product)}
                                     disabled={isAdding}
-                                    className="h-10 px-5 flex items-center justify-center bg-orange-600 text-white rounded-full hover:bg-orange-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-200 font-bold text-sm gap-2"
+                                    className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center bg-orange-600 text-white rounded-full hover:bg-orange-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-200 font-bold text-xs sm:text-sm gap-1 sm:gap-2"
                                 >
-                                    Agregar <Plus size={18} strokeWidth={3} />
+                                    <span className="hidden xs:inline">Agregar</span> <Plus size={16} strokeWidth={3} />
                                 </button>
                             )
                         ) : (

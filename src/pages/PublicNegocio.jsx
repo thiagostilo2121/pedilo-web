@@ -28,9 +28,9 @@ const RecommendedCard = ({ product, negocio, cartItem, onAdd, onDecrease, isAddi
   const canAdd = product.stock && negocio?.acepta_pedidos;
 
   return (
-    <div className="w-[280px] sm:w-[320px] shrink-0 snap-center flex flex-col bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden relative group transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer" onClick={(e) => { e.stopPropagation(); onAdd(product); }}>
+    <div className="w-[260px] xs:w-[280px] sm:w-[320px] shrink-0 snap-center flex flex-col bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden relative group transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer" onClick={(e) => { e.stopPropagation(); onAdd(product); }}>
       {/* 60% Image Height */}
-      <div className="h-48 sm:h-56 relative w-full bg-gray-100">
+      <div className="h-40 xs:h-48 sm:h-56 relative w-full bg-gray-100">
         <ProgressiveImage
           src={product.imagen_url || DEFAULT_PRODUCT_IMAGE}
           alt={product.nombre}
@@ -53,9 +53,9 @@ const RecommendedCard = ({ product, negocio, cartItem, onAdd, onDecrease, isAddi
       </div>
 
       {/* Content */}
-      <div className="p-5 flex flex-col flex-1 justify-between">
+      <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
         <div>
-          <h3 className="font-bold text-gray-900 text-lg leading-tight mb-1 line-clamp-1">{product.nombre}</h3>
+          <h3 className="font-bold text-gray-900 text-base sm:text-lg leading-tight mb-1 line-clamp-1">{product.nombre}</h3>
           <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed">{product.descripcion || "Una delicia esperando por vos."}</p>
         </div>
 
@@ -72,7 +72,7 @@ const RecommendedCard = ({ product, negocio, cartItem, onAdd, onDecrease, isAddi
               <button
                 onClick={(e) => { e.stopPropagation(); onAdd(product) }}
                 disabled={isAdding}
-                className="w-full py-3 bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-200 flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-orange-700 group/btn"
+                className="w-full py-2.5 sm:py-3 bg-orange-600 text-white font-bold rounded-xl shadow-lg shadow-orange-200 flex items-center justify-center gap-2 active:scale-95 transition-all hover:bg-orange-700 group/btn text-sm sm:text-base"
               >
                 Agregar <Plus size={18} className="group-hover/btn:rotate-90 transition-transform" />
               </button>
