@@ -139,7 +139,7 @@ export default function DashboardLayout({ children }) {
         {/* NAVBAR MOBILE */}
         <header className="lg:hidden bg-white border-b h-16 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
           <div className="flex items-center gap-2">
-            <span className="text-xl font-black text-orange-600 tracking-tight">Pedilo</span>
+            <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
           </div>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -154,7 +154,7 @@ export default function DashboardLayout({ children }) {
           className={`lg:hidden fixed inset-0 z-50 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out bg-gray-50/95 backdrop-blur-xl`}
         >
           <div className="flex items-center justify-between h-16 px-6 border-b bg-white/50">
-            <span className="text-xl font-black text-orange-600">Pedilo</span>
+            <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
             <button
               onClick={() => setMobileMenuOpen(false)}
               className="p-2 -mr-2 rounded-xl hover:bg-black/5"
