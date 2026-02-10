@@ -1,0 +1,14 @@
+# Pedilo Project Context
+
+> Pedilo is a commission-free, high-performance online ordering platform for small businesses.
+
+## Main Documentation regarding AI Context
+- [AI Context & Features](AI_CONTEXT.md) - **READ THIS FIRST**: Comprehensive overview of features, USPs, and tech stack.
+
+## Core Documentation
+- [Frontend README](https://github.com/thiagostilo2121/pedilo-web/blob/main/README.md) - Setup validation and project structure for the web client.
+- [Agents Guide](https://github.com/thiagostilo2121/pedilo-web/blob/main/AGENTS.md) - Specific instructions for coding agents working on this repo.
+
+## External Resources (Context)
+- [Backend API Repo](https://github.com/thiagostilo2121/pedilo-api) - The companion API for this frontend.
+- [Frontend Repo](https://github.com/thiagostilo2121/pedilo-web) - The frontend for this project.

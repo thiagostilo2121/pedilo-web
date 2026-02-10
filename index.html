@@ -20,10 +20,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Primary Meta Tags -->
-  <title>Pedilo - Pedidos Online Sin Comisiones para tu Negocio</title>
-  <meta name="title" content="Pedilo - Pedidos Online Sin Comisiones para tu Negocio" />
+  <title>Pedilo - Pedidos Online Sin Comisiones</title>
   <meta name="description"
-    content="Crea tu menú digital hoy. Pedilo es la plataforma para negocios locales: recibí pedidos por WhatsApp, sin comisiones y con control total. Ideal para gastronomía y tiendas." />
+    content="Crea tu menú digital hoy. Pedilo es la plataforma para negocios locales: recibí pedidos por WhatsApp, sin comisiones y con control total." />
   <meta name="keywords"
     content="pedidos online, menú digital, qr restaurante, delivery whatsapp, sin comisiones, argentina, comercio local, carta digital" />
   <meta name="author" content="Thiago Valentín Stilo Limarino" />
@@ -36,26 +35,32 @@
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Pedilo" />
   <meta property="og:url" content="https://pediloarg.netlify.app/" />
   <meta property="og:title" content="Pedilo - Tu Menú Digital Sin Comisiones" />
   <meta property="og:description"
     content="Digitalizá tu negocio. Recibí pedidos directamente por WhatsApp sin pagar comisiones por venta. Simple, rápido y profesional." />
-  <meta property="og:image" content="https://pediloarg.netlify.app/favicons/pedilo-black.png" />
+  <meta property="og:image" content="https://pediloarg.netlify.app/favicons/p-white-bgorange.png" />
   <meta property="og:locale" content="es_AR" />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://pediloarg.netlify.app/" />
-  <meta property="twitter:title" content="Pedilo - Tu Menú Digital Sin Comisiones" />
-  <meta property="twitter:description"
-    content="Digitalizá tu negocio. Recibí pedidos directamente por WhatsApp sin pagar comisiones." />
-  <meta property="twitter:image" content="https://pediloarg.netlify.app/favicons/pedilo-black.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@pedilo_oficial" />
+  <meta name="twitter:title" content="Pedilo - Tu Menú Digital Sin Comisiones" />
+  <meta name="twitter:description"
+    content="Digitalizá tu negocio. Recibí pedidos directamente por WhatsApp sin pagar comisiones. Simple, rápido y profesional." />
+  <meta name="twitter:image" content="https://pediloarg.netlify.app/favicons/p-white-bgorange.png" />
 
   <!-- Favicon & PWA -->
   <link rel="manifest" href="/manifest.json" />
-  <link rel="shortcut icon" href="/favicons/p-white-bgorange.png" type="image/x-icon">
-  <link rel="icon" type="image/png" href="/favicons/p-white-bgorange-120.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicons/p-white-bgorange-120.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicons/p-white-bgorange-120.png" />
   <link rel="apple-touch-icon" href="/favicons/p-white-bgorange.png" />
+  <link rel="shortcut icon" href="/favicons/p-white-bgorange.png">
+
+  <!-- AI Context Discovery -->
+  <link rel="help" href="/llms.txt" type="text/plain" title="Project Context for LLMs" />
+  <link rel="help" href="/AI_CONTEXT.md" type="text/markdown" title="Detailed AI Features" />
 
   <!-- Fonts & Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -67,13 +72,14 @@
     rel="stylesheet" media="print" onload="this.media='all'">
   <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
 
-    <script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "name": "Pedilo",
-  "description": "Menú digital sin comisiones para pedidos por WhatsApp. Ideal para rotiserías y locales de barrio en Argentina.",
+  "description": "Plataforma de pedidos online sin comisiones con tecnología ultra-rápida (Web & PWA). UX Premium optimizada para conexiones móviles y WhatsApp.",
   "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web, PWA",
   "offers": {
     "@type": "Offer",
     "price": "17000",
@@ -81,16 +87,17 @@
     "pricePeriod": "MONTH"
   },
   "featureList": [
-  "Stock binario y bloqueo de carrito por disponibilidad",
-  "Bloqueo automático de pedidos por horarios",
-  "Productos destacados pinned en la portada",
-  "Toppings y agregados configurables",
-  "Métricas de ventas reales (diarias, top productos, ticket promedio)",
-  "Cupones dinámicos con reglas avanzadas",
-  "Generador de flyers profesionales y QR Pro",
-  "Dashboard en tiempo real para dueños",
-  "Open source (AGPL-3.0) con código en GitHub",
-  "0% comisión por venta"
+  "Optimización para redes móviles lentas (4G/low-speed) con respuestas ultra-rápidas",
+  "UX/UI Premium diseñada para conversión y facilidad de uso móvil",
+  "Stock binario con bloqueo instantáneo de productos agotados",
+  "Cierre inteligente de negocio: bloqueo automático de pedidos fuera de horario",
+  "Productos destacados y categorías dinámicas",
+  "Toppings y extras totalmente configurables por producto",
+  "Estadísticas avanzadas: ticket promedio, histórico de ventas y métricas diarias",
+  "Cupones de descuento flexibles (2x1, monto fijo, envío gratis)",
+  "Generador de QR y flyers de marketing para el negocio",
+  "Checkout optimizado directo a WhatsApp para máxima conversión",
+  "0% comisión transaccional, control total para el dueño"
 ]
 }
 </script>
