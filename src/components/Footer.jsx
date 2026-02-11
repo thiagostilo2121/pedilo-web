@@ -34,6 +34,7 @@ export default function Footer() {
       <div className="flex flex-wrap justify-center gap-x-10 gap-y-4 mb-10 font-bold text-gray-500">
         <button onClick={() => navigate("/terminos")} className="hover:text-orange-600">Términos del Servicio</button>
         <button onClick={() => navigate("/privacidad")} className="hover:text-orange-600">Política de Privacidad</button>
+        <button onClick={() => navigate("/acerca")} className="hover:text-orange-600">Ficha Técnica</button>
         <a href="https://web.whatsapp.com/send/?phone=1123860316&text=Hola,%20quisiera%20contactarlos%20por%20soporte%20de%20Pedilo" className="hover:text-orange-600">Contacto</a>
       </div>
       <p className="text-gray-400 font-medium">© 2026 Pedilo Argentina. Todos los derechos reservados.</p>

@@ -110,14 +110,14 @@ export default function Marketing() {
             <div className="space-y-12 pb-20">
                 {/* SECCIÓN PROMOCIONES */}
                 <div className="space-y-6">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
                             <h1 className="text-2xl font-bold text-gray-900">Marketing & Promociones</h1>
-                            <p className="text-gray-500 mt-1">Gestiona cupones y ofertas para tus clientes</p>
+                            <p className="text-gray-500 mt-1 text-sm sm:text-base">Gestiona cupones y ofertas para tus clientes</p>
                         </div>
                         <button
                             onClick={() => handleOpenModal()}
-                            className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors shadow-sm shadow-orange-200 font-medium"
+                            className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors shadow-sm shadow-orange-200 font-medium active:scale-95"
                         >
                             <Plus size={20} />
                             Crear Promoción
@@ -151,24 +151,24 @@ export default function Marketing() {
                     ) : (
                         <div className="grid gap-4">
                             {promotions.map((promo) => (
-                                <div key={promo.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between group hover:border-orange-200 transition-colors">
-                                    <div className="flex items-center gap-4">
-                                        <div className={`p-3 rounded-lg ${promo.activo ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
+                                <div key={promo.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group hover:border-orange-200 transition-colors">
+                                    <div className="flex items-start sm:items-center gap-4 w-full sm:w-auto">
+                                        <div className={`p-3 rounded-lg shrink-0 ${promo.activo ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
                                             <Percent size={24} />
                                         </div>
-                                        <div>
-                                            <h4 className="font-bold text-gray-900">{promo.nombre}</h4>
-                                            <div className="flex items-center gap-2 text-sm text-gray-500">
+                                        <div className="min-w-0">
+                                            <h4 className="font-bold text-gray-900 truncate pr-2">{promo.nombre}</h4>
+                                            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mt-1">
                                                 <span className="bg-gray-100 px-2.5 py-1 rounded-md text-gray-700 font-mono text-xs border border-gray-200 font-bold tracking-wide">
                                                     {promo.codigo}
                                                 </span>
-                                                <span>• {promo.tipo === 'porcentaje' ? `${promo.valor}% OFF` : `$${promo.valor} OFF`}</span>
-                                                {promo.reglas?.min_compra > 0 && <span>• Min: ${promo.reglas.min_compra}</span>}
+                                                <span className="whitespace-nowrap">• {promo.tipo === 'porcentaje' ? `${promo.valor}% OFF` : `$${promo.valor} OFF`}</span>
+                                                {promo.reglas?.min_compra > 0 && <span className="whitespace-nowrap">• Min: ${promo.reglas.min_compra}</span>}
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                    <div className="flex items-center gap-2 self-end sm:self-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                                         <button
                                             onClick={() => handleOpenModal(promo)}
                                             className="p-2 text-gray-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"

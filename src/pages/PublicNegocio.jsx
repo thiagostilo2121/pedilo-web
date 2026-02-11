@@ -12,7 +12,8 @@ import {
   ShoppingBag,
   Star,
   Plus,
-  Minus
+  Minus,
+  Flame
 } from "lucide-react";
 import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
 import ToppingSelector from "../components/ToppingSelector";
@@ -367,13 +368,21 @@ export default function PublicNegocio({ slug }) {
             </div>
 
             <div className="flex-1 text-white mb-1">
-              <h1 className="text-3xl sm:text-4xl font-black leading-none mb-3 drop-shadow-lg">{negocio.nombre}</h1>
-              <div className="flex items-center flex-wrap gap-2 text-sm font-bold opacity-90 mt-6">
+              <h1 className="text-3xl sm:text-4xl font-black leading-none mb-2 drop-shadow-lg">{negocio.nombre}</h1>
+
+              {/* Business Description - Responsive & Non-intrusive */}
+              {negocio.descripcion && (
+                <p className="text-sm sm:text-base font-medium text-white/90 line-clamp-2 max-w-2xl drop-shadow-md leading-relaxed mb-4 hidden xs:block">
+                  {negocio.descripcion}
+                </p>
+              )}
+
+              <div className="flex items-center flex-wrap gap-2 text-sm font-bold opacity-90 mt-5">
                 <span className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/30 transition-colors cursor-pointer" onClick={() => setShowInfoModal(true)}>
-                  <Clock size={14} className="text-orange-300" /> {negocio.horario || "Ver horarios"}
+                  <Clock size={14} style={{ color: negocio.color_primario || '#fdba74' }} /> {negocio.horario || "Ver horarios"}
                 </span>
                 <span className="flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/30 transition-colors cursor-pointer" onClick={() => setShowInfoModal(true)}>
-                  <MapPin size={14} className="text-orange-300" /> Info
+                  <MapPin size={14} style={{ color: negocio.color_primario || '#fdba74' }} /> Info
                 </span>
               </div>
             </div>
@@ -386,13 +395,18 @@ export default function PublicNegocio({ slug }) {
         {/* Search */}
         <div className="px-4 mb-8">
           <div className="relative group">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-600 transition-colors" size={20} />
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-600 transition-colors"
+              size={20}
+              style={{ color: searchTerm ? (negocio.color_primario || '#ea580c') : undefined }}
+            />
             <input
               type="text"
               placeholder="Buscar delicias..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white pl-12 pr-4 py-4 rounded-2xl shadow-sm border border-gray-100 focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none text-gray-800 font-bold transition-all placeholder:text-gray-300"
+              className="w-full bg-white pl-12 pr-4 py-4 rounded-2xl shadow-sm border border-gray-100 focus:ring-2 focus:border-transparent outline-none text-gray-800 font-bold transition-all placeholder:text-gray-300"
+              style={{ '--tw-ring-color': negocio.color_primario || '#ea580c' }} // Custom focus ring color
             />
             {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 bg-gray-100 rounded-full p-1"><X size={14} /></button>}
           </div>
@@ -403,21 +417,71 @@ export default function PublicNegocio({ slug }) {
           <section className="mb-10 pl-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
             <div className="flex items-center justify-between pr-4 mb-4">
               <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
-                Imperdibles <span className="text-2xl">🔥</span>
+                Imperdibles <Flame className="text-orange-500 animate-pulse" size={24} fill="currentColor" />
               </h2>
             </div>
 
             <div className="flex overflow-x-auto gap-4 pb-8 pr-4 -ml-4 pl-4 scrollbar-responsive snap-x pt-2">
               {productos.filter(p => p.destacado).map(prod => (
-                <RecommendedCard
-                  key={prod.id}
-                  product={prod}
-                  negocio={negocio}
-                  cartItem={carrito.find(p => p.id === prod.id)}
-                  onAdd={handleAddToCart}
-                  onDecrease={disminuirCantidad}
-                  isAdding={addingProductId === prod.id}
-                />
+                <div key={prod.id} className="w-[260px] xs:w-[280px] sm:w-[320px] shrink-0 snap-center flex flex-col bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden relative group transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer" onClick={(e) => { e.stopPropagation(); handleAddToCart(prod); }}>
+                  {/* 60% Image Height */}
+                  <div className="h-40 xs:h-48 sm:h-56 relative w-full bg-gray-100">
+                    <ProgressiveImage
+                      src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
+                      alt={prod.nombre}
+                      className={`w-full h-full object-cover transition-transform duration-700 ${!(prod.stock && negocio?.acepta_pedidos) && "grayscale contrast-125"}`}
+                    />
+                    {/* Gradients Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 z-10 pointer-events-none" />
+
+                    {/* Badges */}
+                    <div className="absolute top-3 left-3 flex gap-2 z-20">
+                      <span
+                        className="text-white text-[10px] font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-orange-500/40 tracking-wide uppercase"
+                        style={{ backgroundColor: negocio.color_primario || '#f97316' }}
+                      >
+                        <Star size={10} fill="currentColor" /> POPULAR
+                      </span>
+                    </div>
+
+                    {/* Price Tag over Image (UberEats Style) */}
+                    <div className="absolute bottom-3 right-3 bg-white text-gray-900 px-3 py-1.5 rounded-full font-black text-sm shadow-xl flex items-center gap-1 z-20">
+                      ${prod.precio}
+                    </div>
+                  </div>
+
+                  {/* Content */}
+                  <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-base sm:text-lg leading-tight mb-1 line-clamp-1">{prod.nombre}</h3>
+                      <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed">{prod.descripcion || "Una delicia esperando por vos."}</p>
+                    </div>
+
+                    {/* Action Button */}
+                    <div className="mt-4 flex items-center justify-between">
+                      {(prod.stock && negocio?.acepta_pedidos) ? (
+                        carrito.find(p => p.id === prod.id) ? (
+                          <div className="flex items-center bg-gray-900 text-white rounded-full px-1 py-1 w-full justify-between shadow-lg shadow-gray-200" onClick={(e) => e.stopPropagation()}>
+                            <button onClick={(e) => { e.stopPropagation(); disminuirCantidad(carrito.find(p => p.id === prod.id).cartItemId) }} className="w-8 h-8 flex items-center justify-center bg-gray-700 rounded-full hover:bg-gray-600 active:scale-90 transition-transform"><Minus size={14} /></button>
+                            <span className="font-bold text-sm">{carrito.find(p => p.id === prod.id).cantidad}</span>
+                            <button onClick={(e) => { e.stopPropagation(); handleAddToCart(prod) }} className="w-8 h-8 flex items-center justify-center bg-white text-gray-900 rounded-full hover:bg-gray-100 active:scale-90 transition-transform"><Plus size={14} /></button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={(e) => { e.stopPropagation(); handleAddToCart(prod) }}
+                            disabled={addingProductId === prod.id}
+                            className="w-full py-2.5 sm:py-3 text-white font-bold rounded-xl shadow-lg shadow-orange-200 flex items-center justify-center gap-2 active:scale-95 transition-all hover:brightness-110 group/btn text-sm sm:text-base"
+                            style={{ backgroundColor: negocio.color_primario || '#ea580c' }}
+                          >
+                            Agregar <Plus size={18} className="group-hover/btn:rotate-90 transition-transform" />
+                          </button>
+                        )
+                      ) : (
+                        <span className="w-full text-center text-xs font-bold text-gray-400 bg-gray-100 py-2 rounded-xl">NO DISPONIBLE</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
               ))}
             </div>
           </section>
@@ -432,7 +496,10 @@ export default function PublicNegocio({ slug }) {
                 onClick={() => scrollToCategory("todos")}
                 className="flex flex-col items-center gap-2 group min-w-[72px]"
               >
-                <div className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${activeCategory === "todos" ? 'bg-gradient-to-tr from-orange-500 to-pink-500 shadow-lg shadow-orange-200 scale-105' : 'bg-gray-200 grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0'}`}>
+                <div
+                  className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${activeCategory === "todos" ? 'shadow-lg scale-105' : 'bg-gray-200 grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0'}`}
+                  style={activeCategory === "todos" ? { background: `linear-gradient(to top right, ${negocio.color_primario || '#f97316'}, ${negocio.color_secundario || '#ec4899'})` } : {}}
+                >
                   <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center overflow-hidden">
                     <span className="font-black text-[10px] uppercase text-gray-800">Menú</span>
                   </div>
@@ -449,7 +516,10 @@ export default function PublicNegocio({ slug }) {
                     onClick={() => scrollToCategory(cat.nombre)}
                     className="flex flex-col items-center gap-2 group min-w-[72px]"
                   >
-                    <div className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${isActive ? 'bg-gradient-to-tr from-orange-500 to-pink-500 shadow-lg shadow-orange-200 scale-105' : 'bg-gradient-to-tr from-gray-200 to-gray-300 opacity-90 group-hover:scale-105'}`}>
+                    <div
+                      className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${isActive ? 'shadow-lg scale-105' : 'bg-gradient-to-tr from-gray-200 to-gray-300 opacity-90 group-hover:scale-105'}`}
+                      style={isActive ? { background: `linear-gradient(to top right, ${negocio.color_primario || '#f97316'}, ${negocio.color_secundario || '#ec4899'})` } : {}}
+                    >
                       <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center overflow-hidden relative">
                         <img
                           src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"}
@@ -482,7 +552,12 @@ export default function PublicNegocio({ slug }) {
                 >
                   <h3 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-2">
                     {cat.nombre}
-                    <span className="text-sm font-bold text-gray-400 bg-gray-100 px-2 py-1 rounded-full">{catProducts.length}</span>
+                    <span
+                      className="text-sm font-bold text-white px-2 py-1 rounded-full"
+                      style={{ backgroundColor: negocio.color_secundario || '#9ca3af' }}
+                    >
+                      {catProducts.length}
+                    </span>
                   </h3>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -538,11 +613,23 @@ export default function PublicNegocio({ slug }) {
                   <Search size={30} className="text-gray-400" />
                 </div>
                 <p className="font-bold text-gray-500">No encontramos productos con ese nombre.</p>
-                <button onClick={() => setSearchTerm("")} className="mt-4 text-orange-600 font-bold text-sm underline">Ver todo el menú</button>
+                <button onClick={() => setSearchTerm("")} className="mt-4 font-bold text-sm underline" style={{ color: negocio.color_primario || '#ea580c' }}>Ver todo el menú</button>
               </div>
             )}
           </div>
         )}
+
+        {/* Footer Minimalista */}
+        <footer className="mt-20 border-t border-gray-200 pt-8 pb-20 text-center text-xs text-gray-400 font-medium">
+          <p className="mb-2">
+            Potenciado por <a href="https://pedilo.com.ar" target="_blank" className="font-bold hover:text-orange-500 transition-colors">Pedilo.</a>
+          </p>
+          <div className="flex justify-center gap-4">
+            <a href="/terminos" target="_blank" className="hover:text-gray-600 transition-colors">Términos</a>
+            <span>•</span>
+            <a href="/privacidad" target="_blank" className="hover:text-gray-600 transition-colors">Privacidad</a>
+          </div>
+        </footer>
       </main>
 
       {/* Cart Drawer & Modals */}
@@ -551,10 +638,11 @@ export default function PublicNegocio({ slug }) {
           <div className="fixed bottom-6 inset-x-4 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 max-w-2xl mx-auto">
             <button
               onClick={() => setShowCart(true)}
-              className="w-full bg-gray-900 text-white p-2 pl-6 pr-2 rounded-[2.5rem] shadow-2xl shadow-gray-900/40 flex items-center justify-between border border-gray-800 backdrop-blur-xl bg-opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="w-full text-white p-2 pl-6 pr-2 rounded-[2.5rem] shadow-2xl flex items-center justify-between border border-white/10 backdrop-blur-xl bg-opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              style={{ backgroundColor: negocio.color_primario || '#111827', boxShadow: `0 20px 25px -5px ${negocio.color_primario}40` }}
             >
               <div className="flex flex-col items-start leading-none gap-1">
-                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{carrito.reduce((acc, p) => acc + p.cantidad, 0)} ITEMS</span>
+                <span className="text-[10px] text-white/80 font-bold uppercase tracking-widest">{carrito.reduce((acc, p) => acc + p.cantidad, 0)} ITEMS</span>
                 <span className="text-xl font-black">${carrito.reduce((acc, p) => acc + (p.precioConToppings || p.precio) * p.cantidad, 0).toFixed(0)}</span>
               </div>
               <div className="bg-white text-gray-900 px-6 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors">
@@ -579,27 +667,33 @@ export default function PublicNegocio({ slug }) {
               </div>
 
               <div className="p-6 space-y-6">
+                {/* Description in Modal (Full) */}
+                {negocio.descripcion && (
+                  <div className="bg-orange-50 p-4 rounded-2xl text-sm text-gray-700 leading-relaxed font-medium border border-orange-100">
+                    {negocio.descripcion}
+                  </div>
+                )}
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 shrink-0"><MapPin size={20} /></div>
+                  <div className="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center shrink-0" style={{ backgroundColor: `${negocio.color_primario}20`, color: negocio.color_primario || '#ea580c' }}><MapPin size={20} /></div>
                   <div>
                     <h4 className="font-bold text-gray-900">Dirección</h4>
                     <p className="text-gray-600 text-sm">{negocio.direccion || "No especificada"}</p>
-                    {negocio.direccion && <a href={`https://maps.google.com/?q=${negocio.direccion}`} target="_blank" className="text-xs font-bold text-orange-600 mt-1 block">Ver en Mapa</a>}
+                    {negocio.direccion && <a href={`https://maps.google.com/?q=${negocio.direccion}`} target="_blank" className="text-xs font-bold mt-1 block" style={{ color: negocio.color_primario || '#ea580c' }}>Ver en Mapa</a>}
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 shrink-0"><Clock size={20} /></div>
+                  <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0" style={{ backgroundColor: `${negocio.color_secundario}20`, color: negocio.color_secundario || '#3b82f6' }}><Clock size={20} /></div>
                   <div>
                     <h4 className="font-bold text-gray-900">Horarios</h4>
                     <p className="text-gray-600 text-sm whitespace-pre-line leading-relaxed">{negocio.horario || "No especificados"}</p>
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600 shrink-0"><Phone size={20} /></div>
+                  <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center shrink-0" style={{ backgroundColor: `${negocio.color_primario}20`, color: negocio.color_primario || '#22c55e' }}><Phone size={20} /></div>
                   <div>
                     <h4 className="font-bold text-gray-900">Contacto</h4>
                     <p className="text-gray-600 text-sm">{negocio.telefono || "No especificado"}</p>
-                    {negocio.telefono && <a href={`https://wa.me/${negocio.telefono.replace(/\D/g, '')}`} target="_blank" className="text-xs font-bold text-green-600 mt-1 block">Enviar WhatsApp</a>}
+                    {negocio.telefono && <a href={`https://wa.me/${negocio.telefono.replace(/\D/g, '')}`} target="_blank" className="text-xs font-bold mt-1 block" style={{ color: negocio.color_primario || '#22c55e' }}>Enviar WhatsApp</a>}
                   </div>
                 </div>
               </div>

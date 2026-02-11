@@ -139,7 +139,7 @@ export default function MiSuscripcion() {
                                     </span>
                                 </h3>
                                 <p className="text-gray-500 font-medium text-sm md:text-base">
-                                    Cobro {suscripcion.frequency_type === "months" ? "Mensual" : "Anual"} • ID: {suscripcion.mp_subscription_id}
+                                    Cobro {suscripcion.frequency_type === "months" ? "Mensual" : "Anual"} • ID: {suscripcion.mp_subscription_id?.slice(0, 15)}...
                                 </p>
                             </div>
                             <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center w-full md:w-auto min-w-[140px]">

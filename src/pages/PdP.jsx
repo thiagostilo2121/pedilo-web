@@ -102,7 +102,30 @@ const Privacidad = () => {
           </section>
 
           <section id="cookies" className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900">5. Enlaces a Terceros</h2>
+            <h2 className="text-2xl font-bold text-gray-900">5. Cookies y Almacenamiento Local</h2>
+            <p>
+              Pedilo utiliza tecnologías de almacenamiento local (LocalStorage) y cookies técnicas estrictamente necesarias para:
+            </p>
+            <ul className="list-disc pl-5 mt-2">
+              <li>Mantener la sesión del usuario activa.</li>
+              <li>Recordar preferencias de configuración (como el carrito de compras temporal).</li>
+            </ul>
+            <p className="mt-2">
+              No utilizamos cookies de terceros para rastreo publicitario invasivo.
+            </p>
+          </section>
+
+          <section id="derechos" className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900">6. Tus Derechos (ARCO)</h2>
+            <p>
+              Como titular de tus datos, tenés derecho a Acceder, Rectificar, Cancelar u Oponerte al tratamiento de tu información.
+              Para ejercer estos derechos o solicitar la eliminación completa de tu cuenta y datos asociados, envíanos un correo a:
+              <a href="mailto:stilothiagovalentin@gmail.com" className="text-orange-600 font-bold ml-1">stilothiagovalentin@gmail.com</a>
+            </p>
+          </section>
+
+          <section id="terceros" className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900">7. Enlaces a Terceros</h2>
             <p>
               Nuestra web contiene enlaces a servicios externos (WhatsApp, plataformas de pago externas del negocio, servicios de hosting). No tenemos control sobre las políticas de privacidad de dichos sitios y recomendamos leer sus propios términos.
             </p>

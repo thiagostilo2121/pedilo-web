@@ -147,32 +147,33 @@ export default function DashboardHome() {
                         </div>
 
                         {/* QUICK ACTIONS */}
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        {/* QUICK ACTIONS */}
+                        <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-100">
                             <h3 className="text-lg font-bold text-gray-900 mb-4">Accesos Rápidos</h3>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                <a href="/dashboard/pedidos" className="p-4 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors flex flex-col items-center gap-2 group">
+                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                                <a href="/dashboard/pedidos" className="p-3 sm:p-4 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
                                     <div className="p-2 bg-white rounded-full text-orange-600 shadow-sm group-hover:scale-110 transition-transform">
                                         <ShoppingBag size={20} />
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-700">Ver Pedidos</span>
+                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Ver Pedidos</span>
                                 </a>
-                                <a href="/dashboard/productos" className="p-4 rounded-xl bg-blue-50 border border-blue-100 hover:bg-blue-100 transition-colors flex flex-col items-center gap-2 group">
+                                <a href="/dashboard/productos" className="p-3 sm:p-4 rounded-xl bg-blue-50 border border-blue-100 hover:bg-blue-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
                                     <div className="p-2 bg-white rounded-full text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
                                         <Plus size={20} />
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-700">Nuevo Producto</span>
+                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Nuevo Producto</span>
                                 </a>
-                                <a href="/dashboard/marketing" className="p-4 rounded-xl bg-purple-50 border border-purple-100 hover:bg-purple-100 transition-colors flex flex-col items-center gap-2 group">
+                                <a href="/dashboard/marketing" className="p-3 sm:p-4 rounded-xl bg-purple-50 border border-purple-100 hover:bg-purple-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
                                     <div className="p-2 bg-white rounded-full text-purple-600 shadow-sm group-hover:scale-110 transition-transform">
                                         <DollarSign size={20} />
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-700">Crear Oferta</span>
+                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Crear Oferta</span>
                                 </a>
-                                <a href="/dashboard/configuracion" className="p-4 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-colors flex flex-col items-center gap-2 group">
+                                <a href="/dashboard/configuracion" className="p-3 sm:p-4 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
                                     <div className="p-2 bg-white rounded-full text-gray-600 shadow-sm group-hover:scale-110 transition-transform">
                                         <TrendingUp size={20} />
                                     </div>
-                                    <span className="text-sm font-semibold text-gray-700">Configurar</span>
+                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Configurar</span>
                                 </a>
                             </div>
                         </div>

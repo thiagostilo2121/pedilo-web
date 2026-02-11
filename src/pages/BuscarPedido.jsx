@@ -98,7 +98,7 @@ export default function SeguimientoPedido() {
 
       <main className="max-w-2xl mx-auto px-4">
         {/* Buscador */}
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 mb-6">
+        <div className="bg-white p-5 sm:p-6 rounded-3xl shadow-sm border border-gray-100 mb-6">
           <p className="text-gray-500 text-sm mb-4">Ingresá el código que recibiste al finalizar tu compra para ver el estado en tiempo real.</p>
           <form onSubmit={buscarPedido} className="flex gap-2">
             <input
@@ -106,13 +106,13 @@ export default function SeguimientoPedido() {
               placeholder="Ej: #A1B2C3"
               value={codigo}
               onChange={(e) => setCodigo(e.target.value)}
-              className="flex-1 p-4 border-2 border-gray-100 rounded-2xl focus:border-orange-500 outline-none font-bold uppercase"
+              className="flex-1 p-3 sm:p-4 border-2 border-gray-100 rounded-2xl focus:border-orange-500 outline-none font-bold uppercase text-sm sm:text-base"
             />
             <button
               disabled={loading}
-              className="bg-orange-600 text-white p-4 rounded-2xl font-bold hover:bg-orange-700 transition-all active:scale-95 disabled:opacity-50"
+              className="bg-orange-600 text-white p-3 sm:p-4 rounded-2xl font-bold hover:bg-orange-700 transition-all active:scale-95 disabled:opacity-50"
             >
-              {loading ? <div className="w-6 h-6 border-2 border-white border-t-transparent animate-spin rounded-full" /> : <Search />}
+              {loading ? <div className="w-5 h-5 sm:w-6 sm:h-6 border-2 border-white border-t-transparent animate-spin rounded-full" /> : <Search className="w-5 h-5 sm:w-6 sm:h-6" />}
             </button>
           </form>
           {error && <p className="mt-3 text-red-500 text-sm font-medium flex items-center gap-1"><AlertCircle size={14} /> {error}</p>}
@@ -147,10 +147,11 @@ export default function SeguimientoPedido() {
                   const Icon = est.icon;
                   return (
                     <div key={est.id} className="relative z-10 flex flex-col items-center gap-2">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 ${esPasado ? 'bg-orange-600 text-white' : 'bg-gray-100 text-gray-300'}`}>
-                        <Icon size={20} />
+                      <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-500 ${esPasado ? 'bg-orange-600 text-white' : 'bg-gray-100 text-gray-300'}`}>
+                        <Icon size={16} className="sm:hidden" />
+                        <Icon size={20} className="hidden sm:block" />
                       </div>
-                      <span className={`text-[10px] font-bold uppercase ${esPasado ? 'text-orange-600' : 'text-gray-300'}`}>{est.label}</span>
+                      <span className={`text-[9px] sm:text-[10px] font-bold uppercase ${esPasado ? 'text-orange-600' : 'text-gray-300'}`}>{est.label}</span>
                     </div>
                   );
                 })}

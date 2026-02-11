@@ -45,7 +45,10 @@ export default function ProductCard({
                 </div>
             ) : product.destacado && (
                 <div className="absolute top-4 left-4 z-10">
-                    <span className="text-[10px] font-black text-white bg-orange-500 px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1">
+                    <span
+                        className="text-[10px] font-black text-white px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1"
+                        style={{ backgroundColor: negocio?.color_primario || '#f97316' }}
+                    >
                         <Star size={10} fill="currentColor" /> POPULAR
                     </span>
                 </div>
@@ -89,7 +92,8 @@ export default function ProductCard({
                                 <button
                                     onClick={() => onAdd(product)}
                                     disabled={isAdding}
-                                    className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center bg-orange-600 text-white rounded-full hover:bg-orange-700 hover:scale-105 active:scale-95 transition-all shadow-lg shadow-orange-200 font-bold text-xs sm:text-sm gap-1 sm:gap-2"
+                                    style={{ backgroundColor: negocio?.color_primario || '#ea580c' }}
+                                    className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center text-white rounded-full hover:brightness-110 hover:scale-105 active:scale-95 transition-all shadow-lg font-bold text-xs sm:text-sm gap-1 sm:gap-2"
                                 >
                                     <span className="hidden xs:inline">Agregar</span> <Plus size={16} strokeWidth={3} />
                                 </button>

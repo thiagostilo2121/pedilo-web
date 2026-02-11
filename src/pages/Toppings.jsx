@@ -122,14 +122,14 @@ export default function ToppingsDashboard() {
     return (
 
         <DashboardLayout>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                 <div>
-                    <h1 className="text-2xl font-black text-gray-900">Toppings</h1>
+                    <h1 className="text-2xl text-gray-900 font-extrabold">Toppings</h1>
                     <p className="text-gray-500 text-sm">Grupos de extras para tus productos</p>
                 </div>
                 <button
                     onClick={() => openModal()}
-                    className="flex items-center gap-2 bg-orange-600 text-white px-4 py-2 rounded-xl font-bold hover:bg-orange-700 transition-colors"
+                    className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-orange-700 transition-colors shadow-sm shadow-orange-200 active:scale-95"
                 >
                     <Plus size={18} /> Crear Grupo
                 </button>
@@ -272,33 +272,35 @@ export default function ToppingsDashboard() {
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex gap-2">
+                                <div className="flex flex-col sm:flex-row gap-2">
                                     <input
                                         type="text"
                                         value={nuevoTopping.nombre}
                                         onChange={(e) => setNuevoTopping({ ...nuevoTopping, nombre: e.target.value })}
-                                        className="flex-1 p-2 bg-gray-50 border-none rounded-lg text-sm outline-none focus:ring-2 focus:ring-orange-500"
+                                        className="flex-1 p-3 bg-gray-50 border-none rounded-lg text-sm outline-none focus:ring-2 focus:ring-orange-500"
                                         placeholder="Nombre del topping"
                                     />
-                                    <input
-                                        type="number"
-                                        value={nuevoTopping.precio}
-                                        onChange={(e) => setNuevoTopping({ ...nuevoTopping, precio: e.target.value })}
-                                        className="w-20 p-2 bg-gray-50 border-none rounded-lg text-sm outline-none focus:ring-2 focus:ring-orange-500"
-                                        placeholder="$0"
-                                    />
-                                    <label className="flex items-center gap-1.5 bg-gray-50 px-2 rounded-lg cursor-pointer border border-transparent hover:border-gray-200 transition-colors select-none">
+                                    <div className="flex gap-2">
                                         <input
-                                            type="checkbox"
-                                            checked={nuevoTopping.disponible !== false}
-                                            onChange={(e) => setNuevoTopping({ ...nuevoTopping, disponible: e.target.checked })}
-                                            className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500 border-gray-300"
+                                            type="number"
+                                            value={nuevoTopping.precio}
+                                            onChange={(e) => setNuevoTopping({ ...nuevoTopping, precio: e.target.value })}
+                                            className="w-20 p-3 bg-gray-50 border-none rounded-lg text-sm outline-none focus:ring-2 focus:ring-orange-500"
+                                            placeholder="$0"
                                         />
-                                        <span className="text-xs font-bold text-gray-500">Disp.</span>
-                                    </label>
-                                    <button onClick={addTopping} className="p-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700">
-                                        <Plus size={18} />
-                                    </button>
+                                        <label className="flex items-center gap-1.5 bg-gray-50 px-3 rounded-lg cursor-pointer border border-transparent hover:border-gray-200 transition-colors select-none">
+                                            <input
+                                                type="checkbox"
+                                                checked={nuevoTopping.disponible !== false}
+                                                onChange={(e) => setNuevoTopping({ ...nuevoTopping, disponible: e.target.checked })}
+                                                className="w-4 h-4 text-orange-600 rounded focus:ring-orange-500 border-gray-300"
+                                            />
+                                            <span className="text-xs font-bold text-gray-500">Disp.</span>
+                                        </label>
+                                        <button onClick={addTopping} className="p-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 active:scale-95 shadow-sm shadow-orange-200">
+                                            <Plus size={18} />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

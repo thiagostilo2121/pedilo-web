@@ -81,23 +81,23 @@ export default function Planes() {
         <h1 className="text-5xl font-black text-gray-900 mb-6 tracking-tight">Elegí el éxito de tu negocio</h1>
         <p className="text-xl text-gray-500 mb-16 font-medium">Digitalizá tus ventas hoy mismo. Sin contratos, sin comisiones, 100% transparente.</p>
 
-        <div className="bg-white rounded-[3.5rem] shadow-2xl shadow-orange-100 overflow-hidden border border-gray-100 relative max-w-2xl mx-auto">
-          <div className="bg-orange-600 text-white py-2 px-8 absolute top-8 right-[-45px] rotate-45 text-xs font-black uppercase tracking-widest w-48 shadow-lg">
+        <div className="bg-white rounded-[2.5rem] md:rounded-[3.5rem] shadow-2xl shadow-orange-100 overflow-hidden border border-gray-100 relative max-w-2xl mx-auto">
+          <div className="bg-orange-600 text-white py-1 md:py-2 px-8 absolute top-6 right-[-50px] md:top-8 md:right-[-45px] rotate-45 text-[10px] md:text-xs font-black uppercase tracking-widest w-48 shadow-lg z-10">
             Más Elegido
           </div>
 
           <div className="p-8 md:p-16">
-            <div className="text-orange-600 uppercase tracking-widest text-sm font-black mb-4">{plan.nombre}</div>
+            <div className="text-orange-600 uppercase tracking-widest text-xs md:text-sm font-black mb-4">{plan.nombre}</div>
 
             <div className="flex justify-center items-baseline gap-2 mb-8">
-              <span className="text-7xl font-black text-gray-950 tracking-tighter">${plan.precio}</span>
+              <span className="text-6xl md:text-7xl font-black text-gray-950 tracking-tighter">${plan.precio}</span>
               <span className="text-gray-400 font-bold text-lg">/{plan.periodo}</span>
             </div>
 
             {/* Valor entregado */}
-            <div className="bg-green-50 text-green-700 px-6 py-3 rounded-2xl flex items-center justify-center gap-3 mb-10 border border-green-100">
-              <Gift size={22} className="text-green-600" />
-              <span className="font-black">14 DÍAS DE PRUEBA TOTALMENTE GRATIS</span>
+            <div className="bg-green-50 text-green-700 px-4 py-3 md:px-6 md:py-3 rounded-2xl flex flex-col md:flex-row items-center justify-center gap-2 md:gap-3 mb-10 border border-green-100 text-center">
+              <Gift size={22} className="text-green-600 shrink-0" />
+              <span className="font-black text-sm md:text-base">14 DÍAS DE PRUEBA TOTALMENTE GRATIS</span>
             </div>
 
             <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5 text-left mb-12">

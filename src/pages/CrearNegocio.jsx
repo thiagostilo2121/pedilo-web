@@ -184,7 +184,10 @@ export default function CrearNegocio() {
                 </label>
               </div>
               <div className="relative group">
-                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm pointer-events-none transition-colors group-focus-within:text-orange-300">
+                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 font-bold text-sm pointer-events-none transition-colors group-focus-within:text-orange-300 hidden sm:block">
+                  pediloarg.netlify.app/n/
+                </div>
+                <div className="sm:hidden mb-2 text-xs font-bold text-gray-400 ml-1">
                   pediloarg.netlify.app/n/
                 </div>
                 <input
@@ -199,8 +202,9 @@ export default function CrearNegocio() {
                         .replace(/\s+/g, "-")
                     )
                   }
-                  className="w-full p-5 pl-[182px] bg-gray-50/50 border-2 border-transparent focus:border-orange-500/30 focus:bg-white focus:ring-4 focus:ring-orange-500/5 rounded-2xl outline-none transition-all font-black text-orange-600 tracking-tight"
+                  className="w-full p-5 sm:pl-[182px] bg-gray-50/50 border-2 border-transparent focus:border-orange-500/30 focus:bg-white focus:ring-4 focus:ring-orange-500/5 rounded-2xl outline-none transition-all font-black text-orange-600 tracking-tight"
                   disabled={loading}
+                  placeholder="tu-negocio"
                 />
               </div>
               <div className="mt-3 flex items-start gap-2 bg-blue-50/50 p-3 rounded-xl border border-blue-100/50">

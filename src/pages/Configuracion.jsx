@@ -152,12 +152,12 @@ export default function ConfiguracionNegocio() {
   return (
     <DashboardLayout>
       {/* Header con Acción Principal */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 sm:mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">Configuración</h1>
-          <p className="text-gray-500">Personaliza la apariencia y logística de tu local.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Configuración</h1>
+          <p className="text-gray-500 text-sm sm:text-base">Personaliza la apariencia y logística de tu local.</p>
         </div>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-col sm:flex-row gap-3">
           <button
             onClick={() => {
               if (!negocio.slug) {
@@ -166,14 +166,14 @@ export default function ConfiguracionNegocio() {
               }
               window.open(`/n/${negocio.slug}`, "_blank");
             }}
-            className="flex items-center gap-2 px-4 py-2 text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 font-semibold transition-all"
+            className="flex items-center justify-center gap-2 px-4 py-3 sm:py-2 text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 font-semibold transition-all active:scale-95"
           >
             <ExternalLink size={18} /> Ver mi tienda
           </button>
           <button
             onClick={handleSave}
             disabled={saving}
-            className="flex items-center gap-2 px-6 py-2 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 disabled:bg-orange-300 transition-all shadow-lg shadow-orange-200"
+            className="flex items-center justify-center gap-2 px-6 py-3 sm:py-2 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 disabled:bg-orange-300 transition-all shadow-lg shadow-orange-200 active:scale-95"
           >
             {saving ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
             {saving ? "Guardando..." : "Guardar Cambios"}

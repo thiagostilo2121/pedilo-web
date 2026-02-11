@@ -20,7 +20,7 @@ import { useAuth } from "../auth/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Spinner } from "flowbite-react";
-import { UserPlus, AlertCircle, ShieldCheck } from "lucide-react";
+import { UserPlus, AlertCircle, ShieldCheck, ChevronLeft } from "lucide-react";
 import { useToast } from "../contexts/ToastProvider";
 
 export default function Register() {
@@ -71,16 +71,21 @@ export default function Register() {
   };
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12">
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-gray-100">
+    <section className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-12 relative">
+      {/* Volver al inicio */}
+      <Link to="/" className="absolute top-6 left-6 flex items-center gap-2 text-gray-500 hover:text-orange-600 transition-colors font-medium text-sm">
+        <ChevronLeft size={18} /> Volver al inicio
+      </Link>
+
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 border border-gray-100 relative">
         <div className="flex flex-col items-center mb-8">
-          <div className="bg-orange-100 p-3 rounded-full mb-4">
+          <div className="bg-orange-100 p-3 rounded-full mb-4 ring-8 ring-orange-50">
             <UserPlus className="text-orange-600" size={32} />
           </div>
-          <h1 className="text-3xl font-black text-gray-900 text-center">
+          <h1 className="text-3xl font-black text-gray-900 text-center tracking-tight">
             Sumá tu Negocio
           </h1>
-          <p className="text-gray-500 text-sm mt-1 text-center">
+          <p className="text-gray-500 text-sm mt-2 text-center font-medium">
             Configurá tu catálogo digital en minutos
           </p>
         </div>
@@ -97,11 +102,13 @@ export default function Register() {
                 required: "Tu nombre es obligatorio",
                 minLength: { value: 2, message: "Mínimo 2 caracteres" },
               })}
-              className={`w-full p-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all ${errors.nombre ? "border-red-500 focus:ring-red-100" : "border-gray-100 focus:border-orange-500 focus:ring-orange-50"
+              className={`w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none transition-all font-medium ${errors.nombre
+                ? "border-red-100 bg-red-50 text-red-900 focus:border-red-500"
+                : "border-transparent focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100"
                 }`}
               placeholder="Juan Pérez"
             />
-            {errors.nombre && <p className="mt-1 text-xs text-red-600 font-bold ml-1 italic">{errors.nombre.message}</p>}
+            {errors.nombre && <p className="mt-1.5 text-xs text-red-600 font-bold ml-1 flex items-center gap-1"><AlertCircle size={12} /> {errors.nombre.message}</p>}
           </div>
 
           {/* Email */}
@@ -115,11 +122,13 @@ export default function Register() {
                 required: "El email es obligatorio",
                 pattern: { value: /^\S+@\S+$/i, message: "Email inválido" },
               })}
-              className={`w-full p-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all ${errors.email ? "border-red-500 focus:ring-red-100" : "border-gray-100 focus:border-orange-500 focus:ring-orange-50"
+              className={`w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none transition-all font-medium ${errors.email
+                ? "border-red-100 bg-red-50 text-red-900 focus:border-red-500"
+                : "border-transparent focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100"
                 }`}
               placeholder="hola@tu-negocio.com"
             />
-            {errors.email && <p className="mt-1 text-xs text-red-600 font-bold ml-1 italic">{errors.email.message}</p>}
+            {errors.email && <p className="mt-1.5 text-xs text-red-600 font-bold ml-1 flex items-center gap-1"><AlertCircle size={12} /> {errors.email.message}</p>}
           </div>
 
           {/* Password */}
@@ -133,11 +142,13 @@ export default function Register() {
                 required: "La contraseña es obligatoria",
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
               })}
-              className={`w-full p-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all ${errors.password ? "border-red-500 focus:ring-red-100" : "border-gray-100 focus:border-orange-500 focus:ring-orange-50"
+              className={`w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none transition-all font-medium ${errors.password
+                ? "border-red-100 bg-red-50 text-red-900 focus:border-red-500"
+                : "border-transparent focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100"
                 }`}
               placeholder="••••••••"
             />
-            {errors.password && <p className="mt-1 text-xs text-red-600 font-bold ml-1 italic">{errors.password.message}</p>}
+            {errors.password && <p className="mt-1.5 text-xs text-red-600 font-bold ml-1 flex items-center gap-1"><AlertCircle size={12} /> {errors.password.message}</p>}
           </div>
 
           {/* Confirm Password */}
@@ -151,11 +162,13 @@ export default function Register() {
                 required: "Repetí tu contraseña",
                 validate: (value) => value === watch("password") || "Las contraseñas no coinciden"
               })}
-              className={`w-full p-3 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all ${errors.confirmPassword ? "border-red-500 focus:ring-red-100" : "border-gray-100 focus:border-orange-500 focus:ring-orange-50"
+              className={`w-full p-4 bg-gray-50 border-2 rounded-2xl outline-none transition-all font-medium ${errors.confirmPassword
+                ? "border-red-100 bg-red-50 text-red-900 focus:border-red-500"
+                : "border-transparent focus:border-orange-500 focus:bg-white focus:ring-4 focus:ring-orange-100"
                 }`}
               placeholder="••••••••"
             />
-            {errors.confirmPassword && <p className="mt-1 text-xs text-red-600 font-bold ml-1 italic">{errors.confirmPassword.message}</p>}
+            {errors.confirmPassword && <p className="mt-1.5 text-xs text-red-600 font-bold ml-1 flex items-center gap-1"><AlertCircle size={12} /> {errors.confirmPassword.message}</p>}
           </div>
 
 
@@ -163,7 +176,7 @@ export default function Register() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full flex justify-center items-center gap-2 bg-gray-900 text-white font-black py-4 rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-50"
+            className="w-full flex justify-center items-center gap-2 bg-gray-900 text-white font-black py-4 rounded-2xl hover:bg-black transition-all shadow-xl active:scale-95 disabled:opacity-50 mt-2"
           >
             {isSubmitting ? <Spinner size="sm" /> : "Crear mi Cuenta"}
           </button>
@@ -171,7 +184,7 @@ export default function Register() {
           <div className="pt-4 text-center">
             <p className="text-sm text-gray-500 font-medium">
               ¿Ya sos parte?{" "}
-              <Link to="/login" className="text-orange-600 font-bold hover:underline">
+              <Link to="/login" className="text-orange-600 font-extrabold hover:underline">
                 Iniciá sesión acá
               </Link>
             </p>

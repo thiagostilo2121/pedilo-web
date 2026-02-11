@@ -143,14 +143,14 @@ export default function CategoriasDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900">Categorías</h1>
-          <p className="text-gray-500">Organiza tu menú para que tus clientes compren más fácil.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Categorías</h1>
+          <p className="text-gray-500 text-sm sm:text-base">Organiza tu menú para que tus clientes compren más fácil.</p>
         </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-md shadow-orange-200"
+          className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-md shadow-orange-200 active:scale-95"
         >
           <Plus size={20} />
           Crear Categoría

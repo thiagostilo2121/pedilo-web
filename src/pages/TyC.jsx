@@ -111,7 +111,8 @@ const Terminos = () => {
               Suscripción y Pagos del SaaS
             </h2>
             <p>
-              El uso del servicio para Comercios tiene un costo mensual de <strong>$17.000 ARS</strong>.
+              El uso del servicio para Comercios tiene un costo mensual acorde a las tarifas vigentes publicadas en nuestra sección de <Link to="/planes" className="text-orange-600 underline">Planes</Link>.
+              Pedilo se reserva el derecho de modificar estas tarifas, notificando a los usuarios con 30 días de antelación.
               Este pago otorga acceso al Dashboard, gestión de productos y recepción de pedidos ilimitados.
             </p>
             <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4">
@@ -121,9 +122,40 @@ const Terminos = () => {
             </div>
           </section>
 
-          <section id="responsabilidad" className="mb-12 pb-10 border-b">
+          <section id="prohibiciones" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
               <span className="p-2 bg-orange-100 text-orange-600 rounded-md">5</span>
+              Política de Uso Aceptable
+            </h2>
+            <p>
+              Queda estrictamente prohibido utilizar Pedilo para la venta de:
+            </p>
+            <ul className="list-disc pl-5 space-y-2 mt-2">
+              <li>Sustancias ilegales, drogas o narcóticos.</li>
+              <li>Armas de fuego, explosivos o municiones.</li>
+              <li>Productos falsificados o que infrinjan derechos de propiedad intelectual.</li>
+              <li>Cualquier otro bien o servicio que viole las leyes de la República Argentina.</li>
+            </ul>
+            <p className="mt-4 text-red-600 font-bold">
+              Pedilo se reserva el derecho de suspender inmediatamente cualquier cuenta que viole esta política sin derecho a reembolso.
+            </p>
+          </section>
+
+          <section id="cancelacion" className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">6</span>
+              Cancelación de Suscripción
+            </h2>
+            <p>
+              El Comercio puede cancelar su suscripción en cualquier momento desde su panel de control.
+              La cancelación detendrá los cobros futuros, pero el servicio permanecerá activo hasta el final del período ya abonado.
+              No se realizan reembolsos parciales por meses no utilizados.
+            </p>
+          </section>
+
+          <section id="responsabilidad" className="mb-12 pb-10 border-b">
+            <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
+              <span className="p-2 bg-orange-100 text-orange-600 rounded-md">7</span>
               Limitación de Responsabilidad
             </h2>
             <p>

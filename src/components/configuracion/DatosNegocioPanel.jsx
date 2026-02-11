@@ -6,7 +6,7 @@
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  */
-import { ImageIcon, Trash2, Palette } from "lucide-react";
+import { ImageIcon, Trash2, Palette, AlertCircle } from "lucide-react";
 
 export default function DatosNegocioPanel({
     negocio,
@@ -133,6 +133,18 @@ export default function DatosNegocioPanel({
                         </div>
                         <p className="text-[10px] text-gray-400 mt-1">Fondos alternativos y detalles.</p>
                     </div>
+                </div>
+            </div>
+
+            {/* BETA Notice */}
+            <div className="mt-4 p-4 bg-orange-50 border border-orange-100 rounded-xl flex gap-3 items-start">
+                <AlertCircle className="text-orange-500 shrink-0 mt-0.5" size={20} />
+                <div>
+                    <h4 className="font-bold text-orange-800 text-sm">Sistema de Colores en BETA</h4>
+                    <p className="text-xs text-orange-700 mt-0.5 leading-relaxed">
+                        Por el momento, la personalización solo se aplica en tu <span className="font-bold">Menú Digital</span>.
+                        Próximamente se implementará en el Checkout y el Seguimiento de Pedidos.
+                    </p>
                 </div>
             </div>
 

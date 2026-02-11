@@ -158,14 +158,14 @@ export default function ProductosDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 sm:mb-8">
         <div>
-          <h1 className="text-3xl font-extrabold text-gray-900">Productos</h1>
-          <p className="text-gray-500">Administra el stock y precios de tu menú.</p>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Productos</h1>
+          <p className="text-gray-500 text-sm sm:text-base">Administra el stock y precios de tu menú.</p>
         </div>
         <button
           onClick={() => openModal()}
-          className="flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-2.5 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-100"
+          className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-100 active:scale-95"
         >
           <Plus size={20} /> Nuevo Producto
         </button>
@@ -179,7 +179,7 @@ export default function ProductosDashboard() {
           placeholder="Buscar producto por nombre..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all shadow-sm"
+          className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all shadow-sm text-sm sm:text-base"
         />
       </div>
 

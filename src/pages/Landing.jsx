@@ -51,10 +51,16 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
+              <button
+                onClick={() => navigate("/acerca")}
+                className="text-gray-500 hover:text-orange-600 font-bold transition-colors text-sm hidden sm:block"
+              >
+                Ficha Técnica
+              </button>
               <button
                 onClick={() => navigate("/login")}
-                className="text-gray-600 hover:text-orange-600 font-bold transition-colors"
+                className="text-gray-600 hover:text-orange-600 font-bold transition-colors text-sm"
               >
                 Ingresar
               </button>
