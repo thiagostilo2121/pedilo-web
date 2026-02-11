@@ -4,7 +4,7 @@ import StatsCard from "../../components/dashboard/StatsCard";
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus } from "lucide-react";
+import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
 
 import DashboardLayout from "../../layout/DashboardLayout";
@@ -197,6 +197,32 @@ export default function DashboardHome() {
                                     <ShoppingBag size={18} />
                                     Crear Flyer Gratis
                                 </a>
+                            </div>
+                        </div>
+
+                        {/* WHATSAPP CHANNEL WIDGET */}
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
+                            <div className="flex items-start justify-between relative z-10">
+                                <div>
+                                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                        <MessageCircle className="text-green-500" size={20} />
+                                        Canal de Novedades
+                                    </h3>
+                                    <p className="text-sm text-gray-500 mb-4 leading-relaxed">
+                                        Unite a nuestro canal oficial de WhatsApp para recibir tips de venta, novedades y regalos exclusivos.
+                                    </p>
+                                    <a
+                                        href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-green-600 font-bold text-sm hover:underline"
+                                    >
+                                        Unirme ahora <Plus size={16} />
+                                    </a>
+                                </div>
+                                <div className="bg-green-50 p-3 rounded-xl text-green-600">
+                                    <MessageCircle size={24} />
+                                </div>
                             </div>
                         </div>
 

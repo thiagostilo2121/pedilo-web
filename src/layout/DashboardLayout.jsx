@@ -33,7 +33,9 @@ import {
   Github,
   Cherry,
   CirclePercent,
-  LayoutDashboard
+  LayoutDashboard,
+  MessageCircle,
+  Instagram
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
@@ -94,30 +96,48 @@ export default function DashboardLayout({ children }) {
           ))}
         </nav>
 
-        <div className="p-4 border-t">
+        <div className="p-4 border-t space-y-4">
+          {/* Socials Row */}
+          <div className={`flex ${sidebarOpen ? 'flex-row' : 'flex-col'} gap-2`}>
+            <a
+              href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex-1 flex items-center justify-center p-2.5 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition-colors ${!sidebarOpen && 'aspect-square'}`}
+              title="Canal de WhatsApp"
+            >
+              <MessageCircle size={20} />
+              {sidebarOpen && <span className="ml-2 text-sm font-bold">Canal</span>}
+            </a>
+            <a
+              href="https://instagram.com/pediloarg.ofc"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`flex-1 flex items-center justify-center p-2.5 rounded-xl bg-pink-50 text-pink-600 hover:bg-pink-100 transition-colors ${!sidebarOpen && 'aspect-square'}`}
+              title="Instagram"
+            >
+              <Instagram size={20} />
+              {sidebarOpen && <span className="ml-2 text-sm font-bold">Seguinos</span>}
+            </a>
+          </div>
+
+          {/* Logout */}
           <button
             onClick={logoutAction}
-            className="flex items-center gap-3 w-full px-3 py-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium"
+            className={`w-full flex items-center ${sidebarOpen ? 'justify-center' : 'justify-center'} py-2.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium`}
+            title="Cerrar Sesión"
           >
             <LogOut size={20} />
-            {sidebarOpen && <span>Cerrar Sesión</span>}
+            {sidebarOpen && <span className="ml-3">Cerrar Sesión</span>}
           </button>
 
-          <button
-            onClick={() => navigate("/terminos")}
-            className="flex items-center gap-3 w-full px-3 py-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium"
-          >
-            <FileText size={20} />
-            {sidebarOpen && <span>Términos y C.</span>}
-          </button>
-
-          <button
-            onClick={() => navigate("/privacidad")}
-            className="flex items-center gap-3 w-full px-3 py-2 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors font-medium"
-          >
-            <FileText size={20} />
-            {sidebarOpen && <span>Privacidad</span>}
-          </button>
+          {/* Legal Links (Desktop Expanded Only) */}
+          {sidebarOpen && (
+            <div className="flex justify-center flex-wrap gap-x-4 gap-y-2 pt-2 border-t border-gray-100 text-xs font-semibold text-gray-400">
+              <button onClick={() => navigate("/terminos")} className="hover:text-gray-600 transition-colors">Términos</button>
+              <button onClick={() => navigate("/privacidad")} className="hover:text-gray-600 transition-colors">Privacidad</button>
+            </div>
+          )}
         </div>
 
         {/* Mini-footer con créditos */}
@@ -177,29 +197,43 @@ export default function DashboardLayout({ children }) {
               </NavLink>
             ))}
 
-            <button
-              onClick={logoutAction}
-              className="flex items-center gap-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl mt-10"
-            >
-              <LogOut size={20} />
-              <span className="text-lg font-medium">Cerrar Sesión</span>
-            </button>
+            {/* Mobile Footer Section */}
+            <div className="pt-6 mt-6 border-t border-gray-100 space-y-4">
+              {/* Socials */}
+              <div className="grid grid-cols-2 gap-4">
+                <a
+                  href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-green-50 text-green-600"
+                >
+                  <MessageCircle size={24} />
+                  <span className="text-sm font-bold">Novedades</span>
+                </a>
+                <a
+                  href="https://instagram.com/pediloarg.ofc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-pink-50 text-pink-600"
+                >
+                  <Instagram size={24} />
+                  <span className="text-sm font-bold">Instagram</span>
+                </a>
+              </div>
 
-            <button
-              onClick={() => navigate("/terminos")}
-              className="flex items-center gap-4 w-full px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-xl"
-            >
-              <FileText size={20} />
-              <span className="text-lg font-medium">Términos y Condiciones</span>
-            </button>
+              <button
+                onClick={logoutAction}
+                className="flex items-center justify-center gap-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl"
+              >
+                <LogOut size={20} />
+                <span className="text-lg font-medium">Cerrar Sesión</span>
+              </button>
 
-            <button
-              onClick={() => navigate("/privacidad")}
-              className="flex items-center gap-4 w-full px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-xl"
-            >
-              <FileText size={20} />
-              <span className="text-lg font-medium">Privacidad</span>
-            </button>
+              <div className="flex justify-center gap-6 pt-4 text-sm font-medium text-gray-400">
+                <button onClick={() => navigate("/terminos")}>Términos y Condiciones</button>
+                <button onClick={() => navigate("/privacidad")}>Privacidad</button>
+              </div>
+            </div>
           </nav>
         </div>
 
