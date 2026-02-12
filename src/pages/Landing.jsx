@@ -36,7 +36,9 @@ import {
   Bot,
   ClipboardList,
   ScanBarcode,
-  Warehouse
+  Warehouse,
+  BadgeCheck,
+  Megaphone
 } from "lucide-react";
 
 export default function Landing() {
@@ -345,6 +347,24 @@ export default function Landing() {
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Modo Distribuidora</h3>
               <p className="text-sm text-gray-500 font-medium">Precios mayoristas, mínimos de compra y bultos cerrados. Ideal para venta a comercios.</p>
+            </div>
+
+            {/* Smart Banners */}
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 font-bold hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-yellow-600 shadow-sm mb-4">
+                <Megaphone size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Smart Banners</h3>
+              <p className="text-sm text-gray-500 font-medium">Anunciá ofertas relámpago o avisos importantes con una barra destacada en tu menú.</p>
+            </div>
+
+            {/* Reputation Badges */}
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 font-bold hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
+                <BadgeCheck size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Insignias de Confianza</h3>
+              <p className="text-sm text-gray-500 font-medium">Ganate badges de "Verificado" y "Top Seller" automáticamente al cumplir hitos de ventas.</p>
             </div>
 
             {/* AI Recommendation - Full Width */}

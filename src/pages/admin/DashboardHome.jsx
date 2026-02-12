@@ -4,7 +4,7 @@ import StatsCard from "../../components/dashboard/StatsCard";
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram, Users } from "lucide-react";
+import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram, Users, BadgeCheck, Award, Zap } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
 import negocioService from "../../services/negocioService";
 
@@ -235,69 +235,104 @@ export default function DashboardHome() {
                                         Unirme ahora <Plus size={16} />
                                     </a>
                                 </div>
-                                <div className="bg-green-50 p-3 rounded-xl text-green-600">
-                                    <MessageCircle size={24} />
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* REPUTATION BADGES INFO */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 overflow-hidden relative">
+                        <div className="absolute top-0 right-0 p-4 opacity-10">
+                            <Award size={80} className="text-blue-500" />
+                        </div>
+                        <div className="relative z-10">
+                            <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                <BadgeCheck className="text-blue-600" size={20} />
+                                Tu Reputación
+                            </h3>
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-blue-50 p-2 rounded-lg text-blue-600">
+                                        <BadgeCheck size={18} />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-bold text-gray-800">Verificado (+50)</p>
+                                        <p className="text-[11px] text-gray-500">Completá 50 pedidos para obtener el sello azul.</p>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-yellow-50 p-2 rounded-lg text-yellow-600">
+                                        <Award size={18} />
+                                    </div>
+                                    <div>
+                                        <p className="text-sm font-bold text-gray-800">Top Seller (+100)</p>
+                                        <p className="text-[11px] text-gray-500">Llegá a los 100 pedidos y destacate en el barrio.</p>
+                                    </div>
+                                </div>
+                                <div className="pt-2 border-t border-gray-50">
+                                    <p className="text-[10px] text-gray-400 leading-tight italic">
+                                        * Las insignias aparecen automáticamente en tu menú digital al cumplir los objetivos.
+                                    </p>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        {/* TOP PRODUCTS */}
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-bold text-gray-900 mb-6">Más Vendidos</h3>
-                            <div className="space-y-6">
-                                {topProducts.map((prod, idx) => (
+                    {/* TOP PRODUCTS */}
+                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
+                        <h3 className="text-lg font-bold text-gray-900 mb-6">Más Vendidos</h3>
+                        <div className="space-y-6">
+                            {topProducts.map((prod, idx) => (
+                                <div key={idx} className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+                                            {idx + 1}
+                                        </div>
+                                        <div>
+                                            <p className="font-medium text-gray-900 text-sm line-clamp-1">{prod.nombre}</p>
+                                            <p className="text-xs text-gray-500">{prod.cantidad} ventas</p>
+                                        </div>
+                                    </div>
+                                    <span className="text-sm font-semibold text-gray-900">
+                                        ${prod.ingresos.toLocaleString()}
+                                    </span>
+                                </div>
+                            ))}
+
+                            {topProducts.length === 0 && (
+                                <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* TOP CLIENTS (distribuidoras only) */}
+                    {tipoNegocio === "distribuidora" && (
+                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100">
+                            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                <Users size={20} className="text-blue-500" /> Mejores Clientes
+                            </h3>
+                            <div className="space-y-4">
+                                {topClients.map((client, idx) => (
                                     <div key={idx} className="flex items-center justify-between">
                                         <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
+                                            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-sm font-bold text-blue-600">
                                                 {idx + 1}
                                             </div>
                                             <div>
-                                                <p className="font-medium text-gray-900 text-sm line-clamp-1">{prod.nombre}</p>
-                                                <p className="text-xs text-gray-500">{prod.cantidad} ventas</p>
+                                                <p className="font-medium text-gray-900 text-sm line-clamp-1">{client.nombre}</p>
+                                                <p className="text-xs text-gray-500">{client.cantidad_pedidos} pedidos</p>
                                             </div>
                                         </div>
-                                        <span className="text-sm font-semibold text-gray-900">
-                                            ${prod.ingresos.toLocaleString()}
+                                        <span className="text-sm font-semibold text-blue-600">
+                                            ${Number(client.total_gastado || 0).toLocaleString()}
                                         </span>
                                     </div>
                                 ))}
-
-                                {topProducts.length === 0 && (
+                                {topClients.length === 0 && (
                                     <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
                                 )}
                             </div>
                         </div>
-
-                        {/* TOP CLIENTS (distribuidoras only) */}
-                        {tipoNegocio === "distribuidora" && (
-                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100">
-                                <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                    <Users size={20} className="text-blue-500" /> Mejores Clientes
-                                </h3>
-                                <div className="space-y-4">
-                                    {topClients.map((client, idx) => (
-                                        <div key={idx} className="flex items-center justify-between">
-                                            <div className="flex items-center gap-3">
-                                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-sm font-bold text-blue-600">
-                                                    {idx + 1}
-                                                </div>
-                                                <div>
-                                                    <p className="font-medium text-gray-900 text-sm line-clamp-1">{client.nombre_cliente}</p>
-                                                    <p className="text-xs text-gray-500">{client.cantidad_pedidos} pedidos</p>
-                                                </div>
-                                            </div>
-                                            <span className="text-sm font-semibold text-blue-600">
-                                                ${Number(client.total_gastado || 0).toLocaleString()}
-                                            </span>
-                                        </div>
-                                    ))}
-                                    {topClients.length === 0 && (
-                                        <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    )}
                 </div>
             </div>
         </DashboardLayout>

@@ -31,6 +31,8 @@
 - ⚙️ **Configuración Total** - Gestión de toppings, horarios, métodos de pago y delivery.
 - 📸 **Scanner Integrado** - Lectura de códigos de barra (Cámara/USB) y búsqueda automática en Open Food Facts.
 - 📦 **Modo Distribuidora** - Precios mayoristas, mínimos por bulto y reglas de negocio B2B.
+- 📢 **Smart Banners** - Sistema de anuncios nativos en el menú para promociones y avisos.
+- 🏅 **Insignias de Reputación** - Badges automáticos ("Verificado", "Top Seller") para generar confianza.
 - 💳 **Monetización** - Integración con Mercado Pago para suscripciones premium automáticas.
 
 ### Para Clientes
@@ -191,6 +193,7 @@ Esto significa que si modificás este código y lo usás en un servicio público
 El objetivo es consolidar el modelo híbrido (Minorista/Distribuidora) con funciones B2B robustas.
 
 - [x] **Validación Estricta de Mínimos**: Bloqueo de checkout si no se cumple el monto mínimo de compra (Distribuidoras).
+- [x] **Marketing Automático**: Smart Banners e Insignias de Reputación.
 - [ ] **Stock Numérico Real**: Gestión de inventario exacto (unidades) en lugar de binario (Sí/No).
 - [ ] **Cuentas Corrientes**: Gestión de saldos para clientes recurrentes.
 - [ ] **Multi-Depósito**: Manejo de stock desde múltiples ubicaciones.

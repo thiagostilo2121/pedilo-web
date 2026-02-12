@@ -17,6 +17,7 @@ Pedilo has established itself as the new standard for local commerce in Latin Am
 | **UX/UI** | Cluttered, generic | **Premium, Branded, Glassmorphism.** Stunning design. |
 | **B2B Mode** | Non-existent | **Wholesale Pricing & Bulk Logic.** Ideal for distributors. |
 | **Tools** | Basic App | **Integrated Barcode Scanner.** Camera + USB support. |
+| **Marketing** | Expensive ads | **Smart Banners & Reputation Badges.** Professional branding. |
 
 ---
 *For full technical details and architecture, see AI_CONTEXT.md*
