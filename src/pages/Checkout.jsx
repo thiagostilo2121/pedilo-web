@@ -215,7 +215,7 @@ export default function Checkout({ slug }) {
     </div>
   );
 
-  const total = calcularTotalCarrito(carrito);
+  const total = calcularTotalCarrito(carrito, negocio);
 
   // Validación de Pedido Mínimo (Distribuidoras)
   const montoMinimo = (negocio?.tipo_negocio === 'distribuidora' && negocio?.pedido_minimo) || 0;
@@ -394,7 +394,14 @@ export default function Checkout({ slug }) {
                   <div className="flex gap-2 min-w-0">
                     <span className="font-bold text-orange-600 whitespace-nowrap">{item.cantidad}x</span>
                     <div className="min-w-0">
-                      <span className="text-gray-600 block truncate">{item.nombre}</span>
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        <span className="text-gray-600 truncate">{item.nombre}</span>
+                        {negocio?.tipo_negocio === 'distribuidora' && item.precio_mayorista && item.cantidad_mayorista && item.cantidad >= item.cantidad_mayorista && (
+                          <span className="text-[9px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-black uppercase tracking-tighter">
+                            Mayorista
+                          </span>
+                        )}
+                      </div>
                       {item.toppings && item.toppings.length > 0 && (
                         <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">
                           {(() => {
@@ -411,7 +418,7 @@ export default function Checkout({ slug }) {
                     </div>
                   </div>
                   <span className="font-bold text-gray-900 ml-2 whitespace-nowrap">
-                    ${(calcularPrecioEfectivo(item) * item.cantidad).toFixed(0)}
+                    ${(calcularPrecioEfectivo(item, negocio) * item.cantidad).toFixed(0)}
                   </span>
                 </div>
               ))}
@@ -460,7 +467,9 @@ export default function Checkout({ slug }) {
               {/* SUBTOTAL y DESCUENTO */}
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-400 font-medium">Subtotal</span>
+                  <span className="text-gray-400 font-medium">
+                    Subtotal {negocio?.tipo_negocio === 'distribuidora' && carrito.some(i => i.precio_mayorista && i.cantidad_mayorista && i.cantidad >= i.cantidad_mayorista) && "(con precios mayoristas)"}
+                  </span>
                   <span className="font-bold text-gray-900">${total.toFixed(0)}</span>
                 </div>
                 {discount > 0 && (
