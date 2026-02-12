@@ -16,12 +16,15 @@ import {
   Flame,
   Zap,
   Award,
-  BadgeCheck
+  BadgeCheck,
+  LayoutGrid, // NEW
+  List        // NEW
 } from "lucide-react";
 import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
 import ToppingSelector from "../components/ToppingSelector";
 import { toast } from "react-hot-toast";
 import ProductCard from "../components/ui/ProductCard";
+import ProductCardList from "../components/ui/ProductCardList"; // NEW
 import CartDrawer from "../components/ui/CartDrawer";
 import Skeleton from "../components/ui/Skeleton";
 import ProgressiveImage from "../components/ui/ProgressiveImage";
@@ -105,6 +108,7 @@ export default function PublicNegocio({ slug }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showInfoModal, setShowInfoModal] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [viewMode, setViewMode] = useState("grid"); // NEW STATE
 
   // Estados para toppings
   const [showToppingModal, setShowToppingModal] = useState(false);
@@ -124,6 +128,11 @@ export default function PublicNegocio({ slug }) {
         ]);
 
         setNegocio(negocioRes.data);
+        // NEW: Auto switch to list view for distribuidoras
+        if (negocioRes.data.tipo_negocio === 'distribuidora') {
+          setViewMode("list");
+        }
+
         const sortedProducts = productosRes.data.sort((a, b) => (b.destacado === true) - (a.destacado === true));
         setProductos(sortedProducts);
         setCategorias(categoriasRes.data);
@@ -237,6 +246,28 @@ export default function PublicNegocio({ slug }) {
       return { ...p, cantidad: p.cantidad - 1 };
     }).filter((p) => p.cantidad > 0));
   };
+
+  // NEW: Bulk Update Handler
+  const handleUpdateQuantity = (producto, newQuantity) => {
+    if (!negocio?.acepta_pedidos) return;
+
+    if (newQuantity === 0) {
+      // Remove item
+      setCarrito(prev => prev.filter(p => !(p.id === producto.id && !p.toppings?.length)));
+      return;
+    }
+
+    setCarrito(prev => {
+      const existing = prev.find(p => p.id === producto.id && !p.toppings?.length);
+      if (existing) {
+        return prev.map(p => p.cartItemId === existing.cartItemId ? { ...p, cantidad: newQuantity } : p);
+      } else {
+        // Add new
+        return [...prev, { ...producto, cantidad: newQuantity, toppings: [], cartItemId: Date.now() }];
+      }
+    });
+  };
+
 
   // Filter Logic
   const getFilteredProducts = () => {
@@ -430,7 +461,7 @@ export default function PublicNegocio({ slug }) {
         </div>
       </header>
 
-      <main className="max-w-4xl mx-auto relative z-10 -mt-8 bg-gray-50 rounded-t-[2.5rem] min-h-screen pb-10 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] pt-8">
+      <main className="max-w-6xl mx-auto relative z-10 -mt-8 bg-gray-50 rounded-t-[2.5rem] min-h-screen pb-10 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] pt-8">
 
         {/* Pedido Mínimo Banner (distribuidoras) */}
         {negocio.tipo_negocio === 'distribuidora' && negocio.pedido_minimo > 0 && (
@@ -535,137 +566,220 @@ export default function PublicNegocio({ slug }) {
           </section>
         )}
 
-        {/* 3. CATEGORÍAS "INSTAGRAM STORIES" STYLE */}
-        {!searchTerm && categorias.length > 0 && (
-          <div className="sticky top-[72px] z-40 bg-gray-50/95 backdrop-blur-md pb-6 pt-3 mx-4 px-4 mb-8 border-b border-gray-100/50 shadow-sm transition-all">
-            <div className="flex gap-4 overflow-x-auto scrollbar-responsive pt-2 px-2 pb-2">
-              {/* 'Todos' Button - Scrolls to Top */}
+        {/* MAIN CONTENT GRID (Sidebar + Feed) */}
+        <div className="md:flex md:gap-8 px-4">
+          {/* DESKTOP SIDEBAR */}
+          <aside className="hidden md:block w-64 shrink-0 sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto pb-10">
+            <h3 className="font-bold text-gray-900 mb-4 px-2 text-lg">Categorías</h3>
+            <div className="space-y-1">
               <button
-                onClick={() => scrollToCategory("todos")}
-                className="flex flex-col items-center gap-2 group min-w-[72px]"
+                onClick={() => scrollToCategory('todos')}
+                className={`w-full text-left px-4 py-3 rounded-xl transition-all font-bold text-sm ${activeCategory === 'todos' ? 'bg-white shadow text-gray-900 ring-1 ring-gray-100' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'}`}
               >
-                <div
-                  className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${activeCategory === "todos" ? 'shadow-lg scale-105' : 'bg-gray-200 grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0'}`}
-                  style={activeCategory === "todos" ? { background: `linear-gradient(to top right, ${negocio.color_primario || '#f97316'}, ${negocio.color_secundario || '#ec4899'})` } : {}}
-                >
-                  <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center overflow-hidden">
-                    <span className="font-black text-[10px] uppercase text-gray-800">Menú</span>
-                  </div>
-                </div>
-                <span className={`text-xs font-bold truncate max-w-[80px] ${activeCategory === "todos" ? 'text-gray-900' : 'text-gray-500'}`}>Todos</span>
+                Todas
               </button>
+              {categorias.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => scrollToCategory(cat.nombre)}
+                  className={`w-full text-left px-4 py-3 rounded-xl transition-all font-bold text-sm flex items-center justify-between group ${activeCategory === cat.nombre ? 'bg-white shadow text-gray-900 ring-1 ring-gray-100' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'}`}
+                >
+                  <span>{cat.nombre}</span>
+                  {productsByCategory[cat.nombre]?.length > 0 && (
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${activeCategory === cat.nombre ? 'bg-gray-100 text-gray-900' : 'bg-gray-100 text-gray-400 group-hover:text-gray-600'}`}>
+                      {productsByCategory[cat.nombre]?.length}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+          </aside>
 
-              {/* Categories Map */}
-              {categorias.map(cat => {
-                const isActive = activeCategory === cat.nombre;
-                return (
+          <div className="flex-1 min-w-0">
+
+            {/* 3. CATEGORÍAS "INSTAGRAM STORIES" STYLE (MOBILE ONLY) */}
+            {!searchTerm && categorias.length > 0 && (
+              <div className="md:hidden sticky top-[72px] z-40 bg-gray-50/95 backdrop-blur-md pb-6 pt-3 -mx-4 px-4 mb-8 border-b border-gray-100/50 shadow-sm transition-all">
+                <div className="flex gap-4 overflow-x-auto scrollbar-responsive pt-2 px-2 pb-2">
+                  {/* 'Todos' Button - Scrolls to Top */}
                   <button
-                    key={cat.id}
-                    onClick={() => scrollToCategory(cat.nombre)}
+                    onClick={() => scrollToCategory("todos")}
                     className="flex flex-col items-center gap-2 group min-w-[72px]"
                   >
                     <div
-                      className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${isActive ? 'shadow-lg scale-105' : 'bg-gradient-to-tr from-gray-200 to-gray-300 opacity-90 group-hover:scale-105'}`}
-                      style={isActive ? { background: `linear-gradient(to top right, ${negocio.color_primario || '#f97316'}, ${negocio.color_secundario || '#ec4899'})` } : {}}
+                      className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${activeCategory === "todos" ? 'shadow-lg scale-105' : 'bg-gray-200 grayscale opacity-70 group-hover:opacity-100 group-hover:grayscale-0'}`}
+                      style={activeCategory === "todos" ? { background: `linear-gradient(to top right, ${negocio.color_primario || '#f97316'}, ${negocio.color_secundario || '#ec4899'})` } : {}}
                     >
-                      <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center overflow-hidden relative">
-                        <img
-                          src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"}
-                          alt={cat.nombre}
-                          className="w-full h-full object-cover"
-                        />
+                      <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center overflow-hidden">
+                        <span className="font-black text-[10px] uppercase text-gray-800">Menú</span>
                       </div>
                     </div>
-                    <span className={`text-xs font-bold truncate max-w-[80px] ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>{cat.nombre}</span>
+                    <span className={`text-xs font-bold truncate max-w-[80px] ${activeCategory === "todos" ? 'text-gray-900' : 'text-gray-500'}`}>Todos</span>
                   </button>
-                )
-              })}
-            </div>
-          </div>
-        )}
 
-        {/* 4. PRODUCT LIST (SCROLL SPY MODE) */}
-        {!searchTerm ? (
-          <div className="px-4 flex flex-col gap-10 min-h-[500px] pb-20">
-            {categorias.map(cat => {
-              const catProducts = productsByCategory[cat.nombre];
-              if (!catProducts || catProducts.length === 0) return null;
-
-              return (
-                <section
-                  key={cat.id}
-                  id={`cat-${cat.nombre}`}
-                  ref={el => categoryRefs.current[cat.nombre] = el}
-                  className="scroll-mt-40"
-                >
-                  <h3 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-2">
-                    {cat.nombre}
-                    <span
-                      className="text-sm font-bold text-white px-2 py-1 rounded-full"
-                      style={{ backgroundColor: negocio.color_secundario || '#9ca3af' }}
-                    >
-                      {catProducts.length}
-                    </span>
-                  </h3>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    {catProducts.map(prod => (
-                      <ProductCard
-                        key={prod.id}
-                        product={prod}
-                        negocio={negocio}
-                        cartItem={carrito.find(p => p.id === prod.id)}
-                        onAdd={handleAddToCart}
-                        onDecrease={disminuirCantidad}
-                        onShare={handleShareProduct}
-                        isAdding={addingProductId === prod.id}
-                      />
-                    ))}
-                  </div>
-                </section>
-              );
-            })}
-            {/* If no categories or empty, show fallback */}
-            {productos.length === 0 && (
-              <div className="text-center py-20 text-gray-500">No hay productos disponibles.</div>
+                  {/* Categories Map */}
+                  {categorias.map(cat => {
+                    const isActive = activeCategory === cat.nombre;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => scrollToCategory(cat.nombre)}
+                        className="flex flex-col items-center gap-2 group min-w-[72px]"
+                      >
+                        <div
+                          className={`w-[72px] h-[72px] rounded-full p-[2px] transition-all duration-300 ${isActive ? 'shadow-lg scale-105' : 'bg-gradient-to-tr from-gray-200 to-gray-300 opacity-90 group-hover:scale-105'}`}
+                          style={isActive ? { background: `linear-gradient(to top right, ${negocio.color_primario || '#f97316'}, ${negocio.color_secundario || '#ec4899'})` } : {}}
+                        >
+                          <div className="w-full h-full rounded-full bg-white border-2 border-white flex items-center justify-center overflow-hidden relative">
+                            <img
+                              src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE || "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"}
+                              alt={cat.nombre}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                        </div>
+                        <span className={`text-xs font-bold truncate max-w-[80px] ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>{cat.nombre}</span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
             )}
-          </div>
-        ) : (
-          /* SEARCH RESULTS MODE */
-          <div className="px-4 flex flex-col gap-6 min-h-[500px]">
-            <div className="flex items-center justify-between mb-2">
-              <h2 className="text-xl font-black text-gray-900">
-                Resultados: "{searchTerm}"
-              </h2>
-              <span className="text-xs font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1 rounded-full shadow-sm">{displayedProducts.length} productos</span>
-            </div>
 
-            {displayedProducts.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in duration-500">
-                {displayedProducts.map(prod => (
-                  <ProductCard
-                    key={prod.id}
-                    product={prod}
-                    negocio={negocio}
-                    cartItem={carrito.find(p => p.id === prod.id)}
-                    onAdd={handleAddToCart}
-                    onDecrease={disminuirCantidad}
-                    onShare={handleShareProduct}
-                    isAdding={addingProductId === prod.id}
-                  />
-                ))}
+            {/* 3.5 VIEW TOGGLE (NEW) */}
+            {productos.length > 0 && !searchTerm && (
+              <div className="mb-4 flex justify-end">
+                <div className="bg-gray-100 p-1 rounded-lg flex items-center gap-1">
+                  <button
+                    onClick={() => setViewMode("grid")}
+                    className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    <LayoutGrid size={18} />
+                  </button>
+                  <button
+                    onClick={() => setViewMode("list")}
+                    className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                  >
+                    <List size={18} />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* 4. PRODUCT LIST (SCROLL SPY MODE) */}
+            {!searchTerm ? (
+              <div className="flex flex-col gap-10 min-h-[500px] pb-20">
+                {categorias.map(cat => {
+                  const catProducts = productsByCategory[cat.nombre];
+                  if (!catProducts || catProducts.length === 0) return null;
+
+                  return (
+                    <section
+                      key={cat.id}
+                      id={`cat-${cat.nombre}`}
+                      ref={el => categoryRefs.current[cat.nombre] = el}
+                      className="scroll-mt-40"
+                    >
+                      <h3 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-2">
+                        {cat.nombre}
+                        <span
+                          className="text-sm font-bold text-white px-2 py-1 rounded-full"
+                          style={{ backgroundColor: negocio.color_secundario || '#9ca3af' }}
+                        >
+                          {catProducts.length}
+                        </span>
+                      </h3>
+
+                      <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 gap-5' : 'grid-cols-1'}`}>
+                        {catProducts.map(prod => (
+                          viewMode === 'grid' ? (
+                            <ProductCard
+                              key={prod.id}
+                              product={prod}
+                              negocio={negocio}
+                              cartItem={carrito.find(p => p.id === prod.id && !p.toppings?.length)}
+                              onAdd={handleAddToCart}
+                              onDecrease={disminuirCantidad}
+                              onShare={handleShareProduct}
+                              isAdding={addingProductId === prod.id}
+                            />
+                          ) : (
+                            <ProductCardList
+                              key={prod.id}
+                              product={prod}
+                              negocio={negocio}
+                              cartItem={carrito.find(p => p.id === prod.id && !p.toppings?.length)}
+                              onUpdateQuantity={handleUpdateQuantity}
+                              onAdd={handleAddToCart}
+                              onDecrease={disminuirCantidad}
+                              onShare={handleShareProduct}
+                              isAdding={addingProductId === prod.id}
+                            />
+                          )
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
+                {/* If no categories or empty, show fallback */}
+                {productos.length === 0 && (
+                  <div className="text-center py-20 text-gray-500">No hay productos disponibles.</div>
+                )}
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center py-20 text-center opacity-60">
-                <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-                  <Search size={30} className="text-gray-400" />
+              /* SEARCH RESULTS MODE */
+              <div className="px-4 flex flex-col gap-6 min-h-[500px]">
+                <div className="flex items-center justify-between mb-2">
+                  <h2 className="text-xl font-black text-gray-900">
+                    Resultados: "{searchTerm}"
+                  </h2>
+                  <span className="text-xs font-bold text-gray-400 bg-white border border-gray-100 px-3 py-1 rounded-full shadow-sm">{displayedProducts.length} productos</span>
                 </div>
-                <p className="font-bold text-gray-500">No encontramos productos con ese nombre.</p>
-                <button onClick={() => setSearchTerm("")} className="mt-4 font-bold text-sm underline" style={{ color: negocio.color_primario || '#ea580c' }}>Ver todo el menú</button>
+
+                {displayedProducts.length > 0 ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in duration-500">
+                    {displayedProducts.map(prod => (
+                      /* Search results always grid for now, or adapt based on viewMode too */
+                      viewMode === 'list' ? (
+                        <ProductCardList
+                          key={prod.id}
+                          product={prod}
+                          negocio={negocio}
+                          cartItem={carrito.find(p => p.id === prod.id && !p.toppings?.length)}
+                          onUpdateQuantity={handleUpdateQuantity}
+                          onAdd={handleAddToCart}
+                          onDecrease={disminuirCantidad}
+                          onShare={handleShareProduct}
+                          isAdding={addingProductId === prod.id}
+                        />
+                      ) : (
+                        <ProductCard
+                          key={prod.id}
+                          product={prod}
+                          negocio={negocio}
+                          cartItem={carrito.find(p => p.id === prod.id && !p.toppings?.length)}
+                          onAdd={handleAddToCart}
+                          onDecrease={disminuirCantidad}
+                          onShare={handleShareProduct}
+                          isAdding={addingProductId === prod.id}
+                        />
+                      )
+                    ))}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center justify-center py-20 text-center opacity-60">
+                    <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                      <Search size={30} className="text-gray-400" />
+                    </div>
+                    <p className="font-bold text-gray-500">No encontramos productos con ese nombre.</p>
+                    <button onClick={() => setSearchTerm("")} className="mt-4 font-bold text-sm underline" style={{ color: negocio.color_primario || '#ea580c' }}>Ver todo el menú</button>
+                  </div>
+                )}
               </div>
             )}
-          </div>
-        )}
+
+          </div> {/* End Right Column */}
+        </div>
 
         {/* Footer Minimalista */}
         <footer className="mt-20 border-t border-gray-200 pt-8 pb-20 text-center text-xs text-gray-400 font-medium">
@@ -692,6 +806,15 @@ export default function PublicNegocio({ slug }) {
               <div className="flex flex-col items-start leading-none gap-1">
                 <span className="text-[10px] text-white/80 font-bold uppercase tracking-widest">{carrito.reduce((acc, p) => acc + p.cantidad, 0)} ITEMS</span>
                 <span className="text-xl font-black">${calcularTotalCarrito(carrito).toFixed(0)}</span>
+                {/* Mini Progress Bar for Distribuidoras */}
+                {negocio.tipo_negocio === 'distribuidora' && negocio.pedido_minimo > 0 && calcularTotalCarrito(carrito) < negocio.pedido_minimo && (
+                  <div className="w-20 h-1 bg-black/20 rounded-full mt-1 overflow-hidden relative">
+                    <div
+                      className="absolute left-0 top-0 h-full bg-white/90 rounded-full"
+                      style={{ width: `${Math.min(100, (calcularTotalCarrito(carrito) / negocio.pedido_minimo) * 100)}%` }}
+                    />
+                  </div>
+                )}
               </div>
               <div className="bg-white text-gray-900 px-6 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors">
                 Ver Pedido <ShoppingBag size={18} />

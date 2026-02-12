@@ -89,8 +89,8 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
 
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto p-4 space-y-6">
-                    {gruposToppings.map(grupo => (
-                        <div key={grupo.id}>
+                    {gruposToppings.map((grupo, gIdx) => (
+                        <div key={grupo.id || gIdx}>
                             <div className="flex justify-between items-center mb-2">
                                 <h3 className="font-bold text-gray-900">{grupo.nombre}</h3>
                                 <span className="text-xs text-gray-500">
@@ -99,7 +99,7 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                                 </span>
                             </div>
                             <div className="space-y-2">
-                                {(grupo.toppings || []).map(topping => {
+                                {(grupo.toppings || []).map((topping, tIdx) => {
                                     const count = (selecciones[grupo.id] || []).filter(t => t.id === topping.id).length;
                                     const totalSelected = (selecciones[grupo.id] || []).length;
                                     const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
@@ -108,7 +108,7 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
 
                                     return (
                                         <div
-                                            key={topping.id}
+                                            key={topping.id || tIdx}
                                             className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${count > 0
                                                 ? "border-orange-500 bg-orange-50/50"
                                                 : "border-gray-200"

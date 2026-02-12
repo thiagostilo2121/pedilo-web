@@ -133,12 +133,33 @@ export default function CartDrawer({
                                 const pedidoMinimo = negocio?.pedido_minimo || 0;
                                 const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
                                 const belowMinimum = isDistribuidora && pedidoMinimo > 0 && total < pedidoMinimo;
+
+                                const percent = isDistribuidora && pedidoMinimo > 0 ? Math.min(100, (total / pedidoMinimo) * 100) : 100;
+                                const remaining = Math.max(0, pedidoMinimo - total);
+
                                 return (
                                     <>
-                                        {belowMinimum && (
-                                            <div className="mb-3 bg-blue-50 border border-blue-100 text-blue-700 p-3 rounded-xl text-sm font-bold flex items-center gap-2">
-                                                <Package size={16} className="flex-shrink-0" />
-                                                <span>Falt{total === 0 ? 'an' : 'a'} <span className="font-black">${(pedidoMinimo - total).toLocaleString()}</span> para el pedido mínimo</span>
+                                        {isDistribuidora && pedidoMinimo > 0 && (
+                                            <div className="mb-6">
+                                                <div className="flex justify-between text-xs font-bold text-gray-400 mb-2 uppercase tracking-wider">
+                                                    <span>Progreso ({percent.toFixed(0)}%)</span>
+                                                    <span>Min: ${pedidoMinimo.toLocaleString()}</span>
+                                                </div>
+                                                <div className="h-3 w-full bg-gray-100 rounded-full overflow-hidden mb-3">
+                                                    <div
+                                                        className={`h-full transition-all duration-1000 ease-out ${belowMinimum ? 'bg-orange-500' : 'bg-green-500'}`}
+                                                        style={{ width: `${percent}%` }}
+                                                    />
+                                                </div>
+                                                {belowMinimum ? (
+                                                    <p className="text-sm font-bold text-gray-600 text-center animate-pulse">
+                                                        Te faltan <span className="text-orange-600 text-base">${remaining.toLocaleString()}</span> para comprar
+                                                    </p>
+                                                ) : (
+                                                    <p className="text-xs font-bold text-green-600 text-center flex items-center justify-center gap-1">
+                                                        <Package size={14} /> ¡Pedido mínimo alcanzado!
+                                                    </p>
+                                                )}
                                             </div>
                                         )}
                                         <button

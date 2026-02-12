@@ -87,7 +87,8 @@ export default function Landing() {
             <span className="text-orange-600 text-shadow-sm">Vendé en tu zona con 0% comisión.</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-            Tu propio sistema de pedidos profesional para dominar tu barrio. Catálogo digital, cupones y recepción de órdenes por WhatsApp.
+            Tu propio sistema de pedidos profesional para dominar tu barrio. <br className="hidden sm:block" />
+            <span className="text-gray-900 font-bold">Ideal para Gastronomía y Distribuidoras.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
@@ -443,8 +444,8 @@ export default function Landing() {
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-pink-600 shadow-sm mb-4">
                 <Sparkles size={20} />
               </div>
-              <h3 className="font-bold text-gray-900 mb-2">UX/UI Premium</h3>
-              <p className="text-sm text-gray-500 font-medium">Diseño moderno con animaciones fluidas y herramientas de última generación.</p>
+              <h3 className="font-bold text-gray-900 mb-2">UX/UI Adaptable</h3>
+              <p className="text-sm text-gray-500 font-medium">Diseño inteligente: Sidebar en PC para grandes catálogos y vista App en móviles. Todo fluido y rápido.</p>
             </div>
             {/* Open Source */}
             <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
@@ -488,7 +489,7 @@ export default function Landing() {
                 <Warehouse size={20} />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Modo Distribuidora</h3>
-              <p className="text-sm text-gray-500 font-medium">Precios mayoristas, mínimos de compra y bultos cerrados. Ideal para venta a comercios.</p>
+              <p className="text-sm text-gray-500 font-medium">Vista de lista compacta, precios por escala (mayorista), mínimos de compra y stock estricto.</p>
             </div>
 
             {/* Smart Banners */}
@@ -624,7 +625,7 @@ export default function Landing() {
                 <CheckCircle2 size={20} className="text-orange-500" /> Métricas de Ventas
               </div>
               <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Personalización de Marca
+                <CheckCircle2 size={20} className="text-orange-500" /> Venta Mayorista y Minorista
               </div>
               <div className="flex items-center gap-3 text-gray-700 font-bold">
                 <CheckCircle2 size={20} className="text-orange-500" /> Toppings y Agregados

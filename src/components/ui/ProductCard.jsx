@@ -16,10 +16,16 @@ export default function ProductCard({
     const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
     const hasWholesale = isDistribuidora && product.precio_mayorista && product.cantidad_mayorista;
 
+    // Wholesale Logic
+    const currentQty = cartItem?.cantidad || 0;
+    const isWholesaleApplied = hasWholesale && currentQty >= product.cantidad_mayorista;
+    const nextSavingsQty = hasWholesale && !isWholesaleApplied ? product.cantidad_mayorista - currentQty : 0;
+    const displayPrice = isWholesaleApplied ? product.precio_mayorista : product.precio;
+
     return (
         <div
             id={`producto-${product.id}`}
-            className="group bg-white p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border border-gray-100 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative"
+            className={`group bg-white p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border border-gray-100 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative ${isWholesaleApplied ? 'ring-2 ring-green-500/20' : ''}`}
         >
             {/* Imagen Progresiva */}
             <ProgressiveImage
@@ -45,7 +51,7 @@ export default function ProductCard({
                         Agotado
                     </span>
                 </div>
-            ) : product.destacado && (
+            ) : product.destacado ? (
                 <div className="absolute top-4 left-4 z-10">
                     <span
                         className="text-[10px] font-black text-white px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1"
@@ -54,7 +60,13 @@ export default function ProductCard({
                         <Star size={10} fill="currentColor" /> POPULAR
                     </span>
                 </div>
-            )}
+            ) : hasWholesale && isWholesaleApplied ? (
+                <div className="absolute top-4 left-4 z-10">
+                    <span className="text-[10px] font-black text-white bg-green-500 px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1">
+                        MAYORISTA
+                    </span>
+                </div>
+            ) : null}
 
             {/* Content */}
             <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5">
@@ -70,17 +82,19 @@ export default function ProductCard({
                 <div className="flex items-end justify-between mt-3">
                     <div className="min-w-0">
                         <div className="flex items-baseline gap-1">
-                            <span className="text-lg sm:text-2xl font-black text-gray-900 tracking-tight">${product.precio}</span>
-                            {isDistribuidora && product.unidad && product.unidad !== "unidad" && (
+                            <span className={`text-lg sm:text-2xl font-black tracking-tight ${isWholesaleApplied ? 'text-green-600' : 'text-gray-900'}`}>${displayPrice}</span>
+                            {isWholesaleApplied && (
+                                <span className="text-xs text-gray-400 line-through font-bold">${product.precio}</span>
+                            )}
+                            {isDistribuidora && product.unidad && product.unidad !== "unidad" && !isWholesaleApplied && (
                                 <span className="text-xs text-gray-400 font-bold">/{product.unidad}</span>
                             )}
                         </div>
-                        {hasWholesale && (
+                        {hasWholesale && !isWholesaleApplied ? (
                             <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md mt-0.5">
-                                x{product.cantidad_mayorista}+: ${product.precio_mayorista}
+                                Llevá {nextSavingsQty} más a ${product.precio_mayorista}
                             </span>
-                        )}
-                        {isDistribuidora && product.cantidad_minima > 1 && (
+                        ) : isDistribuidora && product.cantidad_minima > 1 && (
                             <div className="flex items-center gap-1 mt-0.5">
                                 <Package size={10} className="text-gray-400" />
                                 <span className="text-[10px] text-gray-400 font-bold">Mín. {product.cantidad_minima}</span>
