@@ -13,7 +13,10 @@ import {
   Star,
   Plus,
   Minus,
-  Flame
+  Flame,
+  Zap,
+  Award,
+  BadgeCheck
 } from "lucide-react";
 import { DEFAULT_LOGO, DEFAULT_PRODUCT_IMAGE, DEFAULT_CATEGORY_IMAGE } from "../constants";
 import ToppingSelector from "../components/ToppingSelector";
@@ -337,6 +340,16 @@ export default function PublicNegocio({ slug }) {
   return (
     <div className="bg-gray-50 min-h-screen pb-32 font-sans selection:bg-orange-100 selection:text-orange-900">
 
+      {/* 0. SMART BANNER (ANUNCIO WEB) */}
+      {negocio.anuncio_web && (
+        <div className="relative z-[60] bg-gradient-to-r from-gray-900 to-gray-800 text-white text-center py-2 px-4 text-xs sm:text-sm font-bold shadow-lg animate-in slide-in-from-top-full duration-500">
+          <div className="flex items-center justify-center gap-2 max-w-4xl mx-auto">
+            <Zap size={14} className="text-yellow-400 animate-pulse shrink-0" fill="currentColor" />
+            <span className="truncate">{negocio.anuncio_web}</span>
+          </div>
+        </div>
+      )}
+
       {/* 1. IMMERSIVE HEADER (Blurry Banner Effect) */}
       {/* Header Sticky Bar */}
       <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-xl shadow-sm py-3' : 'bg-transparent py-4'}`}>
@@ -375,7 +388,27 @@ export default function PublicNegocio({ slug }) {
             </div>
 
             <div className="flex-1 text-white mb-1">
-              <h1 className="text-3xl sm:text-4xl font-black leading-none mb-2 drop-shadow-lg">{negocio.nombre}</h1>
+              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                <h1 className="text-3xl sm:text-4xl font-black leading-none drop-shadow-lg">{negocio.nombre}</h1>
+
+                {/* REPUTATION BADGES */}
+                {negocio.insignias?.includes("VERIFICADO_50") && (
+                  <div className="group/badge relative bg-blue-500 rounded-full p-1 cursor-help shadow-lg shadow-blue-500/30">
+                    <BadgeCheck size={16} className="text-white" fill="currentColor" />
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                      Verificado (+50 Ventas)
+                    </div>
+                  </div>
+                )}
+                {negocio.insignias?.includes("TOP_SELLER_100") && (
+                  <div className="group/badge relative bg-yellow-500 rounded-full p-1 cursor-help shadow-lg shadow-yellow-500/30">
+                    <Award size={16} className="text-white" fill="currentColor" />
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+                      Top Seller (+100 Ventas)
+                    </div>
+                  </div>
+                )}
+              </div>
 
               {/* Business Description - Responsive & Non-intrusive */}
               {negocio.descripcion && (

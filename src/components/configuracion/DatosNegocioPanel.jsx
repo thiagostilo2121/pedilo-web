@@ -42,8 +42,19 @@ export default function DatosNegocioPanel({
                             value={negocio.descripcion || ""}
                             onChange={(e) => setNegocio({ ...negocio, descripcion: e.target.value })}
                             className="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
-                            placeholder="Contanos qué haces (ej: Las mejores pizzas a la leña)"
                         />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-bold text-gray-700 mb-1">Anuncio / Cartelera Web</label>
+                        <textarea
+                            rows="2"
+                            value={negocio.anuncio_web || ""}
+                            onChange={(e) => setNegocio({ ...negocio, anuncio_web: e.target.value })}
+                            className="w-full p-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none"
+                            placeholder="Ej: ¡Envío GRATIS este finde! (Max 120 chars)"
+                            maxLength={120}
+                        />
+                        <p className="text-[10px] text-gray-400 mt-1 text-right">{negocio.anuncio_web?.length || 0}/120</p>
                     </div>
                 </div>
 
