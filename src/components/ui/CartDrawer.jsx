@@ -1,6 +1,7 @@
 import React from "react";
-import { ShoppingBag, X, Plus, Minus, ChevronLeft, AlertCircle } from "lucide-react";
+import { ShoppingBag, X, Plus, Minus, ChevronLeft, AlertCircle, Package } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "../../constants";
+import { calcularPrecioEfectivo } from "../../utils/precioUtils";
 
 export default function CartDrawer({
     isOpen,
@@ -15,7 +16,7 @@ export default function CartDrawer({
 }) {
     const DEFAULT_IMAGE = DEFAULT_PRODUCT_IMAGE;
 
-    const calcularPrecioItem = (item) => item.precioConToppings || item.precio;
+    const calcularPrecioItem = (item) => calcularPrecioEfectivo(item);
 
     return (
         <div
@@ -128,15 +129,31 @@ export default function CartDrawer({
                         </div>
 
                         {negocio?.acepta_pedidos ? (
-                            <button
-                                onClick={onCheckout}
-                                className="w-full bg-gray-900 text-white py-4 rounded-2xl font-bold text-xl hover:bg-black transition-all shadow-lg active:scale-[0.98] flex justify-between items-center px-6 group"
-                            >
-                                <span>Confirmar Pedido</span>
-                                <span className="bg-white/20 p-2 rounded-xl group-hover:bg-white/30 transition-colors">
-                                    <ChevronLeft className="rotate-180" size={20} />
-                                </span>
-                            </button>
+                            (() => {
+                                const pedidoMinimo = negocio?.pedido_minimo || 0;
+                                const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
+                                const belowMinimum = isDistribuidora && pedidoMinimo > 0 && total < pedidoMinimo;
+                                return (
+                                    <>
+                                        {belowMinimum && (
+                                            <div className="mb-3 bg-blue-50 border border-blue-100 text-blue-700 p-3 rounded-xl text-sm font-bold flex items-center gap-2">
+                                                <Package size={16} className="flex-shrink-0" />
+                                                <span>Falt{total === 0 ? 'an' : 'a'} <span className="font-black">${(pedidoMinimo - total).toLocaleString()}</span> para el pedido mínimo</span>
+                                            </div>
+                                        )}
+                                        <button
+                                            onClick={onCheckout}
+                                            disabled={belowMinimum}
+                                            className={`w-full py-4 rounded-2xl font-bold text-xl transition-all shadow-lg active:scale-[0.98] flex justify-between items-center px-6 group ${belowMinimum ? 'bg-gray-300 text-gray-500 cursor-not-allowed shadow-none' : 'bg-gray-900 text-white hover:bg-black'}`}
+                                        >
+                                            <span>Confirmar Pedido</span>
+                                            <span className={`p-2 rounded-xl transition-colors ${belowMinimum ? 'bg-gray-400/30' : 'bg-white/20 group-hover:bg-white/30'}`}>
+                                                <ChevronLeft className="rotate-180" size={20} />
+                                            </span>
+                                        </button>
+                                    </>
+                                );
+                            })()
                         ) : (
                             <div className="bg-red-50 text-red-600 p-4 rounded-2xl border border-red-100 font-bold text-center text-sm">
                                 <AlertCircle className="mx-auto mb-2" />

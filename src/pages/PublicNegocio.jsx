@@ -22,6 +22,7 @@ import ProductCard from "../components/ui/ProductCard";
 import CartDrawer from "../components/ui/CartDrawer";
 import Skeleton from "../components/ui/Skeleton";
 import ProgressiveImage from "../components/ui/ProgressiveImage";
+import { calcularTotalCarrito } from "../utils/precioUtils";
 
 // --- COMPONENTES LOCALES (Premium UI) ---
 
@@ -207,10 +208,11 @@ export default function PublicNegocio({ slug }) {
   };
 
   const agregarAlCarritoSimple = (producto) => {
+    const cantMin = (negocio?.tipo_negocio === 'distribuidora' && producto.cantidad_minima > 1) ? producto.cantidad_minima : 1;
     setCarrito((prev) => {
       const existe = prev.find((p) => p.id === producto.id && !p.toppings?.length);
       if (existe) return prev.map((p) => p.id === producto.id && !p.toppings?.length ? { ...p, cantidad: p.cantidad + 1 } : p);
-      return [...prev, { ...producto, cantidad: 1, toppings: [], cartItemId: Date.now() }];
+      return [...prev, { ...producto, cantidad: cantMin, toppings: [], cartItemId: Date.now() }];
     });
   };
 
@@ -225,7 +227,12 @@ export default function PublicNegocio({ slug }) {
   };
 
   const disminuirCantidad = (cartItemId) => {
-    setCarrito((prev) => prev.map((p) => p.cartItemId === cartItemId ? { ...p, cantidad: p.cantidad - 1 } : p).filter((p) => p.cantidad > 0));
+    setCarrito((prev) => prev.map((p) => {
+      if (p.cartItemId !== cartItemId) return p;
+      const cantMin = (negocio?.tipo_negocio === 'distribuidora' && p.cantidad_minima > 1) ? p.cantidad_minima : 1;
+      if (p.cantidad <= cantMin) return { ...p, cantidad: 0 }; // will be filtered out
+      return { ...p, cantidad: p.cantidad - 1 };
+    }).filter((p) => p.cantidad > 0));
   };
 
   // Filter Logic
@@ -391,6 +398,14 @@ export default function PublicNegocio({ slug }) {
       </header>
 
       <main className="max-w-4xl mx-auto relative z-10 -mt-8 bg-gray-50 rounded-t-[2.5rem] min-h-screen pb-10 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] pt-8">
+
+        {/* Pedido Mínimo Banner (distribuidoras) */}
+        {negocio.tipo_negocio === 'distribuidora' && negocio.pedido_minimo > 0 && (
+          <div className="mx-4 mb-4 flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 px-4 py-3 rounded-2xl text-sm font-bold">
+            <span className="text-lg">📦</span>
+            <span>Pedido mínimo: <span className="font-black">${negocio.pedido_minimo.toLocaleString()}</span></span>
+          </div>
+        )}
 
         {/* Search */}
         <div className="px-4 mb-8">
@@ -643,7 +658,7 @@ export default function PublicNegocio({ slug }) {
             >
               <div className="flex flex-col items-start leading-none gap-1">
                 <span className="text-[10px] text-white/80 font-bold uppercase tracking-widest">{carrito.reduce((acc, p) => acc + p.cantidad, 0)} ITEMS</span>
-                <span className="text-xl font-black">${carrito.reduce((acc, p) => acc + (p.precioConToppings || p.precio) * p.cantidad, 0).toFixed(0)}</span>
+                <span className="text-xl font-black">${calcularTotalCarrito(carrito).toFixed(0)}</span>
               </div>
               <div className="bg-white text-gray-900 px-6 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors">
                 Ver Pedido <ShoppingBag size={18} />
@@ -653,7 +668,7 @@ export default function PublicNegocio({ slug }) {
         )
       }
 
-      <CartDrawer isOpen={showCart} onClose={() => setShowCart(false)} cart={carrito} negocio={negocio} onIncrease={agregarAlCarrito} onDecrease={disminuirCantidad} onCheckout={() => navigate(`/n/${slug}/checkout`)} total={carrito.reduce((acc, p) => acc + (p.precioConToppings || p.precio) * p.cantidad, 0)} count={carrito.reduce((acc, p) => acc + p.cantidad, 0)} />
+      <CartDrawer isOpen={showCart} onClose={() => setShowCart(false)} cart={carrito} negocio={negocio} onIncrease={agregarAlCarrito} onDecrease={disminuirCantidad} onCheckout={() => navigate(`/n/${slug}/checkout`)} total={calcularTotalCarrito(carrito)} count={carrito.reduce((acc, p) => acc + p.cantidad, 0)} />
 
       <ToppingSelector isOpen={showToppingModal} onClose={() => setShowToppingModal(false)} onConfirm={agregarConToppings} producto={selectedProduct} gruposToppings={productToppings} />
 

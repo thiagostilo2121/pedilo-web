@@ -17,6 +17,7 @@
     "flowbite": "^4.0.1",
     "flowbite-react": "^0.12.16",
     "html-to-image": "^1.11.13",
+    "html5-qrcode": "^2.3.8",
     "lucide-react": "^0.563.0",
     "qrcode.react": "^4.2.0",
     "react": "^19.2.0",

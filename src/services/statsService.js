@@ -14,5 +14,10 @@ export const statsService = {
     getTopProducts: async (limit = 5) => {
         const response = await api.get(`/stats/top-products?limit=${limit}`);
         return response.data;
+    },
+
+    getTopClients: async (limit = 5) => {
+        const response = await api.get(`/stats/clients?limit=${limit}`);
+        return response.data;
     }
 };

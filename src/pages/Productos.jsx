@@ -18,6 +18,7 @@
 import { useEffect, useState } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
 import productService from "../services/productService";
+import negocioService from "../services/negocioService";
 import { useRequirePremium } from "../hooks/useRequirePremium";
 import { useToast } from "../contexts/ToastProvider";
 import {
@@ -26,11 +27,13 @@ import {
   Trash2,
   Search,
   Image as ImageIcon,
-  Star
+  Star,
+  ScanBarcode
 } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
 import ProductForm from "../components/dashboard/ProductForm";
+import BarcodeScanner from "../components/dashboard/BarcodeScanner";
 import Skeleton from "../components/ui/Skeleton";
 
 export default function ProductosDashboard() {
@@ -39,8 +42,11 @@ export default function ProductosDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showScanner, setShowScanner] = useState(false);
+  const [scannedData, setScannedData] = useState(null);
   const [editingProducto, setEditingProducto] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [tipoNegocio, setTipoNegocio] = useState("minorista");
   const toast = useToast();
 
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, productId: null });
@@ -52,14 +58,16 @@ export default function ProductosDashboard() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [prodRes, catRes, gruposRes] = await Promise.all([
+      const [prodRes, catRes, gruposRes, negocioRes] = await Promise.all([
         productService.getAll(),
         productService.getAllCategories(),
         productService.getGruposToppings(),
+        negocioService.getMiNegocio(),
       ]);
       setProductos(prodRes);
       setCategorias(catRes);
       setGruposToppings(gruposRes || []);
+      setTipoNegocio(negocioRes?.tipo_negocio || "minorista");
     } catch (err) {
       console.error("Error al cargar datos", err);
       toast.error("Error al cargar productos.");
@@ -72,6 +80,20 @@ export default function ProductosDashboard() {
 
   // Verificar suscripción premium y negocio
   useRequirePremium();
+
+  const handleScanResult = (productData) => {
+    // Buscar si ya existe un producto con el mismo nombre (case insensitive)
+    const existing = productos.find(p => p.nombre.toLowerCase() === productData.nombre.toLowerCase());
+
+    if (existing) {
+      toast.success(`Producto existente encontrado: ${existing.nombre}`);
+      setScannedData(productData);
+      openModal(existing);
+    } else {
+      setScannedData(productData);
+      openModal(null);
+    }
+  };
 
   const openModal = (producto = null) => {
     setEditingProducto(producto);
@@ -118,7 +140,19 @@ export default function ProductosDashboard() {
       let imageUrl = formData.imagen_url;
       if (imageFile) imageUrl = await productService.uploadImage(imageFile);
 
-      const payload = { ...formData, imagen_url: imageUrl };
+      const payload = {
+        nombre: formData.nombre,
+        descripcion: formData.descripcion,
+        precio: parseInt(formData.precio),
+        imagen_url: imageUrl,
+        categoria: formData.categoria,
+        stock: formData.stock,
+        destacado: formData.destacado,
+        unidad: formData.unidad || "unidad",
+        cantidad_minima: parseInt(formData.cantidad_minima) || 1,
+        precio_mayorista: formData.precio_mayorista ? parseInt(formData.precio_mayorista) : null,
+        cantidad_mayorista: formData.cantidad_mayorista ? parseInt(formData.cantidad_mayorista) : null,
+      };
       let productoId;
 
       if (editingProducto) {
@@ -163,12 +197,22 @@ export default function ProductosDashboard() {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Productos</h1>
           <p className="text-gray-500 text-sm sm:text-base">Administra el stock y precios de tu menú.</p>
         </div>
-        <button
-          onClick={() => openModal()}
-          className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-100 active:scale-95"
-        >
-          <Plus size={20} /> Nuevo Producto
-        </button>
+        <div className="flex gap-2 w-full md:w-auto">
+          <button
+            onClick={() => setShowScanner(true)}
+            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 active:scale-95"
+            title="Escanear código de barras"
+          >
+            <ScanBarcode size={20} />
+            <span className="sm:inline hidden">Escanear</span>
+          </button>
+          <button
+            onClick={() => openModal()}
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-100 active:scale-95"
+          >
+            <Plus size={20} /> Nuevo Producto
+          </button>
+        </div>
       </div>
 
       {/* Buscador y Filtros */}
@@ -259,14 +303,24 @@ export default function ProductosDashboard() {
 
       <ProductForm
         isOpen={showModal}
-        onClose={() => setShowModal(false)}
+        onClose={() => { setShowModal(false); setScannedData(null); }}
         initialData={editingProducto}
+        scannedData={scannedData}
         categories={categorias}
         toppingsGroups={gruposToppings}
         initialToppingsConfig={productoToppingsConfig}
         loadingToppings={loadingToppings}
         onSubmit={handleFormSubmit}
         isSubmitting={uploading}
+        tipoNegocio={tipoNegocio}
+      />
+
+      {/* Barcode Scanner */}
+      <BarcodeScanner
+        isOpen={showScanner}
+        onClose={() => setShowScanner(false)}
+        existingProducts={productos}
+        onProductFound={handleScanResult}
       />
 
       {/* Confirm Delete Modal */}

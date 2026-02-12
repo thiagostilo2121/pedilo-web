@@ -4,8 +4,9 @@ import StatsCard from "../../components/dashboard/StatsCard";
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area
 } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram } from "lucide-react";
+import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram, Users } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
+import negocioService from "../../services/negocioService";
 
 import DashboardLayout from "../../layout/DashboardLayout";
 
@@ -13,6 +14,8 @@ export default function DashboardHome() {
     const [overview, setOverview] = useState(null);
     const [chartData, setChartData] = useState([]);
     const [topProducts, setTopProducts] = useState([]);
+    const [topClients, setTopClients] = useState([]);
+    const [tipoNegocio, setTipoNegocio] = useState("minorista");
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,14 +25,26 @@ export default function DashboardHome() {
     const loadData = async () => {
         try {
             setLoading(true);
-            const [ov, chart, top] = await Promise.all([
+            const [ov, chart, top, negocioRes] = await Promise.all([
                 statsService.getOverview(),
                 statsService.getSalesChart(7),
-                statsService.getTopProducts(5)
+                statsService.getTopProducts(5),
+                negocioService.getMiNegocio(),
             ]);
             setOverview(ov);
             setChartData(chart);
             setTopProducts(top);
+            setTipoNegocio(negocioRes?.tipo_negocio || "minorista");
+
+            // Fetch top clients only for distribuidoras
+            if (negocioRes?.tipo_negocio === "distribuidora") {
+                try {
+                    const clients = await statsService.getTopClients(5);
+                    setTopClients(clients);
+                } catch (e) {
+                    console.error("Error loading top clients", e);
+                }
+            }
         } catch (error) {
             console.error("Error loading stats", error);
         } finally {
@@ -252,6 +267,36 @@ export default function DashboardHome() {
                                 )}
                             </div>
                         </div>
+
+                        {/* TOP CLIENTS (distribuidoras only) */}
+                        {tipoNegocio === "distribuidora" && (
+                            <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100">
+                                <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
+                                    <Users size={20} className="text-blue-500" /> Mejores Clientes
+                                </h3>
+                                <div className="space-y-4">
+                                    {topClients.map((client, idx) => (
+                                        <div key={idx} className="flex items-center justify-between">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-sm font-bold text-blue-600">
+                                                    {idx + 1}
+                                                </div>
+                                                <div>
+                                                    <p className="font-medium text-gray-900 text-sm line-clamp-1">{client.nombre_cliente}</p>
+                                                    <p className="text-xs text-gray-500">{client.cantidad_pedidos} pedidos</p>
+                                                </div>
+                                            </div>
+                                            <span className="text-sm font-semibold text-blue-600">
+                                                ${Number(client.total_gastado || 0).toLocaleString()}
+                                            </span>
+                                        </div>
+                                    ))}
+                                    {topClients.length === 0 && (
+                                        <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             </div>

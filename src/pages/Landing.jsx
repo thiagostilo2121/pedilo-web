@@ -37,7 +37,9 @@ import {
   TrendingUp,
   Bot,
   MapPin,
-  ClipboardList
+  ClipboardList,
+  ScanBarcode,
+  Warehouse
 } from "lucide-react";
 
 export default function Landing() {
@@ -328,6 +330,24 @@ export default function Landing() {
               </div>
               <h3 className="font-bold text-gray-900 mb-2">PWA Instalable</h3>
               <p className="text-sm text-gray-500 font-medium">Tu propia App sin descargas. Se instala directo desde el navegador en iOS y Android.</p>
+            </div>
+
+            {/* Scanner */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
+                <ScanBarcode size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Scanner de Productos</h3>
+              <p className="text-sm text-gray-500 font-medium">Carga y actualiza stock usando la cámara de tu celular o lector USB. Integrado con base de datos global.</p>
+            </div>
+
+            {/* Wholesale */}
+            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
+                <Warehouse size={20} />
+              </div>
+              <h3 className="font-bold text-gray-900 mb-2">Modo Distribuidora</h3>
+              <p className="text-sm text-gray-500 font-medium">Precios mayoristas, mínimos de compra y bultos cerrados. Ideal para venta a comercios.</p>
             </div>
 
             {/* AI Recommendation - Full Width */}

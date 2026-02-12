@@ -1,5 +1,5 @@
 import React from "react";
-import { Plus, Minus, Share2, Star } from "lucide-react";
+import { Plus, Minus, Share2, Star, Package } from "lucide-react";
 import ProgressiveImage from "./ProgressiveImage";
 import { DEFAULT_PRODUCT_IMAGE } from "../../constants";
 
@@ -13,6 +13,8 @@ export default function ProductCard({
     isAdding,
 }) {
     const canAdd = product.stock && negocio?.acepta_pedidos;
+    const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
+    const hasWholesale = isDistribuidora && product.precio_mayorista && product.cantidad_mayorista;
 
     return (
         <div
@@ -66,7 +68,25 @@ export default function ProductCard({
                 </div>
 
                 <div className="flex items-end justify-between mt-3">
-                    <span className="text-lg sm:text-2xl font-black text-gray-900 tracking-tight">${product.precio}</span>
+                    <div className="min-w-0">
+                        <div className="flex items-baseline gap-1">
+                            <span className="text-lg sm:text-2xl font-black text-gray-900 tracking-tight">${product.precio}</span>
+                            {isDistribuidora && product.unidad && product.unidad !== "unidad" && (
+                                <span className="text-xs text-gray-400 font-bold">/{product.unidad}</span>
+                            )}
+                        </div>
+                        {hasWholesale && (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded-md mt-0.5">
+                                x{product.cantidad_mayorista}+: ${product.precio_mayorista}
+                            </span>
+                        )}
+                        {isDistribuidora && product.cantidad_minima > 1 && (
+                            <div className="flex items-center gap-1 mt-0.5">
+                                <Package size={10} className="text-gray-400" />
+                                <span className="text-[10px] text-gray-400 font-bold">Mín. {product.cantidad_minima}</span>
+                            </div>
+                        )}
+                    </div>
 
                     <div className="relative z-20"> {/* Button Wrapper for Z-Index */}
                         {canAdd ? (

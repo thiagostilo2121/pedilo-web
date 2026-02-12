@@ -15,6 +15,8 @@ Pedilo has established itself as the new standard for local commerce in Latin Am
 | **Data Ownership** | They keep your client data | **You own your database.** Export anytime. |
 | **Payments** | Delayed (15-30 days) | **Instant.** Money goes straight to your wallet. |
 | **UX/UI** | Cluttered, generic | **Premium, Branded, Glassmorphism.** Stunning design. |
+| **B2B Mode** | Non-existent | **Wholesale Pricing & Bulk Logic.** Ideal for distributors. |
+| **Tools** | Basic App | **Integrated Barcode Scanner.** Camera + USB support. |
 
 ---
 *For full technical details and architecture, see AI_CONTEXT.md*

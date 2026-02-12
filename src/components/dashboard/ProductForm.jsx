@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from "react";
-import { X, Trash2, ImageIcon, Star, Loader2, Info } from "lucide-react";
+import { X, Trash2, ImageIcon, Star, Loader2, Info, Warehouse } from "lucide-react";
 
 export default function ProductForm({
     isOpen,
     onClose,
     initialData,
+    scannedData,
     categories,
     toppingsGroups,
     initialToppingsConfig,
     loadingToppings,
     onSubmit, // (formData, imageFile, toppingsConfig) => Promise
     isSubmitting,
+    tipoNegocio,
 }) {
+    const isDistribuidora = tipoNegocio === "distribuidora";
     const [form, setForm] = useState({
         nombre: "",
         descripcion: "",
@@ -20,13 +23,33 @@ export default function ProductForm({
         categoria: "",
         stock: true,
         destacado: false,
+        precio_mayorista: "",
+        cantidad_mayorista: "",
+        cantidad_minima: 1,
+        unidad: "unidad",
     });
     const [imageFile, setImageFile] = useState(null);
     const [productoToppingsConfig, setProductoToppingsConfig] = useState({});
 
     useEffect(() => {
         if (isOpen) {
-            if (initialData) {
+            if (initialData && scannedData) {
+                // Merge existing data with scanned data
+                setForm({
+                    nombre: scannedData.nombre || initialData.nombre,
+                    descripcion: scannedData.descripcion || initialData.descripcion,
+                    precio: initialData.precio || "",
+                    imagen_url: scannedData.imagen_url || initialData.imagen_url,
+                    categoria: categories.find(c => c.nombre === initialData.categoria) ? initialData.categoria : categories[0]?.nombre || "",
+                    stock: initialData.stock ?? true,
+                    destacado: initialData.destacado ?? false,
+                    precio_mayorista: initialData.precio_mayorista ?? "",
+                    cantidad_mayorista: initialData.cantidad_mayorista ?? "",
+                    cantidad_minima: initialData.cantidad_minima ?? 1,
+                    unidad: initialData.unidad || "unidad",
+                });
+                setImageFile(null);
+            } else if (initialData) {
                 setForm({
                     nombre: initialData.nombre || "",
                     descripcion: initialData.descripcion || "",
@@ -35,22 +58,30 @@ export default function ProductForm({
                     categoria: categories.find(c => c.nombre === initialData.categoria) ? initialData.categoria : categories[0]?.nombre || "",
                     stock: initialData.stock ?? true,
                     destacado: initialData.destacado ?? false,
+                    precio_mayorista: initialData.precio_mayorista ?? "",
+                    cantidad_mayorista: initialData.cantidad_mayorista ?? "",
+                    cantidad_minima: initialData.cantidad_minima ?? 1,
+                    unidad: initialData.unidad || "unidad",
                 });
                 setImageFile(null);
             } else {
                 setForm({
-                    nombre: "",
-                    descripcion: "",
+                    nombre: scannedData?.nombre || "",
+                    descripcion: scannedData?.descripcion || "",
                     precio: "",
-                    imagen_url: "",
+                    imagen_url: scannedData?.imagen_url || "",
                     categoria: categories[0]?.nombre || "",
                     stock: true,
                     destacado: false,
+                    precio_mayorista: "",
+                    cantidad_mayorista: "",
+                    cantidad_minima: 1,
+                    unidad: "unidad",
                 });
                 setImageFile(null);
             }
         }
-    }, [isOpen, initialData, categories]);
+    }, [isOpen, initialData, categories, scannedData]);
 
     useEffect(() => {
         if (isOpen && !loadingToppings) {
@@ -78,7 +109,7 @@ export default function ProductForm({
 
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-2 sm:p-4 animate-in fade-in duration-200">
-            <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] md:max-h-none animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
                 <div className="p-6 border-b flex justify-between items-center bg-gray-50">
                     <h2 className="text-xl font-bold text-gray-900">
                         {initialData ? "Editar Producto" : "Nuevo Producto"}
@@ -197,6 +228,62 @@ export default function ProductForm({
                                 placeholder="¿Qué ingredientes lleva?"
                             />
                         </div>
+
+                        {/* Sección Mayorista (solo distribuidoras) */}
+                        {isDistribuidora && (
+                            <div className="border-t border-blue-100 pt-4">
+                                <label className="block text-xs font-bold text-blue-600 uppercase mb-3 flex items-center gap-1">
+                                    <Warehouse size={12} /> Configuración Mayorista
+                                </label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Precio Mayorista</label>
+                                        <input
+                                            type="number"
+                                            value={form.precio_mayorista}
+                                            onChange={(e) => setForm({ ...form, precio_mayorista: e.target.value })}
+                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
+                                            placeholder="$0"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Cantidad Mayorista</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            value={form.cantidad_mayorista}
+                                            onChange={(e) => setForm({ ...form, cantidad_mayorista: e.target.value })}
+                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
+                                            placeholder="Ej: 6"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Cantidad Mínima</label>
+                                        <input
+                                            type="number"
+                                            min="1"
+                                            value={form.cantidad_minima}
+                                            onChange={(e) => setForm({ ...form, cantidad_minima: parseInt(e.target.value) || 1 })}
+                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
+                                            placeholder="1"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Unidad</label>
+                                        <input
+                                            type="text"
+                                            value={form.unidad}
+                                            onChange={(e) => setForm({ ...form, unidad: e.target.value })}
+                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                            placeholder="Ej: kg, pack, unidad"
+                                        />
+                                    </div>
+                                </div>
+                                <p className="text-[10px] text-gray-400 mt-2">
+                                    El precio mayorista se aplica cuando el cliente pide al menos la cantidad mayorista.
+                                </p>
+                            </div>
+                        )}
 
                         {/* Sección de Toppings */}
                         <div className="border-t border-gray-100 pt-4">

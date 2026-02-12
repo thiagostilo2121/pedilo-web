@@ -17,7 +17,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Store, Globe, CheckCircle2, Loader2, AlertCircle } from "lucide-react";
+import { Store, Globe, CheckCircle2, Loader2, AlertCircle, ShoppingBag, Warehouse } from "lucide-react";
 import api from "../api/api";
 import { useAuth } from "../auth/useAuth";
 import { useToast } from "../contexts/ToastProvider";
@@ -25,6 +25,7 @@ import { useToast } from "../contexts/ToastProvider";
 export default function CrearNegocio() {
   const [nombre, setNombre] = useState("");
   const [slug, setSlug] = useState("");
+  const [tipoNegocio, setTipoNegocio] = useState("minorista");
   const [loading, setLoading] = useState(false);
   const [verificando, setVerificando] = useState(false);
 
@@ -67,7 +68,7 @@ export default function CrearNegocio() {
     setLoading(true);
 
     try {
-      await api.post("/negocios", { nombre, slug });
+      await api.post("/negocios", { nombre, slug, tipo_negocio: tipoNegocio });
       setVerificando(true);
       verificarEstado();
     } catch (err) {
@@ -159,6 +160,60 @@ export default function CrearNegocio() {
           className="bg-white/80 backdrop-blur-xl p-8 md:p-10 rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.04)] border border-white space-y-8"
         >
           <div className="space-y-6">
+            {/* Tipo de Negocio */}
+            <div>
+              <div className="flex justify-between items-end mb-2 px-1">
+                <label className="text-sm font-black text-gray-900 uppercase tracking-wider">
+                  Tipo de Negocio
+                </label>
+                <span className="text-[10px] font-bold text-orange-500 bg-orange-50 px-2 py-0.5 rounded-full uppercase">Requerido</span>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <button
+                  type="button"
+                  onClick={() => setTipoNegocio("minorista")}
+                  disabled={loading}
+                  className={`relative p-5 rounded-2xl border-2 transition-all text-left group ${tipoNegocio === "minorista"
+                      ? "border-orange-500 bg-orange-50/50 shadow-lg shadow-orange-100"
+                      : "border-gray-100 bg-gray-50/50 hover:border-gray-200 hover:bg-gray-50"
+                    }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors ${tipoNegocio === "minorista" ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-400 group-hover:bg-gray-200"
+                    }`}>
+                    <ShoppingBag size={20} />
+                  </div>
+                  <p className="font-black text-gray-900 text-sm">Minorista</p>
+                  <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">Vendé directo a tus clientes finales.</p>
+                  {tipoNegocio === "minorista" && (
+                    <div className="absolute top-3 right-3 bg-orange-500 text-white p-1 rounded-full">
+                      <CheckCircle2 size={14} />
+                    </div>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setTipoNegocio("distribuidora")}
+                  disabled={loading}
+                  className={`relative p-5 rounded-2xl border-2 transition-all text-left group ${tipoNegocio === "distribuidora"
+                      ? "border-blue-500 bg-blue-50/50 shadow-lg shadow-blue-100"
+                      : "border-gray-100 bg-gray-50/50 hover:border-gray-200 hover:bg-gray-50"
+                    }`}
+                >
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-3 transition-colors ${tipoNegocio === "distribuidora" ? "bg-blue-500 text-white" : "bg-gray-100 text-gray-400 group-hover:bg-gray-200"
+                    }`}>
+                    <Warehouse size={20} />
+                  </div>
+                  <p className="font-black text-gray-900 text-sm">Distribuidora</p>
+                  <p className="text-[11px] text-gray-500 mt-1 leading-relaxed">Vendé al por mayor con precios mayoristas.</p>
+                  {tipoNegocio === "distribuidora" && (
+                    <div className="absolute top-3 right-3 bg-blue-500 text-white p-1 rounded-full">
+                      <CheckCircle2 size={14} />
+                    </div>
+                  )}
+                </button>
+              </div>
+            </div>
+
             <div>
               <div className="flex justify-between items-end mb-2 px-1">
                 <label className="text-sm font-black text-gray-900 uppercase tracking-wider">

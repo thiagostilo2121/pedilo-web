@@ -19,6 +19,7 @@ import {
   MapPin
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { calcularPrecioEfectivo, calcularTotalCarrito } from "../utils/precioUtils";
 
 export default function Checkout({ slug }) {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -108,8 +109,12 @@ export default function Checkout({ slug }) {
     setIsSubmitting(true);
     try {
       const payload = {
-        ...data,
+        nombre_cliente: data.nombre_cliente,
         telefono_cliente: (data.codigo_pais_cliente || "") + (data.telefono_cliente || "").replace(/\D/g, ""),
+        metodo_pago: data.metodo_pago,
+        tipo_entrega: data.tipo_entrega,
+        direccion_entrega: data.direccion || null,
+        notas: data.notas || null,
         codigo_cupon: appliedCoupon ? appliedCoupon.codigo : null,
         items: carrito.map((p) => ({
           producto_id: p.id,
@@ -118,15 +123,10 @@ export default function Checkout({ slug }) {
         })),
       };
 
-      // Guardamos la dirección para el mensaje final pero limpiamos para la API (no la soporta)
-      const direccionWapp = payload.direccion;
-      delete payload.codigo_pais_cliente;
-      delete payload.direccion;
-
       const newOrder = await pedidosService.create(slug, payload);
 
-      // Le inyectamos la dirección al estado local para que el botón de WhatsApp la use
-      setPedido({ ...newOrder, direccion: direccionWapp });
+      // Keep direccion in local state for WhatsApp message
+      setPedido({ ...newOrder, direccion: data.direccion });
 
       localStorage.removeItem(`carrito_${slug}`);
       setCarrito([]);
@@ -214,7 +214,7 @@ export default function Checkout({ slug }) {
     </div>
   );
 
-  const total = carrito.reduce((acc, i) => acc + (i.precioConToppings || i.precio) * i.cantidad, 0);
+  const total = calcularTotalCarrito(carrito);
 
   const getIconForOption = (text, type) => {
     const t = text.toLowerCase();
@@ -360,6 +360,19 @@ export default function Checkout({ slug }) {
                     {errors.direccion && <span className="text-[10px] text-red-500 font-bold ml-1">{errors.direccion.message}</span>}
                   </div>
                 )}
+
+              {/* Notas del pedido */}
+              <div>
+                <label className="text-xs font-bold text-gray-400 uppercase ml-1">Notas (opcional)</label>
+                <div className="flex items-start border-2 rounded-2xl focus-within:border-orange-500 transition-colors bg-white px-3 py-2">
+                  <textarea
+                    {...register("notas")}
+                    rows={2}
+                    className="w-full p-2 focus:outline-none text-base font-bold text-gray-700 resize-none"
+                    placeholder="Instrucciones especiales, aclaraciones..."
+                  />
+                </div>
+              </div>
             </div>
 
           </form>
@@ -392,7 +405,7 @@ export default function Checkout({ slug }) {
                     </div>
                   </div>
                   <span className="font-bold text-gray-900 ml-2 whitespace-nowrap">
-                    ${((item.precioConToppings || item.precio) * item.cantidad).toFixed(0)}
+                    ${(calcularPrecioEfectivo(item) * item.cantidad).toFixed(0)}
                   </span>
                 </div>
               ))}

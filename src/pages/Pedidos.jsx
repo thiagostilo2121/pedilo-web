@@ -366,6 +366,24 @@ export default function PedidosDashboard() {
                 </div>
               </div>
 
+              {/* Dirección y Notas */}
+              {(pedidoActivo.direccion_entrega || pedidoActivo.notas) && (
+                <div className="space-y-2">
+                  {pedidoActivo.direccion_entrega && (
+                    <div className="p-3 bg-blue-50 rounded-2xl">
+                      <p className="text-[10px] font-bold text-blue-400 uppercase mb-1">Dirección de Entrega</p>
+                      <p className="text-sm font-bold text-blue-700">{pedidoActivo.direccion_entrega}</p>
+                    </div>
+                  )}
+                  {pedidoActivo.notas && (
+                    <div className="p-3 bg-yellow-50 rounded-2xl">
+                      <p className="text-[10px] font-bold text-yellow-500 uppercase mb-1">Notas</p>
+                      <p className="text-sm font-bold text-yellow-700">{pedidoActivo.notas}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+
               <div>
                 <h3 className="text-sm font-bold text-gray-900 mb-3 flex items-center gap-2">
                   <Package size={18} className="text-orange-500" /> Productos

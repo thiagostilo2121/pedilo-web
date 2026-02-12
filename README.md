@@ -28,6 +28,8 @@
 - 🏪 **Dashboard Completo** - Gestión de productos, categorías y pedidos en tiempo real.
 - 📊 **Estadísticas Clave** - Visualización de ventas y productos más vendidos con Recharts.
 - ⚙️ **Configuración Total** - Gestión de toppings, horarios, métodos de pago y delivery.
+- 📸 **Scanner Integrado** - Lectura de códigos de barra (Cámara/USB) y búsqueda automática en Open Food Facts.
+- 📦 **Modo Distribuidora** - Precios mayoristas, mínimos por bulto y reglas de negocio B2B.
 - 💳 **Monetización** - Integración con Mercado Pago para suscripciones premium automáticas.
 
 ### Para Clientes

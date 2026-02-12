@@ -23,17 +23,17 @@ const UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 const productService = {
     // --- API Methods ---
     getAll: async () => {
-        const res = await api.get("/productos");
+        const res = await api.get("/productos/");
         return res.data;
     },
 
     getAllCategories: async () => {
-        const res = await api.get("/categorias");
+        const res = await api.get("/categorias/");
         return res.data;
     },
 
     create: async (producto) => {
-        const res = await api.post("/productos", producto);
+        const res = await api.post("/productos/", producto);
         return res.data;
     },
 
@@ -65,14 +65,14 @@ const productService = {
         return data.secure_url;
     },
 
-        // --- Toppings API ---
+    // --- Toppings API ---
     getGruposToppings: async () => {
-        const res = await api.get("/grupos-topping");
+        const res = await api.get("/grupos-topping/");
         return res.data;
     },
 
     createGrupoTopping: async (data) => {
-        const res = await api.post("/grupos-topping", data);
+        const res = await api.post("/grupos-topping/", data);
         return res.data;
     },
 
