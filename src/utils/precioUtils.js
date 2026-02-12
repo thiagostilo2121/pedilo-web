@@ -1,16 +1,13 @@
 /**
  * Calculates the effective unit price for a cart item,
- * considering wholesale pricing for distribuidoras.
- *
- * Wholesale price applies when:
- * - The product has precio_mayorista and cantidad_mayorista set
- * - The cart quantity >= cantidad_mayorista
- *
- * For items with toppings, the topping surcharge is added on top.
+ * considering wholesale pricing ONLY for distribuidoras.
  */
-export function calcularPrecioEfectivo(item) {
+export function calcularPrecioEfectivo(item, negocio) {
     const basePrice = item.precio;
-    const hasWholesale = item.precio_mayorista && item.cantidad_mayorista;
+    const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
+
+    // Wholesale Logic
+    const hasWholesale = isDistribuidora && item.precio_mayorista && item.cantidad_mayorista;
     const qualifiesForWholesale = hasWholesale && item.cantidad >= item.cantidad_mayorista;
 
     const effectiveBasePrice = qualifiesForWholesale ? item.precio_mayorista : basePrice;
@@ -26,8 +23,8 @@ export function calcularPrecioEfectivo(item) {
 }
 
 /**
- * Calculates the total for a cart array, using wholesale pricing when applicable.
+ * Calculates the total for a cart array, using wholesale pricing when applicable (only for distribuidoras).
  */
-export function calcularTotalCarrito(carrito) {
-    return carrito.reduce((acc, item) => acc + calcularPrecioEfectivo(item) * item.cantidad, 0);
+export function calcularTotalCarrito(carrito, negocio) {
+    return carrito.reduce((acc, item) => acc + calcularPrecioEfectivo(item, negocio) * item.cantidad, 0);
 }

@@ -805,13 +805,13 @@ export default function PublicNegocio({ slug }) {
             >
               <div className="flex flex-col items-start leading-none gap-1">
                 <span className="text-[10px] text-white/80 font-bold uppercase tracking-widest">{carrito.reduce((acc, p) => acc + p.cantidad, 0)} ITEMS</span>
-                <span className="text-xl font-black">${calcularTotalCarrito(carrito).toFixed(0)}</span>
+                <span className="text-xl font-black">${calcularTotalCarrito(carrito, negocio).toFixed(0)}</span>
                 {/* Mini Progress Bar for Distribuidoras */}
-                {negocio.tipo_negocio === 'distribuidora' && negocio.pedido_minimo > 0 && calcularTotalCarrito(carrito) < negocio.pedido_minimo && (
+                {negocio.tipo_negocio === 'distribuidora' && negocio.pedido_minimo > 0 && calcularTotalCarrito(carrito, negocio) < negocio.pedido_minimo && (
                   <div className="w-20 h-1 bg-black/20 rounded-full mt-1 overflow-hidden relative">
                     <div
                       className="absolute left-0 top-0 h-full bg-white/90 rounded-full"
-                      style={{ width: `${Math.min(100, (calcularTotalCarrito(carrito) / negocio.pedido_minimo) * 100)}%` }}
+                      style={{ width: `${Math.min(100, (calcularTotalCarrito(carrito, negocio) / negocio.pedido_minimo) * 100)}%` }}
                     />
                   </div>
                 )}
@@ -824,7 +824,7 @@ export default function PublicNegocio({ slug }) {
         )
       }
 
-      <CartDrawer isOpen={showCart} onClose={() => setShowCart(false)} cart={carrito} negocio={negocio} onIncrease={agregarAlCarrito} onDecrease={disminuirCantidad} onCheckout={() => navigate(`/n/${slug}/checkout`)} total={calcularTotalCarrito(carrito)} count={carrito.reduce((acc, p) => acc + p.cantidad, 0)} />
+      <CartDrawer isOpen={showCart} onClose={() => setShowCart(false)} cart={carrito} negocio={negocio} onIncrease={agregarAlCarrito} onDecrease={disminuirCantidad} onCheckout={() => navigate(`/n/${slug}/checkout`)} total={calcularTotalCarrito(carrito, negocio)} count={carrito.reduce((acc, p) => acc + p.cantidad, 0)} />
 
       <ToppingSelector isOpen={showToppingModal} onClose={() => setShowToppingModal(false)} onConfirm={agregarConToppings} producto={selectedProduct} gruposToppings={productToppings} />
 

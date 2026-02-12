@@ -16,7 +16,7 @@ export default function CartDrawer({
 }) {
     const DEFAULT_IMAGE = DEFAULT_PRODUCT_IMAGE;
 
-    const calcularPrecioItem = (item) => calcularPrecioEfectivo(item);
+    const calcularPrecioItem = (item) => calcularPrecioEfectivo(item, negocio);
 
     return (
         <div
@@ -65,7 +65,14 @@ export default function CartDrawer({
                                     className="w-16 h-16 object-cover rounded-xl bg-gray-100"
                                 />
                                 <div className="flex-1 min-w-0">
-                                    <p className="font-bold text-gray-900 truncate">{item.nombre}</p>
+                                    <div className="flex items-center gap-1.5 flex-wrap">
+                                        <p className="font-bold text-gray-900 truncate">{item.nombre}</p>
+                                        {negocio?.tipo_negocio === 'distribuidora' && item.precio_mayorista && item.cantidad_mayorista && item.cantidad >= item.cantidad_mayorista && (
+                                            <span className="text-[8px] bg-green-100 text-green-700 px-1.5 py-0.5 rounded font-black uppercase tracking-tighter shrink-0">
+                                                Mayorista
+                                            </span>
+                                        )}
+                                    </div>
                                     {item.toppings?.length > 0 && (
                                         <p className="text-xs text-gray-400 truncate">
                                             +{(() => {
