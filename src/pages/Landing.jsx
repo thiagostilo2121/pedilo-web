@@ -22,8 +22,6 @@ import {
   Smartphone,
   ChevronRight,
   LayoutDashboard,
-  MessageCircle,
-  Link as LinkIcon,
   Gift,
   CheckCircle2,
   XCircle,
@@ -36,7 +34,6 @@ import {
   Search,
   TrendingUp,
   Bot,
-  MapPin,
   ClipboardList,
   ScanBarcode,
   Warehouse
@@ -68,7 +65,7 @@ export default function Landing() {
               </button>
               <button
                 onClick={() => navigate("/register")}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-xl font-bold transition-all text-sm shadow-lg shadow-orange-100"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-3 sm:px-4 py-2 rounded-xl font-bold transition-all text-xs sm:text-sm shadow-lg shadow-orange-100"
               >
                 Comenzar Gratis
               </button>
@@ -83,7 +80,7 @@ export default function Landing() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-sm font-bold mb-8 animate-fade-in-up">
             <Zap size={14} fill="currentColor" /> Nuevo: Flyer Pro & QR Generator
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950">
             Dejá de regalar tu ganancia. <br />
             <span className="text-orange-600 text-shadow-sm">Vendé en tu zona con 0% comisión.</span>
           </h1>
@@ -223,9 +220,9 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-hide">
             {/* Stock Binario */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
                 <LayoutDashboard size={20} />
               </div>
@@ -234,7 +231,7 @@ export default function Landing() {
             </div>
 
             {/* Smart Availability */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
                 <Timer size={20} />
               </div>
@@ -243,7 +240,7 @@ export default function Landing() {
             </div>
 
             {/* 4G Optimized */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
                 <Zap size={20} />
               </div>
@@ -252,7 +249,7 @@ export default function Landing() {
             </div>
 
             {/* Toppings Complex */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
                 <CheckCircle2 size={20} />
               </div>
@@ -261,7 +258,7 @@ export default function Landing() {
             </div>
 
             {/* Checkout Exprés */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-green-600 shadow-sm mb-4">
                 <MousePointerClick size={20} />
               </div>
@@ -270,7 +267,7 @@ export default function Landing() {
             </div>
 
             {/* QR Generator */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
                 <QrCode size={20} />
               </div>
@@ -279,7 +276,7 @@ export default function Landing() {
             </div>
 
             {/* SEO 100/100 */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
                 <Search size={20} />
               </div>
@@ -289,7 +286,7 @@ export default function Landing() {
 
             {/* Hosting Incluido */}
             {/* Gestión de Pedidos (Ex Stock Binario) */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
                 <ClipboardList size={20} />
               </div>
@@ -298,7 +295,7 @@ export default function Landing() {
             </div>
 
             {/* UX/UI Premium */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-pink-600 shadow-sm mb-4">
                 <Sparkles size={20} />
               </div>
@@ -306,7 +303,7 @@ export default function Landing() {
               <p className="text-sm text-gray-500 font-medium">Diseño moderno con animaciones fluidas y herramientas de última generación.</p>
             </div>
             {/* Open Source */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
                 <Github size={20} />
               </div>
@@ -315,7 +312,7 @@ export default function Landing() {
             </div>
 
             {/* Business Metrics */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-red-600 shadow-sm mb-4">
                 <TrendingUp size={20} />
               </div>
@@ -324,7 +321,7 @@ export default function Landing() {
             </div>
 
             {/* PWA */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm mb-4">
                 <Smartphone size={20} />
               </div>
@@ -333,7 +330,7 @@ export default function Landing() {
             </div>
 
             {/* Scanner */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
                 <ScanBarcode size={20} />
               </div>
@@ -342,7 +339,7 @@ export default function Landing() {
             </div>
 
             {/* Wholesale */}
-            <div className="p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
+            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
               <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
                 <Warehouse size={20} />
               </div>
@@ -351,7 +348,7 @@ export default function Landing() {
             </div>
 
             {/* AI Recommendation - Full Width */}
-            <div className="md:col-span-2 lg:col-span-4 p-6 rounded-3xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white border border-gray-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 group hover:scale-[1.01] transition-transform">
+            <div className="min-w-[90vw] md:min-w-0 snap-center md:col-span-2 lg:col-span-4 p-6 rounded-3xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white border border-gray-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 group hover:scale-[1.01] transition-transform">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-orange-400 backdrop-blur-sm">
                   <Bot size={24} />
