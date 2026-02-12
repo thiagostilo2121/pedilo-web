@@ -6,6 +6,7 @@
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind](https://img.shields.io/badge/Tailwind_4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![AI Ready](https://img.shields.io/badge/AI_Ready-FFD700?style=for-the-badge&logo=robot&logoColor=black)](AI_CONTEXT.md)
+[![Version](https://img.shields.io/badge/version-0.5.0-blue?style=for-the-badge)](package.json)
 [![License](https://img.shields.io/badge/License-AGPL_v3-blue?style=for-the-badge)](LICENSE)
 
 **Sistema de pedidos online sin comisiones para pequeños negocios**
@@ -182,6 +183,17 @@ Esto significa que si modificás este código y lo usás en un servicio público
 **Thiago Valentín Stilo Limarino**
 
 - GitHub: [@thiagostilo2121](https://github.com/thiagostilo2121)
+
+---
+
+## 🔮 Roadmap v0.6.0 (En Preparación)
+
+El objetivo es consolidar el modelo híbrido (Minorista/Distribuidora) con funciones B2B robustas.
+
+- [x] **Validación Estricta de Mínimos**: Bloqueo de checkout si no se cumple el monto mínimo de compra (Distribuidoras).
+- [ ] **Stock Numérico Real**: Gestión de inventario exacto (unidades) en lugar de binario (Sí/No).
+- [ ] **Cuentas Corrientes**: Gestión de saldos para clientes recurrentes.
+- [ ] **Multi-Depósito**: Manejo de stock desde múltiples ubicaciones.
 
 ---
 

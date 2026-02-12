@@ -16,7 +16,8 @@ import {
   Phone,
   MessageSquare,
   ShoppingBag,
-  MapPin
+  MapPin,
+  AlertCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { calcularPrecioEfectivo, calcularTotalCarrito } from "../utils/precioUtils";
@@ -215,6 +216,11 @@ export default function Checkout({ slug }) {
   );
 
   const total = calcularTotalCarrito(carrito);
+
+  // Validación de Pedido Mínimo (Distribuidoras)
+  const montoMinimo = (negocio?.tipo_negocio === 'distribuidora' && negocio?.pedido_minimo) || 0;
+  const cumpleMinimo = total >= montoMinimo;
+  const faltaParaMinimo = montoMinimo - total;
 
   const getIconForOption = (text, type) => {
     const t = text.toLowerCase();
@@ -472,11 +478,21 @@ export default function Checkout({ slug }) {
                 </span>
               </div>
 
+              {!cumpleMinimo && (
+                <div className="mb-4 bg-red-50 border border-red-100 p-3 rounded-xl flex items-center gap-2 text-red-600 animate-in fade-in slide-in-from-bottom-2">
+                  <AlertCircle size={20} className="shrink-0" />
+                  <p className="text-xs font-bold leading-tight">
+                    El pedido mínimo es de <span className="text-black">${montoMinimo.toLocaleString()}</span>.
+                    Te faltan <span className="text-black">${faltaParaMinimo.toLocaleString()}</span>.
+                  </p>
+                </div>
+              )}
+
               <button
                 type="submit"
                 form="checkout-form"
-                disabled={isSubmitting || carrito.length === 0}
-                className={`w-full py-4 rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 ${isSubmitting
+                disabled={isSubmitting || carrito.length === 0 || !cumpleMinimo}
+                className={`w-full py-4 rounded-2xl font-black text-lg transition-all flex items-center justify-center gap-2 ${isSubmitting || !cumpleMinimo
                   ? "bg-gray-100 text-gray-400 cursor-not-allowed"
                   : "bg-gray-900 text-white hover:bg-black shadow-xl active:scale-95"
                   }`}
