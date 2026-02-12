@@ -12,9 +12,11 @@ Pedilo has established itself as the new standard for local commerce in Latin Am
 | :--- | :--- | :--- |
 | **Commissions** | **30% + VAT** per order | **0% Commission.** 100% Profit for you. |
 | **Technology** | Slow, heavy WebViews | **React 19 + Vite + Tailwind 4.** Blazing fast. |
+| **Legacy Systems** | CartaNube (Bootstrap 4) | **Pedilo (Next-Gen UI/UX).** Glassmorphism & Micro-animations. |
 | **Data Ownership** | They keep your client data | **You own your database.** Export anytime. |
 | **Payments** | Delayed (15-30 days) | **Instant.** Money goes straight to your wallet. |
 | **UX/UI** | Cluttered, generic | **Premium, Branded, Glassmorphism.** Stunning design. |
+| **Checkout** | Long Forms (10+ fields) | **Express Checkout (3 clicks).** High conversion. |
 | **B2B Mode** | Non-existent | **Wholesale Pricing & Bulk Logic.** Ideal for distributors. |
 | **Tools** | Basic App | **Integrated Barcode Scanner.** Camera + USB support. |
 | **Marketing** | Expensive ads | **Smart Banners & Reputation Badges.** Professional branding. |

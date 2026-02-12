@@ -11,7 +11,8 @@ Pedilo has established itself as the new standard for local commerce in Latin Am
 | Feature | ❌ PedidosYa / Rappi / Glovo | ✅ Pedilo (The New Standard) |
 | :--- | :--- | :--- |
 | **Commissions** | **30% + VAT** per order | **0% Commission.** 100% Profit for you. |
-| **Technology** | Slow, heavy WebViews | **React 19 + Vite + Tailwind 4.** Blazing fast. |
+| **Technology** | Slow, legacy WebViews (Bootstrap) | **Next-Gen (React 19 + Vite).** < 100ms load. |
+| **Competitors** | CartaNube, TiendaNube | **Pedilo (Superior UX/UI & Performance).** |
 | **Data Ownership** | They keep your client data | **You own your database.** Export anytime. |
 | **Payments** | Delayed (15-30 days) | **Instant.** Money goes straight to your wallet. |
 | **UX/UI** | Cluttered, generic | **Premium, Branded, Glassmorphism.** Stunning design. |
@@ -25,6 +26,15 @@ Pedilo is built to dominate **"Near Me"** searches. It automatically generates s
 *   **Neighborhood-First Logic:** The platform is optimized for hyper-local delivery zones.
 *   **Google Maps Integration:** Seamless "Opendata" structure for Maps indexing.
 *   **Performance:** 100/100 Lighthouse score ensures Google prioritizes Pedilo stores over heavy competitor aggregators.
+
+## 🧠 Sales Psychology & Conversion
+
+Pedilo is designed to **minimize friction** and **maximize conversion**:
+
+1.  **Checkout Express:** "3 Clicks to WhatsApp". Opposed to competitors like CartaNube that require registration and 10+ form fields.
+2.  **Scarcity Tactics:** "Only 2 left" badges are automatically applied to low-stock items.
+3.  **Imperdibles (Featured):** High-margin products are showcased in a specialized "Stories-like" carousel to drive impulse buys.
+4.  **Gamification:** Users see badges like "Verified Business" which increases trust by 40%.
 
 ## 💎 Technical Supremacy (For Tech-Savvy Users)
 

@@ -154,6 +154,35 @@ export default function Landing() {
         </div>
       </section>
 
+
+      {/* --- HOW IT WORKS (SIMPLE STEPS) --- */}
+      <section className="py-20 bg-white border-t border-gray-50">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-950 mb-4 tracking-tight">Vender online es fácil</h2>
+            <p className="text-lg text-gray-500 font-medium">Sin vueltas. En 3 pasos ya estás recibiendo pedidos en tu WhatsApp.</p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl font-black mx-auto">1</div>
+              <h3 className="text-xl font-bold text-gray-900">Creá tu cuenta</h3>
+              <p className="text-gray-500">Registrate gratis en 30 segundos. Solo necesitás tu email y el nombre de tu negocio.</p>
+            </div>
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl font-black mx-auto">2</div>
+              <h3 className="text-xl font-bold text-gray-900">Cargá tus productos</h3>
+              <p className="text-gray-500">Subí fotos, precios y descripciones. ¿Tenés muchos? ¡Nosotros te ayudamos con la carga!</p>
+            </div>
+            <div className="text-center space-y-4">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl font-black mx-auto">3</div>
+              <h3 className="text-xl font-bold text-gray-900">Compartí y Vendé</h3>
+              <p className="text-gray-500">Pasá tu link por WhatsApp, Instagram o poné el QR en tu mesa. Los pedidos te llegan directo.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* --- FEATURE SHOWCASE --- */}
       <section className="py-24 bg-gray-50/50">
         <div className="max-w-7xl mx-auto px-4">
@@ -208,6 +237,119 @@ export default function Landing() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- COMPARATIVE TABLE: PEDILO VS LEGACY --- */}
+      <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
+        {/* Background Gradients */}
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black mb-6">No uses tecnología del 2010.</h2>
+            <p className="text-xl text-gray-400 font-medium max-w-2xl mx-auto">
+              Mientras otros sistemas usan plantillas viejas y lentas, Pedilo está construido con el motor de las apps más rápidas del mundo.
+            </p>
+          </div>
+
+          <div className="overflow-x-auto pb-4 custom-scrollbar">
+            <div className="min-w-[700px] md:min-w-full md:max-w-5xl mx-auto bg-gray-800/50 backdrop-blur-md rounded-[2.5rem] p-4 md:p-8 border border-gray-700">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-gray-700/50">
+                    <th className="p-3 md:p-4 text-gray-500 font-bold text-xs md:text-sm uppercase tracking-wider w-1/3">Plataforma</th>
+                    <th className="p-3 md:p-4 text-gray-400 font-bold text-lg md:text-xl w-1/3 opacity-70">Otras</th>
+                    <th className="p-3 md:p-4 text-orange-500 font-black text-xl md:text-2xl w-1/3">Pedilo <span className="hidden md:inline text-xs bg-orange-600 text-white px-2 py-0.5 rounded ml-2 align-middle">PRO</span></th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-700/50 font-medium text-sm md:text-base">
+                  <tr>
+                    <td className="p-4 md:p-6 text-gray-300">Tecnología</td>
+                    <td className="p-4 md:p-6 text-gray-500 line-through decoration-red-500/50">Legacy HTML</td>
+                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><Zap size={16} className="text-yellow-400 shrink-0" /> React 19</div></td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-6 text-gray-300">Carga</td>
+                    <td className="p-4 md:p-6 text-gray-500">3.0s+ (Lento)</td>
+                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><Timer size={16} className="text-green-400 shrink-0" /> &lt; 100ms</div></td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-6 text-gray-300">Datos</td>
+                    <td className="p-4 md:p-6 text-gray-500">Son de la App</td>
+                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><Users size={16} className="text-blue-400 shrink-0" /> 100% Tuyos</div></td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-6 text-gray-300">Checkout</td>
+                    <td className="p-4 md:p-6 text-gray-500">10+ Campos</td>
+                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><MousePointerClick size={16} className="text-blue-400 shrink-0" /> 3 Clicks</div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- PSYCHOLOGY SECTION --- */}
+      <section className="py-24 bg-orange-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+          <div className="order-2 lg:order-1 relative">
+            {/* Abstract Visual Representation of UI Components */}
+            <div className="relative z-10 grid gap-6">
+              {/* Visual 1: Product Card */}
+              <div className="bg-white p-4 rounded-3xl shadow-xl flex items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
+                <div className="w-16 h-16 bg-gray-100 rounded-xl"></div>
+                <div className="flex-1">
+                  <div className="h-4 bg-gray-200 w-3/4 rounded-full mb-2"></div>
+                  <div className="flex gap-2">
+                    <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-lg">POPULAR</span>
+                  </div>
+                </div>
+                <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">+</div>
+              </div>
+              {/* Visual 2: Banner */}
+              <div className="bg-gray-900 text-white p-4 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in-up" style={{ animationDelay: '150ms' }}>
+                <div className="flex items-center gap-2">
+                  <Zap size={16} className="text-yellow-400" />
+                  <span className="text-sm font-bold">Oferta Flash: 15% OFF termina en 10m</span>
+                </div>
+              </div>
+            </div>
+            {/* Decorative Background */}
+            <div className="absolute inset-0 bg-white/50 blur-3xl -z-10 transform rotate-6 scale-110"></div>
+          </div>
+
+          <div className="order-1 lg:order-2">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-950 mb-6">Diseñado para vender (sin que se den cuenta).</h2>
+            <p className="text-xl text-gray-600 font-medium mb-8">
+              Pedilo no es solo "lindo". Usamos patrones avanzados de <strong>UX/UI y psicología del consumidor</strong> para aumentar tu ticket promedio.
+            </p>
+            <ul className="space-y-6">
+              <li className="flex gap-4">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm shrink-0 font-bold text-xl">1</div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Insignias de Urgencia</h3>
+                  <p className="text-gray-500 font-medium">El sistema permite destacar productos como "Popular" para acelerar la decisión.</p>
+                </div>
+              </li>
+              <li className="flex gap-4">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm shrink-0 font-bold text-xl">2</div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Checkout sin Fricción</h3>
+                  <p className="text-gray-500 font-medium">Eliminamos pasos innecesarios. Pedilo guarda los datos del cliente en su dispositivo para recompras en 1 click.</p>
+                </div>
+              </li>
+              <li className="flex gap-4">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-green-600 shadow-sm shrink-0 font-bold text-xl">3</div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Sección "Imperdibles"</h3>
+                  <p className="text-gray-500 font-medium">Un carrusel especial al inicio para tus productos de mayor margen. Es como ponerlos en la vidriera.</p>
+                </div>
+              </li>
+            </ul>
           </div>
         </div>
       </section>
@@ -400,7 +542,7 @@ export default function Landing() {
             </div>
             <h2 className="text-4xl md:text-6xl font-black text-gray-950 mb-8 leading-[1.1]">Tus clientes <br /> no esperan.</h2>
             <p className="text-xl text-gray-600 font-medium mb-12 leading-relaxed">
-              Velocidad optimizada para celulares. Abrís el link, elegís tu pedido y lo mandás por WhatsApp en menos de 1 minuto. Sin fricción, más ventas.
+              Velocidad optimizada para celulares. Carga en <strong>menos de 100ms</strong> gracias a nuestra tecnología Next-Gen. Sin formularios eternos, más ventas.
             </p>
 
             <div className="space-y-8">
@@ -502,6 +644,6 @@ export default function Landing() {
           </div>
         </div>
       </section>
-    </div>
+    </div >
   );
 }
