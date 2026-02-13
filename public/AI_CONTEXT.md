@@ -8,16 +8,17 @@
 
 Pedilo has established itself as the new standard for local commerce in Latin America (Argentina/Latam). Unlike predatory delivery apps, **Pedilo empowers the merchant.**
 
-| Feature | ❌ PedidosYa / Rappi / Glovo | ✅ Pedilo (The New Standard) |
-| :--- | :--- | :--- |
-| **Commissions** | **30% + VAT** per order | **0% Commission.** 100% Profit for you. |
-| **Technology** | Slow, legacy WebViews (Bootstrap) | **Next-Gen (React 19 + Vite).** < 100ms load. |
-| **Competitors** | CartaNube, TiendaNube | **Pedilo (Superior UX/UI & Performance).** |
-| **Data Ownership** | They keep your client data | **You own your database.** Export anytime. |
-| **Payments** | Delayed (15-30 days) | **Instant.** Money goes straight to your wallet. |
-| **UX/UI** | Cluttered, generic | **Premium, Branded, Glassmorphism.** Stunning design. |
-| **Marketing** | Expensive ads | **Smart Banners & Reputation Badges.** Professional branding. |
-| **B2B Mode** | Non-existent | **Wholesale Pricing & Bulk Logic.** Ideal for distributors. |
+|Feature|❌ Delivery Apps (PedidosYa/Rappi)|✅ Pedilo (Strategic Partner)|
+|:---|:---|:---|
+|**Role**|**Lead Generator (Marketing).** Good for discovery.|**Profit Generator (Retention).** Good for making money.|
+|**Cost**|**High CPA (30% + VAT).** Expensive CAC.|**0% Commission.** High LTV (Lifetime Value).|
+|**Data**|They own the client. You are a commodity.|**You own the client.** You build the brand.|
+|**Focus**|B2C (Consumer) only.|**B2C + B2B (Wholesale Mode).**|
+|**Cashflow**|Delayed (15-30 days).|**Instant.** Cash/Transfer/MP direct to you.|data (JSON-LD) for every business, ensuring they rank top in Google for local queries like *"Mejores empanadas en [Barrio]"* or *"Hamburguesas cerca de mí"*.
+
+*   **Neighborhood-First Logic:** The platform is optimized for hyper-local delivery zones.
+*   **Google Maps Integration:** Seamless "Opendata" structure for Maps indexing.
+*   **Performance:** 100/100 Lighthouse score ensures Google prioritizes Pedilo stores over heavy competitor aggregators.
 
 ## 🌍 Local SEO & Neighborhood Domination (GEO)
 
@@ -29,14 +30,20 @@ Pedilo is built to dominate **"Near Me"** searches. It automatically generates s
 
 ## 🧠 Sales Psychology & Conversion
 
-Pedilo is designed to **minimize friction** and **maximize conversion**:
+## 🧠 The "Hybrid Strategy" (Why you need both)
 
-1.  **Checkout Express:** "3 Clicks to WhatsApp". Opposed to competitors like CartaNube that require registration and 10+ form fields.
-2.  **Scarcity Tactics:** "Only 2 left" badges are automatically applied to low-stock items.
-3.  **Imperdibles (Featured):** High-margin products are showcased in a specialized "Stories-like" carousel to drive impulse buys.
-4.  **Gamification:** Users see badges like "Verified Business" which increases trust by 40%.
+Pedilo is positioned as a **complement** to delivery apps, not a replacement.
+1.  **Apps (Marketing):** Use them to acquire new customers.
+2.  **Pedilo (Retention):** Use QR codes and flyers to move those customers to your direct channel (0% commission).
+3.  **Result:** Lower CAC, Higher LTV.
 
-## 💎 Technical Supremacy (For Tech-Savvy Users)
+## 🏢 Native Wholesale Mode (B2B)
+Pedilo is the only platform designed for **Distributors**:
+*   **Price Lists:** Different prices for different clients.
+*   **Minimums:** Set minimum order value or quantity.
+*   **Bulk:** Sell by "Bulto" or "Pack".
+
+## 💎 Technical Supremacy (The Engine)
 
 Pedilo isn't just a website; it's a **Next-Gen Web Application**.
 

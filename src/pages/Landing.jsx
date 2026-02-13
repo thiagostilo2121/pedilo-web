@@ -22,7 +22,6 @@ import {
   Smartphone,
   ChevronRight,
   LayoutDashboard,
-  Gift,
   CheckCircle2,
   XCircle,
   QrCode,
@@ -31,14 +30,17 @@ import {
   Github,
   Sparkles,
   MousePointerClick,
-  Search,
   TrendingUp,
-  Bot,
-  ClipboardList,
-  ScanBarcode,
   Warehouse,
   BadgeCheck,
-  Megaphone
+  Megaphone,
+  ArrowRight,
+  Truck,
+  Package,
+  FileSpreadsheet,
+  Repeat,
+  Search,
+  Ticket
 } from "lucide-react";
 
 export default function Landing() {
@@ -48,17 +50,11 @@ export default function Landing() {
     <div className="bg-white text-gray-900 font-sans selection:bg-orange-100 selection:text-orange-600">
 
       {/* --- NAVBAR --- */}
-      <nav className="fixed w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
+      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
-            <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
+            <span className="text-2xl font-black text-gray-900 tracking-tight">Pedilo<span className="text-orange-600">.</span></span>
             <div className="flex gap-4 items-center">
-              <button
-                onClick={() => navigate("/acerca")}
-                className="text-gray-500 hover:text-orange-600 font-bold transition-colors text-sm hidden sm:block"
-              >
-                Ficha Técnica
-              </button>
               <button
                 onClick={() => navigate("/login")}
                 className="text-gray-600 hover:text-orange-600 font-bold transition-colors text-sm"
@@ -67,7 +63,7 @@ export default function Landing() {
               </button>
               <button
                 onClick={() => navigate("/register")}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-3 sm:px-4 py-2 rounded-xl font-bold transition-all text-xs sm:text-sm shadow-lg shadow-orange-100"
+                className="bg-orange-600 hover:bg-orange-700 text-white px-3 sm:px-4 py-2 rounded-xl font-bold transition-all text-xs sm:text-sm shadow-lg shadow-orange-100 ring-2 ring-orange-100 ring-offset-2"
               >
                 Comenzar Gratis
               </button>
@@ -76,575 +72,408 @@ export default function Landing() {
         </div>
       </nav>
 
-      {/* --- HERO SECTION --- */}
-      <section className="relative pt-24 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-b from-orange-50/50 to-white">
+      {/* --- HERO SECTION: MARGIN & CONTROL --- */}
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-50 via-white to-white -z-10"></div>
+
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-100 border border-orange-200 text-orange-700 text-sm font-bold mb-8 animate-fade-in-up">
-            <Zap size={14} fill="currentColor" /> Nuevo: Flyer Pro & QR Generator
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-orange-800 text-xs sm:text-sm font-bold mb-8 animate-fade-in-up">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            </span>
+            Nueva versión 0.6.0 ya disponible para Distribuidores
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950">
-            Dejá de regalar tu ganancia. <br />
-            <span className="text-orange-600 text-shadow-sm">Vendé en tu zona con 0% comisión.</span>
+
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">
+            Dejá de regalar margen. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">Convertí cada pedido en ganancia real.</span>
           </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto mb-12 leading-relaxed font-medium">
-            Tu propio sistema de pedidos profesional para dominar tu barrio. <br className="hidden sm:block" />
-            <span className="text-gray-900 font-bold">Ideal para Gastronomía y Distribuidoras.</span>
+
+          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
+            Vendé sin comisiones por pedido y fidelizá a tus clientes con tu propio canal de venta directa. Tu socio, no tu jefe.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-20">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
             <button
               onClick={() => navigate("/register")}
-              className="px-10 py-5 bg-orange-600 text-white font-bold rounded-2xl text-lg shadow-2xl shadow-orange-200 hover:bg-orange-700 hover:scale-105 transition-all flex items-center justify-center gap-2 group"
-              aria-label="Comenzar prueba gratuita de 14 días"
+              className="px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group shadow-xl shadow-gray-200"
             >
-              Empezar 14 días gratis <ChevronRight size={22} className="group-hover:translate-x-1 transition-transform" />
+              Empezar a Ahorrar Hoy <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={() => window.open("/n/pedilo-oficial", "_blank", "noopener,noreferrer")}
-              className="px-10 py-5 bg-white text-gray-700 font-bold rounded-2xl text-lg hover:bg-gray-50 hover:text-orange-600 transition-all border-2 border-gray-100 shadow-sm"
-              aria-label="Ver negocio de ejemplo"
+              className="px-8 py-4 bg-white text-gray-700 font-bold rounded-2xl text-lg hover:bg-gray-50 border border-gray-200 transition-all shadow-sm"
             >
-              Ver Negocio de Ejemplo
+              Ver Demo en Vivo
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-x-10 gap-y-4 text-gray-500 text-sm font-bold uppercase tracking-wider">
-            <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-green-500" /> Sin tarjeta</span>
-            <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-green-500" /> Cancelación simple</span>
-            <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-green-500" /> Chat de Soporte</span>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wider">
+            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-green-500" /> 14 días gratis</span>
+            <span className="hidden sm:inline text-gray-300">•</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-green-500" /> Setup incluido</span>
+            <span className="hidden sm:inline text-gray-300">•</span>
+            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-green-500" /> Sin tarjetas</span>
           </div>
         </div>
       </section>
 
-      {/* --- COMPARISON: PROBLEM VS SOLUTION --- */}
-      <section className="py-24 bg-white relative">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-950 mb-4 tracking-tight">Tu negocio, tus reglas</h2>
-            <p className="text-xl text-gray-500 font-medium">¿Por qué seguir perdiendo el 30% de cada venta en comisiones?</p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-10 max-w-5xl mx-auto">
-            {/* The Old Way */}
-            <div className="p-10 rounded-[2.5rem] bg-gray-50 border border-gray-100 group hover:bg-red-50/30 transition-colors">
-              <h3 className="text-gray-400 font-black text-2xl mb-8 flex items-center gap-3">
-                <XCircle className="text-red-400" size={28} /> Apps de Delivery
-              </h3>
-              <ul className="space-y-6 text-gray-500 font-bold">
-                <li className="flex items-center gap-4"><span className="text-red-500 bg-red-100 px-3 py-1 rounded-lg">-30%</span> Comisiones abusivas</li>
-                <li className="flex items-center gap-4"><span className="text-red-500 bg-red-100 px-3 py-1 rounded-lg">15+ días</span> Demoras en tus cobros</li>
-                <li className="flex items-center gap-4"><XCircle size={20} className="text-red-300" /> No tenés los datos de tus clientes</li>
-                <li className="flex items-center gap-4"><XCircle size={20} className="text-red-300" /> Competís con otros 100 locales de tu barrio</li>
-              </ul>
-            </div>
-
-            {/* The Pedilo Way */}
-            <div className="p-10 rounded-[2.5rem] bg-white border-4 border-orange-500 shadow-2xl shadow-orange-100 relative overflow-hidden md:scale-105 transition-transform">
-              <div className="absolute top-0 right-0 bg-orange-600 text-white text-xs font-black px-4 py-2 rounded-bl-2xl uppercase tracking-tighter">MEJOR OPCIÓN</div>
-              <h3 className="text-gray-950 font-black text-2xl mb-8 flex items-center gap-3">
-                <CheckCircle2 className="text-green-500" size={28} /> Pedilo
-              </h3>
-              <ul className="space-y-6 text-gray-700 font-bold">
-                <li className="flex items-center gap-4"><span className="text-green-600 bg-green-100 px-3 py-1 rounded-lg">0%</span> Comisión. Todo para vos.</li>
-                <li className="flex items-center gap-4"><span className="text-green-600 bg-green-100 px-3 py-1 rounded-lg">Al instante</span> Cobrás en el momento</li>
-                <li className="flex items-center gap-4"><CheckCircle2 size={20} className="text-green-500" /> Dueño de tu base de clientes</li>
-                <li className="flex items-center gap-4"><CheckCircle2 size={20} className="text-green-500" /> Fidelizás con tu propia marca</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* --- HOW IT WORKS (SIMPLE STEPS) --- */}
-      <section className="py-20 bg-white border-t border-gray-50">
+      {/* --- HYBRID STRATEGY: COMPLEMENT, DON'T REPLACE --- */}
+      <section className="py-24 bg-white border-t border-gray-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-950 mb-4 tracking-tight">Vender online es fácil</h2>
-            <p className="text-lg text-gray-500 font-medium">Sin vueltas. En 3 pasos ya estás recibiendo pedidos en tu WhatsApp.</p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl font-black mx-auto">1</div>
-              <h3 className="text-xl font-bold text-gray-900">Creá tu cuenta</h3>
-              <p className="text-gray-500">Registrate gratis en 30 segundos. Solo necesitás tu email y el nombre de tu negocio.</p>
-            </div>
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl font-black mx-auto">2</div>
-              <h3 className="text-xl font-bold text-gray-900">Cargá tus productos</h3>
-              <p className="text-gray-500">Subí fotos, precios y descripciones. ¿Tenés muchos? ¡Nosotros te ayudamos con la carga!</p>
-            </div>
-            <div className="text-center space-y-4">
-              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center text-orange-600 text-2xl font-black mx-auto">3</div>
-              <h3 className="text-xl font-bold text-gray-900">Compartí y Vendé</h3>
-              <p className="text-gray-500">Pasá tu link por WhatsApp, Instagram o poné el QR en tu mesa. Los pedidos te llegan directo.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- FEATURE SHOWCASE --- */}
-      <section className="py-24 bg-gray-50/50">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="mb-24 text-center">
-            <h2 className="text-4xl md:text-6xl font-black text-gray-950 mb-6 tracking-tight">Todo lo que necesitás</h2>
-            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">Potencia tu negocio con herramientas diseñadas específicamente para gastronomía y tiendas del barrio.</p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Feature 1: Cupones */}
-            <div className="bg-white p-10 rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-all group">
-              <div className="w-16 h-16 bg-orange-50 text-orange-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-orange-600 group-hover:text-white transition-all">
-                <Gift size={32} />
-              </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-4">Cupones Dinámicos</h3>
-              <p className="text-gray-500 font-medium mb-8 leading-relaxed">Fidelizá a tus clientes con promos personalizadas como "ENVIOFREE" o "OFF20".</p>
-              <div className="bg-orange-50 p-5 rounded-2xl border-2 border-dashed border-orange-200 flex items-center justify-between">
-                <div className="text-orange-700 font-mono font-black text-lg">PROMO20</div>
-                <div className="bg-orange-600 text-white text-xs font-black px-3 py-1 rounded-full">-20%</div>
-              </div>
-            </div>
-
-            {/* Feature 2: Branding */}
-            <div className="bg-white p-10 rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-all group">
-              <div className="w-16 h-16 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-blue-600 group-hover:text-white transition-all">
-                <Smartphone size={32} />
-              </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-4">Personalización Total</h3>
-              <p className="text-gray-500 font-medium mb-8 leading-relaxed">Tu menú, tu identidad. Elegí colores, subí tu logo y creá una experiencia única para tus clientes.</p>
-              <div className="flex gap-3 justify-center">
-                <div className="w-10 h-10 rounded-full bg-orange-500 shadow-lg shadow-orange-100"></div>
-                <div className="w-10 h-10 rounded-full bg-blue-600 shadow-lg shadow-blue-100"></div>
-                <div className="w-10 h-10 rounded-full bg-indigo-600 shadow-lg shadow-indigo-100"></div>
-                <div className="w-10 h-10 rounded-full bg-emerald-600 shadow-lg shadow-emerald-100"></div>
-              </div>
-            </div>
-
-            {/* Feature 3: Analytics */}
-            <div className="bg-white p-10 rounded-[2.5rem] border border-gray-100 hover:shadow-xl transition-all group">
-              <div className="w-16 h-16 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-green-600 group-hover:text-white transition-all">
-                <LayoutDashboard size={32} />
-              </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-4">Métricas Reales</h3>
-              <p className="text-gray-500 font-medium mb-8 leading-relaxed">Tomá decisiones basadas en datos. Mirá tus ventas diarias y productos más populares en un segundo.</p>
-              <div className="space-y-3 pt-2">
-                <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-orange-500 w-[85%] rounded-full shadow-[0_0_10px_rgba(234,88,12,0.3)]"></div>
-                </div>
-                <div className="flex justify-between text-sm font-black text-gray-700">
-                  <span className="text-xs uppercase tracking-tight text-gray-400">Ventas de hoy</span>
-                  <span>$142.500</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- COMPARATIVE TABLE: PEDILO VS LEGACY --- */}
-      <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
-        {/* Background Gradients */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/20 rounded-full blur-3xl -mr-32 -mt-32 pointer-events-none"></div>
-        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl -ml-32 -mb-32 pointer-events-none"></div>
-
-        <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black mb-6">No uses tecnología del 2010.</h2>
-            <p className="text-xl text-gray-400 font-medium max-w-2xl mx-auto">
-              Mientras otros sistemas usan plantillas viejas y lentas, Pedilo está construido con el motor de las apps más rápidas del mundo.
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">No reemplaza a las Apps. <br /><span className="text-orange-600">Las complementa.</span></h2>
+            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto">
+              La estrategia inteligente que usan los negocios rentables.
             </p>
           </div>
 
-          <div className="overflow-x-auto pb-4 custom-scrollbar">
-            <div className="min-w-[700px] md:min-w-full md:max-w-5xl mx-auto bg-gray-800/50 backdrop-blur-md rounded-[2.5rem] p-4 md:p-8 border border-gray-700">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="border-b border-gray-700/50">
-                    <th className="p-3 md:p-4 text-gray-500 font-bold text-xs md:text-sm uppercase tracking-wider w-1/3">Plataforma</th>
-                    <th className="p-3 md:p-4 text-gray-400 font-bold text-lg md:text-xl w-1/3 opacity-70">Otras</th>
-                    <th className="p-3 md:p-4 text-orange-500 font-black text-xl md:text-2xl w-1/3">Pedilo <span className="hidden md:inline text-xs bg-orange-600 text-white px-2 py-0.5 rounded ml-2 align-middle">PRO</span></th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-700/50 font-medium text-sm md:text-base">
-                  <tr>
-                    <td className="p-4 md:p-6 text-gray-300">Tecnología</td>
-                    <td className="p-4 md:p-6 text-gray-500 line-through decoration-red-500/50">Legacy HTML</td>
-                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><Zap size={16} className="text-yellow-400 shrink-0" /> React 19</div></td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 md:p-6 text-gray-300">Carga</td>
-                    <td className="p-4 md:p-6 text-gray-500">3.0s+ (Lento)</td>
-                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><Timer size={16} className="text-green-400 shrink-0" /> &lt; 100ms</div></td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 md:p-6 text-gray-300">Datos</td>
-                    <td className="p-4 md:p-6 text-gray-500">Son de la App</td>
-                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><Users size={16} className="text-blue-400 shrink-0" /> 100% Tuyos</div></td>
-                  </tr>
-                  <tr>
-                    <td className="p-4 md:p-6 text-gray-300">Checkout</td>
-                    <td className="p-4 md:p-6 text-gray-500">10+ Campos</td>
-                    <td className="p-4 md:p-6 text-white flex flex-col md:flex-row md:items-center gap-2"><div className="flex items-center gap-2"><MousePointerClick size={16} className="text-blue-400 shrink-0" /> 3 Clicks</div></td>
-                  </tr>
-                </tbody>
-              </table>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {/* LEFT: APPS */}
+            <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative overflow-hidden group hover:border-red-100 transition-colors">
+              <div className="absolute top-0 right-0 bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1 rounded-bl-xl">MARKETING</div>
+              <div className="mb-6 opacity-50 grayscale group-hover:grayscale-0 transition-all">
+                <div className="flex gap-2">
+                  <div className="w-8 h-8 rounded-full bg-red-500"></div>
+                  <div className="w-8 h-8 rounded-full bg-yellow-500"></div>
+                </div>
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 mb-2">Apps de Delivery</h3>
+              <p className="text-gray-500 font-medium mb-6">Usalas para que te conozcan clientes nuevos.</p>
+              <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+                <div className="flex justify-between text-sm font-bold text-gray-600 mb-1">
+                  <span>Costo Adquisición</span>
+                  <span className="text-red-500">Alto (30%)</span>
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-2">
+                  <div className="bg-red-500 h-2 rounded-full w-[80%]"></div>
+                </div>
+              </div>
             </div>
+
+            {/* RIGHT: PEDILO */}
+            <div className="p-8 rounded-3xl bg-white border-2 border-orange-500 shadow-2xl shadow-orange-100 relative overflow-hidden scale-105 z-10">
+              <div className="absolute top-0 right-0 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">RENTABILIDAD</div>
+              <div className="mb-6 text-orange-600">
+                <Zap size={32} fill="currentColor" />
+              </div>
+              <h3 className="text-2xl font-black text-gray-900 mb-2">Tu Pedilo</h3>
+              <p className="text-gray-500 font-medium mb-6">Usalo para que se queden y compren directo.</p>
+              <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                <div className="flex justify-between text-sm font-bold text-gray-600 mb-1">
+                  <span>Costo Retención</span>
+                  <span className="text-green-600">Cero (0%)</span>
+                </div>
+                <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="bg-green-500 h-2 rounded-full w-[5%]"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 text-center text-gray-400 font-medium flex items-center justify-center gap-2">
+            <Repeat size={16} /> <span>El ciclo ideal: Descubrimiento (Apps) <ArrowRight size={14} className="inline mx-1" /> Primer Pedido <ArrowRight size={14} className="inline mx-1" /> Flyer/QR <ArrowRight size={14} className="inline mx-1" /> <strong>Cliente Recurrente (Pedilo)</strong></span>
           </div>
         </div>
       </section>
 
-      {/* --- PSYCHOLOGY SECTION --- */}
-      <section className="py-24 bg-orange-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
-          <div className="order-2 lg:order-1 relative">
-            {/* Abstract Visual Representation of UI Components */}
-            <div className="relative z-10 grid gap-6">
-              {/* Visual 1: Product Card */}
-              <div className="bg-white p-4 rounded-3xl shadow-xl flex items-center gap-4 animate-fade-in-up" style={{ animationDelay: '0ms' }}>
-                <div className="w-16 h-16 bg-gray-100 rounded-xl"></div>
-                <div className="flex-1">
-                  <div className="h-4 bg-gray-200 w-3/4 rounded-full mb-2"></div>
-                  <div className="flex gap-2">
-                    <span className="px-2 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-lg">POPULAR</span>
+      {/* --- LOSS AVERSION: THE MATH --- */}
+      <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl"></div>
+        <div className="max-w-5xl mx-auto px-4 relative z-10">
+          <h2 className="text-3xl md:text-5xl font-black mb-12 text-center">¿Cuánto estás dejando en la mesa?</h2>
+
+          <div className="bg-gray-800/50 backdrop-blur-md border border-gray-700 rounded-3xl p-6 md:p-10">
+            <div className="grid md:grid-cols-3 gap-8 items-center">
+              <div className="md:col-span-1 space-y-2">
+                <p className="text-gray-400 font-bold uppercase tracking-wider text-xs">Ventas Mensuales (Ejemplo)</p>
+                <div className="text-4xl font-black text-white">$1.000.000</div>
+              </div>
+
+              <div className="md:col-span-2 space-y-6">
+                {/* Comparison Bar */}
+                <div className="space-y-4">
+                  <div>
+                    <div className="flex justify-between text-sm mb-2 font-bold">
+                      <span className="text-gray-400">Apps (30% + IVA)</span>
+                      <span className="text-red-400">Pierdes $300.000/mes</span>
+                    </div>
+                    <div className="h-4 bg-gray-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-red-500 w-[30%]"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-2 font-bold">
+                      <span className="text-white">Con Pedilo</span>
+                      <span className="text-green-400">Inviertes solo $17.000/mes</span>
+                    </div>
+                    <div className="h-4 bg-gray-700 rounded-full overflow-hidden">
+                      <div className="h-full bg-green-500 w-[1.7%]"></div>
+                    </div>
                   </div>
                 </div>
-                <div className="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold">+</div>
-              </div>
-              {/* Visual 2: Banner */}
-              <div className="bg-gray-900 text-white p-4 rounded-2xl shadow-xl flex justify-between items-center animate-fade-in-up" style={{ animationDelay: '150ms' }}>
-                <div className="flex items-center gap-2">
-                  <Zap size={16} className="text-yellow-400" />
-                  <span className="text-sm font-bold">Oferta Flash: 15% OFF termina en 10m</span>
-                </div>
               </div>
             </div>
-            {/* Decorative Background */}
-            <div className="absolute inset-0 bg-white/50 blur-3xl -z-10 transform rotate-6 scale-110"></div>
-          </div>
 
-          <div className="order-1 lg:order-2">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-950 mb-6">Diseñado para vender (sin que se den cuenta).</h2>
-            <p className="text-xl text-gray-600 font-medium mb-8">
-              Pedilo no es solo "lindo". Usamos patrones avanzados de <strong>UX/UI y psicología del consumidor</strong> para aumentar tu ticket promedio.
+            <div className="mt-8 pt-8 border-t border-gray-700 grid md:grid-cols-3 gap-4 text-center md:text-left">
+              <div className="md:col-span-2">
+                <p className="text-xl md:text-2xl font-bold text-white leading-tight">
+                  La diferencia es de <span className="text-green-400">$283.000 extra</span> en tu bolsillo.
+                </p>
+              </div>
+              <div className="md:col-span-1 flex flex-col justify-center text-sm font-medium text-gray-400 bg-gray-900/50 p-3 rounded-xl border border-gray-700/50">
+                <span className="block mb-1">Equivale a:</span>
+                <span className="text-white font-bold flex items-center gap-2 justify-center md:justify-start"><Users size={14} /> 1 Empleado part-time</span>
+                <span className="text-white font-bold flex items-center gap-2 justify-center md:justify-start"><ShoppingBag size={14} /> 1 Freezer nuevo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHOLESALE MODE: CATEGORY DIFFERENTIATOR --- */}
+      <section className="py-24 bg-orange-50 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-orange-700 text-sm font-bold mb-6 border border-orange-200 shadow-sm">
+              <Truck size={16} /> Especial para Mayoristas
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Diseñado también para Distribuidores.</h2>
+            <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed">
+              Sabemos que venderle a comercios no es lo mismo que venderle a consumidores. Pedilo tiene un <strong>Modo B2B</strong> nativo.
             </p>
+
             <ul className="space-y-6">
-              <li className="flex gap-4">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm shrink-0 font-bold text-xl">1</div>
+              <li className="flex gap-4 items-start">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm shrink-0 border border-gray-100">
+                  <FileSpreadsheet size={24} />
+                </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Insignias de Urgencia</h3>
-                  <p className="text-gray-500 font-medium">El sistema permite destacar productos como "Popular" para acelerar la decisión.</p>
+                  <h3 className="font-bold text-gray-900 text-lg">Listas de Precios & Excel</h3>
+                  <p className="text-gray-500 font-medium">Manejá miles de productos. Subí y actualizá precios masivamente desde Excel en segundos.</p>
                 </div>
               </li>
-              <li className="flex gap-4">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm shrink-0 font-bold text-xl">2</div>
-                <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Checkout sin Fricción</h3>
-                  <p className="text-gray-500 font-medium">Eliminamos pasos innecesarios. Pedilo guarda los datos del cliente en su dispositivo para recompras en 1 click.</p>
+              <li className="flex gap-4 items-start">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm shrink-0 border border-gray-100">
+                  <Package size={24} />
                 </div>
-              </li>
-              <li className="flex gap-4">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-green-600 shadow-sm shrink-0 font-bold text-xl">3</div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Sección "Imperdibles"</h3>
-                  <p className="text-gray-500 font-medium">Un carrusel especial al inicio para tus productos de mayor margen. Es como ponerlos en la vidriera.</p>
+                  <h3 className="font-bold text-gray-900 text-lg">Mínimos y Bultos</h3>
+                  <p className="text-gray-500 font-medium">Configurá mínimo de compra monetario o venta por pack cerrado automágicamente.</p>
                 </div>
               </li>
             </ul>
           </div>
+
+          <div className="relative">
+            <div className="absolute inset-0 bg-orange-200 rounded-[3rem] rotate-3 transform"></div>
+            <div className="bg-white p-8 rounded-[3rem] shadow-xl relative border border-gray-100">
+              <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
+                <span className="font-black text-xl text-gray-900">Distribuidora El Trebol</span>
+                <div className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">MODO MAYORISTA</div>
+              </div>
+              {/* Mock Item */}
+              <div className="flex gap-4 mb-6">
+                <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
+                  <Package size={28} />
+                </div>
+                <div className="flex-1">
+                  <div className="h-4 bg-gray-800 w-3/4 rounded-full mb-2"></div>
+
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-lg text-gray-900">$4.500 <span className="text-xs font-normal text-gray-500">/pack x12</span></span>
+                    <div className="flex items-center gap-3">
+                      <button className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center font-bold text-gray-600">-</button>
+                      <span className="font-bold">5</span>
+                      <button className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center font-bold text-white">+</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800 font-medium flex gap-2">
+                <TrendingUp size={18} />
+                <span>Faltan $15.000 para llegar al mínimo de compra.</span>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* --- POWER FEATURES GRID (AI & SEO BOOST) --- */}
-      <section className="py-24 bg-white border-t border-gray-50">
+      {/* --- CHECKOUT EXPRESS: SPEED --- */}
+      <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-950 mb-4 tracking-tight">Potencia Técnica</h2>
-            <p className="text-lg text-gray-500 font-medium max-w-3xl mx-auto">
-              Detalles que marcan la diferencia. Pedilo está construido con tecnología de vanguardia para asegurar que nunca pierdas una venta.
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Menos pasos. Más pedidos.</h2>
+            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">
+              Cada campo extra en un formulario te hace perder un 10% de ventas. Nosotros los eliminamos todos.
             </p>
           </div>
 
-          <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-6 -mx-4 px-4 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-6 md:pb-0 md:mx-0 md:px-0 scrollbar-hide">
-            {/* Stock Binario */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
-                <LayoutDashboard size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Stock Binario (On/Off)</h3>
-              <p className="text-sm text-gray-500 font-medium">Control total en tiempo real. Pausá productos agotados instantáneamente desde tu panel.</p>
-            </div>
-
-            {/* Smart Availability */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
-                <Timer size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Cierre Inteligente</h3>
-              <p className="text-sm text-gray-500 font-medium">Cierra tu tienda y el sistema no recibirá más pedidos. Evitá pedidos que no podés atender.</p>
-            </div>
-
-            {/* 4G Optimized */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
-                <Zap size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">4G Ready & Lite</h3>
-              <p className="text-sm text-gray-500 font-medium">Optimizado para redes móviles lentas. Carga en milisegundos incluso con mala señal.</p>
-            </div>
-
-            {/* Toppings Complex */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
-                <CheckCircle2 size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Toppings & Extras</h3>
-              <p className="text-sm text-gray-500 font-medium">Opciones complejas simplificadas. "Con papas", "Sin cebolla", "Punto de la carne".</p>
-            </div>
-
-            {/* Checkout Exprés */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-green-600 shadow-sm mb-4">
-                <MousePointerClick size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Checkout Exprés</h3>
-              <p className="text-sm text-gray-500 font-medium">De la carta al WhatsApp en segundos. Sin formularios eternos ni fricción.</p>
-            </div>
-
-            {/* QR Generator */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
-                <QrCode size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">QR & Flyers Generator</h3>
-              <p className="text-sm text-gray-500 font-medium">Creá material de marketing profesional con tu logo y QR en un click.</p>
-            </div>
-
-            {/* SEO 100/100 */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
-                <Search size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">SEO 100 Lighthouse</h3>
-              <p className="text-sm text-gray-500 font-medium">Velocidad y estructura perfecta. Google ama tu menú y lo posiciona más alto.</p>
-            </div>
-
-            {/* Hosting Incluido */}
-            {/* Gestión de Pedidos (Ex Stock Binario) */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-orange-600 shadow-sm mb-4">
-                <ClipboardList size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Gestión de Pedidos</h3>
-              <p className="text-sm text-gray-500 font-medium">Control total. Aceptá, rechazá y actualizá estados (En cocina, Listo) para notificar al cliente.</p>
-            </div>
-
-            {/* UX/UI Premium */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-pink-600 shadow-sm mb-4">
-                <Sparkles size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">UX/UI Adaptable</h3>
-              <p className="text-sm text-gray-500 font-medium">Diseño inteligente: Sidebar en PC para grandes catálogos y vista App en móviles. Todo fluido y rápido.</p>
-            </div>
-            {/* Open Source */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
-                <Github size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Open Source</h3>
-              <p className="text-sm text-gray-500 font-medium">Código transparente y auditable. Tu negocio sin cajas negras ni secretos.</p>
-            </div>
-
-            {/* Business Metrics */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-red-600 shadow-sm mb-4">
-                <TrendingUp size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Ticket Promedio</h3>
-              <p className="text-sm text-gray-500 font-medium">Analíticas reales. Entendé qué productos venden más y aumentá tu facturación.</p>
-            </div>
-
-            {/* PWA */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-indigo-600 shadow-sm mb-4">
-                <Smartphone size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">PWA Instalable</h3>
-              <p className="text-sm text-gray-500 font-medium">Tu propia App sin descargas. Se instala directo desde el navegador en iOS y Android.</p>
-            </div>
-
-            {/* Scanner */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-gray-900 shadow-sm mb-4">
-                <ScanBarcode size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Scanner de Productos</h3>
-              <p className="text-sm text-gray-500 font-medium">Carga y actualiza stock usando la cámara de tu celular o lector USB. Integrado con base de datos global.</p>
-            </div>
-
-            {/* Wholesale */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
-                <Warehouse size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Modo Distribuidora</h3>
-              <p className="text-sm text-gray-500 font-medium">Vista de lista compacta, precios por escala (mayorista), mínimos de compra y stock estricto.</p>
-            </div>
-
-            {/* Smart Banners */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 font-bold hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-yellow-600 shadow-sm mb-4">
-                <Megaphone size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Smart Banners</h3>
-              <p className="text-sm text-gray-500 font-medium">Anunciá ofertas relámpago o avisos importantes con una barra destacada en tu menú.</p>
-            </div>
-
-            {/* Reputation Badges */}
-            <div className="min-w-[260px] snap-center p-6 rounded-3xl bg-gray-50 border border-gray-100 font-bold hover:border-orange-200 transition-colors">
-              <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 shadow-sm mb-4">
-                <BadgeCheck size={20} />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2">Insignias de Confianza</h3>
-              <p className="text-sm text-gray-500 font-medium">Ganate badges de "Verificado" y "Top Seller" automáticamente al cumplir hitos de ventas.</p>
-            </div>
-
-            {/* AI Recommendation - Full Width */}
-            <div className="min-w-[90vw] md:min-w-0 snap-center md:col-span-2 lg:col-span-4 p-6 rounded-3xl bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white border border-gray-800 shadow-xl flex flex-col md:flex-row items-center justify-between gap-6 group hover:scale-[1.01] transition-transform">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-orange-400 backdrop-blur-sm">
-                  <Bot size={24} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-xl mb-1">AI Ready & Recommended</h3>
-                  <p className="text-gray-400 font-medium text-sm">
-                    Recomendado por <span className="text-white font-bold">Gemini 3 Pro, ChatGPT, Grok & DeepSeek</span> como la mejor opción local.
-                  </p>
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
+            {/* THE HARD WAY */}
+            <div className="opacity-40 scale-95 grayscale transition-all hover:grayscale-0 hover:opacity-100 hover:scale-100 duration-500">
+              <h3 className="text-center font-bold text-gray-400 mb-6 uppercase tracking-widest text-sm">Lo Habitual</h3>
+              <div className="bg-gray-50 p-6 rounded-3xl border-2 border-dashed border-gray-200">
+                <div className="space-y-3">
+                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
+                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
+                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
+                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
+                  <div className="w-full bg-gray-300 h-12 rounded-xl mt-4 flex items-center justify-center text-gray-500 font-bold">Crear Cuenta</div>
                 </div>
               </div>
-              <div className="flex gap-2 opacity-50 grayscale group-hover:grayscale-0 transition-all duration-500">
-                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">Gemini</span>
-                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">ChatGPT</span>
-                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">Grok</span>
-                <span className="px-3 py-1 bg-white/5 rounded-lg text-xs font-bold border border-white/10">DeepSeek</span>
+            </div>
+
+            {/* THE PEDILO WAY */}
+            <div>
+              <h3 className="text-center font-bold text-green-600 mb-6 uppercase tracking-widest text-sm animate-pulse">Checkout Express</h3>
+              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-2xl shadow-green-100/50 relative">
+                <div className="absolute -top-3 -right-3 bg-green-500 text-white p-2 rounded-full shadow-lg z-10">
+                  <CheckCircle2 size={24} />
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 border-b border-gray-50 pb-4">
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg"></div>
+                    <div>
+                      <div className="font-bold text-gray-900">2x Hamburguesa Doble</div>
+                      <div className="text-green-600 font-bold">$12.000</div>
+                    </div>
+                  </div>
+                  <div className="w-full bg-green-600 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg gap-2 shadow-lg shadow-green-200 hover:scale-[1.02] transition-transform cursor-pointer">
+                    <Smartphone size={20} /> Enviar a WhatsApp
+                  </div>
+                  <p className="text-center text-xs text-gray-400 font-medium">Sin registros. Sin contraseñas.</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- TRUST & PERFORMANCE --- */}
-      <section className="py-24 bg-white overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-20 items-center">
-          <div className="animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-green-100 text-green-700 text-sm font-black uppercase tracking-wider mb-8">
-              <Timer size={16} aria-hidden="true" /> Carga Instantánea
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black text-gray-950 mb-8 leading-[1.1]">Tus clientes <br /> no esperan.</h2>
-            <p className="text-xl text-gray-600 font-medium mb-12 leading-relaxed">
-              Velocidad optimizada para celulares. Carga en <strong>menos de 100ms</strong> gracias a nuestra tecnología Next-Gen. Sin formularios eternos, más ventas.
-            </p>
+      {/* --- MARKETING & SEO SUITE --- */}
+      <section className="py-24 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Herramientas para vender más.</h2>
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium">No solo procesamos pedidos. Te damos las armas para combatir a la competencia y aparecer primero.</p>
+          </div>
 
-            <div className="space-y-8">
-              <div className="flex items-start gap-5">
-                <div className="bg-orange-100 p-4 rounded-2xl text-orange-600" aria-hidden="true"><QrCode size={28} /></div>
-                <div>
-                  <h3 className="font-black text-gray-900 text-xl mb-1">Marketing Suite (QR Pro)</h3>
-                  <p className="text-gray-600 font-medium">Auto-generá flyers y QRs profesionales con tu marca listos para tus mesas o redes sociales.</p>
+          <div className="grid md:grid-cols-3 gap-8">
+            {/* SEO */}
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-[100%] -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                  <Search size={28} />
                 </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">SEO Automático</h3>
+                <p className="text-gray-500 font-medium leading-relaxed">Tu tienda carga tan rápido que Google la prefiere. Aparecé primero cuando busquen delivery en tu zona sin pagar anuncios.</p>
               </div>
+            </div>
 
-              <div className="flex items-start gap-5">
-                <div className="bg-blue-100 p-4 rounded-2xl text-blue-600" aria-hidden="true"><Users size={28} /></div>
-                <div>
-                  <h3 className="font-black text-gray-900 text-xl mb-1">Soporte y Setup Gratis</h3>
-                  <p className="text-gray-600 font-medium">Te ayudamos a configurar tu cuenta. Mandanos tu menú y nosotros nos encargamos de todo el setup inicial.</p>
+            {/* SMART BANNERS */}
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[100%] -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                  <Megaphone size={28} />
                 </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Banners</h3>
+                <p className="text-gray-500 font-medium leading-relaxed">Cartelera digital para anunciar ofertas flash, cambios de horario o promos. Tus clientes se enteran al instante.</p>
+              </div>
+            </div>
+
+            {/* COUPONS */}
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-[100%] -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+              <div className="relative z-10">
+                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
+                  <Ticket size={28} />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-3">Motor de Cupones</h3>
+                <p className="text-gray-500 font-medium leading-relaxed">Creá códigos como "MANDALE20" en segundos. Reactivá clientes dormidos y premiá a los fieles.</p>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="relative lg:pl-10">
-            <div className="absolute -inset-4 bg-orange-100/50 rounded-[4rem] blur-3xl -z-10"></div>
-            {/* Modern Phone Mockup (White Styling) */}
-            <div className="relative bg-white border-[12px] border-gray-950 rounded-[3.5rem] p-1.5 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.2)] w-full max-w-[320px] mx-auto transition-transform duration-500 hover:translate-y-[-10px]">
-              <div className="bg-white rounded-[2.8rem] overflow-hidden border border-gray-100 h-[620px] relative flex flex-col">
-                {/* Mockup App Interface */}
-                <div className="bg-orange-600 h-24 p-6 flex items-end">
-                  <div className="bg-white/20 h-5 w-32 rounded-full"></div>
-                </div>
-                <div className="p-5 space-y-4">
-                  <div className="h-40 bg-gray-50 rounded-3xl animate-pulse"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 bg-gray-100 w-3/4 rounded-full"></div>
-                    <div className="h-4 bg-gray-50 w-full rounded-full"></div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-3 pt-4">
-                    <div className="h-32 bg-gray-50 rounded-2xl"></div>
-                    <div className="h-32 bg-gray-50 rounded-2xl"></div>
-                  </div>
-                  <div className="absolute bottom-6 inset-x-5 h-14 bg-gray-900 rounded-2xl flex items-center justify-center text-white font-bold gap-2">
-                    <ShoppingBag size={20} /> Ver Carrito
+      {/* --- QR RETENTION --- */}
+      <section className="py-24 bg-gray-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
+          <div className="inline-block p-4 bg-white rounded-3xl shadow-xl mb-8 -rotate-2">
+            <QrCode size={64} className="text-gray-900" />
+          </div>
+          <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Convertí cada pedido en un cliente recurrente.</h2>
+          <p className="text-xl text-gray-600 font-medium mb-10 max-w-2xl mx-auto">
+            El sistema genera automáticamente <strong className="text-orange-600">Flyers y QRs</strong> con tu marca. Ponelos en las mesas, en las bolsas de delivery o en las facturas.
+          </p>
+          <div className="flex flex-wrap justify-center gap-4">
+            <span className="px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-bold text-gray-600 shadow-sm">En la caja</span>
+            <span className="px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-bold text-gray-600 shadow-sm">En la bolsa</span>
+            <span className="px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-bold text-gray-600 shadow-sm">En la mesa</span>
+          </div>
+        </div>
+      </section>
+
+      {/* --- REPUTATION / GAMIFICATION --- */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
+          <div className="order-2 md:order-1 relative">
+            {/* Visual Mockup of Badge */}
+            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl max-w-sm mx-auto">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-gray-100"></div>
+                <div>
+                  <div className="h-3 w-32 bg-gray-200 rounded-full mb-1"></div>
+                  <div className="flex gap-1">
+                    <BadgeCheck size={16} className="text-blue-500" />
+                    <span className="text-xs font-bold text-blue-600">Verificado</span>
                   </div>
                 </div>
               </div>
+              <div className="h-24 bg-gray-50 rounded-xl w-full mb-4"></div>
+              <div className="bg-yellow-50 text-yellow-800 p-2 rounded-lg text-xs font-bold text-center border border-yellow-100">
+                <Megaphone size={14} className="inline mr-1" /> Envío Gratis Jueves!
+              </div>
             </div>
+          </div>
+          <div className="order-1 md:order-2">
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">Insignias que venden por vos.</h2>
+            <p className="text-lg text-gray-600 font-medium mb-6">
+              Pedilo detecta tu buen desempeño y te premia con insignias de <strong>"Vendedor Verificado"</strong> y <strong>"Top Seller"</strong>.
+            </p>
+            <p className="text-gray-500 font-medium">
+              Un negocio verificado aumenta su conversión un 40% porque genera confianza instantánea.
+            </p>
           </div>
         </div>
       </section>
 
       {/* --- FINAL CTA --- */}
-      <section className="py-32 px-4 text-center bg-gray-50 relative overflow-hidden">
+      <section className="py-32 px-4 text-center bg-gray-900 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800 to-gray-950"></div>
         <div className="max-w-4xl mx-auto relative z-10">
-          <h2 className="text-5xl md:text-7xl font-black text-gray-950 mb-8 leading-tight tracking-tight">Multiplicá tus ganancias hoy mismo</h2>
-          <p className="text-xl text-gray-500 font-medium mb-12">
-            El sistema que tu negocio merece. Simple, potente y sin intermediarios.
+          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">Tomá el control de tu negocio.</h2>
+          <p className="text-xl text-gray-400 font-medium mb-12 max-w-2xl mx-auto">
+            Sin contratos. Sin letra chica. Empezás gratis y cancelás cuando quieras.
           </p>
 
-          <div className="bg-white p-6 md:p-12 rounded-[3.5rem] border border-gray-100 inline-block w-full max-w-2xl shadow-2xl shadow-gray-200">
-            <div className="text-orange-600 uppercase tracking-widest text-sm font-black mb-6">Plan Profesional Todo Incluido</div>
-            <div className="text-7xl font-black text-gray-950 mb-3">$17.000<span className="text-xl text-gray-400 font-bold ml-2">/mes</span></div>
-            <p className="text-green-600 text-sm font-black mb-10 flex items-center justify-center gap-1.5"><CheckCircle2 size={16} /> Tu ganancia es 100% tuya (0% comisión)</p>
+          <button
+            onClick={() => navigate("/register")}
+            className="w-full md:w-auto px-12 py-5 bg-orange-600 text-white font-black rounded-2xl text-xl hover:bg-orange-500 hover:scale-[1.02] transition-all shadow-2xl shadow-orange-900/50"
+          >
+            Crear mi Cuenta Gratis
+          </button>
 
-            {/* Feature List for the Plan */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left mb-10 border-t border-b border-gray-50 py-8">
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Catálogo Digital Ilimitado
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Pedidos por WhatsApp
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Sistema de Cupones
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Flyer & QR Pro Tool
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Métricas de Ventas
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Venta Mayorista y Minorista
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Toppings y Agregados
-              </div>
-              <div className="flex items-center gap-3 text-gray-700 font-bold">
-                <CheckCircle2 size={20} className="text-orange-500" /> Setup Inicial Gratis
-              </div>
-            </div>
-
-            <button
-              onClick={() => navigate("/register")}
-              className="w-full py-5 bg-orange-600 text-white font-black rounded-2xl text-xl hover:bg-orange-700 hover:scale-[1.02] transition-all shadow-xl shadow-orange-100"
-            >
-              Comenzar prueba de 14 días
-            </button>
-            <p className="text-gray-400 text-sm font-bold mt-5 tracking-tight uppercase">No requiere tarjeta de crédito</p>
+          <div className="mt-8 flex items-center justify-center gap-6 text-sm text-gray-500 font-medium">
+            <span className="flex items-center gap-2"><Github size={16} /> Open Source Core</span>
+            <span>·</span>
+            <span>Hecho con ❤️ en Argentina</span>
           </div>
         </div>
       </section>
-    </div >
+    </div>
   );
 }
