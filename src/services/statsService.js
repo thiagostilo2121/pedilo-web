@@ -19,5 +19,10 @@ export const statsService = {
     getTopClients: async (limit = 5) => {
         const response = await api.get(`/stats/clients?limit=${limit}`);
         return response.data;
+    },
+
+    getPeakHours: async () => {
+        const response = await api.get('/stats/hourly-sales');
+        return response.data;
     }
 };

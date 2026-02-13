@@ -82,7 +82,7 @@ export default function Landing() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
-            Nueva versión 0.6.0 ya disponible para Distribuidores
+            Nueva versión ya disponible para Distribuidores
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">

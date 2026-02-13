@@ -17,7 +17,10 @@
 
 import { useState } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "../contexts/AuthProvider";
+import { useEffect } from "react";
+import negocioService from "../services/negocioService";
+import CommandPalette from "../components/dashboard/CommandPalette";
 import {
   Settings,
   ShoppingBag,
@@ -35,16 +38,36 @@ import {
   CirclePercent,
   LayoutDashboard,
   MessageCircle,
-  Instagram
+  Instagram,
+  User,
+  ExternalLink,
+  Store
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { logout } = useAuth();
+  const [negocio, setNegocio] = useState(null);
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const cached = sessionStorage.getItem("negocio_info");
+    if (cached) {
+      setNegocio(JSON.parse(cached));
+      return; // Already have it, don't fetch
+    }
+
+    negocioService.getMiNegocio()
+      .then(data => {
+        setNegocio(data);
+        sessionStorage.setItem("negocio_info", JSON.stringify(data));
+      })
+      .catch(err => console.error("Error fetching negocio:", err));
+  }, []);
+
   const logoutAction = () => {
+    sessionStorage.removeItem("negocio_info");
     logout();
     navigate("/login");
   };
@@ -60,23 +83,24 @@ export default function DashboardLayout({ children }) {
     { name: "Mi Suscripción", path: "/dashboard/mi-suscripcion", icon: <CreditCard size={20} /> },
   ];
 
-  const activeClass = "bg-orange-50 text-orange-600 border-r-4 border-orange-600";
-  const inactiveClass = "text-gray-600 hover:bg-gray-100";
+  const activeClass = "bg-orange-600 text-white shadow-md shadow-orange-200";
+  const inactiveClass = "text-gray-500 hover:bg-gray-50 hover:text-gray-900";
 
   return (
-    <div className="flex h-screen bg-gray-50 overflow-hidden">
+    <div className="flex h-screen bg-gray-50 overflow-hidden font-sans">
+      <CommandPalette />
       {/* SIDEBAR DESKTOP */}
       <aside
-        className={`hidden lg:flex flex-col bg-white border-r shadow-sm transition-all duration-300 ${sidebarOpen ? "w-64" : "w-20"
+        className={`hidden lg:flex flex-col bg-white border-r border-gray-100 transition-all duration-300 ${sidebarOpen ? "w-64" : "w-20"
           }`}
       >
-        <div className="flex items-center justify-between h-16 px-4 border-b bg-white">
-          {sidebarOpen && <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>}
+        <div className="flex items-center justify-between h-20 px-6 border-b border-gray-50">
+          {sidebarOpen && <span className="text-2xl font-black text-gray-900 tracking-tighter">Pedilo<span className="text-orange-600">.</span></span>}
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-1.5 rounded-lg bg-gray-50 hover:bg-gray-100 text-gray-500 mx-auto"
+            className="p-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-500 transition-all active:scale-95"
           >
-            {sidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+            {sidebarOpen ? <ChevronLeft size={18} /> : <ChevronRight size={18} />}
           </button>
         </div>
 
@@ -86,7 +110,7 @@ export default function DashboardLayout({ children }) {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors font-medium ${isActive ? activeClass : inactiveClass
+                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-bold text-sm ${isActive ? activeClass : inactiveClass
                 }`
               }
             >
@@ -96,48 +120,39 @@ export default function DashboardLayout({ children }) {
           ))}
         </nav>
 
-        <div className="p-4 border-t space-y-4">
+        <div className="p-6 border-t border-gray-50 flex flex-col items-center gap-3">
           {/* Socials Row */}
           <div className={`flex ${sidebarOpen ? 'flex-row' : 'flex-col'} gap-2`}>
             <a
               href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex-1 flex items-center justify-center p-2.5 rounded-xl bg-green-50 text-green-600 hover:bg-green-100 transition-colors ${!sidebarOpen && 'aspect-square'}`}
+              className={`flex-1 flex items-center justify-center p-3 rounded-xl bg-green-50 text-green-600 hover:bg-green-600 hover:text-white transition-all shadow-sm shadow-green-100 ${!sidebarOpen && 'aspect-square'}`}
               title="Canal de WhatsApp"
             >
-              <MessageCircle size={20} />
-              {sidebarOpen && <span className="ml-2 text-sm font-bold">Canal</span>}
+              <MessageCircle size={18} />
+              {sidebarOpen && <span className="ml-2 text-xs font-black uppercase tracking-wider">Canal</span>}
             </a>
             <a
               href="https://instagram.com/pediloarg.ofc"
               target="_blank"
               rel="noopener noreferrer"
-              className={`flex-1 flex items-center justify-center p-2.5 rounded-xl bg-pink-50 text-pink-600 hover:bg-pink-100 transition-colors ${!sidebarOpen && 'aspect-square'}`}
+              className={`flex-1 flex items-center justify-center p-3 rounded-xl bg-pink-50 text-pink-600 hover:bg-pink-600 hover:text-white transition-all shadow-sm shadow-pink-100 ${!sidebarOpen && 'aspect-square'}`}
               title="Instagram"
             >
-              <Instagram size={20} />
-              {sidebarOpen && <span className="ml-2 text-sm font-bold">Seguinos</span>}
+              <Instagram size={18} />
+              {sidebarOpen && <span className="ml-2 text-xs font-black uppercase tracking-wider">Instagram</span>}
             </a>
           </div>
 
-          {/* Logout */}
           <button
             onClick={logoutAction}
-            className={`w-full flex items-center ${sidebarOpen ? 'justify-center' : 'justify-center'} py-2.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded-xl transition-colors font-medium`}
+            className={`w-full flex items-center justify-center py-3 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-xl transition-all font-bold text-sm`}
             title="Cerrar Sesión"
           >
-            <LogOut size={20} />
+            <LogOut size={18} />
             {sidebarOpen && <span className="ml-3">Cerrar Sesión</span>}
           </button>
-
-          {/* Legal Links (Desktop Expanded Only) */}
-          {sidebarOpen && (
-            <div className="flex justify-center flex-wrap gap-x-4 gap-y-2 pt-2 border-t border-gray-100 text-xs font-semibold text-gray-400">
-              <button onClick={() => navigate("/terminos")} className="hover:text-gray-600 transition-colors">Términos</button>
-              <button onClick={() => navigate("/privacidad")} className="hover:text-gray-600 transition-colors">Privacidad</button>
-            </div>
-          )}
         </div>
 
         {/* Mini-footer con créditos */}
@@ -156,17 +171,77 @@ export default function DashboardLayout({ children }) {
 
       {/* CONTENEDOR PRINCIPAL */}
       <div className="flex flex-col flex-1 min-w-0 overflow-hidden">
-        {/* NAVBAR MOBILE */}
-        <header className="lg:hidden bg-white border-b h-16 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-30">
-          <div className="flex items-center gap-2">
-            <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
-          </div>
+        {/* NAVBAR DESKTOP & MOBILE */}
+        <header className="bg-white/80 backdrop-blur-md border-b border-gray-100/50 h-20 flex items-center justify-between px-4 sm:px-10 sticky top-0 z-30 shadow-sm shadow-gray-100/20">
+          {/* Mobile Hamburguer (Only LG:HIDDEN) */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="p-2 -mr-2 rounded-xl text-gray-600 hover:bg-gray-100 active:scale-95 transition-all"
+            className="lg:hidden p-2 -ml-2 rounded-xl text-gray-600 hover:bg-gray-100 active:scale-95 transition-all"
           >
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
+
+          {/* Logo Mobile (Only LG:HIDDEN) */}
+          <div className="lg:hidden flex items-center gap-2">
+            <span className="text-xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
+          </div>
+
+          {/* Business Info (Desktop & Mobile) */}
+          <div className="flex items-center gap-4">
+            {negocio ? (
+              <div className="flex items-center gap-3">
+                {negocio.logo_url ? (
+                  <img src={negocio.logo_url} className="w-8 h-8 rounded-lg object-cover border border-gray-100 shadow-sm" alt="Logo" />
+                ) : (
+                  <div className="w-8 h-8 rounded-lg bg-orange-100 flex items-center justify-center text-orange-600 border border-orange-200 shadow-sm">
+                    <Store size={18} />
+                  </div>
+                )}
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold text-gray-900 leading-tight">
+                    {negocio.nombre}
+                  </span>
+                  <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1 uppercase tracking-wider">
+                    <User size={10} /> {user?.nombre || "Usuario"}
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <div className="animate-pulse flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-gray-100"></div>
+                <div className="space-y-1">
+                  <div className="h-3 w-20 bg-gray-100 rounded"></div>
+                  <div className="h-2 w-12 bg-gray-50 rounded"></div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Actions */}
+          <div className="flex items-center gap-3">
+            {/* Ctrl+K Badge (Hidden on Mobile) */}
+            <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 bg-gray-100 rounded-md border border-gray-200 text-[10px] font-bold text-gray-500 mr-2">
+              <span className="text-xs">CTRL + K</span>
+            </div>
+            {negocio && (
+              <a
+                href={`/n/${negocio.slug}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold text-orange-600 bg-orange-50 hover:bg-orange-100 transition-all border border-orange-100/50 shadow-sm shadow-orange-50"
+              >
+                <ExternalLink size={14} />
+                Ver Tienda
+              </a>
+            )}
+            <button
+              onClick={() => navigate("/dashboard/configuracion")}
+              className="p-2.5 rounded-xl bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900 transition-all border border-gray-100 shadow-sm"
+              title="Configuración"
+            >
+              <Settings size={18} />
+            </button>
+          </div>
         </header>
 
         {/* MENU MOBILE DESPLEGABLE */}

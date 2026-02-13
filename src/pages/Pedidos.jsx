@@ -185,6 +185,7 @@ export default function PedidosDashboard() {
             </div>
           </h1>
           <p className="text-gray-500 text-sm">Gestiona tus ventas en tiempo real.</p>
+          <p className="text-gray-400 text-xs">Los pedidos activos se muestran en orden cronológico inverso (del más reciente al más antiguo).</p>
         </div>
 
         {/* Filtros y Notificaciones */}
@@ -252,7 +253,7 @@ export default function PedidosDashboard() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-          {pedidosFiltrados.map((pedido) => {
+          {pedidosFiltrados.reverse().map((pedido) => {
             const config = getStatusConfig(pedido.estado);
             return (
               <div

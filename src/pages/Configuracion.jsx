@@ -9,11 +9,10 @@
 
 import { useEffect, useState, useRef } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
-import { ExternalLink, Loader2, Save } from "lucide-react";
+import { ExternalLink, Loader2, Save, Store, Truck, Clock } from "lucide-react";
 import { useToast } from "../contexts/ToastProvider";
 import { useRequirePremium } from "../hooks/useRequirePremium";
 import negocioService from "../services/negocioService";
-import apiPublic from "../api/apiPublic";
 
 // Components
 import DatosNegocioPanel from "../components/configuracion/DatosNegocioPanel";
@@ -83,6 +82,9 @@ export default function ConfiguracionNegocio() {
 
       await negocioService.updateMiNegocio(payload);
 
+      // Actualizar cache para el header
+      sessionStorage.setItem("negocio_info", JSON.stringify({ ...negocio, logo_url: logoUrl, banner_url: bannerUrl }));
+
       setLogoFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
       setBannerFile(null);
@@ -100,36 +102,22 @@ export default function ConfiguracionNegocio() {
 
   if (loading) return (
     <DashboardLayout>
-      <div className="animate-pulse space-y-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 space-y-8 animate-pulse">
         {/* Skeleton Header */}
-        <div className="flex justify-between items-center">
-          <div className="space-y-2">
-            <div className="h-8 bg-gray-200 rounded w-48" />
-            <div className="h-4 bg-gray-200 rounded w-64" />
+        <div className="flex justify-between items-center pb-6 border-b border-gray-100">
+          <div className="space-y-3">
+            <div className="h-10 bg-gray-200 rounded-xl w-64" />
+            <div className="h-4 bg-gray-200 rounded-lg w-96" />
           </div>
-          <div className="flex gap-3">
-            <div className="h-10 bg-gray-200 rounded-xl w-32" />
-            <div className="h-10 bg-gray-200 rounded-xl w-40" />
-          </div>
+          <div className="h-12 bg-gray-200 rounded-xl w-40" />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 h-64 space-y-4">
-              <div className="h-6 bg-gray-200 rounded w-32" />
-              <div className="grid grid-cols-2 gap-6">
-                <div className="space-y-4">
-                  <div className="h-10 bg-gray-200 rounded-xl" />
-                  <div className="h-24 bg-gray-200 rounded-xl" />
-                </div>
-                <div className="h-40 bg-gray-200 rounded-2xl" />
-              </div>
-            </div>
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+          <div className="xl:col-span-2 space-y-8">
+            <div className="bg-white h-96 rounded-3xl border border-gray-100" />
+            <div className="bg-white h-64 rounded-3xl border border-gray-100" />
           </div>
-          <div className="space-y-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 h-32" />
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 h-48" />
-          </div>
+          <div className="h-80 bg-white rounded-3xl border border-gray-100" />
         </div>
       </div>
     </DashboardLayout>
@@ -137,13 +125,17 @@ export default function ConfiguracionNegocio() {
 
   if (error || !negocio) return (
     <DashboardLayout>
-      <div className="flex h-96 flex-col items-center justify-center text-red-500">
-        <p>{error || "No se pudo cargar el negocio."}</p>
+      <div className="flex h-[80vh] flex-col items-center justify-center text-center p-4">
+        <div className="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6">
+          <Store size={40} />
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">Error al cargar</h3>
+        <p className="text-gray-500 mb-8 max-w-sm">{error || "No se pudo cargar la información de tu negocio. Por favor, intenta nuevamente."}</p>
         <button
           onClick={fetchNegocio}
-          className="mt-4 px-4 py-2 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700"
+          className="px-8 py-3 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-200 hover:-translate-y-1"
         >
-          Reintentar
+          Reintentar Carga
         </button>
       </div>
     </DashboardLayout>
@@ -151,59 +143,111 @@ export default function ConfiguracionNegocio() {
 
   return (
     <DashboardLayout>
-      {/* Header con Acción Principal */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 sm:mb-8 gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Configuración</h1>
-          <p className="text-gray-500 text-sm sm:text-base">Personaliza la apariencia y logística de tu local.</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-24">
+
+        {/* HEADER & ACTIONS */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-100 mb-10">
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
+              Configuración
+              <span className="hidden sm:inline-block px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full uppercase tracking-widest">
+                Tu Negocio
+              </span>
+            </h1>
+            <p className="text-gray-500 mt-2 font-medium max-w-2xl text-lg">
+              Personalizá la identidad, horarios y logística de tu tienda online.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 w-full md:w-auto">
+            <button
+              onClick={() => {
+                if (!negocio.slug) {
+                  toast.error("Tu negocio aún no tiene URL pública.");
+                  return;
+                }
+                window.open(`/n/${negocio.slug}`, "_blank");
+              }}
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:text-gray-900 font-bold transition-all active:scale-95 shadow-sm"
+            >
+              <ExternalLink size={18} />
+              <span className="hidden sm:inline">Ver Tienda</span>
+            </button>
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed transition-all shadow-xl shadow-gray-200 hover:-translate-y-1 active:translate-y-0 active:scale-95"
+            >
+              {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+              {saving ? "Guardando..." : "Guardar Cambios"}
+            </button>
+          </div>
         </div>
-        <div className="flex flex-col sm:flex-row gap-3">
-          <button
-            onClick={() => {
-              if (!negocio.slug) {
-                toast.error("Tu negocio aún no tiene URL pública.");
-                return;
-              }
-              window.open(`/n/${negocio.slug}`, "_blank");
-            }}
-            className="flex items-center justify-center gap-2 px-4 py-3 sm:py-2 text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 font-semibold transition-all active:scale-95"
-          >
-            <ExternalLink size={18} /> Ver mi tienda
-          </button>
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="flex items-center justify-center gap-2 px-6 py-3 sm:py-2 bg-orange-600 text-white rounded-xl font-bold hover:bg-orange-700 disabled:bg-orange-300 transition-all shadow-lg shadow-orange-200 active:scale-95"
-          >
-            {saving ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
-            {saving ? "Guardando..." : "Guardar Cambios"}
-          </button>
+
+        {/* MAIN CONTENT GRID */}
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+
+          {/* LEFT COLUMN: MAIN SETTINGS */}
+          <div className="xl:col-span-2 space-y-10">
+
+            {/* Sección Identidad */}
+            <section className="animate-in slide-in-from-bottom-4 duration-700 delay-100">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-blue-50 text-blue-600 rounded-lg">
+                  <Store size={24} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">Identidad del Negocio</h2>
+              </div>
+              <DatosNegocioPanel
+                negocio={negocio}
+                setNegocio={setNegocio}
+                logoFile={logoFile}
+                setLogoFile={setLogoFile}
+                fileInputRef={fileInputRef}
+                bannerFile={bannerFile}
+                setBannerFile={setBannerFile}
+                bannerInputRef={bannerInputRef}
+              />
+            </section>
+
+            {/* Sección Logística */}
+            <section className="animate-in slide-in-from-bottom-4 duration-700 delay-200">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-purple-50 text-purple-600 rounded-lg">
+                  <Truck size={24} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">Logística y Envíos</h2>
+              </div>
+              <LogisticaPanel negocio={negocio} setNegocio={setNegocio} />
+            </section>
+          </div>
+
+          {/* RIGHT COLUMN: STATUS & HELP */}
+          <div className="space-y-8 xl:sticky xl:top-8 animate-in slide-in-from-right-4 duration-700 delay-300">
+
+            {/* Estado Panel (Apertura/Cierre) */}
+            <section>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-green-50 text-green-600 rounded-lg">
+                  <Clock size={24} />
+                </div>
+                <h2 className="text-xl font-bold text-gray-900">Estado Actual</h2>
+              </div>
+              <EstadoPanel negocio={negocio} setNegocio={setNegocio} />
+            </section>
+
+            {/* Quick Tips Cards (Optional placeholder for future) */}
+            <div className="bg-orange-50 rounded-3xl p-6 border border-orange-100">
+              <h4 className="font-bold text-orange-900 mb-2">💡 Tip para vender más</h4>
+              <p className="text-sm text-orange-800/80 leading-relaxed">
+                Mantené actualizados tus horarios y logo. Una buena imagen de perfil aumenta un <strong>30%</strong> la confianza de los clientes nuevos.
+              </p>
+            </div>
+
+          </div>
         </div>
+
       </div>
-
-      <div className="space-y-8 pb-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Columna Izquierda: Identidad y Logística */}
-          <div className="lg:col-span-2 space-y-6">
-            <DatosNegocioPanel
-              negocio={negocio}
-              setNegocio={setNegocio}
-              logoFile={logoFile}
-              setLogoFile={setLogoFile}
-              fileInputRef={fileInputRef}
-              bannerFile={bannerFile}
-              setBannerFile={setBannerFile}
-              bannerInputRef={bannerInputRef}
-            />
-            <LogisticaPanel negocio={negocio} setNegocio={setNegocio} />
-          </div>
-
-          {/* Columna Derecha: Información de Contacto y Estado */}
-          <div className="space-y-6">
-            <EstadoPanel negocio={negocio} setNegocio={setNegocio} />
-          </div>
-        </div>
-      </div >
-    </DashboardLayout >
+    </DashboardLayout>
   );
 }
