@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Tag, Percent, Calendar, Edit, X, Check } from "lucide-react";
+import { Plus, Trash2, Tag, Percent, Calendar, Edit, X, Check, Megaphone, Share2, DollarSign } from "lucide-react";
 import { promotionsService } from "../../services/promotionsService";
 import negocioService from "../../services/negocioService";
 import toast from "react-hot-toast";
@@ -107,205 +107,272 @@ export default function Marketing() {
 
     return (
         <DashboardLayout>
-            <div className="space-y-12 pb-20">
-                {/* SECCIÓN PROMOCIONES */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-20 space-y-10">
+
+                {/* HEADER */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-100 pb-6">
+                    <div>
+                        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Marketing</h1>
+                        <p className="text-gray-500 mt-2 font-medium max-w-2xl">Gestioná tus herramientas de venta, creá cupones de descuento y descargá material publicitario para tu local.</p>
+                    </div>
+                </div>
+
+                {/* SECCIÓN CUPONES */}
                 <div className="space-y-6">
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                        <div>
-                            <h1 className="text-2xl font-bold text-gray-900">Marketing & Promociones</h1>
-                            <p className="text-gray-500 mt-1 text-sm sm:text-base">Gestiona cupones y ofertas para tus clientes</p>
-                        </div>
+                    <div className="flex items-center justify-between">
+                        <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                            <Tag className="text-orange-500" size={24} />
+                            Cupones Activos
+                        </h2>
                         <button
                             onClick={() => handleOpenModal()}
-                            className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-4 py-3 rounded-lg hover:bg-orange-700 transition-colors shadow-sm shadow-orange-200 font-medium active:scale-95"
+                            className="group flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-xl hover:bg-gray-800 transition-all shadow-lg shadow-gray-200 active:scale-95"
                         >
-                            <Plus size={20} />
-                            Crear Promoción
+                            <Plus size={18} className="group-hover:rotate-90 transition-transform" />
+                            <span className="font-bold text-sm">Crear Cupón</span>
                         </button>
                     </div>
 
                     {loading ? (
-                        <div className="grid gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex items-center justify-between">
-                                    <div className="flex items-center gap-4 w-full">
-                                        <Skeleton className="w-12 h-12 rounded-lg shrink-0" />
-                                        <div className="space-y-2 w-full">
-                                            <Skeleton className="h-5 w-48" />
-                                            <Skeleton className="h-4 w-32" />
-                                        </div>
+                                <div key={i} className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-4">
+                                    <div className="flex justify-between">
+                                        <Skeleton className="w-12 h-12 rounded-xl" />
+                                        <Skeleton className="w-8 h-8 rounded-full" />
                                     </div>
+                                    <Skeleton className="h-6 w-3/4" />
+                                    <Skeleton className="h-4 w-1/2" />
+                                    <Skeleton className="h-10 w-full rounded-xl" />
                                 </div>
                             ))}
                         </div>
                     ) : promotions.length === 0 ? (
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
-                            <div className="w-16 h-16 bg-orange-50 text-orange-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Tag size={32} />
+                        <div className="bg-white rounded-3xl shadow-sm border border-dashed border-gray-200 p-12 text-center flex flex-col items-center">
+                            <div className="w-20 h-20 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mb-6 animate-pulse">
+                                <Megaphone size={40} />
                             </div>
-                            <h3 className="text-lg font-medium text-gray-900">No tienes promociones activas</h3>
-                            <p className="text-gray-500 mt-2 max-w-md mx-auto">
-                                Crea cupones de descuento o promociones automáticas para incentivar las ventas.
+                            <h3 className="text-xl font-bold text-gray-900 mb-2">No hay promociones activas</h3>
+                            <p className="text-gray-400 max-w-sm mx-auto mb-8">
+                                Creá tu primer cupón de descuento para incentivar a tus clientes y aumentar las ventas.
                             </p>
+                            <button
+                                onClick={() => handleOpenModal()}
+                                className="text-orange-600 font-bold hover:text-orange-700 hover:underline transition-all"
+                            >
+                                + Crear mi primer cupón
+                            </button>
                         </div>
                     ) : (
-                        <div className="grid gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {promotions.map((promo) => (
-                                <div key={promo.id} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group hover:border-orange-200 transition-colors">
-                                    <div className="flex items-start sm:items-center gap-4 w-full sm:w-auto">
-                                        <div className={`p-3 rounded-lg shrink-0 ${promo.activo ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-400'}`}>
-                                            <Percent size={24} />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <h4 className="font-bold text-gray-900 truncate pr-2">{promo.nombre}</h4>
-                                            <div className="flex flex-wrap items-center gap-2 text-sm text-gray-500 mt-1">
-                                                <span className="bg-gray-100 px-2.5 py-1 rounded-md text-gray-700 font-mono text-xs border border-gray-200 font-bold tracking-wide">
-                                                    {promo.codigo}
+                                <div
+                                    key={promo.id}
+                                    className={`group relative bg-white rounded-2xl shadow-sm border transition-all duration-300 hover:shadow-md hover:-translate-y-1 overflow-hidden 
+                                        ${promo.activo ? 'border-gray-200' : 'border-gray-100 opacity-75 grayscale-[0.5] hover:grayscale-0'}`}
+                                >
+                                    {/* Status Indicator inside card */}
+                                    <div className="absolute top-0 right-0 p-4 z-10">
+                                        <div className={`w-2.5 h-2.5 rounded-full ${promo.activo ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'bg-gray-300'}`} />
+                                    </div>
+
+                                    {/* Card Content */}
+                                    <div className="p-6">
+                                        <div className="flex items-center gap-4 mb-4">
+                                            <div className={`p-4 rounded-2xl ${promo.activo ? 'bg-orange-50 text-orange-600' : 'bg-gray-100 text-gray-400'}`}>
+                                                {promo.tipo === 'porcentaje' ? <Percent size={28} strokeWidth={2.5} /> : <DollarSign size={28} strokeWidth={2.5} />}
+                                            </div>
+                                            <div>
+                                                <h4 className="font-bold text-gray-900 text-lg leading-tight line-clamp-1">{promo.nombre}</h4>
+                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                                    {promo.tipo === 'porcentaje' ? 'Descuento %' : 'Descuento fijo'}
                                                 </span>
-                                                <span className="whitespace-nowrap">• {promo.tipo === 'porcentaje' ? `${promo.valor}% OFF` : `$${promo.valor} OFF`}</span>
-                                                {promo.reglas?.min_compra > 0 && <span className="whitespace-nowrap">• Min: ${promo.reglas.min_compra}</span>}
+                                            </div>
+                                        </div>
+
+                                        <div className="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-200 mb-6 flex items-center justify-between relative overflow-hidden">
+                                            <div className="relative z-10">
+                                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">CÓDIGO</p>
+                                                <p className="font-mono text-xl font-black text-gray-800 tracking-wider">{promo.codigo}</p>
+                                            </div>
+                                            <div className="text-right relative z-10">
+                                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">VALOR</p>
+                                                <p className="text-xl font-black text-orange-600">
+                                                    {promo.tipo === 'porcentaje' ? `${promo.valor}%` : `$${promo.valor}`}
+                                                </p>
+                                            </div>
+                                            {/* Watermark effect */}
+                                            <div className="absolute -right-4 -bottom-4 text-gray-200 opacity-20 rotate-12 pointer-events-none">
+                                                <Tag size={80} />
+                                            </div>
+                                        </div>
+
+                                        <div className="flex items-center justify-between text-sm text-gray-500 font-medium">
+                                            <div className="flex items-center gap-1.5">
+                                                {promo.reglas?.min_compra > 0 ? (
+                                                    <span className="bg-gray-100 px-2 py-1 rounded-md text-xs">Min. ${promo.reglas.min_compra}</span>
+                                                ) : <span className="text-gray-400 text-xs">Sin mínimo de compra</span>}
+                                            </div>
+                                            <div className="flex gap-2">
+                                                <button
+                                                    onClick={() => handleOpenModal(promo)}
+                                                    className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                                    title="Editar"
+                                                >
+                                                    <Edit size={18} />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDelete(promo.id)}
+                                                    className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                                    title="Eliminar"
+                                                >
+                                                    <Trash2 size={18} />
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="flex items-center gap-2 self-end sm:self-center opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
-                                        <button
-                                            onClick={() => handleOpenModal(promo)}
-                                            className="p-2 text-gray-400 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
-                                            title="Editar"
-                                        >
-                                            <Edit size={18} />
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(promo.id)}
-                                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                            title="Eliminar"
-                                        >
-                                            <Trash2 size={18} />
-                                        </button>
-                                    </div>
+                                    {/* Decorative circles to simulate coupon holes */}
+                                    <div className="absolute -left-2 top-[58%] -translate-y-1/2 w-4 h-4 bg-gray-50 rounded-full border border-gray-100" />
+                                    <div className="absolute -right-2 top-[58%] -translate-y-1/2 w-4 h-4 bg-gray-50 rounded-full border border-gray-100" />
                                 </div>
                             ))}
                         </div>
                     )}
                 </div>
 
-                {/* SECCIÓN FLYER GENERATOR (Nuevo) */}
+                {/* SECCIÓN FLYER GENERATOR */}
                 {negocio && (
-                    <div className="pt-8 border-t border-gray-200">
+                    <div className="space-y-6 pt-6 border-t border-gray-100">
                         <FlyerGenerator negocio={negocio} />
                     </div>
                 )}
 
                 {/* MODAL */}
                 {showModal && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                        <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
-                            <div className="px-6 py-4 border-b flex justify-between items-center bg-gray-50/50">
-                                <h3 className="font-bold text-lg text-gray-900">
-                                    {editingPromo ? "Editar Promoción" : "Nueva Promoción"}
-                                </h3>
-                                <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 p-1 rounded-full transition-colors">
-                                    <X size={20} />
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-all overflow-y-auto">
+                        <div className="bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200 border border-gray-100 my-auto">
+                            <div className="px-6 sm:px-8 py-5 sm:py-6 border-b border-gray-50 flex justify-between items-center bg-white">
+                                <div>
+                                    <h3 className="font-black text-xl text-gray-900 tracking-tight">
+                                        {editingPromo ? "Editar Promoción" : "Nueva Promoción"}
+                                    </h3>
+                                    <p className="text-sm text-gray-400 font-medium">Configurá los detalles del descuento</p>
+                                </div>
+                                <button onClick={() => setShowModal(false)} className="text-gray-400 hover:text-gray-900 p-2 hover:bg-gray-100 rounded-full transition-all active:scale-95">
+                                    <X size={24} />
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nombre (Interno)</label>
-                                    <input
-                                        type="text"
-                                        required
-                                        placeholder="Ej. Promo Verano"
-                                        className="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all shadow-sm"
-                                        value={formData.nombre}
-                                        onChange={e => setFormData({ ...formData, nombre: e.target.value })}
-                                    />
-                                </div>
-
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Código de Cupón</label>
-                                    <div className="relative">
-                                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                                            <Tag size={18} />
-                                        </div>
+                            <form onSubmit={handleSubmit} className="p-6 sm:p-8 space-y-5 sm:space-y-6">
+                                <div className="space-y-4">
+                                    {/* Nombre */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Nombre Interno</label>
                                         <input
                                             type="text"
                                             required
-                                            placeholder="Ej. VERANO2026"
-                                            className="w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none uppercase font-mono transition-all shadow-sm"
-                                            value={formData.codigo}
-                                            onChange={e => setFormData({ ...formData, codigo: e.target.value.toUpperCase() })}
+                                            placeholder="Ej. Promo Verano 2026"
+                                            className="w-full px-4 py-3 bg-gray-50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
+                                            value={formData.nombre}
+                                            onChange={e => setFormData({ ...formData, nombre: e.target.value })}
                                         />
                                     </div>
-                                </div>
 
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Tipo</label>
-                                        <select
-                                            className="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all shadow-sm bg-white"
-                                            value={formData.tipo}
-                                            onChange={e => setFormData({ ...formData, tipo: e.target.value })}
-                                        >
-                                            <option value="porcentaje">Porcentaje (%)</option>
-                                            <option value="monto_fijo">Monto Fijo ($)</option>
-                                        </select>
+                                    {/* Código */}
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Código del Cupón</label>
+                                        <div className="relative">
+                                            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-gray-400">
+                                                <Tag size={18} />
+                                            </div>
+                                            <input
+                                                type="text"
+                                                required
+                                                placeholder="Ej. VERANO2026"
+                                                className="w-full pl-11 pr-4 py-3 bg-gray-50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none uppercase font-mono font-bold tracking-wider text-gray-900 transition-all placeholder:text-gray-400"
+                                                value={formData.codigo}
+                                                onChange={e => setFormData({ ...formData, codigo: e.target.value.toUpperCase() })}
+                                            />
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label className="block text-sm font-semibold text-gray-700 mb-1.5">Valor</label>
-                                        <input
-                                            type="number"
-                                            required
-                                            min="0"
-                                            placeholder="Ej. 10"
-                                            className="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all shadow-sm"
-                                            value={formData.valor}
-                                            onChange={e => setFormData({ ...formData, valor: Number(e.target.value) })}
-                                        />
+
+                                    <div className="grid grid-cols-2 gap-4 sm:gap-5">
+                                        <div className="space-y-1.5">
+                                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Tipo</label>
+                                            <div className="relative">
+                                                <select
+                                                    className="w-full appearance-none px-4 py-3 bg-gray-50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-medium text-gray-900 cursor-pointer"
+                                                    value={formData.tipo}
+                                                    onChange={e => setFormData({ ...formData, tipo: e.target.value })}
+                                                >
+                                                    <option value="porcentaje">Porcentaje (%)</option>
+                                                    <option value="monto">Fijo ($)</option>
+                                                </select>
+                                                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                                                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Valor</label>
+                                            <input
+                                                type="number"
+                                                required
+                                                min="0"
+                                                className="w-full px-4 py-3 bg-gray-50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-bold text-gray-900"
+                                                value={formData.valor}
+                                                onChange={e => setFormData({ ...formData, valor: Number(e.target.value) })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-1.5">
+                                        <label className="text-xs font-bold text-gray-500 uppercase tracking-widest">Compra Mínima (Opcional)</label>
+                                        <div className="relative">
+                                            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                                            <input
+                                                type="number"
+                                                min="0"
+                                                placeholder="0"
+                                                className="w-full pl-8 pr-4 py-3 bg-gray-50 border-gray-100 rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-medium text-gray-900 placeholder:text-gray-400"
+                                                value={formData.min_compra}
+                                                onChange={e => setFormData({ ...formData, min_compra: Number(e.target.value) })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-3 pt-2">
+                                        <label className="flex items-center gap-3 cursor-pointer group">
+                                            <div className="relative">
+                                                <input
+                                                    type="checkbox"
+                                                    className="peer sr-only"
+                                                    checked={formData.activo}
+                                                    onChange={e => setFormData({ ...formData, activo: e.target.checked })}
+                                                />
+                                                <div className="w-12 h-7 bg-gray-200 rounded-full peer peer-checked:bg-green-500 transition-all cursor-pointer"></div>
+                                                <div className="absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-all peer-checked:translate-x-5 shadow-sm"></div>
+                                            </div>
+                                            <span className="text-sm font-bold text-gray-700 group-hover:text-gray-900 select-none">Cupón Habilitado</span>
+                                        </label>
                                     </div>
                                 </div>
 
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-1.5">Compra Mínima ($)</label>
-                                    <input
-                                        type="number"
-                                        min="0"
-                                        className="w-full px-3 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none transition-all shadow-sm"
-                                        value={formData.min_compra}
-                                        onChange={e => setFormData({ ...formData, min_compra: Number(e.target.value) })}
-                                    />
-                                    <p className="text-xs text-gray-500 mt-1">Dejar en 0 si no aplica.</p>
-                                </div>
-
-                                <div className="flex items-center gap-3 pt-2 bg-gray-50 p-3 rounded-lg border border-gray-100">
-                                    <div className="flex items-center h-5">
-                                        <input
-                                            type="checkbox"
-                                            id="activo"
-                                            className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500 border-gray-300"
-                                            checked={formData.activo}
-                                            onChange={e => setFormData({ ...formData, activo: e.target.checked })}
-                                        />
-                                    </div>
-                                    <label htmlFor="activo" className="text-sm font-medium text-gray-800 cursor-pointer select-none">
-                                        Activar Promoción inmediatamente
-                                    </label>
-                                </div>
-
-                                <div className="pt-4 flex justify-end gap-3 border-t border-gray-100 mt-2">
+                                <div className="pt-4 flex flex-col-reverse sm:flex-row gap-3">
                                     <button
                                         type="button"
                                         onClick={() => setShowModal(false)}
-                                        className="px-5 py-2.5 text-gray-600 hover:bg-gray-100 rounded-xl font-semibold transition-colors"
+                                        className="flex-1 px-6 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-bold hover:bg-gray-50 transition-all active:scale-95 text-center"
                                     >
                                         Cancelar
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-6 py-2.5 bg-orange-600 text-white rounded-xl hover:bg-orange-700 font-bold shadow-lg shadow-orange-200 transition-all hover:-translate-y-0.5"
+                                        className="flex-1 px-6 py-3.5 rounded-xl bg-gray-900 text-white font-bold hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-95 flex items-center justify-center gap-2"
                                     >
-                                        {editingPromo ? "Guardar Cambios" : "Crear Promoción"}
+                                        <Check size={20} />
+                                        {editingPromo ? "Guardar" : "Crear Cupón"}
                                     </button>
                                 </div>
                             </form>

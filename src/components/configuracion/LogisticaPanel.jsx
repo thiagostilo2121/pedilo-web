@@ -7,14 +7,15 @@
  * (at your option) any later version.
  */
 import { useState } from "react";
-import { CreditCard, Plus, Trash2, Truck, DollarSign, Warehouse, ShoppingBag } from "lucide-react";
+import { CreditCard, Plus, Trash2, Truck, DollarSign, Warehouse, ShoppingBag, Check } from "lucide-react";
 
 export default function LogisticaPanel({ negocio, setNegocio }) {
     const [nuevoMetodoPago, setNuevoMetodoPago] = useState("");
     const [nuevoTipoEntrega, setNuevoTipoEntrega] = useState("");
     const isDistribuidora = negocio.tipo_negocio === "distribuidora";
 
-    const handleAddMetodoPago = () => {
+    const handleAddMetodoPago = (e) => {
+        e.preventDefault();
         const value = nuevoMetodoPago.trim();
         if (value && !negocio.metodos_pago.includes(value)) {
             setNegocio({ ...negocio, metodos_pago: [...negocio.metodos_pago, value] });
@@ -22,7 +23,8 @@ export default function LogisticaPanel({ negocio, setNegocio }) {
         }
     };
 
-    const handleAddTipoEntrega = () => {
+    const handleAddTipoEntrega = (e) => {
+        e.preventDefault();
         const value = nuevoTipoEntrega.trim();
         if (value && !negocio.tipos_entrega.includes(value)) {
             setNegocio({ ...negocio, tipos_entrega: [...negocio.tipos_entrega, value] });
@@ -31,117 +33,179 @@ export default function LogisticaPanel({ negocio, setNegocio }) {
     };
 
     return (
-        <div className="space-y-6">
-            {/* Tipo de Negocio */}
-            <section className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                    <Warehouse className="text-indigo-500" size={20} /> Tipo de Negocio
-                </h2>
-                <div className="grid grid-cols-2 gap-3">
+        <div className="bg-white p-6 sm:p-8 rounded-3xl border border-gray-100 shadow-sm space-y-8">
+
+            {/* TIPO DE NEGOCIO */}
+            <section>
+                <div className="flex items-center gap-2 mb-4">
+                    <Warehouse className="text-gray-400" size={18} />
+                    <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">Modelo de Negocio</h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <button
                         type="button"
                         onClick={() => setNegocio({ ...negocio, tipo_negocio: "minorista" })}
-                        className={`relative p-4 rounded-xl border-2 transition-all text-left ${!isDistribuidora
-                            ? "border-orange-500 bg-orange-50/50"
-                            : "border-gray-100 hover:border-gray-200"
+                        className={`group relative p-5 rounded-2xl border-2 transition-all text-left flex items-start gap-4 ${!isDistribuidora
+                                ? "border-orange-500 bg-orange-50/50 shadow-sm"
+                                : "border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white"
                             }`}
                     >
-                        <ShoppingBag size={18} className={!isDistribuidora ? "text-orange-600 mb-1" : "text-gray-400 mb-1"} />
-                        <p className="font-bold text-sm text-gray-900">Minorista</p>
-                        <p className="text-[10px] text-gray-500 mt-0.5">Venta directa al público</p>
+                        <div className={`p-3 rounded-xl transition-colors ${!isDistribuidora ? "bg-orange-100 text-orange-600" : "bg-gray-100 text-gray-400 group-hover:bg-white"}`}>
+                            <ShoppingBag size={24} />
+                        </div>
+                        <div>
+                            <p className={`font-black text-sm mb-1 ${!isDistribuidora ? "text-orange-900" : "text-gray-900"}`}>Minorista</p>
+                            <p className="text-xs text-gray-500 font-medium leading-relaxed">Venta directa al consumidor final (B2C).</p>
+                        </div>
+                        {!isDistribuidora && (
+                            <div className="absolute top-4 right-4 bg-orange-500 text-white p-1 rounded-full shadow-sm">
+                                <Check size={12} strokeWidth={4} />
+                            </div>
+                        )}
                     </button>
+
                     <button
                         type="button"
                         onClick={() => setNegocio({ ...negocio, tipo_negocio: "distribuidora" })}
-                        className={`relative p-4 rounded-xl border-2 transition-all text-left ${isDistribuidora
-                            ? "border-blue-500 bg-blue-50/50"
-                            : "border-gray-100 hover:border-gray-200"
+                        className={`group relative p-5 rounded-2xl border-2 transition-all text-left flex items-start gap-4 ${isDistribuidora
+                                ? "border-blue-500 bg-blue-50/50 shadow-sm"
+                                : "border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white"
                             }`}
                     >
-                        <Warehouse size={18} className={isDistribuidora ? "text-blue-600 mb-1" : "text-gray-400 mb-1"} />
-                        <p className="font-bold text-sm text-gray-900">Distribuidora</p>
-                        <p className="text-[10px] text-gray-500 mt-0.5">Venta mayorista</p>
+                        <div className={`p-3 rounded-xl transition-colors ${isDistribuidora ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-400 group-hover:bg-white"}`}>
+                            <Warehouse size={24} />
+                        </div>
+                        <div>
+                            <p className={`font-black text-sm mb-1 ${isDistribuidora ? "text-blue-900" : "text-gray-900"}`}>Mayorista / Distribuidora</p>
+                            <p className="text-xs text-gray-500 font-medium leading-relaxed">Venta por volumen a comercios (B2B).</p>
+                        </div>
+                        {isDistribuidora && (
+                            <div className="absolute top-4 right-4 bg-blue-500 text-white p-1 rounded-full shadow-sm">
+                                <Check size={12} strokeWidth={4} />
+                            </div>
+                        )}
                     </button>
                 </div>
             </section>
 
-            {/* Pedido Mínimo (distribuidora) */}
+            {/* EXTENSIÓN: PEDIDO MÍNIMO (Solo Distribuidoras) */}
             {isDistribuidora && (
-                <section className="bg-white p-6 rounded-2xl border border-blue-100 shadow-sm animate-in slide-in-from-top-2 duration-200">
-                    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                        <DollarSign className="text-blue-500" size={20} /> Pedido Mínimo
-                    </h2>
-                    <div className="flex gap-3 items-center">
-                        <span className="text-gray-400 font-bold text-lg">$</span>
-                        <input
-                            type="number"
-                            min="0"
-                            value={negocio.pedido_minimo || 0}
-                            onChange={(e) => setNegocio({ ...negocio, pedido_minimo: parseInt(e.target.value) || 0 })}
-                            className="flex-1 px-4 py-2.5 border border-gray-200 rounded-xl text-sm outline-none focus:ring-2 focus:ring-blue-500 font-bold"
-                            placeholder="0"
-                        />
+                <div className="animate-in slide-in-from-top-2 fade-in duration-300">
+                    <div className="bg-blue-50/50 p-6 rounded-2xl border border-blue-100">
+                        <label className="text-xs font-bold text-blue-800 uppercase tracking-widest mb-3 block flex items-center gap-2">
+                            <DollarSign size={14} /> Mínimo de Compra
+                        </label>
+                        <div className="flex gap-4 items-center">
+                            <div className="relative flex-1 max-w-xs">
+                                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 font-black text-lg">$</span>
+                                <input
+                                    type="number"
+                                    min="0"
+                                    value={negocio.pedido_minimo || 0}
+                                    onChange={(e) => setNegocio({ ...negocio, pedido_minimo: parseInt(e.target.value) || 0 })}
+                                    className="w-full pl-10 pr-4 py-3 bg-white border border-blue-200 rounded-xl text-lg font-black text-blue-900 outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all placeholder:text-blue-300"
+                                    placeholder="0"
+                                />
+                            </div>
+                            <p className="text-xs text-blue-600/80 font-medium max-w-sm">
+                                Los clientes no podrán finalizar el pedido si el total es menor a este monto.
+                            </p>
+                        </div>
                     </div>
-                    <p className="text-[10px] text-gray-400 mt-2">
-                        Los clientes no podrán pedir por debajo de este monto.
-                    </p>
-                </section>
+                </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <section className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                        <CreditCard className="text-blue-500" size={20} /> Pagos
-                    </h2>
-                    <div className="flex gap-2 mb-4">
+            <hr className="border-gray-100" />
+
+            {/* MÉTODOS DE PAGO Y ENVÍO */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+                {/* PAGOS */}
+                <section className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <CreditCard className="text-gray-400" size={18} />
+                        <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">Métodos de Pago</h3>
+                    </div>
+
+                    <form onSubmit={handleAddMetodoPago} className="flex gap-2 relative">
                         <input
                             type="text"
-                            placeholder="Ej: Mercado Pago"
+                            placeholder="Ej: Mercado Pago, Efectivo..."
                             value={nuevoMetodoPago}
                             onChange={(e) => setNuevoMetodoPago(e.target.value)}
-                            className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-1 focus:ring-blue-500"
+                            className="w-full pl-4 pr-12 py-2.5 bg-gray-50 border-gray-100 rounded-xl text-sm font-medium outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-colors"
                         />
                         <button
-                            onClick={handleAddMetodoPago}
-                            className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                            type="submit"
+                            disabled={!nuevoMetodoPago.trim()}
+                            className="absolute right-1.5 top-1.5 p-1.5 bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50 disabled:bg-gray-300 transition-all shadow-md"
                         >
-                            <Plus size={18} />
+                            <Plus size={16} />
                         </button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {negocio.metodos_pago.map((m, i) => (
-                            <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-bold">
-                                {m} <Trash2 size={12} className="cursor-pointer" onClick={() => setNegocio({ ...negocio, metodos_pago: negocio.metodos_pago.filter((_, idx) => idx !== i) })} />
-                            </span>
-                        ))}
+                    </form>
+
+                    <div className="flex flex-wrap gap-2 min-h-[40px] content-start">
+                        {negocio.metodos_pago.length > 0 ? (
+                            negocio.metodos_pago.map((m, i) => (
+                                <span key={i} className="group flex items-center gap-2 pl-3 pr-2 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 shadow-sm hover:border-gray-300 transition-all cursor-default select-none animate-in zoom-in-95 duration-200">
+                                    {m}
+                                    <button
+                                        type="button"
+                                        onClick={() => setNegocio({ ...negocio, metodos_pago: negocio.metodos_pago.filter((_, idx) => idx !== i) })}
+                                        className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-0.5 rounded transition-colors"
+                                    >
+                                        <Trash2 size={12} />
+                                    </button>
+                                </span>
+                            ))
+                        ) : (
+                            <p className="text-xs text-gray-400 italic py-2">No agregaste métodos de pago aún.</p>
+                        )}
                     </div>
                 </section>
 
-                <section className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
-                    <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-                        <Truck className="text-purple-500" size={20} /> Entregas
-                    </h2>
-                    <div className="flex gap-2 mb-4">
+                {/* ENVÍOS */}
+                <section className="space-y-4">
+                    <div className="flex items-center gap-2">
+                        <Truck className="text-gray-400" size={18} />
+                        <h3 className="text-sm font-bold text-gray-900 uppercase tracking-wide">Tipos de Entrega</h3>
+                    </div>
+
+                    <form onSubmit={handleAddTipoEntrega} className="flex gap-2 relative">
                         <input
                             type="text"
-                            placeholder="Ej: Delivery propio"
+                            placeholder="Ej: Delivery propio, Retiro..."
                             value={nuevoTipoEntrega}
                             onChange={(e) => setNuevoTipoEntrega(e.target.value)}
-                            className="flex-1 px-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-1 focus:ring-purple-500"
+                            className="w-full pl-4 pr-12 py-2.5 bg-gray-50 border-gray-100 rounded-xl text-sm font-medium outline-none focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-colors"
                         />
                         <button
-                            onClick={handleAddTipoEntrega}
-                            className="p-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600"
+                            type="submit"
+                            disabled={!nuevoTipoEntrega.trim()}
+                            className="absolute right-1.5 top-1.5 p-1.5 bg-gray-900 text-white rounded-lg hover:bg-black disabled:opacity-50 disabled:bg-gray-300 transition-all shadow-md"
                         >
-                            <Plus size={18} />
+                            <Plus size={16} />
                         </button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                        {negocio.tipos_entrega.map((t, i) => (
-                            <span key={i} className="flex items-center gap-1.5 px-3 py-1 bg-purple-50 text-purple-700 rounded-full text-xs font-bold">
-                                {t} <Trash2 size={12} className="cursor-pointer" onClick={() => setNegocio({ ...negocio, tipos_entrega: negocio.tipos_entrega.filter((_, idx) => idx !== i) })} />
-                            </span>
-                        ))}
+                    </form>
+
+                    <div className="flex flex-wrap gap-2 min-h-[40px] content-start">
+                        {negocio.tipos_entrega.length > 0 ? (
+                            negocio.tipos_entrega.map((t, i) => (
+                                <span key={i} className="group flex items-center gap-2 pl-3 pr-2 py-1.5 bg-white border border-gray-200 rounded-lg text-xs font-bold text-gray-700 shadow-sm hover:border-gray-300 transition-all cursor-default select-none animate-in zoom-in-95 duration-200">
+                                    {t}
+                                    <button
+                                        type="button"
+                                        onClick={() => setNegocio({ ...negocio, tipos_entrega: negocio.tipos_entrega.filter((_, idx) => idx !== i) })}
+                                        className="text-gray-400 hover:text-red-500 hover:bg-red-50 p-0.5 rounded transition-colors"
+                                    >
+                                        <Trash2 size={12} />
+                                    </button>
+                                </span>
+                            ))
+                        ) : (
+                            <p className="text-xs text-gray-400 italic py-2">No agregaste tipos de entrega aún.</p>
+                        )}
                     </div>
                 </section>
             </div>

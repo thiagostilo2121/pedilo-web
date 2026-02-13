@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { statsService } from "../../services/statsService";
 import StatsCard from "../../components/dashboard/StatsCard";
 import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, PieChart, Pie, Cell
 } from 'recharts';
-import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram, Users, BadgeCheck, Award, Zap } from "lucide-react";
+import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Loader2, Plus, MessageCircle, Instagram, Users, BadgeCheck, Award, Zap, Tag, Clock, Activity, Target } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
 import negocioService from "../../services/negocioService";
+import pedidosService from "../../services/pedidosService";
 
 import DashboardLayout from "../../layout/DashboardLayout";
 
@@ -17,6 +18,9 @@ export default function DashboardHome() {
     const [topClients, setTopClients] = useState([]);
     const [tipoNegocio, setTipoNegocio] = useState("minorista");
     const [loading, setLoading] = useState(true);
+    const [categoryData, setCategoryData] = useState([]);
+    const [hourlyData, setHourlyData] = useState([]);
+    const [recentOrders, setRecentOrders] = useState([]);
 
     useEffect(() => {
         loadData();
@@ -25,15 +29,19 @@ export default function DashboardHome() {
     const loadData = async () => {
         try {
             setLoading(true);
-            const [ov, chart, top, negocioRes] = await Promise.all([
+            const [ov, chart, top, negocioRes, orders, peakHours] = await Promise.all([
                 statsService.getOverview(),
                 statsService.getSalesChart(7),
                 statsService.getTopProducts(5),
                 negocioService.getMiNegocio(),
+                pedidosService.getAll(5),
+                statsService.getPeakHours().catch(() => []) // Handle potential errors gracefully
             ]);
             setOverview(ov);
             setChartData(chart);
             setTopProducts(top);
+            setRecentOrders(orders || []);
+            setHourlyData(peakHours || []);
             setTipoNegocio(negocioRes?.tipo_negocio || "minorista");
 
             // Fetch top clients only for distribuidoras
@@ -44,6 +52,33 @@ export default function DashboardHome() {
                 } catch (e) {
                     console.error("Error loading top clients", e);
                 }
+            }
+
+            // Aggregate Category Data from top products
+            if (top && top.length > 0) {
+                const catMap = top.reduce((acc, p) => {
+                    const catName = p.categoria || "Otros";
+                    acc[catName] = (acc[catName] || 0) + p.ingresos;
+                    return acc;
+                }, {});
+
+                const cats = Object.entries(catMap)
+                    .map(([name, value], i) => ({
+                        name: name.length > 15 ? name.substring(0, 12) + "..." : name,
+                        value,
+                        color: ["#f97316", "#3b82f6", "#a855f7", "#10b981", "#6366f1", "#f43f5e"][i % 6]
+                    }))
+                    .sort((a, b) => b.value - a.value);
+                setCategoryData(cats);
+            }
+
+            // Hourly Data is now fetched from backend
+            if (!peakHours || peakHours.length === 0) {
+                // Keep a minimal fallback just in case backend returns empty, to avoid ugly empty chart
+                setHourlyData([
+                    { hour: "00h", volume: 0 }, { hour: "06h", volume: 0 },
+                    { hour: "12h", volume: 0 }, { hour: "18h", volume: 0 },
+                ]);
             }
         } catch (error) {
             console.error("Error loading stats", error);
@@ -78,12 +113,63 @@ export default function DashboardHome() {
         );
     }
 
+    const calculateDailyTrend = () => {
+        if (!overview || !chartData || chartData.length === 0) return { text: "vs ayer", trend: "neutral" };
+
+        const hoy = overview.ventas_hoy || 0;
+
+        // Find yesterday's sales from chartData
+        // Need to be careful with Timezones. 
+        // Best approach: Find the entry for the date string corresponding to "Yesterday" locally
+        const yesterdayDate = new Date();
+        yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+        // Format YYYY-MM-DD
+        const yStr = yesterdayDate.toLocaleDateString('en-CA');
+
+        let ayer = 0;
+        const found = chartData.find(d => d.fecha && d.fecha.startsWith(yStr));
+
+        if (found) {
+            ayer = found.ventas;
+        } else if (chartData.length >= 2) {
+            // Fallback: use second to last element if last is today, or last if yesterday
+            // Assuming sorted data
+            const last = chartData[chartData.length - 1];
+            const todayStr = new Date().toLocaleDateString('en-CA');
+
+            if (last.fecha && last.fecha.startsWith(todayStr)) {
+                ayer = chartData.length >= 2 ? chartData[chartData.length - 2].ventas : 0;
+            } else {
+                // Maybe last element IS yesterday? Let's check dates roughly or just assume 0
+                ayer = 0;
+            }
+        }
+
+        if (ayer === 0) {
+            return {
+                text: hoy > 0 ? "↑ 100% vs ayer" : "vs ayer",
+                trend: hoy > 0 ? "up" : "neutral"
+            };
+        }
+
+        const diff = hoy - ayer;
+        const percent = ((diff / ayer) * 100).toFixed(1);
+        const symbol = diff >= 0 ? "↑" : "↓";
+
+        return {
+            text: `${symbol} ${Math.abs(percent)}% vs ayer`,
+            trend: diff >= 0 ? "up" : "down"
+        };
+    };
+
+    const dailyTrend = calculateDailyTrend();
+
     return (
         <DashboardLayout>
-            <div className="space-y-8">
+            <div className="space-y-8 px-4 sm:px-0">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-                    <p className="text-gray-500 mt-1">Resumen de tu negocio hoy</p>
+                    <h1 className="text-2xl font-black text-gray-900 tracking-tight">Dashboard</h1>
+                    <p className="text-gray-500 mt-1 font-medium">Resumen de tu negocio hoy</p>
                 </div>
 
                 {/* METRICS GRID */}
@@ -92,13 +178,14 @@ export default function DashboardHome() {
                         title="Ventas Hoy"
                         value={`$${overview?.ventas_hoy?.toLocaleString() || 0}`}
                         icon={<DollarSign size={24} />}
-                        subtext="Ingresos netos"
+                        subtext={dailyTrend.text}
+                        trend={dailyTrend.trend}
                     />
                     <StatsCard
                         title="Pedidos Hoy"
                         value={overview?.pedidos_hoy || 0}
                         icon={<ShoppingBag size={24} />}
-                        subtext="Órdenes recibidas"
+                        subtext="Ordenes recibidas"
                     />
                     <StatsCard
                         title="Ticket Promedio"
@@ -111,17 +198,20 @@ export default function DashboardHome() {
                         value={overview?.pedidos_pendientes || 0}
                         icon={<AlertCircle size={24} />}
                         subtext="Requieren atención"
+                        variant={overview?.pedidos_pendientes > 0 ? "warning" : "default"}
                     />
                 </div>
 
-                {/* CHARTS SECTION */}
+                {/* MAIN GRID: 2 COLUMNS LAYOUT */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    {/* MAIN CHART */}
-                    {/* LEFT COLUMN: CHARTS + QUICK ACTIONS */}
-                    <div className="lg:col-span-2 space-y-6">
-                        {/* MAIN CHART */}
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-bold text-gray-900 mb-6">Ventas últimos 7 días</h3>
+                    {/* LEFT COLUMN: MAIN CHARTS & DATA (2/3) */}
+                    <div className="lg:col-span-2 space-y-8">
+                        {/* SALES AREA CHART */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-lg font-black text-gray-900 tracking-tight">Ventas últimos 7 días</h3>
+                                <div className="px-3 py-1 bg-orange-50 rounded-full text-[10px] font-black text-orange-600 uppercase tracking-widest">Ingresos Brutos</div>
+                            </div>
                             <div className="h-80 w-full">
                                 <ResponsiveContainer width="100%" height="100%">
                                     <AreaChart data={chartData}>
@@ -146,193 +236,277 @@ export default function DashboardHome() {
                                             tickFormatter={(val) => `$${val / 1000}k`}
                                         />
                                         <Tooltip
-                                            contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
+                                            content={({ active, payload }) => {
+                                                if (active && payload && payload.length) {
+                                                    return (
+                                                        <div className="bg-white p-3 rounded-2xl shadow-xl border border-gray-50 flex flex-col gap-1">
+                                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{new Date(payload[0].payload.fecha).toLocaleDateString()}</p>
+                                                            <p className="text-sm font-black text-gray-900">${payload[0].value.toLocaleString()}</p>
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            }}
                                         />
                                         <Area
                                             type="monotone"
                                             dataKey="ventas"
                                             stroke="#f97316"
-                                            strokeWidth={3}
+                                            strokeWidth={4}
                                             fillOpacity={1}
                                             fill="url(#colorVentas)"
+                                            activeDot={{ r: 6, strokeWidth: 0, fill: '#f97316' }}
                                         />
                                     </AreaChart>
                                 </ResponsiveContainer>
                             </div>
                         </div>
 
-                        {/* QUICK ACTIONS */}
-                        {/* QUICK ACTIONS */}
-                        <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-gray-100">
-                            <h3 className="text-lg font-bold text-gray-900 mb-4">Accesos Rápidos</h3>
-                            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-                                <a href="/dashboard/pedidos" className="p-3 sm:p-4 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
-                                    <div className="p-2 bg-white rounded-full text-orange-600 shadow-sm group-hover:scale-110 transition-transform">
-                                        <ShoppingBag size={20} />
-                                    </div>
-                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Ver Pedidos</span>
-                                </a>
-                                <a href="/dashboard/productos" className="p-3 sm:p-4 rounded-xl bg-blue-50 border border-blue-100 hover:bg-blue-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
-                                    <div className="p-2 bg-white rounded-full text-blue-600 shadow-sm group-hover:scale-110 transition-transform">
-                                        <Plus size={20} />
-                                    </div>
-                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Nuevo Producto</span>
-                                </a>
-                                <a href="/dashboard/marketing" className="p-3 sm:p-4 rounded-xl bg-purple-50 border border-purple-100 hover:bg-purple-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
-                                    <div className="p-2 bg-white rounded-full text-purple-600 shadow-sm group-hover:scale-110 transition-transform">
-                                        <DollarSign size={20} />
-                                    </div>
-                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Crear Oferta</span>
-                                </a>
-                                <a href="/dashboard/configuracion" className="p-3 sm:p-4 rounded-xl bg-gray-50 border border-gray-100 hover:bg-gray-100 transition-colors flex flex-col items-center gap-2 group active:scale-95">
-                                    <div className="p-2 bg-white rounded-full text-gray-600 shadow-sm group-hover:scale-110 transition-transform">
-                                        <TrendingUp size={20} />
-                                    </div>
-                                    <span className="text-xs sm:text-sm font-semibold text-gray-700 text-center">Configurar</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* RIGHT COLUMN */}
-                    <div className="space-y-6">
-                        {/* SHARE STORE SHORTCUT */}
-                        <div className="bg-linear-to-br from-orange-500 to-orange-600 rounded-2xl p-6 text-white shadow-lg shadow-orange-200 relative overflow-hidden group">
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-2xl -mr-10 -mt-10 pointer-events-none transform group-hover:scale-150 transition-transform duration-700" />
-
-                            <div className="relative z-10">
-                                <h3 className="text-xl font-bold mb-2">¡Hacé crecer tu negocio!</h3>
-                                <p className="text-orange-100 text-sm mb-6 leading-relaxed">
-                                    Creá un flyer profesional con tu QR y logo para compartir en redes o pegar en tu local.
-                                </p>
-                                <a
-                                    href="/dashboard/marketing"
-                                    className="inline-flex items-center gap-2 bg-white text-orange-600 px-4 py-2.5 rounded-xl font-bold text-sm hover:shadow-lg hover:scale-105 transition-all"
-                                >
-                                    <ShoppingBag size={18} />
-                                    Crear Flyer Gratis
-                                </a>
-                            </div>
-                        </div>
-
-                        {/* WHATSAPP CHANNEL WIDGET */}
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden group">
-                            <div className="flex items-start justify-between relative z-10">
-                                <div>
-                                    <h3 className="font-bold text-gray-900 mb-2 flex items-center gap-2">
-                                        <MessageCircle className="text-green-500" size={20} />
-                                        Canal de Novedades
-                                    </h3>
-                                    <p className="text-sm text-gray-500 mb-4 leading-relaxed">
-                                        Unite a nuestro canal oficial de WhatsApp para recibir tips de venta, novedades y regalos exclusivos.
-                                    </p>
-                                    <a
-                                        href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-2 text-green-600 font-bold text-sm hover:underline"
-                                    >
-                                        Unirme ahora <Plus size={16} />
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* REPUTATION BADGES INFO */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100 overflow-hidden relative">
-                        <div className="absolute top-0 right-0 p-4 opacity-10">
-                            <Award size={80} className="text-blue-500" />
-                        </div>
-                        <div className="relative z-10">
-                            <h3 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
-                                <BadgeCheck className="text-blue-600" size={20} />
-                                Tu Reputación
-                            </h3>
-                            <div className="space-y-4">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-blue-50 p-2 rounded-lg text-blue-600">
-                                        <BadgeCheck size={18} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-gray-800">Verificado (+50)</p>
-                                        <p className="text-[11px] text-gray-500">Completá 50 pedidos para obtener el sello azul.</p>
-                                    </div>
-                                </div>
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-yellow-50 p-2 rounded-lg text-yellow-600">
-                                        <Award size={18} />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm font-bold text-gray-800">Top Seller (+100)</p>
-                                        <p className="text-[11px] text-gray-500">Llegá a los 100 pedidos y destacate en el barrio.</p>
-                                    </div>
-                                </div>
-                                <div className="pt-2 border-t border-gray-50">
-                                    <p className="text-[10px] text-gray-400 leading-tight italic">
-                                        * Las insignias aparecen automáticamente en tu menú digital al cumplir los objetivos.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* TOP PRODUCTS */}
-                    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-bold text-gray-900 mb-6">Más Vendidos</h3>
-                        <div className="space-y-6">
-                            {topProducts.map((prod, idx) => (
-                                <div key={idx} className="flex items-center justify-between">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500">
-                                            {idx + 1}
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-gray-900 text-sm line-clamp-1">{prod.nombre}</p>
-                                            <p className="text-xs text-gray-500">{prod.cantidad} ventas</p>
-                                        </div>
-                                    </div>
-                                    <span className="text-sm font-semibold text-gray-900">
-                                        ${prod.ingresos.toLocaleString()}
-                                    </span>
-                                </div>
-                            ))}
-
-                            {topProducts.length === 0 && (
-                                <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* TOP CLIENTS (distribuidoras only) */}
-                    {tipoNegocio === "distribuidora" && (
-                        <div className="bg-white p-6 rounded-2xl shadow-sm border border-blue-100">
-                            <h3 className="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
-                                <Users size={20} className="text-blue-500" /> Mejores Clientes
-                            </h3>
-                            <div className="space-y-4">
-                                {topClients.map((client, idx) => (
-                                    <div key={idx} className="flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-sm font-bold text-blue-600">
-                                                {idx + 1}
+                        {/* TOP DATA GRID: PRODUCTS & CLIENTS */}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* TOP PRODUCTS */}
+                            <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                                <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6">Más Vendidos</h3>
+                                <div className="space-y-5">
+                                    {topProducts.map((prod, idx) => (
+                                        <div key={idx} className="flex items-center justify-between group">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center text-xs font-black text-gray-400 group-hover:bg-orange-600 group-hover:text-white transition-all">
+                                                    #{idx + 1}
+                                                </div>
+                                                <div>
+                                                    <p className="font-bold text-gray-900 text-sm line-clamp-1">{prod.nombre}</p>
+                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">{prod.cantidad} ventas</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <p className="font-medium text-gray-900 text-sm line-clamp-1">{client.nombre}</p>
-                                                <p className="text-xs text-gray-500">{client.cantidad_pedidos} pedidos</p>
-                                            </div>
+                                            <span className="text-sm font-black text-gray-900 bg-gray-50 px-2 py-1 rounded-lg">
+                                                ${prod.ingresos.toLocaleString()}
+                                            </span>
                                         </div>
-                                        <span className="text-sm font-semibold text-blue-600">
-                                            ${Number(client.total_gastado || 0).toLocaleString()}
-                                        </span>
-                                    </div>
-                                ))}
-                                {topClients.length === 0 && (
-                                    <p className="text-sm text-gray-500 text-center py-4">Sin datos aún</p>
+                                    ))}
+                                    {topProducts.length === 0 && (
+                                        <p className="text-sm text-gray-500 text-center py-8">Sin datos aún</p>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* TOP CLIENTS OR ALTERNATIVE STAT */}
+                            <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                                {tipoNegocio === "distribuidora" ? (
+                                    <>
+                                        <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6 flex items-center gap-2">
+                                            <Users size={14} className="text-blue-500" /> Mejores Clientes
+                                        </h3>
+                                        <div className="space-y-5">
+                                            {topClients.map((client, idx) => (
+                                                <div key={idx} className="flex items-center justify-between group">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center text-xs font-black text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                                            {idx + 1}
+                                                        </div>
+                                                        <div>
+                                                            <p className="font-bold text-gray-900 text-sm line-clamp-1">{client.nombre}</p>
+                                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-tight">{client.cantidad_pedidos} compras</p>
+                                                        </div>
+                                                    </div>
+                                                    <span className="text-sm font-black text-blue-600 bg-blue-50 px-2 py-1 rounded-lg">
+                                                        ${Number(client.total_gastado || 0).toLocaleString()}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                            {topClients.length === 0 && (
+                                                <p className="text-sm text-gray-500 text-center py-8">Sin datos aún</p>
+                                            )}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
+                                        <div className="flex items-center justify-between mb-6">
+                                            <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                                                <ShoppingBag size={16} className="text-orange-500" /> Pedidos Recientes
+                                            </h3>
+                                            <a href="/dashboard/pedidos" className="text-[10px] font-black text-blue-600 hover:text-blue-700 uppercase underline">Ver Todos</a>
+                                        </div>
+
+                                        <div className="space-y-4">
+                                            {recentOrders.length > 0 ? (
+                                                recentOrders.map((order, i) => (
+                                                    <div key={i} className="p-4 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-between group hover:bg-white hover:shadow-md transition-all duration-300">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-xs ${order.estado === 'pendiente' ? 'bg-orange-100 text-orange-600' :
+                                                                order.estado === 'aceptado' ? 'bg-blue-100 text-blue-600' :
+                                                                    'bg-green-100 text-green-600'
+                                                                }`}>
+                                                                #{order.codigo?.slice(-3) || order.id?.toString().slice(-3)}
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-sm font-bold text-gray-900 line-clamp-1">{order.nombre_cliente || "Cliente Web"}</p>
+                                                                <p className="text-[10px] font-medium text-gray-500">{order.items?.length || 0} items</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex flex-col items-end">
+                                                            <span className="text-sm font-black text-gray-900">${order.total?.toLocaleString()}</span>
+                                                            <span className={`text-[9px] font-black uppercase tracking-widest ${order.estado === 'pendiente' ? 'text-orange-600' :
+                                                                order.estado === 'entregado' ? 'text-green-600' : 'text-gray-400'
+                                                                }`}>{order.estado}</span>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <div className="py-10 text-center text-gray-400 text-xs font-bold italic">
+                                                    No hay pedidos recientes
+                                                </div>
+                                            )}
+                                        </div>
+                                    </>
                                 )}
                             </div>
                         </div>
-                    )}
+                    </div>
+
+                    {/* RIGHT COLUMN: ANALYTICS & SIDEBAR (1/3) */}
+                    <div className="space-y-6">
+                        {/* TOP CATEGORIES RANKING */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <div className="flex items-center justify-between mb-6">
+                                <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest">Top Categorías</h3>
+                                <span className="text-[10px] font-black text-orange-600 bg-orange-50 px-2 py-0.5 rounded-md">POR INGRESOS</span>
+                            </div>
+
+                            <div className="space-y-6">
+                                {categoryData.length > 0 ? (
+                                    categoryData.map((cat, i) => {
+                                        const maxVal = Math.max(...categoryData.map(c => c.value));
+                                        const percentage = (cat.value / maxVal) * 100;
+
+                                        return (
+                                            <div key={i} className="space-y-2">
+                                                <div className="flex justify-between items-center px-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: cat.color }} />
+                                                        <span className="text-xs font-black text-gray-700 uppercase tracking-tight">{cat.name}</span>
+                                                    </div>
+                                                    <span className="text-xs font-black text-gray-900">${cat.value.toLocaleString()}</span>
+                                                </div>
+                                                <div className="w-full h-2.5 bg-gray-50 rounded-full overflow-hidden border border-gray-100/50">
+                                                    <div
+                                                        className="h-full rounded-full transition-all duration-1000 ease-out"
+                                                        style={{
+                                                            width: `${percentage}%`,
+                                                            backgroundColor: cat.color,
+                                                            boxShadow: `0 0 10px ${cat.color}20`
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="py-10 text-center text-gray-400 text-xs font-bold italic">
+                                        Sin datos de categorías aún
+                                    </div>
+                                )}
+                            </div>
+
+                            {categoryData.length > 0 && (
+                                <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+                                    <div className="flex flex-col">
+                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Total Categorías</span>
+                                        <span className="text-sm font-black text-gray-900">${categoryData.reduce((a, b) => a + b.value, 0).toLocaleString()}</span>
+                                    </div>
+                                    <Tag className="text-gray-300" size={24} />
+                                </div>
+                            )}
+                        </div>
+
+                        {/* PEAK HOURS BAR CHART */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <Zap size={14} className="text-orange-500" /> Horarios Pico
+                            </h3>
+                            <div className="h-40 w-full mt-4">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={hourlyData} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
+                                        <XAxis
+                                            dataKey="hour"
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tick={{ fontSize: 10, fill: '#9ca3af', fontWeight: 800 }}
+                                            interval={3} // Show every 4th label to avoid clutter
+                                        />
+                                        <YAxis hide />
+                                        <Tooltip
+                                            cursor={{ fill: '#f3f4f6', radius: 6 }}
+                                            content={({ active, payload }) => {
+                                                if (active && payload && payload.length) {
+                                                    const hour = payload[0].payload.hour;
+                                                    // Add range logic if hour is "08h" -> "08:00 - 09:00"
+                                                    const hourNum = parseInt(hour);
+                                                    const nextHour = (hourNum + 1) % 24;
+                                                    const range = `${hourNum.toString().padStart(2, '0')}:00 - ${nextHour.toString().padStart(2, '0')}:00`;
+
+                                                    return (
+                                                        <div className="bg-gray-900 px-3 py-2 rounded-xl shadow-xl border border-gray-800 text-white z-50">
+                                                            <p className="text-[10px] font-medium text-gray-400 mb-1">{range}</p>
+                                                            <p className="mt-2 text-xl font-black text-white leading-none">
+                                                                {payload[0].value} <span className="text-[10px] font-bold text-gray-500 uppercase">Pedidos</span>
+                                                            </p>
+                                                        </div>
+                                                    );
+                                                }
+                                                return null;
+                                            }}
+                                        />
+                                        <Bar
+                                            dataKey="volume"
+                                            radius={[4, 4, 4, 4]}
+                                            barSize={20}
+                                        >
+                                            {hourlyData.map((entry, index) => {
+                                                // Calculate intensity based on max volume in the dataset
+                                                const maxVol = Math.max(...hourlyData.map(d => d.volume)) || 1;
+                                                const intensity = entry.volume / maxVol;
+
+                                                // Dynamic color: Gray for low, Orange gradient for high
+                                                let fill = "#f3f4f6";
+                                                if (intensity > 0.7) fill = "#ea580c"; // High (Dark Orange)
+                                                else if (intensity > 0.4) fill = "#fb923c"; // Medium (Orange)
+                                                else if (intensity > 0.1) fill = "#fdba74"; // Low-Medium (Light Orange)
+
+                                                return <Cell key={`cell-${index}`} fill={fill} />;
+                                            })}
+                                        </Bar>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                            <div className="mt-2 flex items-center justify-between px-2">
+                                <div className="flex items-center gap-2">
+                                    <div className="flex gap-0.5 h-3 items-end">
+                                        <div className="w-1 h-1 bg-gray-200 rounded-sm"></div>
+                                        <div className="w-1 h-2 bg-orange-300 rounded-sm"></div>
+                                        <div className="w-1 h-3 bg-orange-600 rounded-sm"></div>
+                                    </div>
+                                    <span className="text-[10px] font-bold text-gray-400">Intensidad</span>
+                                </div>
+                                <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Últimos 30 días</span>
+                            </div>
+                        </div>
+
+                        {/* ACCESOS RÁPIDOS */}
+                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                            <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">Accesos Rápidos</h3>
+                            <div className="grid grid-cols-2 gap-3">
+                                <a href="/dashboard/productos" className="p-3 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all flex flex-col items-center gap-2 active:scale-95 group">
+                                    <Plus size={18} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
+                                    <span className="text-[10px] font-bold text-gray-600">Nuevo Producto</span>
+                                </a>
+                                <a href="/dashboard/pedidos" className="p-3 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all flex flex-col items-center gap-2 active:scale-95 group">
+                                    <ShoppingBag size={18} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
+                                    <span className="text-[10px] font-bold text-gray-600">Ver Pedidos</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </DashboardLayout>

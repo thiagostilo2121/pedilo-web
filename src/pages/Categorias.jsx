@@ -18,7 +18,7 @@
 import { useEffect, useState, useRef } from "react";
 import DashboardLayout from "../layout/DashboardLayout";
 import api from "../api/api";
-import { Plus, Pencil, Trash2, ImageIcon, Loader2, X } from "lucide-react";
+import { Plus, Pencil, Trash2, ImageIcon, Loader2, X, LayoutGrid, List } from "lucide-react";
 import { useRequirePremium } from "../hooks/useRequirePremium";
 import { useToast } from "../contexts/ToastProvider";
 import { CLOUDINARY_CLOUD_NAME, CLOUDINARY_UPLOAD_PRESET, DEFAULT_CATEGORY_IMAGE } from "../constants";
@@ -35,6 +35,7 @@ export default function CategoriasDashboard() {
   const [uploadingImage, setUploadingImage] = useState(false);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({ nombre: "", imagen_url: "" });
+  const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
   const fileInputRef = useRef(null);
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, categoryId: null });
 
@@ -148,13 +149,31 @@ export default function CategoriasDashboard() {
           <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Categorías</h1>
           <p className="text-gray-500 text-sm sm:text-base">Organiza tu menú para que tus clientes compren más fácil.</p>
         </div>
-        <button
-          onClick={() => openModal()}
-          className="w-full md:w-auto flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-md shadow-orange-200 active:scale-95"
-        >
-          <Plus size={20} />
-          Crear Categoría
-        </button>
+        <div className="flex gap-2 w-full md:w-auto mt-4 md:mt-0">
+          <div className="flex bg-white border border-gray-200 rounded-2xl p-1 shadow-sm h-fit">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-2 rounded-xl transition-all ${viewMode === "grid" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+              title="Vista Cuadrícula"
+            >
+              <LayoutGrid size={20} />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-2 rounded-xl transition-all ${viewMode === "list" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+              title="Vista Lista"
+            >
+              <List size={20} />
+            </button>
+          </div>
+          <button
+            onClick={() => openModal()}
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-md shadow-orange-200 active:scale-95"
+          >
+            <Plus size={20} />
+            Crear Categoría
+          </button>
+        </div>
       </div>
 
       {loading ? (
@@ -181,36 +200,64 @@ export default function CategoriasDashboard() {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {categorias.map((cat) => (
-            <div key={cat.id} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all">
-              <div className="relative h-40 overflow-hidden">
-                <img
-                  src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE}
-                  alt={cat.nombre}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <h2 className="absolute bottom-3 left-4 text-xl font-bold text-white">{cat.nombre}</h2>
+        viewMode === "grid" ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {categorias.map((cat) => (
+              <div key={cat.id} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all">
+                <div className="relative h-40 overflow-hidden">
+                  <img
+                    src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE}
+                    alt={cat.nombre}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <h2 className="absolute bottom-3 left-4 text-xl font-bold text-white">{cat.nombre}</h2>
+                </div>
+                <div className="p-3 flex gap-2 bg-white">
+                  <button
+                    onClick={() => openModal(cat)}
+                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-orange-50 text-orange-700 hover:bg-orange-100 hover:text-orange-600 transition-colors border border-gray-100"
+                  >
+                    <Pencil size={16} />
+                    <span className="text-sm font-medium">Editar</span>
+                  </button>
+                  <button
+                    onClick={() => setDeleteConfirm({ open: true, categoryId: cat.id })}
+                    className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-600 hover:border-red-100 transition-colors border border-gray-100"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
               </div>
-              <div className="p-3 flex gap-2 bg-white">
-                <button
-                  onClick={() => openModal(cat)}
-                  className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-orange-50 text-orange-700 hover:bg-orange-100 hover:text-orange-600 transition-colors border border-gray-100"
-                >
-                  <Pencil size={16} />
-                  <span className="text-sm font-medium">Editar</span>
-                </button>
-                <button
-                  onClick={() => setDeleteConfirm({ open: true, categoryId: cat.id })}
-                  className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-600 hover:border-red-100 transition-colors border border-gray-100"
-                >
-                  <Trash2 size={16} />
-                </button>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-50">
+            {categorias.map((cat) => (
+              <div key={cat.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                  <img
+                    src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE}
+                    className="w-full h-full object-cover"
+                    alt={cat.nombre}
+                  />
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-gray-900 text-lg uppercase tracking-tight">{cat.nombre}</h3>
+                  <span className="text-xs text-gray-400 font-medium">ID: {cat.id}</span>
+                </div>
+                <div className="flex gap-2">
+                  <button onClick={() => openModal(cat)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 rounded-xl transition-all active:scale-90">
+                    <Pencil size={18} />
+                  </button>
+                  <button onClick={() => setDeleteConfirm({ open: true, categoryId: cat.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-all active:scale-90">
+                    <Trash2 size={18} />
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )
       )}
 
       {/* Modal */}

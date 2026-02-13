@@ -28,7 +28,9 @@ import {
   Search,
   Image as ImageIcon,
   Star,
-  ScanBarcode
+  ScanBarcode,
+  LayoutGrid,
+  List
 } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
@@ -50,6 +52,7 @@ export default function ProductosDashboard() {
   const [editingProducto, setEditingProducto] = useState(null);
   const [uploading, setUploading] = useState(false);
   const [tipoNegocio, setTipoNegocio] = useState("minorista");
+  const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
   const toast = useToast();
 
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, productId: null });
@@ -228,16 +231,33 @@ export default function ProductosDashboard() {
         </div>
       </div>
 
-      {/* Buscador y Filtros */}
-      <div className="mb-6 relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-        <input
-          type="text"
-          placeholder="Buscar producto por nombre..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all shadow-sm text-sm sm:text-base"
-        />
+      <div className="mb-6 flex gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+          <input
+            type="text"
+            placeholder="Buscar producto por nombre..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all shadow-sm text-sm sm:text-base"
+          />
+        </div>
+        <div className="flex bg-white border border-gray-200 rounded-2xl p-1 shadow-sm">
+          <button
+            onClick={() => setViewMode("grid")}
+            className={`p-2 rounded-xl transition-all ${viewMode === "grid" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+            title="Vista Cuadrícula"
+          >
+            <LayoutGrid size={20} />
+          </button>
+          <button
+            onClick={() => setViewMode("list")}
+            className={`p-2 rounded-xl transition-all ${viewMode === "list" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+            title="Vista Lista"
+          >
+            <List size={20} />
+          </button>
+        </div>
       </div>
 
       {
@@ -270,47 +290,90 @@ export default function ProductosDashboard() {
             </button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProductos.map((prod) => (
-              <div key={prod.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
-                <div className="relative h-44 overflow-hidden">
-                  <img
-                    src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    alt={prod.nombre}
-                  />
-                  <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${prod.stock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                    {prod.stock ? "En Stock" : "Agotado"}
-                  </div>
-                  {prod.destacado && (
-                    <div className="absolute top-3 left-3 bg-yellow-400 text-white p-1.5 rounded-full shadow-md z-10">
-                      <Star size={12} fill="currentColor" />
+          viewMode === "grid" ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProductos.map((prod) => (
+                <div key={prod.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
+                  <div className="relative h-44 overflow-hidden">
+                    <img
+                      src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      alt={prod.nombre}
+                    />
+                    <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${prod.stock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+                      {prod.stock ? "En Stock" : "Agotado"}
                     </div>
-                  )}
-                </div>
-
-                <div className="p-4 flex-1 flex flex-col">
-                  <div className="mb-2">
-                    <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest">{prod.categoria}</span>
-                    <h2 className="font-bold text-gray-900 truncate">{prod.nombre}</h2>
-                    <p className="text-gray-500 text-xs line-clamp-2 mt-1">{prod.descripcion || "Sin descripción disponible."}</p>
+                    {prod.destacado && (
+                      <div className="absolute top-3 left-3 bg-yellow-400 text-white p-1.5 rounded-full shadow-md z-10">
+                        <Star size={12} fill="currentColor" />
+                      </div>
+                    )}
                   </div>
 
-                  <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
-                    <span className="text-lg font-black text-gray-900">${prod.precio}</span>
-                    <div className="flex gap-1">
-                      <button onClick={() => openModal(prod)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 hover:text-orange-600 rounded-lg transition-colors">
-                        <Pencil size={18} />
-                      </button>
-                      <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
-                        <Trash2 size={18} />
-                      </button>
+                  <div className="p-4 flex-1 flex flex-col">
+                    <div className="mb-2">
+                      <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest">{prod.categoria}</span>
+                      <h2 className="font-bold text-gray-900 truncate">{prod.nombre}</h2>
+                      <p className="text-gray-500 text-xs line-clamp-2 mt-1">{prod.descripcion || "Sin descripción disponible."}</p>
+                    </div>
+
+                    <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
+                      <span className="text-lg font-black text-gray-900">${prod.precio}</span>
+                      <div className="flex gap-1">
+                        <button onClick={() => openModal(prod)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 hover:text-orange-600 rounded-lg transition-colors">
+                          <Pencil size={18} />
+                        </button>
+                        <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                          <Trash2 size={18} />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-50">
+              {filteredProductos.map((prod) => (
+                <div key={prod.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
+                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                    <img
+                      src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
+                      className="w-full h-full object-cover"
+                      alt={prod.nombre}
+                    />
+                    {!prod.stock && (
+                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                        <span className="text-[8px] font-black text-white uppercase tracking-tighter">Agotado</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest">{prod.categoria}</span>
+                      {prod.destacado && <Star size={10} className="text-yellow-400 fill-yellow-400" />}
+                    </div>
+                    <h3 className="font-bold text-gray-900 truncate">{prod.nombre}</h3>
+                    <p className="text-gray-400 text-xs truncate hidden sm:block">{prod.descripcion || "Sin descripción disponible."}</p>
+                    <div className="flex items-center gap-3 mt-1 sm:hidden">
+                      <span className="font-black text-gray-900">${prod.precio}</span>
+                    </div>
+                  </div>
+                  <div className="hidden sm:block shrink-0 px-6">
+                    <span className="font-black text-xl text-gray-900 tracking-tight">${prod.precio}</span>
+                  </div>
+                  <div className="flex gap-2">
+                    <button onClick={() => openModal(prod)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 rounded-xl transition-all active:scale-90">
+                      <Pencil size={18} />
+                    </button>
+                    <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-all active:scale-90">
+                      <Trash2 size={18} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )
         )
       }
 
