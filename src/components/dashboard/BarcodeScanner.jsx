@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Html5Qrcode } from "html5-qrcode";
 import { Camera, X, Loader2, ScanBarcode, Keyboard, Search, Plus } from "lucide-react";
-import { toast } from "react-hot-toast";
+import { useToast } from "../../contexts/ToastProvider";
 
 /**
  * Looks up a barcode in Open Food Facts API.
@@ -35,6 +35,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
     const [scanning, setScanning] = useState(false);
     const [loading, setLoading] = useState(false);
     const [result, setResult] = useState(null); // { barcode, product, existingMatch }
+    const toast = useToast();
     const scannerRef = useRef(null);
     const containerRef = useRef(null);
 
@@ -44,7 +45,12 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
 
     // Start camera scanner
     useEffect(() => {
-        if (!isOpen) return; // Keep modal open for manual mode
+        if (!isOpen || mode !== "camera") {
+            if (scannerRef.current && scannerRef.current.isScanning) {
+                scannerRef.current.stop().catch(() => { });
+            }
+            return;
+        }
 
         let html5Qrcode = null;
         let mounted = true;
@@ -53,13 +59,9 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
             // Check for camera support
             if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
                 console.warn("Camera API not available");
-                // Don't toast here to avoid spam if just opening for manual/usb
                 setMode("manual");
                 return;
             }
-
-            // Only start camera if mode is "camera"
-            if (stateRef.current.mode !== "camera") return;
 
             try {
                 setScanning(true);
@@ -76,11 +78,12 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                     (decodedText) => {
                         if (mounted) {
                             handleBarcode(decodedText);
-                            // Stop after first successful scan
-                            html5Qrcode.stop().catch(() => { });
+                            if (html5Qrcode.isScanning) {
+                                html5Qrcode.stop().catch(() => { });
+                            }
                         }
                     },
-                    () => { } // ignore errors (no qr found per frame)
+                    () => { }
                 );
             } catch (err) {
                 console.error("Camera error:", err);
@@ -99,16 +102,26 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
             }
         };
 
-        // Keyboard listener for USB scanners
+        const timer = setTimeout(startScanner, 300);
+
+        return () => {
+            mounted = false;
+            clearTimeout(timer);
+            if (html5Qrcode && html5Qrcode.isScanning) {
+                html5Qrcode.stop().catch(() => { });
+            }
+        };
+    }, [isOpen, mode]);
+
+    // Keyboard listener for USB scanners
+    useEffect(() => {
+        if (!isOpen) return;
+
         const handleKeyPress = (e) => {
             const { loading, result } = stateRef.current;
 
-            // If modal is open and not in loading/result state
             if (!loading && !result) {
-                // If focusing input, let it be (manual mode)
                 if (e.target.tagName === "INPUT") return;
-
-                // Capture keys (numbers for barcodes)
                 if (e.key.length === 1 && /[0-9]/.test(e.key)) {
                     setMode("manual");
                     setManualCode(prev => prev + e.key);
@@ -117,19 +130,8 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
         };
 
         window.addEventListener("keydown", handleKeyPress);
-
-        // Small delay to let the DOM mount the container
-        const timer = setTimeout(startScanner, 300);
-
-        return () => {
-            mounted = false;
-            clearTimeout(timer);
-            window.removeEventListener("keydown", handleKeyPress);
-            if (html5Qrcode) {
-                html5Qrcode.stop().catch(() => { });
-            }
-        };
-    }, [isOpen, mode]); // Re-run when mode changes to start/stop camera
+        return () => window.removeEventListener("keydown", handleKeyPress);
+    }, [isOpen]);
 
     const handleBarcode = async (barcode) => {
         setScanning(false);
@@ -164,7 +166,8 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                 nombre: result.product.nombre,
                 descripcion: result.product.descripcion,
                 imagen_url: result.product.imagen_url,
-                barcode: result.barcode,
+                codigo_barras: result.barcode,
+                sku: "",
             });
         }
         handleReset();
@@ -176,7 +179,8 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
             nombre: "",
             descripcion: "",
             imagen_url: "",
-            barcode: result?.barcode || "",
+            codigo_barras: result?.barcode || "",
+            sku: "",
         });
         handleReset();
         onClose();
@@ -191,7 +195,9 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
     const handleClose = () => {
         handleReset();
         if (scannerRef.current) {
-            scannerRef.current.stop().catch(() => { });
+            if (scannerRef.current.isScanning) {
+                scannerRef.current.stop().catch(() => { });
+            }
         }
         onClose();
     };

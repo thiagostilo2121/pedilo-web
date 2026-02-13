@@ -27,6 +27,17 @@ const productService = {
         return res.data;
     },
 
+    importProducts: async (file) => {
+        const formData = new FormData();
+        formData.append("file", file);
+        const res = await api.post("/productos/import", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+            },
+        });
+        return res.data;
+    },
+
     getAllCategories: async () => {
         const res = await api.get("/categorias/");
         return res.data;

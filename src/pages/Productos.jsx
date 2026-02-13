@@ -34,7 +34,9 @@ import { DEFAULT_PRODUCT_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
 import ProductForm from "../components/dashboard/ProductForm";
 import BarcodeScanner from "../components/dashboard/BarcodeScanner";
+import ProductImportModal from "../components/dashboard/ProductImportModal";
 import Skeleton from "../components/ui/Skeleton";
+import { FileSpreadsheet } from "lucide-react";
 
 export default function ProductosDashboard() {
   const [productos, setProductos] = useState([]);
@@ -42,6 +44,7 @@ export default function ProductosDashboard() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [showImportModal, setShowImportModal] = useState(false);
   const [showScanner, setShowScanner] = useState(false);
   const [scannedData, setScannedData] = useState(null);
   const [editingProducto, setEditingProducto] = useState(null);
@@ -152,6 +155,8 @@ export default function ProductosDashboard() {
         cantidad_minima: parseInt(formData.cantidad_minima) || 1,
         precio_mayorista: formData.precio_mayorista ? parseInt(formData.precio_mayorista) : null,
         cantidad_mayorista: formData.cantidad_mayorista ? parseInt(formData.cantidad_mayorista) : null,
+        sku: formData.sku || null,
+        codigo_barras: formData.codigo_barras || null,
       };
       let productoId;
 
@@ -205,6 +210,14 @@ export default function ProductosDashboard() {
           >
             <ScanBarcode size={20} />
             <span className="sm:inline hidden">Escanear</span>
+          </button>
+          <button
+            onClick={() => setShowImportModal(true)}
+            className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-3 rounded-xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-100 active:scale-95"
+            title="Importar Excel"
+          >
+            <FileSpreadsheet size={20} />
+            <span className="sm:inline hidden">Importar</span>
           </button>
           <button
             onClick={() => openModal()}
@@ -313,6 +326,15 @@ export default function ProductosDashboard() {
         onSubmit={handleFormSubmit}
         isSubmitting={uploading}
         tipoNegocio={tipoNegocio}
+      />
+
+      <ProductImportModal
+        isOpen={showImportModal}
+        onClose={() => setShowImportModal(false)}
+        onSuccess={() => {
+          fetchData();
+          // Don't close immediately so user can see result
+        }}
       />
 
       {/* Barcode Scanner */}
