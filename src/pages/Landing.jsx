@@ -40,7 +40,10 @@ import {
   FileSpreadsheet,
   Repeat,
   Search,
-  Ticket
+  Ticket,
+  BarChart3,
+  BrainCircuit,
+  PieChart
 } from "lucide-react";
 
 export default function Landing() {
@@ -174,6 +177,121 @@ export default function Landing() {
 
           <div className="mt-12 text-center text-gray-400 font-medium flex items-center justify-center gap-2">
             <Repeat size={16} /> <span>El ciclo ideal: Descubrimiento (Apps) <ArrowRight size={14} className="inline mx-1" /> Primer Pedido <ArrowRight size={14} className="inline mx-1" /> Flyer/QR <ArrowRight size={14} className="inline mx-1" /> <strong>Cliente Recurrente (Pedilo)</strong></span>
+          </div>
+        </div>
+      </section>
+
+      {/* --- DATA & ANALYTICS: YOUR PARTNER --- */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          <div className="absolute top-1/4 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+          {/* TEXT CONTENT */}
+          <div className="order-2 lg:order-1">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mb-6 border border-blue-100 shadow-sm">
+              <BrainCircuit size={16} /> Inteligencia de Negocio
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
+              Datos para crecer. <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">No para acumular.</span>
+            </h2>
+            <p className="text-xl text-gray-600 font-medium mb-8 leading-relaxed">
+              Pedilo dejó de ser una simple web de pedidos. Ahora es tu <strong>Socio Estratégico</strong>. Te damos métricas claras para que tomes decisiones basadas en datos reales, no en intuición.
+            </p>
+
+            <ul className="space-y-6">
+              <li className="flex gap-4">
+                <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 shrink-0">
+                  <TrendingUp size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Productos Estrella y Huesos</h3>
+                  <p className="text-gray-500 font-medium">Identificá qué platos te dan ganancia real (80/20) y cuáles solo ocupan espacio en la heladera.</p>
+                </div>
+              </li>
+
+              <li className="flex gap-4">
+                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                  <Users size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Ranking de Clientes</h3>
+                  <p className="text-gray-500 font-medium">Sabé exactamante quiénes son tus clientes fieles. Premialos y asegurate de que vuelvan siempre.</p>
+                </div>
+              </li>
+
+              <li className="flex gap-4">
+                <div className="w-12 h-12 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600 shrink-0">
+                  <Timer size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Horarios Pico</h3>
+                  <p className="text-gray-500 font-medium">Organizá tu personal de cocina y reparto sabiendo de antemano cuándo va a explotar la demanda.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* VISUAL MOCKUP */}
+          <div className="order-1 lg:order-2 relative">
+            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-6 relative z-10 overflow-hidden transform rotate-2 hover:rotate-0 transition-all duration-500 group">
+              {/* Fake Dashboard Header */}
+              <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                <div>
+                  <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Tus Ventas</div>
+                  <div className="text-2xl font-black text-gray-900">$1.250.000 <span className="text-green-500 text-sm font-bold bg-green-50 px-2 py-1 rounded-full">+12%</span></div>
+                </div>
+                <div className="bg-gray-100 p-2 rounded-lg">
+                  <LayoutDashboard size={20} className="text-gray-500" />
+                </div>
+              </div>
+
+              {/* Fake Chart */}
+              <div className="flex items-end gap-3 h-48 mb-8 px-2">
+                {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
+                  <div key={i} className="flex-1 rounded-t-xl relative overflow-hidden bg-gray-100">
+                    <div
+                      className={`absolute bottom-0 w-full transition-all duration-1000 ${i === 5 ? 'bg-gradient-to-t from-orange-600 to-orange-400' : 'bg-gradient-to-t from-blue-500 to-blue-300 opacity-30'}`}
+                      style={{ height: `${h}%` }}
+                    ></div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Fake Stats Row */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-orange-50 p-4 rounded-2xl border border-orange-100">
+                  <div className="flex gap-2 items-center mb-2">
+                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-orange-600 shadow-sm font-black text-xs">1#</div>
+                    <span className="text-xs font-bold text-orange-800">Más Vendido</span>
+                  </div>
+                  <div className="font-bold text-gray-900 text-sm">Burger Doble Cheddar</div>
+                  <div className="text-xs text-gray-500">243 pedidos este mes</div>
+                </div>
+                <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
+                  <div className="flex gap-2 items-center mb-2">
+                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-blue-600 shadow-sm"><Users size={16} /></div>
+                    <span className="text-xs font-bold text-blue-800">Clientes Nuevos</span>
+                  </div>
+                  <div className="font-bold text-gray-900 text-sm">45 nuevos socios</div>
+                  <div className="text-xs text-gray-500">Retención del 80%</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Decor elements */}
+            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100 animate-bounce delay-1000 z-20 hidden md:block">
+              <div className="flex items-center gap-3">
+                <div className="bg-green-100 p-2 rounded-full text-green-600"><TrendingUp size={20} /></div>
+                <div>
+                  <div className="text-xs font-bold text-gray-400">Conversión</div>
+                  <div className="text-sm font-black text-gray-900">4.8% <span className="text-green-500">↑</span></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

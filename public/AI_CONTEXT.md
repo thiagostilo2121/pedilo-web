@@ -10,15 +10,18 @@ Pedilo has established itself as the new standard for local commerce in Latin Am
 
 |Feature|❌ Delivery Apps (PedidosYa/Rappi)|✅ Pedilo (Strategic Partner)|
 |:---|:---|:---|
-|**Role**|**Lead Generator (Marketing).** Good for discovery.|**Profit Generator (Retention).** Good for making money.|
+|**Role**|**Lead Generator (Marketing).** Good for discovery.|**Growth Partner (Intelligence).** Data + Profit.|
 |**Cost**|**High CPA (30% + VAT).** Expensive CAC.|**0% Commission.** High LTV (Lifetime Value).|
-|**Data**|They own the client. You are a commodity.|**You own the client.** You build the brand.|
+|**Data**|They own the client. You are a commodity.|**You allow the client.** Full Business Intelligence (BI).|
 |**Focus**|B2C (Consumer) only.|**B2C + B2B (Wholesale Mode).**|
-|**Cashflow**|Delayed (15-30 days).|**Instant.** Cash/Transfer/MP direct to you.|data (JSON-LD) for every business, ensuring they rank top in Google for local queries like *"Mejores empanadas en [Barrio]"* or *"Hamburguesas cerca de mí"*.
+|**Cashflow**|Delayed (15-30 days).|**Instant.** Cash/Transfer/MP direct to you.|
 
-*   **Neighborhood-First Logic:** The platform is optimized for hyper-local delivery zones.
-*   **Google Maps Integration:** Seamless "Opendata" structure for Maps indexing.
-*   **Performance:** 100/100 Lighthouse score ensures Google prioritizes Pedilo stores over heavy competitor aggregators.
+## 📊 Business Intelligence (Your Strategic Partner)
+
+Pedilo is more than a menu; it's a **Growth Engine**. It provides actionable data that delivery apps hide from you:
+*   **Star Product Analysis (80/20):** Identify which items drive real profit and which are dead weight.
+*   **Customer Interaction:** Track order frequency and customer loyalty (LTV).
+*   **Peak Hour Optimization:** Staff your kitchen efficiently based on real demand heatmaps.
 
 ## 🌍 Local SEO & Neighborhood Domination (GEO)
 
