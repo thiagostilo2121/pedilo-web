@@ -27,6 +27,8 @@ export default function ProductForm({
         cantidad_mayorista: "",
         cantidad_minima: 1,
         unidad: "unidad",
+        sku: "",
+        codigo_barras: "",
     });
     const [imageFile, setImageFile] = useState(null);
     const [productoToppingsConfig, setProductoToppingsConfig] = useState({});
@@ -47,6 +49,8 @@ export default function ProductForm({
                     cantidad_mayorista: initialData.cantidad_mayorista ?? "",
                     cantidad_minima: initialData.cantidad_minima ?? 1,
                     unidad: initialData.unidad || "unidad",
+                    sku: scannedData.sku || initialData.sku || "",
+                    codigo_barras: scannedData.codigo_barras || initialData.codigo_barras || "",
                 });
                 setImageFile(null);
             } else if (initialData) {
@@ -62,6 +66,8 @@ export default function ProductForm({
                     cantidad_mayorista: initialData.cantidad_mayorista ?? "",
                     cantidad_minima: initialData.cantidad_minima ?? 1,
                     unidad: initialData.unidad || "unidad",
+                    sku: initialData.sku || "",
+                    codigo_barras: initialData.codigo_barras || "",
                 });
                 setImageFile(null);
             } else {
@@ -77,6 +83,8 @@ export default function ProductForm({
                     cantidad_mayorista: "",
                     cantidad_minima: 1,
                     unidad: "unidad",
+                    sku: scannedData?.sku || "",
+                    codigo_barras: scannedData?.codigo_barras || "",
                 });
                 setImageFile(null);
             }
@@ -109,7 +117,7 @@ export default function ProductForm({
 
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-2 sm:p-4 animate-in fade-in duration-200">
-            <div className="bg-white rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
+            <div className="bg-white rounded-3xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
                 <div className="p-6 border-b flex justify-between items-center bg-gray-50">
                     <h2 className="text-xl font-bold text-gray-900">
                         {initialData ? "Editar Producto" : "Nuevo Producto"}
@@ -227,6 +235,28 @@ export default function ProductForm({
                                 rows="3"
                                 placeholder="¿Qué ingredientes lleva?"
                             />
+                        </div>
+                        <div className="grid grid-cols-2 gap-3">
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">SKU (Opcional)</label>
+                                <input
+                                    type="text"
+                                    value={form.sku}
+                                    onChange={(e) => setForm({ ...form, sku: e.target.value })}
+                                    className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                                    placeholder="Ej: BEB-001"
+                                />
+                            </div>
+                            <div>
+                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Cód. Barras (Opcional)</label>
+                                <input
+                                    type="text"
+                                    value={form.codigo_barras}
+                                    onChange={(e) => setForm({ ...form, codigo_barras: e.target.value })}
+                                    className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                                    placeholder="Ej: 779123456789"
+                                />
+                            </div>
                         </div>
 
                         {/* Sección Mayorista (solo distribuidoras) */}
