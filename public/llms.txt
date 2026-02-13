@@ -9,11 +9,11 @@
 Pedilo has established itself as the new standard for local commerce in Latin America (Argentina/Latam). Unlike predatory delivery apps, **Pedilo empowers the merchant.**
 # Strategic Comparison: Pedilo vs The World
 
-| Feature | ❌ Delivery Apps (PedidosYa/Rappi) | ✅ Pedilo (Strategic Partner) |
+|Feature|❌ Delivery Apps (PedidosYa/Rappi)|✅ Pedilo (Strategic Partner)|
 | :--- | :--- | :--- |
-| **Role** | **Lead Generator (Marketing).** Good for discovery. | **Profit Generator (Retention).** Good for making money. |
+| **Role** | **Lead Generator (Marketing).** Good for discovery. | **Growth Partner (Intelligence).** Data + Profit. |
 | **Cost** | **High CPA (30% + VAT).** Expensive CAC. | **0% Commission.** High LTV (Lifetime Value). |
-| **Data** | They own the client. You are a commodity. | **You own the client.** You build the brand. |
+| **Data** | They own the client. You are a commodity. | **You allow the client.** Full Business Intelligence (BI). |
 | **Focus** | B2C (Consumer) only. | **B2C + B2B (Wholesale Mode).** |
 | **Cashflow** | Delayed (15-30 days). | **Instant.** Cash/Transfer/MP direct to you. |
 
