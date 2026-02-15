@@ -193,7 +193,7 @@ export default function ToppingsDashboard() {
                                 key={grupo.id}
                                 className="group bg-white rounded-3xl border border-gray-100 p-6 hover:shadow-xl hover:shadow-gray-200/50 transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"
                             >
-                                <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2 z-10">
+                                <div className="absolute top-0 right-0 p-4 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity flex gap-2 z-10">
                                     <button
                                         onClick={() => openModal(grupo)}
                                         className="p-2 bg-white text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg shadow-sm border border-gray-100 transition-colors"
@@ -256,7 +256,7 @@ export default function ToppingsDashboard() {
                         <div className="bg-white rounded-3xl w-full max-w-2xl max-h-[90vh] overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95 duration-200">
 
                             {/* Modal Header */}
-                            <div className="px-8 py-6 border-b border-gray-50 flex justify-between items-center bg-white shrink-0">
+                            <div className="px-5 py-4 sm:px-8 sm:py-6 border-b border-gray-50 flex justify-between items-center bg-white shrink-0">
                                 <div>
                                     <h2 className="text-xl font-black text-gray-900 tracking-tight">{editingGrupo ? "Editar Grupo" : "Nuevo Grupo"}</h2>
                                     <p className="text-sm text-gray-400 font-medium">Configurá las opciones disponibles</p>
@@ -267,7 +267,7 @@ export default function ToppingsDashboard() {
                             </div>
 
                             {/* Modal Body */}
-                            <div className="p-8 overflow-y-auto custom-scrollbar space-y-8 flex-1">
+                            <div className="p-5 sm:p-8 overflow-y-auto custom-scrollbar space-y-8 flex-1">
 
                                 {/* Section 1: Group Name */}
                                 <div className="space-y-1.5 ">
@@ -383,7 +383,7 @@ export default function ToppingsDashboard() {
                                                             <div className="font-bold text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg text-sm shrink-0">
                                                                 {(t.precio > 0) ? `+$${t.precio}` : 'Gratis'}
                                                             </div>
-                                                            <div className="flex items-center gap-1 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
+                                                            <div className="flex items-center gap-1 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                                                                 <button
                                                                     onClick={() => setEditingToppingIndex(i)}
                                                                     className="p-1.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
@@ -409,7 +409,7 @@ export default function ToppingsDashboard() {
                             </div>
 
                             {/* Modal Footer */}
-                            <div className="p-6 border-t border-gray-50 bg-gray-50 flex flex-col-reverse sm:flex-row gap-4 shrink-0">
+                            <div className="p-5 sm:p-6 border-t border-gray-50 bg-gray-50 flex flex-col-reverse sm:flex-row gap-4 shrink-0">
                                 <button
                                     onClick={() => setShowModal(false)}
                                     className="flex-1 px-6 py-3.5 rounded-xl border border-gray-200 text-gray-700 font-bold hover:bg-gray-100 transition-all active:scale-95 text-center"

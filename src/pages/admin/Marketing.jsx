@@ -177,27 +177,27 @@ export default function Marketing() {
                                     </div>
 
                                     {/* Card Content */}
-                                    <div className="p-6">
+                                    <div className="p-4 sm:p-6">
                                         <div className="flex items-center gap-4 mb-4">
-                                            <div className={`p-4 rounded-2xl ${promo.activo ? 'bg-orange-50 text-orange-600' : 'bg-gray-100 text-gray-400'}`}>
-                                                {promo.tipo === 'porcentaje' ? <Percent size={28} strokeWidth={2.5} /> : <DollarSign size={28} strokeWidth={2.5} />}
+                                            <div className={`p-3 sm:p-4 rounded-2xl ${promo.activo ? 'bg-orange-50 text-orange-600' : 'bg-gray-100 text-gray-400'}`}>
+                                                {promo.tipo === 'porcentaje' ? <Percent size={24} className="sm:w-7 sm:h-7" strokeWidth={2.5} /> : <DollarSign size={24} className="sm:w-7 sm:h-7" strokeWidth={2.5} />}
                                             </div>
                                             <div>
-                                                <h4 className="font-bold text-gray-900 text-lg leading-tight line-clamp-1">{promo.nombre}</h4>
-                                                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                                                <h4 className="font-bold text-gray-900 text-base sm:text-lg leading-tight line-clamp-1">{promo.nombre}</h4>
+                                                <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-wider">
                                                     {promo.tipo === 'porcentaje' ? 'Descuento %' : 'Descuento fijo'}
                                                 </span>
                                             </div>
                                         </div>
 
-                                        <div className="bg-gray-50 rounded-xl p-4 border border-dashed border-gray-200 mb-6 flex items-center justify-between relative overflow-hidden">
+                                        <div className="bg-gray-50 rounded-xl p-3 sm:p-4 border border-dashed border-gray-200 mb-4 sm:mb-6 flex items-center justify-between relative overflow-hidden">
                                             <div className="relative z-10">
                                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">CÓDIGO</p>
-                                                <p className="font-mono text-xl font-black text-gray-800 tracking-wider">{promo.codigo}</p>
+                                                <p className="font-mono text-lg sm:text-xl font-black text-gray-800 tracking-wider">{promo.codigo}</p>
                                             </div>
                                             <div className="text-right relative z-10">
                                                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">VALOR</p>
-                                                <p className="text-xl font-black text-orange-600">
+                                                <p className="text-lg sm:text-xl font-black text-orange-600">
                                                     {promo.tipo === 'porcentaje' ? `${promo.valor}%` : `$${promo.valor}`}
                                                 </p>
                                             </div>

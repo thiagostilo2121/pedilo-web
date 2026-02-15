@@ -146,20 +146,21 @@ export default function ConfiguracionNegocio() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-24">
 
         {/* HEADER & ACTIONS */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-8 border-b border-gray-100 mb-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 sm:pb-8 border-b border-gray-100 mb-6 sm:mb-10">
           <div>
-            <h1 className="text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
+            <h1 className="text-2xl sm:text-3xl font-black text-gray-900 tracking-tight flex items-center gap-3">
               Configuración
               <span className="hidden sm:inline-block px-3 py-1 bg-orange-100 text-orange-700 text-xs font-bold rounded-full uppercase tracking-widest">
                 Tu Negocio
               </span>
             </h1>
-            <p className="text-gray-500 mt-2 font-medium max-w-2xl text-lg">
+            <p className="text-gray-500 mt-2 font-medium max-w-2xl text-sm sm:text-lg">
               Personalizá la identidad, horarios y logística de tu tienda online.
             </p>
           </div>
 
-          <div className="flex items-center gap-3 w-full md:w-auto">
+          {/* DESKTOP ACTIONS */}
+          <div className="hidden md:flex items-center gap-3">
             <button
               onClick={() => {
                 if (!negocio.slug) {
@@ -168,15 +169,15 @@ export default function ConfiguracionNegocio() {
                 }
                 window.open(`/n/${negocio.slug}`, "_blank");
               }}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-5 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:text-gray-900 font-bold transition-all active:scale-95 shadow-sm"
+              className="flex items-center justify-center gap-2 px-5 py-3 text-gray-700 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:text-gray-900 font-bold transition-all active:scale-95 shadow-sm"
             >
               <ExternalLink size={18} />
-              <span className="hidden sm:inline">Ver Tienda</span>
+              <span>Ver Tienda</span>
             </button>
             <button
               onClick={handleSave}
               disabled={saving}
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-8 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed transition-all shadow-xl shadow-gray-200 hover:-translate-y-1 active:translate-y-0 active:scale-95"
+              className="flex items-center justify-center gap-2 px-8 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed transition-all shadow-xl shadow-gray-200 hover:-translate-y-1 active:translate-y-0 active:scale-95"
             >
               {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
               {saving ? "Guardando..." : "Guardar Cambios"}
@@ -185,7 +186,7 @@ export default function ConfiguracionNegocio() {
         </div>
 
         {/* MAIN CONTENT GRID */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start mb-20 md:mb-0">
 
           {/* LEFT COLUMN: MAIN SETTINGS */}
           <div className="xl:col-span-2 space-y-10">
@@ -245,6 +246,31 @@ export default function ConfiguracionNegocio() {
             </div>
 
           </div>
+        </div>
+
+        {/* MOBILE STICKY BOTTOM BAR */}
+        <div className="md:hidden fixed bottom-16 left-0 right-0 p-4 bg-white border-t border-gray-100 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-40 flex gap-3">
+          <button
+            onClick={() => {
+              if (!negocio.slug) {
+                toast.error("Tu negocio aún no tiene URL pública.");
+                return;
+              }
+              window.open(`/n/${negocio.slug}`, "_blank");
+            }}
+            className="flex-1 flex items-center justify-center gap-2 py-3 text-gray-700 bg-gray-50 border border-gray-200 rounded-xl font-bold active:scale-95 transition-all"
+          >
+            <ExternalLink size={18} />
+            Ver Tienda
+          </button>
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="flex-[2] flex items-center justify-center gap-2 py-3 bg-gray-900 text-white rounded-xl font-bold hover:bg-black disabled:bg-gray-400 disabled:cursor-not-allowed transition-all shadow-lg shadow-gray-200 active:scale-95"
+          >
+            {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+            {saving ? "Guardando..." : "Guardar Cambios"}
+          </button>
         </div>
 
       </div>

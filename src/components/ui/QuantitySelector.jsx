@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Plus, Minus } from 'lucide-react';
 
 export default function QuantitySelector(props) {
@@ -6,49 +6,33 @@ export default function QuantitySelector(props) {
         initialValue = 0,
         min = 0,
         max = 9999,
-        step = 1,
-        onChange,
         onConfirm,
         disabled = false,
         compact = false,
-        color = '#ea580c',
-        onIncrement,
-        onDecrement
+        color = '#ea580c'
     } = props;
+
     const [value, setValue] = useState(initialValue);
-    const [isEditing, setIsEditing] = useState(false);
+    const inputRef = useRef(null);
 
+    // Sync with props when not editing
     useEffect(() => {
-        if (!isEditing) {
-            setValue(initialValue);
-        }
-    }, [initialValue, isEditing]);
+        setValue(initialValue);
+    }, [initialValue]);
 
-    const handleChange = (e) => {
-        const val = e.target.value;
-        // Allow empty string for better UX while typing
-        if (val === '') {
-            setValue('');
-            return;
-        }
-        const parsed = parseInt(val, 10);
-        if (!isNaN(parsed)) {
-            setValue(parsed);
-        }
-    };
+    const commitChange = (newValue) => {
+        let finalVal = parseInt(newValue, 10);
+        if (isNaN(finalVal)) finalVal = min;
 
-    const handleBlur = () => {
-        setIsEditing(false);
-        let finalVal = typeof value === 'number' ? value : 0;
-
-        // Clamp
         if (finalVal < min) finalVal = min;
         if (finalVal > max) finalVal = max;
 
         setValue(finalVal);
-        if (finalVal !== initialValue && onConfirm) {
-            onConfirm(finalVal);
-        }
+        if (onConfirm) onConfirm(finalVal);
+    };
+
+    const handleBlur = (e) => {
+        commitChange(e.target.value);
     };
 
     const handleKeyDown = (e) => {
@@ -59,97 +43,75 @@ export default function QuantitySelector(props) {
 
     const increment = (e) => {
         e.stopPropagation();
-        if (onIncrement) {
-            onIncrement();
-            return;
+        const current = parseInt(value, 10) || min;
+        if (current < max) {
+            const newVal = current + 1;
+            setValue(newVal);
+            if (onConfirm) onConfirm(newVal);
         }
-
-        const currentVal = typeof value === 'number' ? value : 0;
-        const maxVal = Number(max);
-        const stepVal = Number(step);
-
-        if (currentVal >= maxVal) return;
-
-        const newVal = Math.min(currentVal + stepVal, maxVal);
-        setValue(newVal);
-        if (onConfirm) onConfirm(newVal);
     };
 
     const decrement = (e) => {
         e.stopPropagation();
-        if (onDecrement) {
-            onDecrement();
-            return;
+        const current = parseInt(value, 10) || min;
+        if (current > min) {
+            const newVal = current - 1;
+            setValue(newVal);
+            if (onConfirm) onConfirm(newVal);
         }
-
-        const currentVal = typeof value === 'number' ? value : 0;
-        const minVal = Number(min);
-        const stepVal = Number(step);
-
-        if (currentVal <= minVal) return;
-
-        const newVal = Math.max(currentVal - stepVal, minVal);
-        setValue(newVal);
-        if (onConfirm) onConfirm(newVal);
     };
 
-    // Increase touch target size
-    const sizeClass = compact ? 'w-8 h-8' : 'w-10 h-10'; // Bigger buttons
+    // Responsive Sizes
+    const btnSize = compact ? 'w-8 h-8' : 'w-10 h-10';
     const iconSize = compact ? 16 : 18;
-    const textSize = compact ? 'text-sm' : 'text-base';
-
-    // Safety check for disabled state
-    const isAtMin = (typeof value === 'number' ? value : 0) <= min;
-    const isAtMax = (typeof value === 'number' ? value : 0) >= max;
+    const inputWidth = compact ? 'w-8 text-sm' : 'w-12 text-base';
 
     return (
         <div
-            className={`flex items-center bg-gray-50 border border-gray-200 rounded-lg shadow-sm overflow-hidden ${disabled ? 'opacity-50 pointer-events-none' : ''}`}
+            className={`flex items-center bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden select-none ${disabled ? 'opacity-50 pointer-events-none grayscale' : ''}`}
             onClick={e => e.stopPropagation()}
         >
             <button
-                onClick={decrement}
-                disabled={isAtMin}
-                className={`${sizeClass} flex items-center justify-center text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition-colors border-r border-gray-100 touch-manipulation`}
                 type="button"
+                onClick={decrement}
+                disabled={value <= min}
+                className={`${btnSize} flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors border-r border-gray-100 disabled:opacity-30`}
             >
-                <Minus size={iconSize} />
+                <Minus size={iconSize} strokeWidth={2.5} />
             </button>
 
-            <div className="relative">
+            <div className={`relative h-full flex items-center justify-center bg-white ${inputWidth}`}>
                 <input
-                    type="number"
-                    value={value === '' ? '' : Number(value)}
-                    min={typeof min === 'number' ? min : 0}
-                    max={typeof max === 'number' ? max : 9999}
-                    onChange={handleChange}
+                    ref={inputRef}
+                    type="tel" // Better numeric keyboard on mobile
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
-                    onFocus={() => setIsEditing(true)}
-                    className={`w-12 text-center font-bold text-gray-900 outline-none bg-transparent appearance-none m-0 ${textSize} ${isEditing ? 'bg-white z-10' : ''}`}
-                    style={{
-                        MozAppearance: 'textfield'
-                    }}
+                    className="w-full text-center font-bold text-gray-900 bg-transparent outline-none p-0 appearance-none m-0"
+                    style={{ MozAppearance: 'textfield' }}
                 />
-                {/* Hide spinner for webkit */}
-                <style>{`
-          input[type=number]::-webkit-inner-spin-button, 
-          input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none; 
-            margin: 0; 
-          }
-        `}</style>
             </div>
 
             <button
-                onClick={increment}
-                disabled={isAtMax}
-                className={`${sizeClass} flex items-center justify-center text-white hover:brightness-110 active:brightness-90 transition-colors border-l border-gray-100`}
-                style={{ backgroundColor: color }}
                 type="button"
+                onClick={increment}
+                disabled={value >= max}
+                className={`${btnSize} flex items-center justify-center text-white hover:brightness-110 active:brightness-90 transition-colors border-l border-white/10 disabled:opacity-50 disabled:cursor-not-allowed`}
+                style={{ backgroundColor: color }}
             >
-                <Plus size={iconSize} />
+                <Plus size={iconSize} strokeWidth={2.5} />
             </button>
+
+            <style>{`
+                input[type=number]::-webkit-inner-spin-button, 
+                input[type=number]::-webkit-outer-spin-button { 
+                    -webkit-appearance: none; 
+                    margin: 0; 
+                }
+            `}</style>
         </div>
     );
 }

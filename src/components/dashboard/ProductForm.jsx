@@ -116,28 +116,33 @@ export default function ProductForm({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-2 sm:p-4 animate-in fade-in duration-200">
-            <div className="bg-white rounded-3xl w-full max-w-3xl shadow-2xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
-                <div className="p-6 border-b flex justify-between items-center bg-gray-50">
-                    <h2 className="text-xl font-bold text-gray-900">
-                        {initialData ? "Editar Producto" : "Nuevo Producto"}
-                    </h2>
-                    <button onClick={onClose} className="p-2 hover:bg-gray-200 rounded-full transition-colors">
-                        <X size={20} className="text-gray-500" />
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center z-50 p-0 sm:p-6 overflow-hidden">
+            <div className="bg-white w-full h-[100dvh] sm:h-auto sm:max-h-[90vh] sm:rounded-3xl sm:max-w-3xl shadow-2xl overflow-hidden flex flex-col animate-in slide-in-from-bottom duration-300 sm:animate-in sm:zoom-in-95">
+                <div className="p-4 sm:p-6 border-b flex justify-between items-center bg-white shrink-0">
+                    <div>
+                        <h2 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">
+                            {initialData ? "Editar Producto" : "Nuevo Producto"}
+                        </h2>
+                        <p className="text-sm text-gray-500 font-medium">Detalles del ítem</p>
+                    </div>
+                    <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full transition-colors active:scale-95">
+                        <X size={24} className="text-gray-500" />
                     </button>
                 </div>
 
-                <div className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-6 overflow-y-auto flex-1 overscroll-contain pb-20 md:pb-6">
+                <div className="p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 gap-8 overflow-y-auto flex-1 overscroll-contain pb-24 sm:pb-6 bg-white">
                     {/* Lado Izquierdo: Imagen */}
-                    <div className="space-y-4">
-                        <div className="aspect-square bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-gray-100 transition-colors">
+                    <div className="space-y-6">
+                        <div className="aspect-square bg-gray-50 rounded-3xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center relative overflow-hidden group hover:bg-gray-100 transition-colors cursor-pointer">
                             {imageFile || form.imagen_url ? (
                                 <div className="relative w-full h-full">
                                     <img
                                         src={imageFile ? URL.createObjectURL(imageFile) : form.imagen_url}
-                                        className="w-full h-full object-cover"
+                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
-                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors"></div>
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                        <p className="text-white font-bold opacity-0 group-hover:opacity-100 transition-opacity uppercase tracking-wider text-sm">Cambiar Foto</p>
+                                    </div>
                                     <button
                                         type="button"
                                         onClick={(e) => {
@@ -145,115 +150,129 @@ export default function ProductForm({
                                             setImageFile(null);
                                             setForm({ ...form, imagen_url: "" });
                                         }}
-                                        className="absolute top-2 right-2 bg-red-500 text-white p-1.5 rounded-full shadow-lg hover:bg-red-600 z-10 opacity-0 group-hover:opacity-100 transition-opacity"
+                                        className="absolute top-3 right-3 bg-white text-red-500 p-2 rounded-xl shadow-lg hover:bg-red-50 z-10 hover:scale-110 transition-transform"
                                     >
-                                        <Trash2 size={14} />
+                                        <Trash2 size={18} />
                                     </button>
                                 </div>
                             ) : (
-                                <div className="text-center p-4">
-                                    <ImageIcon className="mx-auto text-gray-300 mb-2" size={40} />
-                                    <p className="text-xs text-gray-400 font-medium">Click para subir foto</p>
+                                <div className="text-center p-6">
+                                    <div className="bg-white p-4 rounded-full shadow-sm inline-block mb-3">
+                                        <ImageIcon className="text-gray-300" size={40} />
+                                    </div>
+                                    <p className="text-sm font-bold text-gray-700">Tocá para subir foto</p>
+                                    <p className="text-xs text-gray-400 mt-1 font-medium">Recomendado: 500x500px</p>
                                 </div>
                             )}
                             <input
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => setImageFile(e.target.files[0])}
-                                className="absolute inset-0 opacity-0 cursor-pointer"
+                                className="absolute inset-0 opacity-0 cursor-pointer z-0"
                             />
                         </div>
 
-                        <div className="flex items-center gap-2 p-3 bg-orange-50 rounded-xl border border-orange-100">
-                            <input
-                                type="checkbox"
-                                checked={form.stock}
-                                onChange={(e) => setForm({ ...form, stock: e.target.checked })}
-                                className="w-5 h-5 accent-orange-600 rounded cursor-pointer"
-                            />
-                            <label className="text-sm font-bold text-orange-800 cursor-pointer select-none" onClick={() => setForm(f => ({ ...f, stock: !f.stock }))}>
-                                Disponible para la venta
-                            </label>
-                        </div>
+                        <div className="space-y-3">
+                            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-100 cursor-pointer select-none hover:bg-gray-100 transition-colors" onClick={() => setForm(f => ({ ...f, stock: !f.stock }))}>
+                                <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-colors ${form.stock ? 'bg-green-500 border-green-500' : 'border-gray-300 bg-white'}`}>
+                                    {form.stock && <div className="w-2.5 h-2.5 bg-white rounded-sm" />}
+                                </div>
+                                <div>
+                                    <label className="text-sm font-bold text-gray-900 cursor-pointer block">
+                                        Disponible para la venta
+                                    </label>
+                                    <span className="text-xs text-gray-500 font-medium">Si desactivas esto, aparecerá como "Agotado".</span>
+                                </div>
+                            </div>
 
-                        <div className="flex items-center gap-2 p-3 bg-yellow-50 rounded-xl border border-yellow-100">
-                            <input
-                                type="checkbox"
-                                checked={form.destacado}
-                                onChange={(e) => setForm({ ...form, destacado: e.target.checked })}
-                                className="w-5 h-5 accent-yellow-500 rounded cursor-pointer"
-                            />
-                            <div className="flex flex-col cursor-pointer select-none" onClick={() => setForm(f => ({ ...f, destacado: !f.destacado }))}>
-                                <label className="text-sm font-bold text-yellow-800 flex items-center gap-1 cursor-pointer">
-                                    Destacar Producto <Star size={14} fill="currentColor" />
-                                </label>
-                                <span className="text-[10px] text-yellow-600">Aparecerá arriba en "Recomendados"</span>
+                            <div className="flex items-center gap-3 p-4 bg-yellow-50 rounded-2xl border border-yellow-100 cursor-pointer select-none hover:bg-yellow-100 transition-colors" onClick={() => setForm(f => ({ ...f, destacado: !f.destacado }))}>
+                                <div className={`w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-colors ${form.destacado ? 'bg-yellow-500 border-yellow-500' : 'border-yellow-300 bg-white'}`}>
+                                    {form.destacado && <Star size={14} className="text-white fill-current" />}
+                                </div>
+                                <div>
+                                    <label className="text-sm font-bold text-yellow-900 cursor-pointer block flex items-center gap-1">
+                                        Producto Destacado
+                                    </label>
+                                    <span className="text-xs text-yellow-700 font-medium">Aparecerá primero en tu menú.</span>
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Lado Derecho: Info */}
-                    <div className="space-y-4">
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Nombre</label>
+                    <div className="flex flex-col gap-5">
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Nombre del producto</label>
                             <input
                                 type="text"
                                 value={form.nombre}
                                 onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                                className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                                className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-bold text-gray-900 placeholder:font-normal placeholder:text-gray-400 text-lg"
                                 placeholder="Ej: Hamburguesa Especial"
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
-                            <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Precio</label>
-                                <input
-                                    type="number"
-                                    value={form.precio}
-                                    onChange={(e) => setForm({ ...form, precio: e.target.value })}
-                                    className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none font-bold"
-                                    placeholder="$0"
-                                />
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Precio</label>
+                                <div className="relative">
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold">$</span>
+                                    <input
+                                        type="number"
+                                        value={form.precio}
+                                        onChange={(e) => setForm({ ...form, precio: e.target.value })}
+                                        className="w-full pl-8 pr-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-black text-gray-900 placeholder:font-normal placeholder:text-gray-400 text-lg"
+                                        placeholder="0"
+                                    />
+                                </div>
                             </div>
-                            <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Categoría</label>
-                                <select
-                                    value={form.categoria}
-                                    onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                                    className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none appearance-none"
-                                >
-                                    {categories.map(cat => <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>)}
-                                </select>
+                            <div className="space-y-1.5">
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Categoría</label>
+                                <div className="relative">
+                                    <select
+                                        value={form.categoria}
+                                        onChange={(e) => setForm({ ...form, categoria: e.target.value })}
+                                        className="w-full px-4 py-3.5 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-bold text-gray-900 appearance-none cursor-pointer"
+                                    >
+                                        {categories.map(cat => <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>)}
+                                    </select>
+                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Descripción</label>
+
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest pl-1">Descripción</label>
                             <textarea
                                 value={form.descripcion}
                                 onChange={(e) => setForm({ ...form, descripcion: e.target.value })}
-                                className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none resize-none"
+                                className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-medium text-gray-900 placeholder:font-normal placeholder:text-gray-400 resize-none"
                                 rows="3"
-                                placeholder="¿Qué ingredientes lleva?"
+                                placeholder="¿Qué ingredientes lleva? Contale a tus clientes."
                             />
                         </div>
-                        <div className="grid grid-cols-2 gap-3">
-                            <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">SKU (Opcional)</label>
+
+                        {/* Advanced / Optional */}
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-1.5">
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">SKU (Opcional)</label>
                                 <input
                                     type="text"
                                     value={form.sku}
                                     onChange={(e) => setForm({ ...form, sku: e.target.value })}
-                                    className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm font-medium"
                                     placeholder="Ej: BEB-001"
                                 />
                             </div>
-                            <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Cód. Barras (Opcional)</label>
+                            <div className="space-y-1.5">
+                                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest pl-1">Cód. Barras (Opcional)</label>
                                 <input
                                     type="text"
                                     value={form.codigo_barras}
                                     onChange={(e) => setForm({ ...form, codigo_barras: e.target.value })}
-                                    className="w-full p-3 bg-gray-50 border-none rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all"
+                                    className="w-full px-3 py-2 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all text-sm font-medium"
                                     placeholder="Ej: 779123456789"
                                 />
                             </div>
@@ -261,98 +280,112 @@ export default function ProductForm({
 
                         {/* Sección Mayorista (solo distribuidoras) */}
                         {isDistribuidora && (
-                            <div className="border-t border-blue-100 pt-4">
+                            <div className="bg-blue-50/50 rounded-2xl p-4 border border-blue-100">
                                 <label className="block text-xs font-bold text-blue-600 uppercase mb-3 flex items-center gap-1">
-                                    <Warehouse size={12} /> Configuración Mayorista
+                                    <Warehouse size={14} /> Configuración Mayorista
                                 </label>
                                 <div className="grid grid-cols-2 gap-3">
                                     <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Precio Mayorista</label>
+                                        <label className="block text-[10px] font-bold text-blue-400 uppercase mb-1">Precio Mayorista</label>
                                         <input
                                             type="number"
                                             value={form.precio_mayorista}
                                             onChange={(e) => setForm({ ...form, precio_mayorista: e.target.value })}
-                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
+                                            className="w-full p-2 bg-white border border-blue-100 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
                                             placeholder="$0"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Cantidad Mayorista</label>
+                                        <label className="block text-[10px] font-bold text-blue-400 uppercase mb-1">Cant. Mayorista</label>
                                         <input
                                             type="number"
                                             min="1"
                                             value={form.cantidad_mayorista}
                                             onChange={(e) => setForm({ ...form, cantidad_mayorista: e.target.value })}
-                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
+                                            className="w-full p-2 bg-white border border-blue-100 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
                                             placeholder="Ej: 6"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Cantidad Mínima</label>
+                                        <label className="block text-[10px] font-bold text-blue-400 uppercase mb-1">Cant. Mínima</label>
                                         <input
                                             type="number"
                                             min="1"
                                             value={form.cantidad_minima}
                                             onChange={(e) => setForm({ ...form, cantidad_minima: parseInt(e.target.value) || 1 })}
-                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
+                                            className="w-full p-2 bg-white border border-blue-100 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none font-bold text-sm"
                                             placeholder="1"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-[10px] font-bold text-gray-400 uppercase mb-1">Unidad</label>
+                                        <label className="block text-[10px] font-bold text-blue-400 uppercase mb-1">Unidad</label>
                                         <input
                                             type="text"
                                             value={form.unidad}
                                             onChange={(e) => setForm({ ...form, unidad: e.target.value })}
-                                            className="w-full p-3 bg-blue-50/50 border border-blue-100 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-                                            placeholder="Ej: kg, pack, unidad"
+                                            className="w-full p-2 bg-white border border-blue-100 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                                            placeholder="Ej: pack"
                                         />
                                     </div>
                                 </div>
-                                <p className="text-[10px] text-gray-400 mt-2">
-                                    El precio mayorista se aplica cuando el cliente pide al menos la cantidad mayorista.
-                                </p>
                             </div>
                         )}
 
                         {/* Sección de Toppings */}
-                        <div className="border-t border-gray-100 pt-4">
-                            <div className="flex justify-between items-center mb-2">
-                                <label className="block text-xs font-bold text-gray-500 uppercase flex items-center gap-1">
-                                    Toppings / Extras <Info size={12} />
+                        <div className="border-t border-gray-100 pt-6">
+                            <div className="flex justify-between items-center mb-4">
+                                <label className="block text-sm font-bold text-gray-900 flex items-center gap-2">
+                                    <span className="bg-orange-100 text-orange-700 p-1 rounded-lg"><Info size={16} /></span>
+                                    Toppings y Extras
                                 </label>
-                                {loadingToppings && <Loader2 className="animate-spin text-orange-600" size={14} />}
+                                {loadingToppings && <Loader2 className="animate-spin text-orange-600" size={16} />}
                             </div>
 
-                            <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
+                            <div className="grid grid-cols-1 gap-3 max-h-60 overflow-y-auto pr-1 custom-scrollbar">
                                 {loadingToppings ? (
-                                    <div className="space-y-2 opacity-50 pointer-events-none">
-                                        {[1, 2].map(i => <div key={i} className="h-12 bg-gray-100 rounded-xl animate-pulse"></div>)}
+                                    <div className="space-y-3 opacity-50 pointer-events-none">
+                                        {[1, 2].map(i => <div key={i} className="h-16 bg-gray-50 rounded-2xl animate-pulse"></div>)}
                                     </div>
                                 ) : (
                                     <>
                                         {toppingsGroups.map(grupo => (
-                                            <div key={grupo.id} className="bg-gray-50 rounded-xl p-3 border border-gray-100 hover:border-orange-200 transition-colors">
-                                                <div className="flex items-center justify-between mb-2">
-                                                    <label className="flex items-center gap-2 cursor-pointer">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={productoToppingsConfig[grupo.id]?.enabled || false}
-                                                            onChange={(e) => setProductoToppingsConfig(prev => ({
-                                                                ...prev,
-                                                                [grupo.id]: { ...prev[grupo.id], enabled: e.target.checked }
-                                                            }))}
-                                                            className="w-4 h-4 accent-orange-600 rounded cursor-pointer"
-                                                        />
-                                                        <span className="font-bold text-sm text-gray-700">{grupo.nombre}</span>
+                                            <div
+                                                key={grupo.id}
+                                                className={`rounded-2xl p-4 border transition-all duration-200 ${productoToppingsConfig[grupo.id]?.enabled
+                                                        ? "bg-orange-50 border-orange-200 shadow-sm"
+                                                        : "bg-white border-gray-100 hover:border-orange-100"
+                                                    }`}
+                                            >
+                                                <div className="flex items-center justify-between mb-3">
+                                                    <label className="flex items-center gap-3 cursor-pointer w-full select-none">
+                                                        <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${productoToppingsConfig[grupo.id]?.enabled
+                                                                ? "bg-orange-600 border-orange-600"
+                                                                : "bg-white border-gray-300"
+                                                            }`}>
+                                                            {productoToppingsConfig[grupo.id]?.enabled && <div className="w-2 h-2 bg-white rounded-full" />}
+                                                            <input
+                                                                type="checkbox"
+                                                                checked={productoToppingsConfig[grupo.id]?.enabled || false}
+                                                                onChange={(e) => setProductoToppingsConfig(prev => ({
+                                                                    ...prev,
+                                                                    [grupo.id]: { ...prev[grupo.id], enabled: e.target.checked }
+                                                                }))}
+                                                                className="hidden"
+                                                            />
+                                                        </div>
+                                                        <span className={`font-bold text-sm ${productoToppingsConfig[grupo.id]?.enabled ? "text-orange-900" : "text-gray-600"}`}>
+                                                            {grupo.nombre}
+                                                        </span>
+                                                        <span className="text-xs text-gray-400 ml-auto whitespace-nowrap font-normal">
+                                                            {grupo.toppings?.length || 0} opc.
+                                                        </span>
                                                     </label>
-                                                    <span className="text-xs text-gray-400">{grupo.toppings?.length || 0} opc.</span>
                                                 </div>
 
                                                 {productoToppingsConfig[grupo.id]?.enabled && (
-                                                    <div className="flex gap-2 pl-6 animate-in slide-in-from-top-2 duration-200">
-                                                        <div className="flex-1">
-                                                            <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">Mínimo</label>
+                                                    <div className="grid grid-cols-2 gap-3 pl-8 animate-in slide-in-from-top-2 duration-200">
+                                                        <div>
+                                                            <label className="text-[10px] uppercase text-orange-700 font-bold block mb-1">Mínimo</label>
                                                             <input
                                                                 type="number"
                                                                 min="0"
@@ -361,11 +394,11 @@ export default function ProductForm({
                                                                     ...prev,
                                                                     [grupo.id]: { ...prev[grupo.id], min: e.target.value }
                                                                 }))}
-                                                                className="w-full bg-white p-1.5 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
+                                                                className="w-full bg-white p-2 rounded-xl border border-orange-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none font-bold text-center"
                                                             />
                                                         </div>
-                                                        <div className="flex-1">
-                                                            <label className="text-[10px] uppercase text-gray-400 font-bold block mb-1">Máximo</label>
+                                                        <div>
+                                                            <label className="text-[10px] uppercase text-orange-700 font-bold block mb-1">Máximo</label>
                                                             <input
                                                                 type="number"
                                                                 min="0"
@@ -374,7 +407,7 @@ export default function ProductForm({
                                                                     ...prev,
                                                                     [grupo.id]: { ...prev[grupo.id], max: e.target.value }
                                                                 }))}
-                                                                className="w-full bg-white p-1.5 rounded-lg border border-gray-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none"
+                                                                className="w-full bg-white p-2 rounded-xl border border-orange-200 text-sm focus:ring-2 focus:ring-orange-500 outline-none font-bold text-center"
                                                             />
                                                         </div>
                                                     </div>
@@ -382,8 +415,9 @@ export default function ProductForm({
                                             </div>
                                         ))}
                                         {toppingsGroups.length === 0 && (
-                                            <div className="text-center py-4 bg-gray-50 rounded-xl border border-dashed border-gray-200">
-                                                <p className="text-xs text-gray-400 italic">No tenés grupos de toppings creados.</p>
+                                            <div className="text-center py-8 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+                                                <p className="text-sm text-gray-500 font-medium">No tenés grupos de toppings creados.</p>
+                                                <p className="text-xs text-gray-400 mt-1">Andá a la sección "Toppings" para crear uno.</p>
                                             </div>
                                         )}
                                     </>
@@ -393,12 +427,14 @@ export default function ProductForm({
                     </div>
                 </div>
 
-                <div className="p-4 md:p-6 bg-gray-50 flex gap-3 sticky bottom-0 border-t border-gray-100 mt-auto z-10">
-                    <button onClick={onClose} className="flex-1 py-3 font-bold text-gray-500 hover:text-gray-700 transition-colors">Cancelar</button>
+                <div className="p-4 md:p-6 bg-white sm:bg-gray-50 flex gap-3 sticky bottom-0 border-t border-gray-100 mt-auto z-40 shrink-0 shadow-[0_-4px_20px_-5px_rgba(0,0,0,0.1)] sm:shadow-none">
+                    <button onClick={onClose} className="flex-1 py-3.5 rounded-xl font-bold text-gray-600 hover:bg-gray-200 transition-all active:scale-95">
+                        Cancelar
+                    </button>
                     <button
                         onClick={handleSubmit}
                         disabled={isSubmitting}
-                        className="flex-1 py-3 bg-orange-600 text-white rounded-2xl font-bold shadow-lg shadow-orange-200 hover:bg-orange-700 disabled:bg-gray-400 disabled:shadow-none transition-all flex justify-center items-center gap-2"
+                        className="flex-1 py-3.5 bg-orange-600 text-white rounded-xl font-bold shadow-lg shadow-orange-200 hover:bg-orange-700 disabled:bg-gray-400 disabled:shadow-none transition-all flex justify-center items-center gap-2 active:scale-95"
                     >
                         {isSubmitting && <Loader2 size={18} className="animate-spin" />}
                         {isSubmitting ? "Guardando..." : "Guardar Producto"}

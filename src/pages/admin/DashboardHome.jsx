@@ -97,15 +97,15 @@ export default function DashboardHome() {
                     </div>
 
                     {/* METRICS GRID SKELETON */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                         {[1, 2, 3, 4].map((i) => (
                             <Skeleton key={i} className="h-32 rounded-2xl" />
                         ))}
                     </div>
 
                     {/* CHARTS SECTION SKELETON */}
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        <Skeleton className="lg:col-span-2 h-96 rounded-2xl" />
+                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8">
+                        <Skeleton className="xl:col-span-2 h-96 rounded-2xl" />
                         <Skeleton className="h-96 rounded-2xl" />
                     </div>
                 </div>
@@ -173,7 +173,7 @@ export default function DashboardHome() {
                 </div>
 
                 {/* METRICS GRID */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                     <StatsCard
                         title="Ventas Hoy"
                         value={`$${overview?.ventas_hoy?.toLocaleString() || 0}`}
@@ -203,9 +203,9 @@ export default function DashboardHome() {
                 </div>
 
                 {/* MAIN GRID: 2 COLUMNS LAYOUT */}
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8">
                     {/* LEFT COLUMN: MAIN CHARTS & DATA (2/3) */}
-                    <div className="lg:col-span-2 space-y-8">
+                    <div className="xl:col-span-2 space-y-6 sm:space-y-8">
                         {/* SALES AREA CHART */}
                         <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                             <div className="flex items-center justify-between mb-6">
@@ -263,7 +263,7 @@ export default function DashboardHome() {
                         </div>
 
                         {/* TOP DATA GRID: PRODUCTS & CLIENTS */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
                             {/* TOP PRODUCTS */}
                             <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
                                 <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-6">Más Vendidos</h3>

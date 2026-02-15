@@ -5,14 +5,6 @@
  * it under the terms of the GNU Affero General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import { useEffect, useState } from "react";
@@ -30,7 +22,9 @@ import {
   Star,
   ScanBarcode,
   LayoutGrid,
-  List
+  List,
+  FileSpreadsheet,
+  AlertCircle
 } from "lucide-react";
 import { DEFAULT_PRODUCT_IMAGE } from "../constants";
 import ConfirmModal from "../components/ConfirmModal";
@@ -38,7 +32,6 @@ import ProductForm from "../components/dashboard/ProductForm";
 import BarcodeScanner from "../components/dashboard/BarcodeScanner";
 import ProductImportModal from "../components/dashboard/ProductImportModal";
 import Skeleton from "../components/ui/Skeleton";
-import { FileSpreadsheet } from "lucide-react";
 
 export default function ProductosDashboard() {
   const [productos, setProductos] = useState([]);
@@ -200,63 +193,71 @@ export default function ProductosDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 sm:mb-8">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Productos</h1>
-          <p className="text-gray-500 text-sm sm:text-base">Administra el stock y precios de tu menú.</p>
-        </div>
-        <div className="flex gap-2 w-full md:w-auto">
-          <button
-            onClick={() => setShowScanner(true)}
-            className="flex items-center justify-center gap-2 bg-blue-600 text-white px-4 py-3 rounded-xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 active:scale-95"
-            title="Escanear código de barras"
-          >
-            <ScanBarcode size={20} />
-            <span className="sm:inline hidden">Escanear</span>
-          </button>
-          <button
-            onClick={() => setShowImportModal(true)}
-            className="flex items-center justify-center gap-2 bg-green-600 text-white px-4 py-3 rounded-xl font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-100 active:scale-95"
-            title="Importar Excel"
-          >
-            <FileSpreadsheet size={20} />
-            <span className="sm:inline hidden">Importar</span>
-          </button>
-          <button
-            onClick={() => openModal()}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-100 active:scale-95"
-          >
-            <Plus size={20} /> Nuevo Producto
-          </button>
-        </div>
-      </div>
+      <div className="flex flex-col gap-6 mb-8">
 
-      <div className="mb-6 flex gap-3">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-          <input
-            type="text"
-            placeholder="Buscar producto por nombre..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-2xl focus:ring-2 focus:ring-orange-500 outline-none transition-all shadow-sm text-sm sm:text-base"
-          />
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h1 className="text-3xl font-black text-gray-900 tracking-tight">Productos</h1>
+            <p className="text-gray-500 font-medium mt-1">Administra el stock y precios de tu menú.</p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:flex gap-2 w-full md:w-auto">
+            {/* Mobile: Scan takes full width or half? Let's do 2 cols for smaller actions and 1 for big action */}
+            <button
+              onClick={() => setShowScanner(true)}
+              className="flex items-center justify-center gap-2 bg-blue-50 text-blue-700 border border-blue-100 px-4 py-3 rounded-xl font-bold hover:bg-blue-100 transition-all active:scale-95"
+            >
+              <ScanBarcode size={20} />
+              <span className="text-sm">Escanear</span>
+            </button>
+            <button
+              onClick={() => setShowImportModal(true)}
+              className="flex items-center justify-center gap-2 bg-green-50 text-green-700 border border-green-100 px-4 py-3 rounded-xl font-bold hover:bg-green-100 transition-all active:scale-95"
+            >
+              <FileSpreadsheet size={20} />
+              <span className="text-sm">Importar Excel</span>
+            </button>
+            <button
+              onClick={() => openModal()}
+              className="col-span-2 sm:col-span-1 flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg shadow-gray-200 active:scale-95"
+            >
+              <Plus size={20} /> Nuevo Producto
+            </button>
+          </div>
         </div>
-        <div className="flex bg-white border border-gray-200 rounded-2xl p-1 shadow-sm">
-          <button
-            onClick={() => setViewMode("grid")}
-            className={`p-2 rounded-xl transition-all ${viewMode === "grid" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
-            title="Vista Cuadrícula"
-          >
-            <LayoutGrid size={20} />
-          </button>
-          <button
-            onClick={() => setViewMode("list")}
-            className={`p-2 rounded-xl transition-all ${viewMode === "list" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
-            title="Vista Lista"
-          >
-            <List size={20} />
-          </button>
+
+        {/* Search & Filter Bar */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          <div className="relative flex-1 group">
+            <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-500 transition-colors">
+              <Search size={22} />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar por nombre..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-100 rounded-2xl focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all shadow-sm text-base font-medium placeholder:text-gray-400"
+            />
+          </div>
+
+          <div className="flex bg-white border border-gray-100 rounded-2xl p-1.5 shadow-sm shrink-0 self-start sm:self-auto">
+            <button
+              onClick={() => setViewMode("grid")}
+              className={`p-2.5 rounded-xl transition-all ${viewMode === "grid" ? "bg-orange-50 text-orange-600 shadow-sm font-bold" : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"}`}
+              title="Vista Cuadrícula"
+            >
+              <LayoutGrid size={20} strokeWidth={2.5} />
+            </button>
+            <button
+              onClick={() => setViewMode("list")}
+              className={`p-2.5 rounded-xl transition-all ${viewMode === "list" ? "bg-orange-50 text-orange-600 shadow-sm font-bold" : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"}`}
+              title="Vista Lista"
+            >
+              <List size={20} strokeWidth={2.5} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -264,66 +265,85 @@ export default function ProductosDashboard() {
         loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-              <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden flex flex-col h-80">
-                <Skeleton className="h-44 w-full" />
-                <div className="p-4 flex-1 flex flex-col space-y-3">
-                  <Skeleton className="h-3 w-1/3" />
-                  <Skeleton className="h-5 w-3/4" />
-                  <Skeleton className="h-3 w-full" />
-                  <div className="mt-auto pt-4 flex justify-between border-t border-gray-50 animate-pulse">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-8 w-20" />
-                  </div>
-                </div>
+              <div key={i} className="bg-white rounded-3xl border border-gray-100 p-4 space-y-3">
+                <Skeleton className="h-40 w-full rounded-2xl" />
+                <Skeleton className="h-4 w-2/3 rounded-lg" />
+                <Skeleton className="h-6 w-1/3 rounded-lg" />
               </div>
             ))}
           </div>
         ) : productos.length === 0 ? (
-          <div className="bg-white border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center">
-            <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-              <ImageIcon className="text-gray-300" size={32} />
+          <div className="bg-white border-2 border-dashed border-gray-200 rounded-3xl p-12 text-center animate-in fade-in zoom-in-95 duration-500 max-w-2xl mx-auto">
+            <div className="bg-orange-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <ImageIcon className="text-orange-500" size={40} />
             </div>
-            <h3 className="text-lg font-bold text-gray-900">No hay productos</h3>
-            <p className="text-gray-500 mb-6">Empezá creando uno como "Hamburguesa" o "Pizza".</p>
-            <button onClick={() => openModal()} className="text-orange-600 font-semibold hover:underline">
-              + Crear mi primer producto
+            <h3 className="text-xl font-black text-gray-900 mb-2">No hay productos</h3>
+            <p className="text-gray-500 mb-8 mx-auto max-w-sm">Tu catálogo está vacío. Empezá creando uno como "Hamburguesa" o "Pizza".</p>
+            <button onClick={() => openModal()} className="inline-flex items-center gap-2 text-white bg-orange-600 px-6 py-3 rounded-xl font-bold hover:bg-orange-700 transition-all shadow-lg shadow-orange-200">
+              <Plus size={20} /> Crear mi primer producto
             </button>
           </div>
         ) : (
           viewMode === "grid" ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-20">
               {filteredProductos.map((prod) => (
-                <div key={prod.id} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-md transition-all">
-                  <div className="relative h-44 overflow-hidden">
+                <div key={prod.id} className="bg-white rounded-3xl border border-gray-100 shadow-sm overflow-hidden flex flex-col group hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300 relative">
+
+                  {/* Image Area */}
+                  <div className="relative h-48 overflow-hidden bg-gray-50">
                     <img
                       src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                       alt={prod.nombre}
                     />
-                    <div className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider shadow-sm ${prod.stock ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
-                      {prod.stock ? "En Stock" : "Agotado"}
+
+                    {/* Badges */}
+                    <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
+                      {prod.destacado && (
+                        <div className="bg-yellow-400 text-white p-1.5 rounded-lg shadow-sm w-fit animate-in zoom-in">
+                          <Star size={14} fill="currentColor" />
+                        </div>
+                      )}
+                      {!prod.stock && (
+                        <div className="bg-red-500 text-white px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider shadow-sm animate-in fade-in">
+                          Agotado
+                        </div>
+                      )}
                     </div>
-                    {prod.destacado && (
-                      <div className="absolute top-3 left-3 bg-yellow-400 text-white p-1.5 rounded-full shadow-md z-10">
-                        <Star size={12} fill="currentColor" />
-                      </div>
-                    )}
+
+                    {/* Quick Actions (Desktop Hover) */}
+                    <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-10">
+                      <button onClick={(e) => { e.stopPropagation(); openModal(prod); }} className="p-2 bg-white/90 backdrop-blur text-gray-700 hover:text-blue-600 rounded-xl shadow-md border border-gray-100 hover:scale-105 transition-all">
+                        <Pencil size={16} />
+                      </button>
+                      <button onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ open: true, productId: prod.id }); }} className="p-2 bg-white/90 backdrop-blur text-gray-700 hover:text-red-500 rounded-xl shadow-md border border-gray-100 hover:scale-105 transition-all">
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
                   </div>
 
-                  <div className="p-4 flex-1 flex flex-col">
-                    <div className="mb-2">
-                      <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest">{prod.categoria}</span>
-                      <h2 className="font-bold text-gray-900 truncate">{prod.nombre}</h2>
-                      <p className="text-gray-500 text-xs line-clamp-2 mt-1">{prod.descripcion || "Sin descripción disponible."}</p>
+                  {/* Content Area */}
+                  <div className="p-5 flex-1 flex flex-col">
+                    <div className="mb-3">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest bg-orange-50 px-2 py-0.5 rounded-md">{prod.categoria}</span>
+                      </div>
+                      <h2 className="font-bold text-gray-900 text-lg leading-tight line-clamp-2 mb-1 group-hover:text-orange-600 transition-colors cursor-pointer" onClick={() => openModal(prod)}>{prod.nombre}</h2>
+                      <p className="text-gray-400 text-xs line-clamp-2 h-8">{prod.descripcion || "Sin descripción."}</p>
                     </div>
 
-                    <div className="mt-auto pt-4 flex items-center justify-between border-t border-gray-50">
-                      <span className="text-lg font-black text-gray-900">${prod.precio}</span>
-                      <div className="flex gap-1">
-                        <button onClick={() => openModal(prod)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 hover:text-orange-600 rounded-lg transition-colors">
+                    <div className="mt-auto pt-4 flex items-end justify-between border-t border-gray-50">
+                      <div>
+                        <span className="block text-[10px] text-gray-400 font-bold uppercase">Precio</span>
+                        <span className="text-xl font-black text-gray-900">${prod.precio}</span>
+                      </div>
+
+                      {/* Mobile Actions (Visible) */}
+                      <div className="flex sm:hidden gap-1">
+                        <button onClick={() => openModal(prod)} className="p-2 text-gray-400 bg-gray-50 rounded-lg hover:bg-gray-100">
                           <Pencil size={18} />
                         </button>
-                        <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors">
+                        <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-400 bg-red-50 rounded-lg hover:bg-red-100">
                           <Trash2 size={18} />
                         </button>
                       </div>
@@ -333,41 +353,56 @@ export default function ProductosDashboard() {
               ))}
             </div>
           ) : (
-            <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-50">
+            <div className="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden divide-y divide-gray-50 pb-20 sm:pb-0">
               {filteredProductos.map((prod) => (
-                <div key={prod.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
-                  <div className="relative w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+                <div key={prod.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-all group relative cursor-pointer" onClick={() => openModal(prod)}>
+
+                  {/* Image */}
+                  <div className="relative w-20 h-20 sm:w-24 sm:h-24 shrink-0 rounded-2xl overflow-hidden bg-gray-50 border border-gray-100">
                     <img
                       src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
-                      className="w-full h-full object-cover"
+                      className={`w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 ${!prod.stock ? 'grayscale opacity-80' : ''}`}
                       alt={prod.nombre}
                     />
                     {!prod.stock && (
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                        <span className="text-[8px] font-black text-white uppercase tracking-tighter">Agotado</span>
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/10">
+                        <span className="bg-red-500 text-white text-[10px] font-black uppercase px-1.5 py-0.5 rounded shadow-sm">Agotado</span>
                       </div>
                     )}
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-[10px] font-bold text-orange-600 uppercase tracking-widest">{prod.categoria}</span>
-                      {prod.destacado && <Star size={10} className="text-yellow-400 fill-yellow-400" />}
+
+                  {/* Info */}
+                  <div className="flex-1 min-w-0 pr-2">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest bg-gray-100 px-2 py-0.5 rounded-md border border-gray-200">{prod.categoria}</span>
+                      {prod.destacado && <Star size={12} className="text-yellow-400 fill-yellow-400" />}
                     </div>
-                    <h3 className="font-bold text-gray-900 truncate">{prod.nombre}</h3>
-                    <p className="text-gray-400 text-xs truncate hidden sm:block">{prod.descripcion || "Sin descripción disponible."}</p>
-                    <div className="flex items-center gap-3 mt-1 sm:hidden">
-                      <span className="font-black text-gray-900">${prod.precio}</span>
-                    </div>
+                    <h3 className="font-bold text-gray-900 text-base sm:text-lg truncate">{prod.nombre}</h3>
+                    <p className="text-gray-400 text-xs sm:text-sm truncate hidden sm:block">{prod.descripcion || "Sin descripción disponible."}</p>
+                    <div className="sm:hidden mt-1 font-black text-gray-900 text-lg">${prod.precio}</div>
                   </div>
-                  <div className="hidden sm:block shrink-0 px-6">
-                    <span className="font-black text-xl text-gray-900 tracking-tight">${prod.precio}</span>
+
+                  {/* Price Desktop */}
+                  <div className="hidden sm:block text-right shrink-0 px-4">
+                    <span className="block text-2xl font-black text-gray-900">${prod.precio}</span>
+                    <span className="text-xs text-gray-400 font-medium">Unidad</span>
                   </div>
-                  <div className="flex gap-2">
-                    <button onClick={() => openModal(prod)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 rounded-xl transition-all active:scale-90">
-                      <Pencil size={18} />
+
+                  {/* Actions */}
+                  <div className="flex flex-col sm:flex-row gap-2 shrink-0 border-l border-gray-50 pl-4 sm:border-none sm:pl-0">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); openModal(prod); }}
+                      className="p-2.5 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all active:scale-95"
+                      title="Editar"
+                    >
+                      <Pencil size={20} className="sm:w-5 sm:h-5 w-6 h-6" />
                     </button>
-                    <button onClick={() => setDeleteConfirm({ open: true, productId: prod.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-all active:scale-90">
-                      <Trash2 size={18} />
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ open: true, productId: prod.id }); }}
+                      className="p-2.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all active:scale-95"
+                      title="Eliminar"
+                    >
+                      <Trash2 size={20} className="sm:w-5 sm:h-5 w-6 h-6" />
                     </button>
                   </div>
                 </div>
@@ -422,8 +457,8 @@ export default function ProductosDashboard() {
           }
         }}
         title="¿Eliminar producto?"
-        message="Esta acción no se puede deshacer. El producto será eliminado permanentemente."
-        confirmText="Eliminar"
+        message="Esta acción no se puede deshacer. El producto será eliminado permanentemente del catálogo."
+        confirmText="Sí, eliminar"
         variant="danger"
       />
     </DashboardLayout >

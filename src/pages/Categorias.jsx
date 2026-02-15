@@ -5,14 +5,6 @@
  * it under the terms of the GNU Affero General Public License as published
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
 import { useEffect, useState, useRef } from "react";
@@ -144,114 +136,148 @@ export default function CategoriasDashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 sm:mb-8">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">Categorías</h1>
-          <p className="text-gray-500 text-sm sm:text-base">Organiza tu menú para que tus clientes compren más fácil.</p>
+          <h1 className="text-3xl font-black text-gray-900 tracking-tight">Categorías</h1>
+          <p className="text-gray-500 font-medium mt-1">Organiza tu menú para que tus clientes compren más fácil.</p>
         </div>
-        <div className="flex gap-2 w-full md:w-auto mt-4 md:mt-0">
-          <div className="flex bg-white border border-gray-200 rounded-2xl p-1 shadow-sm h-fit">
+
+        <div className="flex items-center gap-3">
+          <div className="flex bg-white border border-gray-100 p-1 rounded-xl shrink-0 shadow-sm">
             <button
               onClick={() => setViewMode("grid")}
-              className={`p-2 rounded-xl transition-all ${viewMode === "grid" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+              className={`p-2.5 rounded-lg transition-all ${viewMode === "grid" ? "bg-orange-50 text-orange-600 shadow-sm font-bold" : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"}`}
               title="Vista Cuadrícula"
             >
-              <LayoutGrid size={20} />
+              <LayoutGrid size={20} strokeWidth={2.5} />
             </button>
             <button
               onClick={() => setViewMode("list")}
-              className={`p-2 rounded-xl transition-all ${viewMode === "list" ? "bg-orange-600 text-white shadow-md shadow-orange-100" : "text-gray-400 hover:text-gray-600 hover:bg-gray-50"}`}
+              className={`p-2.5 rounded-lg transition-all ${viewMode === "list" ? "bg-orange-50 text-orange-600 shadow-sm font-bold" : "text-gray-400 hover:text-gray-700 hover:bg-gray-50"}`}
               title="Vista Lista"
             >
-              <List size={20} />
+              <List size={20} strokeWidth={2.5} />
             </button>
           </div>
+
           <button
             onClick={() => openModal()}
-            className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-orange-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-orange-700 transition-all shadow-md shadow-orange-200 active:scale-95"
+            className="flex-1 md:flex-none flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3.5 rounded-xl font-bold hover:bg-black transition-all shadow-lg hover:shadow-xl active:scale-95"
           >
-            <Plus size={20} />
-            Crear Categoría
+            <Plus size={20} strokeWidth={3} />
+            <span className="hidden sm:inline">Nueva Categoría</span>
+            <span className="sm:hidden">Crear</span>
           </button>
         </div>
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="bg-white rounded-2xl border border-gray-100 overflow-hidden h-56 flex flex-col">
-              <Skeleton className="h-40 w-full" />
-              <div className="p-3 bg-gray-50 flex-1 flex gap-2">
-                <Skeleton className="h-8 rounded-lg flex-1" />
-                <Skeleton className="h-8 rounded-lg w-10" />
+            <div key={i} className="bg-white rounded-3xl border border-gray-100 p-4 space-y-4">
+              <Skeleton className="aspect-video w-full rounded-2xl" />
+              <div className="flex justify-between items-center">
+                <Skeleton className="h-6 w-32 rounded-lg" />
+                <Skeleton className="h-8 w-8 rounded-lg" />
               </div>
             </div>
           ))}
         </div>
       ) : categorias.length === 0 ? (
-        <div className="bg-white border-2 border-dashed border-gray-200 rounded-2xl p-12 text-center">
-          <div className="bg-gray-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-            <ImageIcon className="text-gray-300" size={32} />
+        <div className="bg-white border-2 border-dashed border-gray-200 rounded-3xl p-12 text-center animate-in fade-in zoom-in-95 duration-500">
+          <div className="bg-orange-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <ImageIcon className="text-orange-500" size={40} />
           </div>
-          <h3 className="text-lg font-bold text-gray-900">No hay categorías</h3>
-          <p className="text-gray-500 mb-6">Empezá creando una como "Hamburguesas" o "Bebidas".</p>
-          <button onClick={() => openModal()} className="text-orange-600 font-semibold hover:underline">
-            + Crear mi primera categoría
+          <h3 className="text-xl font-black text-gray-900 mb-2">No hay categorías</h3>
+          <p className="text-gray-500 mb-8 max-w-sm mx-auto">Creá categorías como "Hamburguesas" o "Bebidas" para organizar tus productos.</p>
+          <button onClick={() => openModal()} className="text-orange-600 font-bold hover:text-orange-700 hover:underline flex items-center justify-center gap-2 mx-auto">
+            <Plus size={20} /> Crear mi primera categoría
           </button>
         </div>
       ) : (
         viewMode === "grid" ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {categorias.map((cat) => (
-              <div key={cat.id} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-all">
-                <div className="relative h-40 overflow-hidden">
+              <div key={cat.id} className="group bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:translate-y-[-4px] transition-all duration-300 relative cursor-pointer" onClick={() => openModal(cat)}>
+
+                <div className="relative h-48 overflow-hidden bg-gray-100">
                   <img
                     src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE}
                     alt={cat.nombre}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <h2 className="absolute bottom-3 left-4 text-xl font-bold text-white">{cat.nombre}</h2>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+                  {/* Title overlay */}
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <h2 className="text-2xl font-black text-white leading-tight drop-shadow-md truncate">{cat.nombre}</h2>
+                    <p className="text-white/80 text-xs font-bold uppercase tracking-wider mt-1">Categoría</p>
+                  </div>
+
+                  {/* Hover Actions Desktop */}
+                  <div className="absolute top-3 right-3 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); openModal(cat); }}
+                      className="p-2 bg-white/90 backdrop-blur text-gray-700 hover:text-blue-600 rounded-xl shadow-lg hover:scale-110 transition-all border border-gray-100"
+                      title="Editar"
+                    >
+                      <Pencil size={18} strokeWidth={2.5} />
+                    </button>
+                    <button
+                      onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ open: true, categoryId: cat.id }); }}
+                      className="p-2 bg-white/90 backdrop-blur text-gray-700 hover:text-red-500 rounded-xl shadow-lg hover:scale-110 transition-all border border-gray-100"
+                      title="Eliminar"
+                    >
+                      <Trash2 size={18} strokeWidth={2.5} />
+                    </button>
+                  </div>
                 </div>
-                <div className="p-3 flex gap-2 bg-white">
+
+                {/* Mobile visible footer for actions, since hover doesn't exist */}
+                <div className="p-3 flex gap-2 sm:hidden border-t border-gray-50">
                   <button
-                    onClick={() => openModal(cat)}
-                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-orange-50 text-orange-700 hover:bg-orange-100 hover:text-orange-600 transition-colors border border-gray-100"
+                    onClick={(e) => { e.stopPropagation(); openModal(cat); }}
+                    className="flex-1 py-2.5 bg-gray-50 text-gray-700 font-bold rounded-xl text-xs uppercase tracking-wider border border-gray-200 active:scale-95 transition-transform"
                   >
-                    <Pencil size={16} />
-                    <span className="text-sm font-medium">Editar</span>
+                    Editar
                   </button>
                   <button
-                    onClick={() => setDeleteConfirm({ open: true, categoryId: cat.id })}
-                    className="p-2 rounded-lg bg-red-50 text-red-700 hover:bg-red-100 hover:text-red-600 hover:border-red-100 transition-colors border border-gray-100"
+                    onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ open: true, categoryId: cat.id }); }}
+                    className="p-2.5 bg-red-50 text-red-500 rounded-xl border border-red-100 active:scale-95 transition-transform"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={18} />
                   </button>
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-50">
+          <div className="space-y-3">
             {categorias.map((cat) => (
-              <div key={cat.id} className="p-4 flex items-center gap-4 hover:bg-gray-50 transition-colors">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 shrink-0 rounded-xl overflow-hidden border border-gray-100 shadow-sm">
+              <div key={cat.id} className="bg-white p-3 rounded-2xl border border-gray-100 shadow-sm flex items-center gap-4 hover:shadow-md transition-all group cursor-pointer" onClick={() => openModal(cat)}>
+                <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-xl overflow-hidden bg-gray-100 relative">
                   <img
                     src={cat.imagen_url || DEFAULT_CATEGORY_IMAGE}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     alt={cat.nombre}
                   />
                 </div>
-                <div className="flex-1">
-                  <h3 className="font-bold text-gray-900 text-lg uppercase tracking-tight">{cat.nombre}</h3>
-                  <span className="text-xs text-gray-400 font-medium">ID: {cat.id}</span>
+                <div className="flex-1 min-w-0">
+                  <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-0.5">Categoría</span>
+                  <h3 className="font-bold text-gray-900 text-lg leading-tight truncate">{cat.nombre}</h3>
                 </div>
                 <div className="flex gap-2">
-                  <button onClick={() => openModal(cat)} className="p-2 text-orange-700 bg-orange-50 hover:bg-orange-100 rounded-xl transition-all active:scale-90">
-                    <Pencil size={18} />
+                  <button
+                    onClick={(e) => { e.stopPropagation(); openModal(cat); }}
+                    className="p-3 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all border border-transparent hover:border-blue-100"
+                  >
+                    <Pencil size={20} strokeWidth={2} />
                   </button>
-                  <button onClick={() => setDeleteConfirm({ open: true, categoryId: cat.id })} className="p-2 text-red-600 hover:bg-red-50 rounded-xl transition-all active:scale-90">
-                    <Trash2 size={18} />
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setDeleteConfirm({ open: true, categoryId: cat.id }); }}
+                    className="p-3 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all border border-transparent hover:border-red-100"
+                  >
+                    <Trash2 size={20} strokeWidth={2} />
                   </button>
                 </div>
               </div>
@@ -261,84 +287,99 @@ export default function CategoriasDashboard() {
       )}
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-          <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-            <div className="flex items-center justify-between p-6 border-b">
-              <h2 className="text-xl font-bold text-gray-900">
-                {editingCategoria ? "Editar Categoría" : "Nueva Categoría"}
-              </h2>
-              <button onClick={closeModal} className="text-gray-400 hover:text-gray-600">
-                <X size={24} />
-              </button>
-            </div>
-
-            <div className="p-6 space-y-5">
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Nombre de la categoría</label>
-                <input
-                  type="text"
-                  name="nombre"
-                  placeholder="Ej: Pizzas, Postres..."
-                  value={form.nombre}
-                  onChange={(e) => setForm({ ...form, nombre: e.target.value })}
-                  className="w-full px-4 py-2.5 border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all"
-                />
+      {
+        showModal && (
+          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center z-50 p-0 sm:p-6 overflow-hidden">
+            <div className="bg-white w-full h-[90vh] sm:h-auto sm:max-w-lg rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col sm:max-h-[90vh]">
+              <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-white shrink-0">
+                <div>
+                  <h2 className="text-xl font-black text-gray-900 tracking-tight">
+                    {editingCategoria ? "Editar Categoría" : "Nueva Categoría"}
+                  </h2>
+                  <p className="text-sm text-gray-500 font-medium">Información básica</p>
+                </div>
+                <button onClick={closeModal} className="text-gray-400 hover:text-gray-900 p-2 hover:bg-gray-100 rounded-full transition-all active:scale-95">
+                  <X size={24} />
+                </button>
               </div>
 
-              <div>
-                <label className="block text-sm font-bold text-gray-700 mb-1">Imagen representativa</label>
-                <div className="mt-1 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-xl p-4 bg-gray-50 hover:bg-gray-100 transition-colors cursor-pointer relative">
+              <div className="p-6 space-y-6 overflow-y-auto flex-1">
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Nombre</label>
                   <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                    type="text"
+                    name="nombre"
+                    placeholder="Ej: Pizzas, Postres..."
+                    value={form.nombre}
+                    onChange={(e) => setForm({ ...form, nombre: e.target.value })}
+                    className="w-full px-4 py-3 bg-gray-50 border border-transparent rounded-xl focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-bold text-gray-900 placeholder:font-normal placeholder:text-gray-400 text-lg"
+                    autoFocus
                   />
-                  {form.imagen_url ? (
-                    <div className="relative w-full">
-                      <img src={form.imagen_url} className="w-full h-32 object-cover rounded-lg" alt="Preview" />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity rounded-lg">
-                        <p className="text-white text-xs font-bold">Cambiar imagen</p>
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest ml-1">Imagen</label>
+                  <div className="mt-1 flex flex-col items-center justify-center border-2 border-dashed border-gray-200 rounded-2xl p-6 bg-gray-50 hover:bg-white hover:border-orange-300 transition-all cursor-pointer relative group min-h-[160px]">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleImageChange}
+                      className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                    />
+                    {form.imagen_url ? (
+                      <div className="relative w-full aspect-video rounded-xl overflow-hidden shadow-sm">
+                        <img src={form.imagen_url} className="w-full h-full object-cover" alt="Preview" />
+                        <div className="absolute inset-0 bg-black/40 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-10 p-4 text-center">
+                          <ImageIcon className="text-white mb-1 mx-auto" size={24} />
+                          <p className="text-white text-xs font-bold uppercase tracking-wider">Toca para cambiar</p>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleRemoveImage();
+                          }}
+                          className="absolute top-2 right-2 bg-white text-red-500 p-2 rounded-xl shadow-lg hover:bg-red-50 z-30 transition-transform hover:scale-110 border border-gray-100"
+                        >
+                          <Trash2 size={16} />
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleRemoveImage();
-                        }}
-                        className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full shadow-lg hover:bg-red-600 z-10"
-                      >
-                        <Trash2 size={14} />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="text-center">
-                      <ImageIcon className="mx-auto text-gray-400 mb-2" size={32} />
-                      <p className="text-xs text-gray-500">Clic para subir (JPG, PNG)</p>
+                    ) : (
+                      <div className="text-center py-4">
+                        <div className="bg-white p-4 rounded-full shadow-sm inline-block mb-3">
+                          <ImageIcon className="text-gray-300" size={32} />
+                        </div>
+                        <p className="text-sm font-bold text-gray-700">Tocá para subir una imagen</p>
+                        <p className="text-xs text-gray-400 mt-1">JPG, PNG, WEBP</p>
+                      </div>
+                    )}
+                  </div>
+                  {uploadingImage && (
+                    <div className="flex items-center gap-2 mt-2 text-orange-600 text-sm font-bold bg-orange-50 p-3 rounded-xl justify-center animate-pulse border border-orange-100">
+                      <Loader2 size={16} className="animate-spin" /> Subiendo a la nube...
                     </div>
                   )}
                 </div>
-                {uploadingImage && <div className="flex items-center gap-2 mt-2 text-orange-600 text-sm font-medium"><Loader2 size={14} className="animate-spin" /> Subiendo a Cloudinary...</div>}
+              </div>
+
+              <div className="p-6 bg-gray-50 border-t border-gray-100 flex gap-3 shrink-0 pb-8 sm:pb-6">
+                <button onClick={closeModal} className="flex-1 px-6 py-3.5 rounded-xl font-bold text-gray-600 hover:bg-gray-200 transition-all active:scale-95">
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleSubmit}
+                  disabled={uploadingImage || saving}
+                  className={`flex-1 px-6 py-3.5 rounded-xl font-bold text-white shadow-lg transition-all active:scale-95 flex items-center justify-center gap-2 ${uploadingImage || saving ? "bg-gray-400 cursor-not-allowed" : "bg-orange-600 hover:bg-orange-700 shadow-orange-200"}`}
+                >
+                  {saving && <Loader2 size={18} className="animate-spin" />}
+                  {editingCategoria ? "Guardar" : "Crear"}
+                </button>
               </div>
             </div>
-
-            <div className="p-6 bg-gray-50 flex gap-3">
-              <button onClick={closeModal} className="flex-1 px-4 py-2.5 rounded-xl font-bold text-gray-600 hover:bg-gray-200 transition-all">
-                Cancelar
-              </button>
-              <button
-                onClick={handleSubmit}
-                disabled={uploadingImage || saving}
-                className={`flex-1 px-4 py-2.5 rounded-xl font-bold text-white shadow-lg transition-all ${uploadingImage || saving ? "bg-gray-400" : "bg-orange-600 hover:bg-orange-700 shadow-orange-200"}`}
-              >
-                {editingCategoria ? "Actualizar" : "Crear Ahora"}
-              </button>
-            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
       {/* Confirm Delete Modal */}
       <ConfirmModal
@@ -350,6 +391,6 @@ export default function CategoriasDashboard() {
         confirmText="Eliminar"
         variant="danger"
       />
-    </DashboardLayout>
+    </DashboardLayout >
   );
 }

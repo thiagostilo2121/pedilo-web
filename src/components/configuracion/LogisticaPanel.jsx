@@ -47,8 +47,8 @@ export default function LogisticaPanel({ negocio, setNegocio }) {
                         type="button"
                         onClick={() => setNegocio({ ...negocio, tipo_negocio: "minorista" })}
                         className={`group relative p-5 rounded-2xl border-2 transition-all text-left flex items-start gap-4 ${!isDistribuidora
-                                ? "border-orange-500 bg-orange-50/50 shadow-sm"
-                                : "border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white"
+                            ? "border-orange-500 bg-orange-50/50 shadow-sm"
+                            : "border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white"
                             }`}
                     >
                         <div className={`p-3 rounded-xl transition-colors ${!isDistribuidora ? "bg-orange-100 text-orange-600" : "bg-gray-100 text-gray-400 group-hover:bg-white"}`}>
@@ -69,8 +69,8 @@ export default function LogisticaPanel({ negocio, setNegocio }) {
                         type="button"
                         onClick={() => setNegocio({ ...negocio, tipo_negocio: "distribuidora" })}
                         className={`group relative p-5 rounded-2xl border-2 transition-all text-left flex items-start gap-4 ${isDistribuidora
-                                ? "border-blue-500 bg-blue-50/50 shadow-sm"
-                                : "border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white"
+                            ? "border-blue-500 bg-blue-50/50 shadow-sm"
+                            : "border-gray-100 hover:border-gray-200 hover:bg-gray-50 bg-white"
                             }`}
                     >
                         <div className={`p-3 rounded-xl transition-colors ${isDistribuidora ? "bg-blue-100 text-blue-600" : "bg-gray-100 text-gray-400 group-hover:bg-white"}`}>
@@ -96,8 +96,8 @@ export default function LogisticaPanel({ negocio, setNegocio }) {
                         <label className="text-xs font-bold text-blue-800 uppercase tracking-widest mb-3 block flex items-center gap-2">
                             <DollarSign size={14} /> Mínimo de Compra
                         </label>
-                        <div className="flex gap-4 items-center">
-                            <div className="relative flex-1 max-w-xs">
+                        <div className="flex flex-col sm:flex-row gap-4 sm:items-center">
+                            <div className="relative w-full sm:flex-1 sm:max-w-xs">
                                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-blue-400 font-black text-lg">$</span>
                                 <input
                                     type="number"
@@ -108,7 +108,7 @@ export default function LogisticaPanel({ negocio, setNegocio }) {
                                     placeholder="0"
                                 />
                             </div>
-                            <p className="text-xs text-blue-600/80 font-medium max-w-sm">
+                            <p className="text-xs text-blue-600/80 font-medium sm:max-w-sm">
                                 Los clientes no podrán finalizar el pedido si el total es menor a este monto.
                             </p>
                         </div>
