@@ -43,11 +43,25 @@ import {
   Ticket,
   BarChart3,
   BrainCircuit,
-  PieChart
+  PieChart,
+  MessageCircle,
+  AlertTriangle
 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Landing() {
   const navigate = useNavigate();
+
+  // ROI Calculator State
+  const [sales, setSales] = useState(1500000);
+  const [commission, setCommission] = useState(30);
+  const appCost = (sales * commission) / 100;
+  const pediloCost = 17000;
+  const savings = appCost - pediloCost;
+  const yearlySavings = savings * 12;
+
+  // Formatting
+  const formatMoney = (val) => new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(val);
 
   return (
     <div className="bg-white text-gray-900 font-sans selection:bg-orange-100 selection:text-orange-600">
@@ -75,9 +89,9 @@ export default function Landing() {
         </div>
       </nav>
 
-      {/* --- HERO SECTION: MARGIN & CONTROL --- */}
+      {/* --- HERO SECTION: AGGRESSIVE & DIRECT --- */}
       <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-50 via-white to-white -z-10"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-100 via-white to-white -z-10"></div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-orange-800 text-xs sm:text-sm font-bold mb-8 animate-fade-in-up">
@@ -85,7 +99,7 @@ export default function Landing() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
-            Nueva versión ya disponible para Distribuidores
+            ¿Cansado de regalar el 30%?
           </div>
 
           <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">
@@ -93,90 +107,198 @@ export default function Landing() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">Convertí cada pedido en ganancia real.</span>
           </h1>
 
-          <p className="text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto mb-10 leading-relaxed font-medium">
-            Vendé sin comisiones por pedido y fidelizá a tus clientes con tu propio canal de venta directa. Tu socio, no tu jefe.
+          <p className="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
+            Recuperá el control. Usá las apps para que te conozcan, usá <span className="text-orange-600 font-extrabold">Pedilo</span> para ganar dinero de verdad.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
             <button
               onClick={() => navigate("/register")}
-              className="px-8 py-4 bg-gray-900 text-white font-bold rounded-2xl text-lg hover:bg-gray-800 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group shadow-xl shadow-gray-200"
+              className="px-10 py-5 bg-gray-900 text-white font-black rounded-2xl text-xl hover:bg-gray-800 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group shadow-xl shadow-gray-200"
             >
-              Empezar a Ahorrar Hoy <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              Empezar Gratis <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={() => window.open("/n/pedilo-oficial", "_blank", "noopener,noreferrer")}
-              className="px-8 py-4 bg-white text-gray-700 font-bold rounded-2xl text-lg hover:bg-gray-50 border border-gray-200 transition-all shadow-sm"
+              className="px-10 py-5 bg-white text-gray-900 font-black rounded-2xl text-xl hover:bg-gray-50 border-2 border-gray-100 transition-all shadow-sm"
             >
-              Ver Demo en Vivo
+              Ver Demo Real
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wider">
-            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-green-500" /> 14 días gratis</span>
-            <span className="hidden sm:inline text-gray-300">•</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-green-500" /> Setup incluido</span>
-            <span className="hidden sm:inline text-gray-300">•</span>
-            <span className="flex items-center gap-1.5"><CheckCircle2 size={14} className="text-green-500" /> Sin tarjetas</span>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wider">
+            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> Sin comisiones por venta</span>
+            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> Dinero en el acto</span>
+            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> Base de datos propia</span>
           </div>
         </div>
       </section>
 
-      {/* --- HYBRID STRATEGY: COMPLEMENT, DON'T REPLACE --- */}
-      <section className="py-24 bg-white border-t border-gray-50">
+      {/* STICKY MOBILE CTA */}
+      <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden animate-in slide-in-from-bottom-5 duration-500">
+        <button
+          onClick={() => navigate("/register")}
+          className="w-full py-4 bg-orange-600 text-white font-black rounded-xl shadow-2xl shadow-orange-900/40 flex items-center justify-center gap-2"
+        >
+          Quiero Dejar de Perder Plata <ArrowRight size={20} />
+        </button>
+      </div>
+
+      {/* --- HYBRID STRATEGY: THE CYCLE OF SUCCESS --- */}
+      <section className="py-24 bg-white border-t border-gray-100">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">No reemplaza a las Apps. <br /><span className="text-orange-600">Las complementa.</span></h2>
+            <div className="inline-block px-4 py-1 bg-gray-900 text-white text-xs font-bold rounded-full mb-4 tracking-widest uppercase">Estrategia 2026</div>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">El Ciclo del Éxito.</h2>
             <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto">
-              La estrategia inteligente que usan los negocios rentables.
+              No dejes las Apps. Usalas para pescar clientes, y traelos a tu pecera con Pedilo.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* LEFT: APPS */}
-            <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative overflow-hidden group hover:border-red-100 transition-colors">
-              <div className="absolute top-0 right-0 bg-gray-200 text-gray-600 text-xs font-bold px-3 py-1 rounded-bl-xl">MARKETING</div>
-              <div className="mb-6 opacity-50 grayscale group-hover:grayscale-0 transition-all">
-                <div className="flex gap-2">
-                  <div className="w-8 h-8 rounded-full bg-red-500"></div>
-                  <div className="w-8 h-8 rounded-full bg-yellow-500"></div>
-                </div>
+          <div className="grid md:grid-cols-3 gap-4 lg:gap-8 max-w-6xl mx-auto items-center">
+            {/* STEP 1: DISCOVERY (APPS) */}
+            <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative group hover:border-red-100 transition-colors">
+              <div className="text-6xl font-black text-gray-200 mb-4 absolute top-4 right-6 group-hover:text-red-100 transition-colors">1</div>
+              <div className="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mb-6 text-gray-400">
+                <Search size={24} />
               </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-2">Apps de Delivery</h3>
-              <p className="text-gray-500 font-medium mb-6">Usalas para que te conozcan clientes nuevos.</p>
-              <div className="bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
-                <div className="flex justify-between text-sm font-bold text-gray-600 mb-1">
-                  <span>Costo Adquisición</span>
-                  <span className="text-red-500">Alto (30%)</span>
+              <h3 className="text-xl font-black text-gray-900 mb-2">Descubrimiento</h3>
+              <p className="text-gray-500 font-medium mb-4 text-sm">El cliente tiene hambre y busca en las Apps. Te encuentra y pide.</p>
+              <div className="bg-white p-3 rounded-xl border border-gray-100">
+                <div className="flex justify-between text-xs font-bold text-gray-500 mb-1">
+                  <span>Costo (Comisión)</span>
+                  <span className="text-red-500">30% (Duele)</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-2">
-                  <div className="bg-red-500 h-2 rounded-full w-[80%]"></div>
+                <div className="w-full bg-gray-100 rounded-full h-1.5">
+                  <div className="bg-red-500 h-1.5 rounded-full w-[100%]"></div>
                 </div>
               </div>
             </div>
 
-            {/* RIGHT: PEDILO */}
-            <div className="p-8 rounded-3xl bg-white border-2 border-orange-500 shadow-2xl shadow-orange-100 relative overflow-hidden scale-105 z-10">
-              <div className="absolute top-0 right-0 bg-orange-600 text-white text-xs font-bold px-3 py-1 rounded-bl-xl">RENTABILIDAD</div>
-              <div className="mb-6 text-orange-600">
-                <Zap size={32} fill="currentColor" />
+            {/* ARROW */}
+            <div className="hidden md:flex justify-center text-gray-300">
+              <ArrowRight size={48} />
+            </div>
+
+            {/* STEP 2: CONVERSION (THE HACK) */}
+            <div className="p-8 rounded-3xl bg-orange-600 text-white shadow-2xl shadow-orange-200 relative scale-110 z-10">
+              <div className="text-6xl font-black text-orange-500 mb-4 absolute top-4 right-6">2</div>
+              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-6 text-white backdrop-blur-sm">
+                <QrCode size={24} />
               </div>
-              <h3 className="text-2xl font-black text-gray-900 mb-2">Tu Pedilo</h3>
-              <p className="text-gray-500 font-medium mb-6">Usalo para que se queden y compren directo.</p>
-              <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                <div className="flex justify-between text-sm font-bold text-gray-600 mb-1">
-                  <span>Costo Retención</span>
-                  <span className="text-green-600">Cero (0%)</span>
+              <h3 className="text-xl font-black text-white mb-2">La Conversión</h3>
+              <p className="text-orange-100 font-medium mb-4 text-sm">Entregás el pedido con un Flyer/QR de Pedilo: "La próxima pedí directo y ahorrá".</p>
+              <div className="bg-orange-700/50 p-3 rounded-xl border border-orange-500/50">
+                <div className="flex justify-between text-xs font-bold text-white mb-1">
+                  <span>Inversión</span>
+                  <span className="text-yellow-300">$10 (Impresión)</span>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div className="bg-green-500 h-2 rounded-full w-[5%]"></div>
+                <div className="w-full bg-orange-800 rounded-full h-1.5">
+                  <div className="bg-yellow-400 h-1.5 rounded-full w-[5%]"></div>
+                </div>
+              </div>
+            </div>
+
+            {/* ARROW */}
+            <div className="hidden md:flex justify-center text-gray-300">
+              <ArrowRight size={48} />
+            </div>
+
+            {/* STEP 3: RETENTION (PEDILO) */}
+            <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative group hover:border-green-100 transition-colors">
+              <div className="text-6xl font-black text-gray-200 mb-4 absolute top-4 right-6 group-hover:text-green-100 transition-colors">3</div>
+              <div className="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mb-6 text-green-600">
+                <TrendingUp size={24} />
+              </div>
+              <h3 className="text-xl font-black text-gray-900 mb-2">Rentabilidad</h3>
+              <p className="text-gray-500 font-medium mb-4 text-sm">El cliente vuelve a pedir por Pedilo. Es fiel a TU marca, no a la App.</p>
+              <div className="bg-white p-3 rounded-xl border border-gray-100">
+                <div className="flex justify-between text-xs font-bold text-gray-500 mb-1">
+                  <span>Costo (Comisión)</span>
+                  <span className="text-green-500">0% (Gloria)</span>
+                </div>
+                <div className="w-full bg-gray-100 rounded-full h-1.5">
+                  <div className="bg-gray-200 h-1.5 rounded-full w-[100%]"></div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-12 text-center text-gray-400 font-medium flex items-center justify-center gap-2">
-            <Repeat size={16} /> <span>El ciclo ideal: Descubrimiento (Apps) <ArrowRight size={14} className="inline mx-1" /> Primer Pedido <ArrowRight size={14} className="inline mx-1" /> Flyer/QR <ArrowRight size={14} className="inline mx-1" /> <strong>Cliente Recurrente (Pedilo)</strong></span>
+      {/* --- WHATSAPP REALITY: CHAOS VS ORDER --- */}
+      <section className="py-24 bg-red-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">SOLO con WhatsApp <br /><span className="text-red-600">NO ALCANZA.</span></h2>
+            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
+              Perdés tiempo descifrando audios, direcciones incompletas y clientes que preguntan precios. Eso no es un negocio, es un caos.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 items-stretch">
+            {/* THE CHAOS (MANUAL) */}
+            <div className="bg-white p-8 rounded-3xl shadow-sm border border-red-100 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-red-100 text-red-600 px-4 py-2 rounded-bl-2xl font-black text-sm">REALIDAD ACTUAL</div>
+              <h3 className="text-2xl font-black text-gray-900 mb-6 flex items-center gap-2">
+                <AlertTriangle className="text-red-500" /> El Caos
+              </h3>
+
+              <div className="space-y-4 font-mono text-sm max-w-sm mx-auto opacity-70">
+                <div className="bg-gray-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-800">
+                  Hola precio de la hamburguesa?
+                </div>
+                <div className="bg-green-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-green-800 ml-auto text-right">
+                  $8500 la simple, $9500 la doble...
+                </div>
+                <div className="bg-gray-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-800">
+                  Ah dale. Tenés papas?
+                </div>
+                <div className="bg-green-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-green-800 ml-auto text-right">
+                  Si, chicas $3000, grandes $5000
+                </div>
+                <div className="bg-gray-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-800 flex items-center gap-2">
+                  <span className="italic text-xs text-gray-500">Audio 0:45</span> 🎤
+                </div>
+              </div>
+
+              <div className="mt-8 text-center text-red-600 font-bold">
+                Resultado: 20 minutos perdidos por pedido.
+              </div>
+            </div>
+
+            {/* THE ORDER (PEDILO) */}
+            <div className="bg-gray-900 p-8 rounded-3xl shadow-2xl relative overflow-hidden transform md:scale-105 z-10">
+              <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-2 rounded-bl-2xl font-black text-sm">CON PEDILO</div>
+              <h3 className="text-2xl font-black text-white mb-6 flex items-center gap-2">
+                <CheckCircle2 className="text-green-500" /> El Orden
+              </h3>
+
+              <div className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700">
+                <div className="flex items-start gap-4 mb-4">
+                  <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shrink-0">
+                    <MessageCircle size={24} fill="currentColor" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-white mb-1">Nuevo Pedido #2491AB</div>
+                    <div className="text-green-400 font-mono text-xs mb-2">Hace 2 min</div>
+                    <p className="text-gray-300 text-sm">
+                      ¡Hola Negocio Genial!<br />
+                      Realicé un pedido por Pedilo #2491AB<br />
+                      <strong>Total: $14.500 (Pagará por MP)</strong><br />
+                      Dirección: Av. Siempreviva 742, 2A.
+                    </p>
+                  </div>
+                </div>
+                <button className="w-full py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-colors">
+                  Aceptar
+                </button>
+              </div>
+
+              <div className="mt-8 text-center text-green-400 font-bold">
+                Resultado: 30 segundos por pedido. Cash en mano.
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -296,55 +418,82 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* --- LOSS AVERSION: THE MATH --- */}
+      {/* --- ROI CALCULATOR: THE NUMBERS DON'T LIE --- */}
       <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
-        <div className="absolute -top-24 -right-24 w-96 h-96 bg-orange-600/20 rounded-full blur-3xl"></div>
+        <div className="absolute -top-24 -right-24 w-96 h-96 bg-red-600/20 rounded-full blur-3xl"></div>
         <div className="max-w-5xl mx-auto px-4 relative z-10">
-          <h2 className="text-3xl md:text-5xl font-black mb-12 text-center">¿Cuánto estás dejando en la mesa?</h2>
+          <h2 className="text-3xl md:text-5xl font-black mb-12 text-center">Calculadora de la Verdad.</h2>
 
           <div className="bg-gray-800/50 backdrop-blur-md border border-gray-700 rounded-3xl p-6 md:p-10">
-            <div className="grid md:grid-cols-3 gap-8 items-center">
-              <div className="md:col-span-1 space-y-2">
-                <p className="text-gray-400 font-bold uppercase tracking-wider text-xs">Ventas Mensuales (Ejemplo)</p>
-                <div className="text-4xl font-black text-white">$1.000.000</div>
-              </div>
+            <div className="grid md:grid-cols-2 gap-12 items-center">
 
-              <div className="md:col-span-2 space-y-6">
-                {/* Comparison Bar */}
-                <div className="space-y-4">
-                  <div>
-                    <div className="flex justify-between text-sm mb-2 font-bold">
-                      <span className="text-gray-400">Apps (30% + IVA)</span>
-                      <span className="text-red-400">Pierdes $300.000/mes</span>
+              {/* INPUTS */}
+              <div className="space-y-8">
+                <div>
+                  <label className="block text-gray-400 font-bold mb-2 uppercase text-xs tracking-wider">Tu Venta Mensual por Apps</label>
+                  <div className="flex items-center gap-4">
+                    <button onClick={() => setSales(s => Math.max(0, s - 100000))} className="w-10 h-10 rounded-full bg-gray-700 hover:bg-gray-600 flex items-center justify-center font-bold text-xl">-</button>
+                    <div className="flex-1 text-center bg-gray-900/50 rounded-xl p-3 text-2xl font-black text-white border border-gray-700">
+                      {formatMoney(sales)}
                     </div>
-                    <div className="h-4 bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-red-500 w-[30%]"></div>
-                    </div>
+                    <button onClick={() => setSales(s => s + 100000)} className="w-10 h-10 rounded-full bg-orange-600 hover:bg-orange-500 flex items-center justify-center font-bold text-xl">+</button>
                   </div>
-                  <div>
-                    <div className="flex justify-between text-sm mb-2 font-bold">
-                      <span className="text-white">Con Pedilo</span>
-                      <span className="text-green-400">Inviertes solo $17.000/mes</span>
-                    </div>
-                    <div className="h-4 bg-gray-700 rounded-full overflow-hidden">
-                      <div className="h-full bg-green-500 w-[1.7%]"></div>
-                    </div>
+                  <input
+                    type="range"
+                    min="100000"
+                    max="10000000"
+                    step="50000"
+                    value={sales}
+                    onChange={(e) => setSales(Number(e.target.value))}
+                    className="w-full mt-4 accent-orange-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-gray-400 font-bold mb-2 uppercase text-xs tracking-wider">Comisión Apps (%)</label>
+                  <div className="flex items-center gap-4">
+                    <input
+                      type="range"
+                      min="10"
+                      max="40"
+                      step="1"
+                      value={commission}
+                      onChange={(e) => setCommission(Number(e.target.value))}
+                      className="w-full accent-red-500 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                    />
+                    <span className="text-xl font-bold text-red-400 w-16 text-right">{commission}%</span>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="mt-8 pt-8 border-t border-gray-700 grid md:grid-cols-3 gap-4 text-center md:text-left">
-              <div className="md:col-span-2">
-                <p className="text-xl md:text-2xl font-bold text-white leading-tight">
-                  La diferencia es de <span className="text-green-400">$283.000 extra</span> en tu bolsillo.
+              {/* OUTPUTS */}
+              <div className="space-y-6">
+                <div className="bg-red-500/10 border border-red-500/30 p-4 rounded-2xl">
+                  <div className="text-gray-400 text-xs font-bold uppercase mb-1">Pérdida Mensual (Para Apps)</div>
+                  <div className="text-3xl font-black text-red-500 flex items-center gap-2">
+                    -{formatMoney(appCost)} <ArrowRight size={20} /> 🗑️
+                  </div>
+                </div>
+
+                <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-2xl relative overflow-hidden">
+                  <div className="absolute top-0 right-0 bg-green-500 text-black text-xs font-black px-2 py-1 rounded-bl-lg">TU GANANCIA</div>
+                  <div className="text-gray-400 text-xs font-bold uppercase mb-1">Ahorro Anual con Pedilo</div>
+                  <div className="text-4xl font-black text-green-400 mb-2">
+                    {formatMoney(yearlySavings)}
+                  </div>
+                  <div className="text-sm font-medium text-gray-300 flex gap-2 items-center">
+                    <CheckCircle2 size={16} className="text-green-500" /> Podrías comprar:
+                    <span className="text-white font-bold">
+                      {yearlySavings > 8000000 ? "Un Auto Usado 🚗" : yearlySavings > 2000000 ? "Una Moto 0km 🏍️" : "3 Freezers Industriales ❄️"}
+                    </span>
+                  </div>
+                </div>
+
+                <p className="text-center text-xs text-gray-500 italic">
+                  *Costo Pedilo: $17.000 fijos. Sin letra chica.
                 </p>
               </div>
-              <div className="md:col-span-1 flex flex-col justify-center text-sm font-medium text-gray-400 bg-gray-900/50 p-3 rounded-xl border border-gray-700/50">
-                <span className="block mb-1">Equivale a:</span>
-                <span className="text-white font-bold flex items-center gap-2 justify-center md:justify-start"><Users size={14} /> 1 Empleado part-time</span>
-                <span className="text-white font-bold flex items-center gap-2 justify-center md:justify-start"><ShoppingBag size={14} /> 1 Freezer nuevo</span>
-              </div>
+
             </div>
           </div>
         </div>
@@ -418,50 +567,111 @@ export default function Landing() {
         </div>
       </section>
 
-      {/* --- CHECKOUT EXPRESS: SPEED --- */}
+      {/* --- LIVE DEMO WIDGET: SHOW, DON'T TELL --- */}
       <section className="py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Menos pasos. Más pedidos.</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Probá la Velocidad <span className="text-green-600">En Vivo.</span></h2>
             <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">
-              Cada campo extra en un formulario te hace perder un 10% de ventas. Nosotros los eliminamos todos.
+              Tus clientes no se bajan ninguna App. No se registran. Entran, piden y chau.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-12 items-center max-w-4xl mx-auto">
-            {/* THE HARD WAY */}
-            <div className="opacity-40 scale-95 grayscale transition-all hover:grayscale-0 hover:opacity-100 hover:scale-100 duration-500">
-              <h3 className="text-center font-bold text-gray-400 mb-6 uppercase tracking-widest text-sm">Lo Habitual</h3>
-              <div className="bg-gray-50 p-6 rounded-3xl border-2 border-dashed border-gray-200">
-                <div className="space-y-3">
-                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
-                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
-                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
-                  <div className="h-10 bg-white border border-gray-200 rounded-lg w-full"></div>
-                  <div className="w-full bg-gray-300 h-12 rounded-xl mt-4 flex items-center justify-center text-gray-500 font-bold">Crear Cuenta</div>
+          <div className="grid md:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
+            {/* EXPLANATION */}
+            <div className="order-2 md:order-1 space-y-8">
+              <div className="flex gap-4">
+                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-black text-xl shrink-0">1</div>
+                <div>
+                  <h3 className="font-bold text-xl mb-1">Escanean o Clickean</h3>
+                  <p className="text-gray-500">Desde Instagram o tu mesa. Se abre tu menú al instante.</p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-black text-xl shrink-0">2</div>
+                <div>
+                  <h3 className="font-bold text-xl mb-1">Eligen sus gustos</h3>
+                  <p className="text-gray-500">Interfaz perfecta. Se ve increíble en cualquier celular.</p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="w-12 h-12 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-black text-xl shrink-0">3</div>
+                <div>
+                  <h3 className="font-bold text-xl mb-1">Te llega a WhatsApp</h3>
+                  <p className="text-gray-500">Limpio, calculado y listo para cobrar. Sin errores.</p>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-gray-100">
+                <p className="font-bold text-gray-900 flex items-center gap-2">
+                  <Users className="text-blue-500" />
+                  <span className="text-sm">Más de <span className="underline decoration-yellow-400 decoration-4">250 Negocios</span> ya facturan millones con Pedilo.</span>
+                </p>
+                <div className="flex -space-x-2 mt-4">
+                  {[1, 2, 3, 4, 5].map(i => (
+                    <div key={i} className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-500">
+                      {String.fromCharCode(64 + i)}
+                    </div>
+                  ))}
+                  <div className="w-10 h-10 rounded-full bg-gray-900 border-2 border-white flex items-center justify-center text-xs font-bold text-white">
+                    +200
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* THE PEDILO WAY */}
-            <div>
-              <h3 className="text-center font-bold text-green-600 mb-6 uppercase tracking-widest text-sm animate-pulse">Checkout Express</h3>
-              <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-2xl shadow-green-100/50 relative">
-                <div className="absolute -top-3 -right-3 bg-green-500 text-white p-2 rounded-full shadow-lg z-10">
-                  <CheckCircle2 size={24} />
-                </div>
-                <div className="space-y-4">
-                  <div className="flex items-center gap-4 border-b border-gray-50 pb-4">
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg"></div>
-                    <div>
-                      <div className="font-bold text-gray-900">2x Hamburguesa Doble</div>
-                      <div className="text-green-600 font-bold">$12.000</div>
+            {/* LIVE WIDGET */}
+            <div className="order-1 md:order-2">
+              <div className="bg-white p-6 rounded-[2.5rem] border-4 border-gray-900 shadow-2xl relative max-w-sm mx-auto transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                {/* Notch */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-32 bg-gray-900 rounded-b-xl z-20"></div>
+
+                {/* Screen */}
+                <div className="bg-gray-50 rounded-2xl overflow-hidden h-[500px] flex flex-col relative">
+                  {/* Header */}
+                  <div className="bg-white p-4 shadow-sm z-10 pt-8">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-orange-500 rounded-full"></div>
+                      <div>
+                        <div className="font-bold text-sm">Burger King (Fake)</div>
+                        <div className="text-xs text-green-600 font-bold">• Abierto ahora</div>
+                      </div>
                     </div>
                   </div>
-                  <div className="w-full bg-green-600 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg gap-2 shadow-lg shadow-green-200 hover:scale-[1.02] transition-transform cursor-pointer">
-                    <Smartphone size={20} /> Enviar a WhatsApp
+
+                  {/* Scrollable Content */}
+                  <div className="flex-1 overflow-auto p-4 space-y-4">
+                    <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex gap-3">
+                      <div className="w-20 h-20 bg-gray-200 rounded-lg shrink-0"></div>
+                      <div className="flex-1">
+                        <div className="font-bold text-sm">Doble Bacon</div>
+                        <div className="text-xs text-gray-500 mb-2">Con extra queso...</div>
+                        <div className="flex justify-between items-center">
+                          <span className="font-black text-sm">$8.500</span>
+                          <button className="w-6 h-6 bg-orange-600 rounded text-white font-bold flex items-center justify-center text-sm">+</button>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex gap-3">
+                      <div className="w-20 h-20 bg-gray-200 rounded-lg shrink-0"></div>
+                      <div className="flex-1">
+                        <div className="font-bold text-sm">Papas Cheddar</div>
+                        <div className="text-xs text-gray-500 mb-2">Bañadas en...</div>
+                        <div className="flex justify-between items-center">
+                          <span className="font-black text-sm">$4.500</span>
+                          <button className="w-6 h-6 bg-orange-600 rounded text-white font-bold flex items-center justify-center text-sm">+</button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <p className="text-center text-xs text-gray-400 font-medium">Sin registros. Sin contraseñas.</p>
+
+                  {/* Sticky Footer */}
+                  <div className="bg-white p-4 border-t border-gray-100">
+                    <button className="w-full bg-green-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-200 flex items-center justify-center gap-2 animate-pulse">
+                      <Smartphone size={18} /> Enviar Pedido (WhatsApp)
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

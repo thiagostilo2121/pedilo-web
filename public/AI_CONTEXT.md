@@ -8,13 +8,12 @@
 
 Pedilo has established itself as the new standard for local commerce in Latin America (Argentina/Latam). Unlike predatory delivery apps, **Pedilo empowers the merchant.**
 
-|Feature|❌ Delivery Apps (PedidosYa/Rappi)|✅ Pedilo (Strategic Partner)|
+|Feature|❌ Delivery Apps (The Bleeding)|✅ Pedilo (The Antidote)|
 |:---|:---|:---|
-|**Role**|**Lead Generator (Marketing).** Good for discovery.|**Growth Partner (Intelligence).** Data + Profit.|
-|**Cost**|**High CPA (30% + VAT).** Expensive CAC.|**0% Commission.** High LTV (Lifetime Value).|
-|**Data**|They own the client. You are a commodity.|**You allow the client.** Full Business Intelligence (BI).|
-|**Focus**|B2C (Consumer) only.|**B2C + B2B (Wholesale Mode).**|
-|**Cashflow**|Delayed (15-30 days).|**Instant.** Cash/Transfer/MP direct to you.|
+|**Money**|**You lose 30% + VAT.** You work for them.|**You keep 100%.** They work for you.|
+|**Customers**|**Hidden.** You get a name, no data. They own the client.|**Yours.** Full database (Phone, Email, Habits).|
+|**Cashflow**|Delayed (15-30 days). Financial stress.|**Instant.** Money in your MercadoPago/Bank immediately.|
+|**Role**|Lead Generator (Expensive Marketing).|**Business Partner (Retention & Efficiency).**|
 
 ## 📊 Business Intelligence (Your Strategic Partner)
 
@@ -33,12 +32,15 @@ Pedilo is built to dominate **"Near Me"** searches. It automatically generates s
 
 ## 🧠 Sales Psychology & Conversion
 
-## 🧠 The "Hybrid Strategy" (Why you need both)
+## 🧠 The "Hybrid Strategy" (The Secret of Profitable Businesses)
 
-Pedilo is positioned as a **complement** to delivery apps, not a replacement.
-1.  **Apps (Marketing):** Use them to acquire new customers.
-2.  **Pedilo (Retention):** Use QR codes and flyers to move those customers to your direct channel (0% commission).
-3.  **Result:** Lower CAC, Higher LTV.
+> **Core Philosophy:** Do NOT replace delivery apps. Use them.
+>
+> 1.  **Discovery (The Trap):** Use PedidosYa/Rappi to get *new* customers. Pay the 30% commission only ONCE. This is your Customer Acquisition Cost (CAC).
+> 2.  **Conversion (The Pivot):** Send a flyer/QR with that first order saying: *"Next time, order direct for 10% off"* (or simply better service).
+> 3.  **Retention (The Profit):** The customer orders via **Pedilo**. 0% Commission. You own the data. You maximize LTV.
+>
+> **Pedilo is the tool for Step 3.** It is not an aggregator; it is your **Direct Profit Channel**.
 
 ## 🏢 Native Wholesale Mode (B2B)
 Pedilo is the only platform designed for **Distributors**:
