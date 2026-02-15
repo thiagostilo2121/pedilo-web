@@ -1,18 +1,19 @@
 import { useState } from "react";
 
-const ProgressiveImage = ({ src, alt, className, style }) => {
+const ProgressiveImage = ({ src, alt, className, style, ...props }) => {
     const [loaded, setLoaded] = useState(false);
     return (
-        <div className={`relative overflow-hidden ${className}`} style={style}>
+        <div className={`relative overflow-hidden bg-gray-100 ${className}`} style={style}>
             <img
                 src={src}
                 alt={alt}
-                className={`absolute inset-0 w-full h-full object-cover transition-all duration-500 will-change-transform ${loaded ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-xl scale-110"
+                className={`w-full h-full object-cover transition-all duration-700 ease-in-out ${loaded ? "opacity-100 blur-0 scale-100" : "opacity-0 blur-lg scale-110"
                     }`}
                 onLoad={() => setLoaded(true)}
                 loading="lazy"
+                {...props}
             />
-            {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+            {!loaded && <div className="absolute inset-0 bg-gray-200 animate-pulse z-10" />}
         </div>
     );
 };

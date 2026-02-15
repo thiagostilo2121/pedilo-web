@@ -114,8 +114,8 @@ export default function MiSuscripcion() {
                 </h2>
 
                 {/* CARD PRINCIPAL INFORMATIVA */}
-                <div className="bg-white rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-                    <div className={`p-6 md:p-8 ${isActive ? 'bg-green-50/50' : 'bg-gray-50'}`}>
+                <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
+                    <div className={`p-5 sm:p-8 ${isActive ? 'bg-green-50/50' : 'bg-gray-50'}`}>
                         <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
                             <div className="w-full md:w-auto">
                                 <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1 w-fit ${isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
@@ -142,7 +142,7 @@ export default function MiSuscripcion() {
                                     Cobro {suscripcion.frequency_type === "months" ? "Mensual" : "Anual"} • ID: {suscripcion.mp_subscription_id?.slice(0, 15)}...
                                 </p>
                             </div>
-                            <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center w-full md:w-auto min-w-[140px]">
+                            <div className="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center w-full md:w-auto min-w-[140px]">
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/9/98/Mercado_Pago.svg"
                                     alt="Mercado Pago"
