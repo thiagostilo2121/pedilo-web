@@ -11,6 +11,7 @@ export default function ProductCard({
     onDecrease,
     onShare,
     isAdding,
+    totalQty = 0,
 }) {
     const canAdd = product.stock && negocio?.acepta_pedidos;
     const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
@@ -123,14 +124,30 @@ export default function ProductCard({
                                     </button>
                                 </div>
                             ) : (
-                                <button
-                                    onClick={() => onAdd(product)}
-                                    disabled={isAdding}
-                                    style={{ backgroundColor: negocio?.color_primario || '#ea580c' }}
-                                    className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center text-white rounded-full hover:brightness-110 hover:scale-105 active:scale-95 transition-all shadow-lg font-bold text-xs sm:text-sm gap-1 sm:gap-2"
-                                >
-                                    <span className="hidden xs:inline">Agregar</span> <Plus size={16} strokeWidth={3} />
-                                </button>
+                                <div className="relative">
+                                    {isAdding ? (
+                                        <div className="h-9 sm:h-10 px-6 flex items-center justify-center text-orange-600 font-bold bg-orange-50 rounded-full animate-pulse border border-orange-100">
+                                            <div className="w-4 h-4 border-2 border-orange-600 border-t-transparent rounded-full animate-spin"></div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            <button
+                                                onClick={() => onAdd(product)}
+                                                disabled={isAdding}
+                                                style={{ backgroundColor: negocio?.color_primario || '#ea580c' }}
+                                                className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center text-white rounded-full hover:brightness-110 hover:scale-105 active:scale-95 transition-all shadow-lg font-bold text-xs sm:text-sm gap-1 sm:gap-2"
+                                            >
+                                                <span className="hidden xs:inline">Agregar</span> <Plus size={16} strokeWidth={3} />
+                                            </button>
+                                            {/* Badge for Total Quantity if Cart Item is null (variant mode) */}
+                                            {totalQty > 0 && (
+                                                <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-md animate-in zoom-in">
+                                                    {totalQty}
+                                                </span>
+                                            )}
+                                        </>
+                                    )}
+                                </div>
                             )
                         ) : (
                             <span className="text-[10px] font-black uppercase text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">

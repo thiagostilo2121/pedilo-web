@@ -20,8 +20,9 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
             const totalSeleccionados = grupoActual.length;
 
             if (delta > 0) {
-                const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
-                if (totalSeleccionados >= maxEscalado) return prev;
+                // Validación por unidad (sin multiplicar por cantidad)
+                const max = grupo.max_selecciones || 999;
+                if (totalSeleccionados >= max) return prev;
                 return { ...prev, [grupo.id]: [...grupoActual, topping] };
             } else {
                 const index = grupoActual.findIndex(t => t.id === topping.id);
@@ -39,14 +40,15 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
 
         gruposToppings.forEach(grupo => {
             const seleccionados = (selecciones[grupo.id] || []).length;
-            const minEscalado = (grupo.min_selecciones || 0) * cantidad;
-            const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
+            // Validación estándar por unidad/configuración
+            const min = grupo.min_selecciones || 0;
+            const max = grupo.max_selecciones || 999;
 
-            if (seleccionados < minEscalado) {
-                nuevosErrores.push(`${grupo.nombre}: seleccioná mínimo ${minEscalado}`);
+            if (seleccionados < min) {
+                nuevosErrores.push(`${grupo.nombre}: seleccioná al menos ${min}`);
             }
-            if (seleccionados > maxEscalado) {
-                nuevosErrores.push(`${grupo.nombre}: máximo ${maxEscalado} opciones`);
+            if (seleccionados > max) {
+                nuevosErrores.push(`${grupo.nombre}: máximo ${max} opciones`);
             }
         });
 
@@ -94,16 +96,16 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                             <div className="flex justify-between items-center mb-2">
                                 <h3 className="font-bold text-gray-900">{grupo.nombre}</h3>
                                 <span className="text-xs text-gray-500">
-                                    {(grupo.min_selecciones || 0) * cantidad > 0 ? `Mín ${(grupo.min_selecciones || 0) * cantidad}` : "Opcional"}
-                                    {grupo.max_selecciones && ` · Máx ${(grupo.max_selecciones || 1) * cantidad}`}
+                                    {(grupo.min_selecciones || 0) > 0 ? `Mín ${grupo.min_selecciones}` : "Opcional"}
+                                    {grupo.max_selecciones && ` · Máx ${grupo.max_selecciones}`}
                                 </span>
                             </div>
                             <div className="space-y-2">
                                 {(grupo.toppings || []).map((topping, tIdx) => {
                                     const count = (selecciones[grupo.id] || []).filter(t => t.id === topping.id).length;
                                     const totalSelected = (selecciones[grupo.id] || []).length;
-                                    const maxEscalado = (grupo.max_selecciones || 999) * cantidad;
-                                    const maxReached = totalSelected >= maxEscalado;
+                                    const max = grupo.max_selecciones || 999;
+                                    const maxReached = totalSelected >= max;
                                     const sinStock = topping.disponible === false;
 
                                     return (

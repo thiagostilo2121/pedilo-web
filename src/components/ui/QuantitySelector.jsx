@@ -43,6 +43,10 @@ export default function QuantitySelector(props) {
 
     const increment = (e) => {
         e.stopPropagation();
+        if (props.onIncrement) {
+            props.onIncrement();
+            return;
+        }
         const current = parseInt(value, 10) || min;
         if (current < max) {
             const newVal = current + 1;
@@ -53,6 +57,10 @@ export default function QuantitySelector(props) {
 
     const decrement = (e) => {
         e.stopPropagation();
+        if (props.onDecrement) {
+            props.onDecrement();
+            return;
+        }
         const current = parseInt(value, 10) || min;
         if (current > min) {
             const newVal = current - 1;

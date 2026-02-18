@@ -12,7 +12,8 @@ export default function ProductCardList({
     onAdd,
     onDecrease,
     onShare,
-    isAdding
+    isAdding,
+    totalQty = 0
 }) {
     const canAdd = product.stock && negocio?.acepta_pedidos;
     const isDistribuidora = negocio?.tipo_negocio === "distribuidora";
@@ -100,7 +101,7 @@ export default function ProductCardList({
                     {/* Actions */}
                     <div className="shrink-0 flex items-center justify-end">
                         {canAdd ? (
-                            <div className="h-8"> {/* Fixed height to prevent layout shifts */}
+                            <div className="h-8 relative"> {/* Fixed height to prevent layout shifts */}
                                 {currentQty > 0 || isAdding ? (
                                     <QuantitySelector
                                         initialValue={currentQty}
@@ -113,12 +114,19 @@ export default function ProductCardList({
                                         color={negocio?.color_primario || '#ea580c'}
                                     />
                                 ) : (
-                                    <button
-                                        onClick={() => onAdd(product)}
-                                        className="h-8 px-4 bg-gray-100 text-gray-900 rounded-lg text-xs font-bold hover:bg-gray-200 active:scale-95 transition-all flex items-center gap-1 border border-gray-200"
-                                    >
-                                        Agregar <ShoppingCart size={14} className="text-gray-500" />
-                                    </button>
+                                    <>
+                                        <button
+                                            onClick={() => onAdd(product)}
+                                            className="h-8 px-4 bg-gray-100 text-gray-900 rounded-lg text-xs font-bold hover:bg-gray-200 active:scale-95 transition-all flex items-center gap-1 border border-gray-200"
+                                        >
+                                            Agregar <ShoppingCart size={14} className="text-gray-500" />
+                                        </button>
+                                        {totalQty > 0 && (
+                                            <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-md animate-in zoom-in">
+                                                {totalQty}
+                                            </span>
+                                        )}
+                                    </>
                                 )}
                             </div>
                         ) : (

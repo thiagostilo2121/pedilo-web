@@ -1,0 +1,93 @@
+import React from 'react';
+import { Flame, Star, Plus, Minus } from 'lucide-react';
+import { DEFAULT_PRODUCT_IMAGE } from '../../constants';
+import ProgressiveImage from '../ui/ProgressiveImage';
+
+export default function HighlyRecommended({
+    productos,
+    negocio,
+    carrito,
+    onAdd,
+    onDecreaseQuantity,
+    isAddingId
+}) {
+    const destacadeProducts = productos.filter(p => p.destacado);
+    if (destacadeProducts.length === 0) return null;
+
+    return (
+        <section className="mb-10 pl-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
+            <div className="flex items-center justify-between pr-4 mb-4">
+                <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
+                    Imperdibles <Flame className="text-orange-500 animate-pulse" size={24} fill="currentColor" />
+                </h2>
+            </div>
+
+            <div className="flex overflow-x-auto gap-4 pb-8 pr-4 -ml-4 pl-4 scrollbar-responsive snap-x pt-2">
+                {destacadeProducts.map(prod => {
+                    const cartItem = carrito.find(p => p.id === prod.id);
+                    const canAdd = prod.stock && negocio?.acepta_pedidos;
+
+                    return (
+                        <div
+                            key={prod.id}
+                            className="w-[260px] xs:w-[280px] sm:w-[320px] shrink-0 snap-center flex flex-col bg-white rounded-[2rem] shadow-sm border border-gray-100 overflow-hidden relative group transition-all hover:shadow-xl hover:scale-[1.02] cursor-pointer"
+                            onClick={() => canAdd && onAdd(prod)}
+                        >
+                            <div className="h-40 xs:h-48 sm:h-56 relative w-full bg-gray-100">
+                                <ProgressiveImage
+                                    src={prod.imagen_url || DEFAULT_PRODUCT_IMAGE}
+                                    alt={prod.nombre}
+                                    className={`w-full h-full object-cover transition-transform duration-700 ${!canAdd && "grayscale contrast-125"}`}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 z-10 pointer-events-none" />
+
+                                <div className="absolute top-3 left-3 flex gap-2 z-20">
+                                    <span
+                                        className="text-white text-[10px] font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-orange-500/40 tracking-wide uppercase"
+                                        style={{ backgroundColor: negocio.color_primario || '#f97316' }}
+                                    >
+                                        <Star size={10} fill="currentColor" /> POPULAR
+                                    </span>
+                                </div>
+
+                                <div className="absolute bottom-3 right-3 bg-white text-gray-900 px-3 py-1.5 rounded-full font-black text-sm shadow-xl flex items-center gap-1 z-20">
+                                    ${prod.precio}
+                                </div>
+                            </div>
+
+                            <div className="p-4 sm:p-5 flex flex-col flex-1 justify-between">
+                                <div>
+                                    <h3 className="font-bold text-gray-900 text-base sm:text-lg leading-tight mb-1 line-clamp-1">{prod.nombre}</h3>
+                                    <p className="text-gray-500 text-xs line-clamp-2 leading-relaxed">{prod.descripcion || "Una delicia esperando por vos."}</p>
+                                </div>
+
+                                <div className="mt-4 flex items-center justify-between">
+                                    {canAdd ? (
+                                        cartItem ? (
+                                            <div className="flex items-center bg-gray-900 text-white rounded-full px-1 py-1 w-full justify-between shadow-lg shadow-gray-200" onClick={(e) => e.stopPropagation()}>
+                                                <button onClick={(e) => { e.stopPropagation(); onDecreaseQuantity(cartItem.cartItemId) }} className="w-8 h-8 flex items-center justify-center bg-gray-700 rounded-full hover:bg-gray-600 active:scale-90 transition-transform"><Minus size={14} /></button>
+                                                <span className="font-bold text-sm">{cartItem.cantidad}</span>
+                                                <button onClick={(e) => { e.stopPropagation(); onAdd(prod) }} className="w-8 h-8 flex items-center justify-center bg-white text-gray-900 rounded-full hover:bg-gray-100 active:scale-90 transition-transform"><Plus size={14} /></button>
+                                            </div>
+                                        ) : (
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); onAdd(prod) }}
+                                                disabled={isAddingId === prod.id}
+                                                className="w-full py-2.5 sm:py-3 text-white font-bold rounded-xl shadow-lg shadow-orange-200 flex items-center justify-center gap-2 active:scale-95 transition-all hover:brightness-110 group/btn text-sm sm:text-base"
+                                                style={{ backgroundColor: negocio.color_primario || '#ea580c' }}
+                                            >
+                                                Agregar <Plus size={18} className="group-hover/btn:rotate-90 transition-transform" />
+                                            </button>
+                                        )
+                                    ) : (
+                                        <span className="w-full text-center text-xs font-bold text-gray-400 bg-gray-100 py-2 rounded-xl">NO DISPONIBLE</span>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+        </section>
+    );
+}
