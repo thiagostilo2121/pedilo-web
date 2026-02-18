@@ -104,7 +104,8 @@ export default function SalesChart({ initialData, initialRange }) {
                             tickLine={false}
                             tick={{ fill: '#9ca3af', fontSize: 10 }}
                             tickFormatter={(val) => {
-                                const d = new Date(val);
+                                // Reemplazar guiones por barras para que JS interprete como local y no como UTC midnight
+                                const d = new Date(val.replace(/-/g, '\/'));
                                 if (daysRange <= 7) {
                                     return d.toLocaleDateString(undefined, { weekday: 'short' });
                                 }
@@ -121,9 +122,12 @@ export default function SalesChart({ initialData, initialRange }) {
                         <Tooltip
                             content={({ active, payload }) => {
                                 if (active && payload && payload.length) {
+                                    const dateStr = payload[0].payload.fecha.replace(/-/g, '\/');
                                     return (
                                         <div className="bg-white p-3 rounded-2xl shadow-xl border border-gray-50 flex flex-col gap-1">
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{new Date(payload[0].payload.fecha).toLocaleDateString()}</p>
+                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                                {new Date(dateStr).toLocaleDateString()}
+                                            </p>
                                             <p className="text-sm font-black text-gray-900">${payload[0].value.toLocaleString()}</p>
                                         </div>
                                     );

@@ -345,7 +345,7 @@ export default function PedidosDashboard() {
       {/* Modal Detalle (Full Screen Mobile) */}
       {pedidoActivo && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center z-50 p-0 sm:p-6">
-          <div className="bg-white w-full h-[95vh] sm:h-2 sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col max-h-[95vh]">
+          <div className="bg-white w-full max-h-[95vh] sm:h-2 sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col">
             <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
               <div>
                 <h2 className="text-xl font-black text-gray-900">Pedido #{pedidoActivo.codigo || pedidoActivo.id}</h2>
