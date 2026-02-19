@@ -129,11 +129,11 @@ export default function Landing() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
-            La revolución del delivery sin comisiones
+            Pedidos y crecimiento sin comisiones
           </div>
 
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 sm:mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">
-            Tu propio Delivery App. <br className="hidden md:block" />
+            Tu propia web. Tu propio crecimiento. <br className="hidden md:block" />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">Tus Clientes. Tu Ganancia (100%).</span>
           </h1>
 
