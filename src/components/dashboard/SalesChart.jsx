@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
-import { Loader2 } from "lucide-react";
+import { Loader2, Download } from "lucide-react";
 import { statsService } from "../../services/statsService";
 
 export default function SalesChart({ initialData, initialRange }) {
@@ -28,6 +28,29 @@ export default function SalesChart({ initialData, initialRange }) {
         } finally {
             setChartLoading(false);
         }
+    };
+
+    const handleExportCSV = () => {
+        if (!chartData || chartData.length === 0) return;
+
+        // Header
+        let csvContent = "Fecha,Ventas ($),Cantidad de Pedidos\n";
+
+        // Rows
+        chartData.forEach(day => {
+            csvContent += `${day.fecha},${day.ventas},${day.pedidos || 0}\n`;
+        });
+
+        // Create blob and download
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.setAttribute("href", url);
+        link.setAttribute("download", `pedilo_ventas_${daysRange}dias_${new Date().toLocaleDateString('en-CA')}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     };
 
     const calculateRangeTrend = () => {
@@ -62,7 +85,17 @@ export default function SalesChart({ initialData, initialRange }) {
 
             <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
                 <div>
-                    <h3 className="text-lg font-black text-gray-900 tracking-tight">Ventas últimos {daysRange} días</h3>
+                    <div className="flex items-center gap-3">
+                        <h3 className="text-lg font-black text-gray-900 tracking-tight">Ventas últimos {daysRange} días</h3>
+                        <button
+                            onClick={handleExportCSV}
+                            className="p-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-900 transition-all active:scale-95 group flex items-center gap-2"
+                            title="Exportar Detalle"
+                        >
+                            <Download size={14} className="group-hover:translate-y-0.5 transition-transform" />
+                            <span className="text-[10px] font-black uppercase tracking-tighter">Exportar</span>
+                        </button>
+                    </div>
                     <div className="flex items-center gap-2 mt-1">
                         <div className="inline-block px-2 py-0.5 bg-orange-50 rounded text-[9px] font-black text-orange-600 uppercase tracking-widest">Ingresos Brutos</div>
                         {rangeTrend && (
