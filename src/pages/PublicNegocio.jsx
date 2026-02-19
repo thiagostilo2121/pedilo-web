@@ -25,6 +25,7 @@ import HighlyRecommended from "../components/public/HighlyRecommended";
 import CategoryStoryBar from "../components/public/CategoryStoryBar";
 import FloatingCartButton from "../components/public/FloatingCartButton";
 import BusinessInfoModal from "../components/public/BusinessInfoModal";
+import DynamicIcon from "../components/common/DynamicIcon";
 
 
 export default function PublicNegocio({ slug }) {
@@ -312,6 +313,12 @@ export default function PublicNegocio({ slug }) {
           <div className={`flex items-center gap-3 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
             {negocio.logo_url && <img src={negocio.logo_url} className="w-8 h-8 rounded-full border border-gray-200" alt="Logo" />}
             <span className="font-extrabold text-gray-900 text-sm truncate max-w-[150px]">{negocio.nombre}</span>
+            {negocio.insignias?.some(b => b.id === 'FOUNDER') && (
+              <span className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border border-amber-200/50">
+                <DynamicIcon name="Crown" size={10} fill="currentColor" />
+                <span className="hidden sm:inline">Fundador</span>
+              </span>
+            )}
           </div>
           <div className="flex gap-2 ml-auto">
             <button onClick={() => navigate(`/n/${slug}/pedidos`)} className={`p-2.5 rounded-full transition-colors ${scrolled ? 'bg-gray-100 text-gray-600 hover:bg-gray-200' : 'bg-black/20 text-white backdrop-blur-md hover:bg-black/30'}`}>
@@ -554,10 +561,10 @@ export default function PublicNegocio({ slug }) {
       </main>
 
       {/* Cart Drawer & Modals */}
-      <FloatingCartButton 
-        carrito={carrito} 
-        negocio={negocio} 
-        onClick={() => setShowCart(true)} 
+      <FloatingCartButton
+        carrito={carrito}
+        negocio={negocio}
+        onClick={() => setShowCart(true)}
       />
 
       <CartDrawer isOpen={showCart} onClose={() => setShowCart(false)} cart={carrito} negocio={negocio} onIncrease={agregarAlCarrito} onDecrease={disminuirCantidad} onCheckout={() => navigate(`/n/${slug}/checkout`)} total={calcularTotalCarrito(carrito, negocio)} count={carrito.reduce((acc, p) => acc + p.cantidad, 0)} />
