@@ -23,6 +23,9 @@ import CrearNegocio from "./pages/CrearNegocio";
 import MiSuscripcion from "./pages/MiSus";
 import SuscripcionSuccess from "./pages/SuscripcionSuccess";
 import DashboardHome from "./pages/admin/DashboardHome";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminUsers from "./pages/admin/AdminUsers";
+import AdminNegocios from "./pages/admin/AdminNegocios";
 import Marketing from "./pages/admin/Marketing";
 import Brochure from "./pages/marketing/Brochure";
 import About from "./pages/About";
@@ -35,6 +38,15 @@ import DashboardLayout from "./layout/DashboardLayout";
 function PrivateRoute({ children }) {
   const { user } = useAuth();
   return user ? children : <Navigate to="/login" replace />;
+}
+
+// Wrapper para rutas de admin
+function AdminRoute({ children }) {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/login" replace />;
+  // Check if check es_admin exists, defaulting to false if undefined
+  if (!user.es_admin) return <Navigate to="/dashboard/inicio" replace />;
+  return children;
 }
 
 // Layout para la parte pública (clientes)
@@ -93,6 +105,17 @@ export default function App() {
           } />
           <Route path="/dashboard/mi-suscripcion" element={
             <PrivateRoute><MiSuscripcion /></PrivateRoute>
+          } />
+
+          {/* RUTAS DE ADMIN */}
+          <Route path="/dashboard/admin" element={
+            <AdminRoute><AdminDashboard /></AdminRoute>
+          } />
+          <Route path="/dashboard/admin/users" element={
+            <AdminRoute><AdminUsers /></AdminRoute>
+          } />
+          <Route path="/dashboard/admin/negocios" element={
+            <AdminRoute><AdminNegocios /></AdminRoute>
           } />
 
           {/* 3. RUTAS DINÁMICAS (Clientes) */}
