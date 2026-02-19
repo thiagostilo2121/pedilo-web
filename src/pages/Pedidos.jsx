@@ -37,7 +37,8 @@ export default function PedidosDashboard() {
   const [pedidoActivo, setPedidoActivo] = useState(null);
   const [filtro, setFiltro] = useState("activos"); // activos | finalizados | todos
   const [updatingId, setUpdatingId] = useState(null);
-  const [notificationsEnabled, setNotificationsEnabled] = useState(false);
+  const [notificationsEnabled, setNotificationsEnabled] = useState(() => localStorage.getItem("pedilo_notifications") === "true");
+  const [incomingOrder, setIncomingOrder] = useState(null);
   const toast = useToast();
 
   const notifiedPedidosIds = useRef(new Set());
@@ -45,23 +46,59 @@ export default function PedidosDashboard() {
   const audioRef = useRef(new Audio("https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3"));
 
   const playNotification = useCallback((pedido) => {
-    audioRef.current.play().catch(e => console.log("Audio play blocked", e));
-    if (Notification.permission === "granted") {
-      const notification = new Notification("¡Nuevo Pedido Recibido! 🔔", {
-        body: `De: ${pedido.nombre_cliente || 'Cliente'} - Total: $${pedido.total}`,
-        icon: "/vite.svg"
-      });
-      notification.onclick = () => {
-        window.focus();
-        setPedidoActivo(pedido);
-      };
+    // 1. Audio Reset & Play
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play().catch(e => console.log("Audio play blocked", e));
     }
-    toast.info(`Nuevo pedido de ${pedido.nombre_cliente || 'Cliente'}`);
-  }, [toast]);
+
+    // 2. Set In-App Alert (Critical for Mobile when app is open)
+    setIncomingOrder(pedido);
+
+    // 3. Native Notification
+    if (Notification.permission === "granted") {
+      try {
+        const title = `¡Nuevo Pedido $${Math.round(pedido.total)}! 🔔`;
+        const options = {
+          body: `${pedido.nombre_cliente} • ${pedido.items.length} productos\nToca para gestionar.`,
+          icon: "/favicons/favicon2.png",
+          badge: "/favicons/favicon2.png",
+          vibrate: [200, 100, 200],
+          tag: `pedido-${pedido.id}`,
+          requireInteraction: true,
+          data: { url: window.location.href }
+        };
+
+        // Service Worker Registration for better mobile support (optional check)
+        if (navigator.serviceWorker && navigator.serviceWorker.ready) {
+          navigator.serviceWorker.ready.then(registration => {
+            // If supported, show via SW (better for mobile)
+            if (registration.showNotification) {
+              registration.showNotification(title, options);
+            } else {
+              new Notification(title, options);
+            }
+          });
+        } else {
+          const n = new Notification(title, options);
+          n.onclick = (e) => {
+            e.preventDefault();
+            window.focus();
+            setPedidoActivo(pedido);
+            setIncomingOrder(null);
+            n.close();
+          };
+        }
+      } catch (e) {
+        console.error("Notification failed", e);
+      }
+    }
+  }, []);
 
   const toggleNotifications = async () => {
     if (notificationsEnabled) {
       setNotificationsEnabled(false);
+      localStorage.setItem("pedilo_notifications", "false");
       return;
     }
     if (!("Notification" in window)) {
@@ -71,10 +108,17 @@ export default function PedidosDashboard() {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
       setNotificationsEnabled(true);
-      toast.success("Notificaciones activas");
+      localStorage.setItem("pedilo_notifications", "true");
+
+      // Feedback
       audioRef.current.play().catch(() => { });
+      new Notification("Notificaciones Activas ✅", {
+        body: "Te avisaremos aquí cuando llegue un pedido.",
+        icon: "/favicons/favicon2.png"
+      });
+      toast.success("Notificaciones activas");
     } else {
-      toast.error("Permiso denegado");
+      toast.error("Permiso denegado. Habilitalo en el navegador.");
     }
   };
 
@@ -518,6 +562,39 @@ export default function PedidosDashboard() {
                 className="w-full py-3.5 bg-[#25D366] text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
               >
                 <Phone size={18} /> WhatsApp
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Custom In-App Alert (Top Priority) */}
+      {incomingOrder && (
+        <div className="fixed top-4 left-4 right-4 z-[9999] animate-in slide-in-from-top duration-500">
+          <div className="bg-gray-900/95 backdrop-blur-md text-white p-4 rounded-2xl shadow-2xl border border-white/10 flex items-center justify-between gap-4 max-w-lg mx-auto ring-1 ring-white/20">
+            <div className="flex items-center gap-3">
+              <div className="bg-orange-500 rounded-full p-2 animate-pulse">
+                <Bell size={20} className="text-white" />
+              </div>
+              <div>
+                <h3 className="font-black text-lg leading-none">¡Nuevo Pedido!</h3>
+                <p className="text-sm text-gray-300 font-medium">{incomingOrder.nombre_cliente} • <span className="text-white font-bold">${Math.round(incomingOrder.total)}</span></p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  setPedidoActivo(incomingOrder);
+                  setIncomingOrder(null);
+                }}
+                className="bg-white text-gray-900 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider hover:bg-gray-100 transition-colors active:scale-95"
+              >
+                Ver
+              </button>
+              <button
+                onClick={() => setIncomingOrder(null)}
+                className="p-2 hover:bg-white/10 rounded-full text-gray-400"
+              >
+                <XCircle size={20} />
               </button>
             </div>
           </div>
