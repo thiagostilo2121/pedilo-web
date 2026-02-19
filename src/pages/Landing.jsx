@@ -29,21 +29,18 @@ import {
   Timer,
   Github,
   Sparkles,
-  MousePointerClick,
   TrendingUp,
-  Warehouse,
   BadgeCheck,
   Megaphone,
   ArrowRight,
+  Store,
+  CircleEllipsis,
   Truck,
   Package,
   FileSpreadsheet,
-  Repeat,
   Search,
   Ticket,
-  BarChart3,
   BrainCircuit,
-  PieChart,
   MessageCircle,
   AlertTriangle,
   Bell,
@@ -54,7 +51,6 @@ import {
   Lightbulb,
   Cherry,
   Flame,
-  Clock,
   Crown,
   HandPlatter
 } from "lucide-react";
@@ -133,16 +129,16 @@ export default function Landing() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
-            ¿Cansado de regalar el 30%?
+            La revolución del delivery sin comisiones
           </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tight mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">
-            Dejá de regalar margen. <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">Convertí cada pedido en ganancia real.</span>
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 sm:mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">
+            Tu propio Delivery App. <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">Tus Clientes. Tu Ganancia (100%).</span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
-            Recuperá el control. Usá las apps para que te conozcan, usá <span className="text-orange-600 font-extrabold">Pedilo</span> para ganar dinero de verdad.
+            La alternativa a las Apps que te cobra <span className="text-orange-600 font-extrabold">$0 comisión</span>. Fidelizá clientes y recuperá el control de tu negocio hoy mismo.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
@@ -150,20 +146,66 @@ export default function Landing() {
               onClick={() => navigate("/register")}
               className="px-10 py-5 bg-gray-900 text-white font-black rounded-2xl text-xl hover:bg-gray-800 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group shadow-xl shadow-gray-200"
             >
-              Empezar Gratis <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+              Crear Cuenta Gratis <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <button
               onClick={() => window.open("/n/pedilo-oficial", "_blank", "noopener,noreferrer")}
               className="px-10 py-5 bg-white text-gray-900 font-black rounded-2xl text-xl hover:bg-gray-50 border-2 border-gray-100 transition-all shadow-sm"
             >
-              Ver Demo Real
+              Ver Demo en Vivo
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-xs sm:text-sm font-bold text-gray-400 uppercase tracking-wider">
-            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> Sin comisiones por venta</span>
-            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> Dinero en el acto</span>
-            <span className="flex items-center gap-2"><CheckCircle2 size={16} className="text-green-500" /> Base de datos propia</span>
+          {/* REAL DATA EVIDENCE - HERO PLACEMENT */}
+          <div className="mt-8 mb-12 max-w-3xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
+            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-1 border border-orange-100 shadow-2xl relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500 animate-pulse"></div>
+              <div className="p-4 sm:p-6">
+                <h4 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-4 flex items-center justify-center gap-2 border-b border-gray-100 pb-3">
+                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Dato Real de Tienda Demo ({dateRangeString})
+                </h4>
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-center">
+                  {/* VENTAS */}
+                  <div className="col-span-2 lg:col-span-1 border-r border-gray-100 pr-4 text-center lg:text-left">
+                    <div className="text-gray-400 text-[10px] font-bold uppercase mb-1">Ventas Totales</div>
+                    <div className="text-gray-900 font-black text-xl sm:text-3xl tracking-tight">{formatMoney(realSales)}</div>
+                  </div>
+                  {/* PEDIDOS */}
+                  <div className="border-r border-gray-100 pr-4 text-center lg:text-left">
+                    <div className="text-gray-400 text-[10px] font-bold uppercase mb-1">Pedidos</div>
+                    <div className="text-gray-900 font-bold text-lg sm:text-xl flex items-center justify-center lg:justify-start gap-1">
+                      <ShoppingBag size={16} className="text-orange-500" /> {realOrders}
+                    </div>
+                  </div>
+                  {/* TICKET M */}
+                  <div className="text-center lg:text-left">
+                    <div className="text-gray-400 text-[10px] font-bold uppercase mb-1">Ticket Prom.</div>
+                    <div className="text-blue-600 font-bold text-lg sm:text-xl">{formatMoney(realAvgTicket)}</div>
+                  </div>
+                  {/* AHORRO */}
+                  <div className="col-span-2 lg:col-span-1 bg-orange-50 p-3 rounded-xl border border-orange-100 text-center lg:text-right">
+                    <div className="text-orange-600 text-[10px] font-bold uppercase mb-1">Tu Ahorro (30%)</div>
+                    <div className="font-black text-xl sm:text-2xl text-orange-600">
+                      {formatMoney(realSavings)}
+                    </div>
+                    <div className="text-[9px] text-orange-400 font-bold mt-1">¡Dinero tuyo!</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* TRUST BADGES STRIP (Moved here) */}
+            <div className="mt-6 flex flex-wrap justify-center gap-4 sm:gap-6 opacity-80">
+              <div className="flex gap-1.5 items-center text-gray-500 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                <div className="bg-green-100 p-0.5 rounded-full"><CheckCircle2 size={12} className="text-green-600" /></div> MercadoPago / Transferencia
+              </div>
+              <div className="flex gap-1.5 items-center text-gray-500 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                <div className="bg-green-100 p-0.5 rounded-full"><CheckCircle2 size={12} className="text-green-600" /></div> 0% Comisión
+              </div>
+              <div className="flex gap-1.5 items-center text-gray-500 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
+                <div className="bg-green-100 p-0.5 rounded-full"><CheckCircle2 size={12} className="text-green-600" /></div> Base de Datos Propia
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -191,60 +233,122 @@ export default function Landing() {
           </div>
         </div>
 
-        {/* REAL CASE STUDY (FEB 3 - FEB 19) */}
-        <div className="mt-12 max-w-3xl mx-auto">
-          <div className="bg-gradient-to-r from-gray-800 to-gray-900 rounded-2xl p-1 border border-gray-700 relative overflow-hidden group shadow-2xl">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-red-500 animate-pulse"></div>
 
-            <div className="p-6 relative z-10">
-              <h4 className="text-gray-400 text-xs font-bold uppercase tracking-wider mb-6 flex items-center gap-2 border-b border-gray-800 pb-3">
-                <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Dato Real ({dateRangeString})
-              </h4>
+      </section>
 
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 items-center">
-                {/* VENTAS */}
-                <div className="col-span-2 lg:col-span-1 border-r border-gray-800 pr-4">
-                  <div className="text-gray-500 text-[10px] font-bold uppercase mb-1">Ventas Totales</div>
-                  <div className="text-white font-extrabold text-2xl tracking-tight">{formatMoney(realSales)}</div>
-                </div>
+      {/* --- SEGMENTATION: IDENTIFY YOUR PAIN --- */}
+      <section className="py-16 bg-gray-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-10">
+            <span className="text-orange-600 font-bold tracking-wider uppercase text-sm">Personalizá tu solución</span>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mt-2">¿Cómo vendés hoy?</h2>
+          </div>
 
-                {/* PEDIDOS */}
-                <div className="border-r border-gray-800 pr-4">
-                  <div className="text-gray-500 text-[10px] font-bold uppercase mb-1">Pedidos</div>
-                  <div className="text-white font-bold text-xl flex items-center gap-2">
-                    <ShoppingBag size={18} className="text-orange-500" /> {realOrders}
-                  </div>
-                </div>
+          <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto">
+            {/* CARD 1: APPS */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-rose-200 transition-all group cursor-default">
+              <div className="w-12 h-12 bg-rose-100 rounded-xl flex items-center justify-center text-rose-600 mb-4 group-hover:scale-110 transition-transform">
+                <Store size={24} />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-2">Uso Apps de Delivery</h3>
+              <p className="text-gray-500 text-sm mb-4">Rappi, PedidosYa, etc.</p>
+              <div className="bg-rose-50 p-3 rounded-lg border border-rose-100 mb-4">
+                <div className="text-xs font-bold text-rose-400 uppercase mb-1">Tu Dolor</div>
+                <div className="text-rose-800 font-bold text-sm">Regalás el 30% + IVA de cada venta.</div>
+              </div>
+              <div className="flex items-center gap-2 text-green-600 font-bold text-sm">
+                <CheckCircle2 size={16} /> Tu propia App con 0% comisión.
+              </div>
+            </div>
 
-                {/* TICKET PROMEDIO */}
-                <div>
-                  <div className="text-gray-500 text-[10px] font-bold uppercase mb-1">Ticket Promedio</div>
-                  <div className="text-blue-400 font-bold text-xl">{formatMoney(realAvgTicket)}</div>
-                </div>
+            {/* CARD 2: WHATSAPP */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-emerald-200 transition-all group cursor-default">
+              <div className="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600 mb-4 group-hover:scale-110 transition-transform">
+                <MessageCircle size={24} />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-2">Vendo por WhatsApp</h3>
+              <p className="text-gray-500 text-sm mb-4">Instagram, Chat, Teléfono.</p>
+              <div className="bg-emerald-50 p-3 rounded-lg border border-emerald-100 mb-4">
+                <div className="text-xs font-bold text-emerald-400 uppercase mb-1">Tu Dolor</div>
+                <div className="text-emerald-800 font-bold text-sm">Caos de mensajes y pedidos perdidos.</div>
+              </div>
+              <div className="flex items-center gap-2 text-green-600 font-bold text-sm">
+                <CheckCircle2 size={16} /> Automatizá tu toma de pedidos.
+              </div>
+            </div>
 
-                {/* SAVINGS - HIGHLIGHTED */}
-                <div className="col-span-2 lg:col-span-1 bg-gray-800/50 p-3 rounded-xl border border-gray-700 text-right">
-                  <div className="text-gray-500 text-[10px] font-bold uppercase mb-1">Ahorro (30% App)</div>
-                  <div className="font-black text-2xl text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400">
-                    {formatMoney(realSavings)}
-                  </div>
-                </div>
+            {/* CARD 3: OTHERS */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-indigo-200 transition-all group cursor-default">
+              <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center text-indigo-600 mb-4 group-hover:scale-110 transition-transform">
+                <CircleEllipsis size={24} />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-2">Uso otra Plataforma</h3>
+              <p className="text-gray-500 text-sm mb-4">Cartanube, ALaCarta, etc.</p>
+              <div className="bg-indigo-50 p-3 rounded-lg border border-indigo-100 mb-4">
+                <div className="text-xs font-bold text-indigo-400 uppercase mb-1">Tu Dolor</div>
+                <div className="text-indigo-800 font-bold text-sm">Sistemas lentos que son solo un 'menú online'.</div>
+              </div>
+              <div className="flex items-center gap-2 text-green-600 font-bold text-sm">
+                <CheckCircle2 size={16} /> Diseño premium + Datos para crecer.
+              </div>
+            </div>
+
+            {/* CARD 4: WHOLESALE */}
+            <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-xl hover:border-blue-200 transition-all group cursor-default">
+              <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 mb-4 group-hover:scale-110 transition-transform">
+                <Truck size={24} />
+              </div>
+              <h3 className="font-black text-xl text-gray-900 mb-2">Soy Mayorista</h3>
+              <p className="text-gray-500 text-sm mb-4">Distribuidora, Fábrica.</p>
+              <div className="bg-blue-50 p-3 rounded-lg border border-blue-100 mb-4">
+                <div className="text-xs font-bold text-blue-400 uppercase mb-1">Tu Dolor</div>
+                <div className="text-blue-800 font-bold text-sm">PDFs, Excel y desorden en el stock.</div>
+              </div>
+              <div className="flex items-center gap-2 text-green-600 font-bold text-sm">
+                <CheckCircle2 size={16} /> Tienda B2B pensada para volumen.
               </div>
             </div>
           </div>
-          <p className="text-center text-xs text-gray-600 mt-3 font-medium">
-            *Datos reales obtenidos en vivo por API de la tienda Demo (ID #1).
+        </div>
+      </section>
+
+      {/* --- AGITATION SECTION: THE PAIN --- */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl sm:text-5xl font-black text-gray-900 mb-8 leading-tight">
+            ¿Tu socio o tu jefe? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600">Las Apps se quedan con tu ganancia.</span>
+          </h2>
+          <div className="flex flex-col md:flex-row gap-8 items-center justify-center mb-12">
+            <div className="bg-red-50 p-6 rounded-2xl border border-red-100 max-w-sm">
+              <div className="text-red-500 mb-4 flex justify-center"><XCircle size={40} /></div>
+              <h3 className="text-xl font-black text-red-900 mb-2">Comisiones Abusivas</h3>
+              <p className="text-red-700/80 font-medium">Si vendés $100.000, te quedan $70.000. Regatás el 30% de tu esfuerzo solo por usar su plataforma.</p>
+            </div>
+            <div className="bg-orange-50 p-6 rounded-2xl border border-orange-100 max-w-sm">
+              <div className="text-orange-500 mb-4 flex justify-center"><AlertTriangle size={40} /></div>
+              <h3 className="text-xl font-black text-orange-900 mb-2">Clientes "Secuestrados"</h3>
+              <p className="text-orange-800/80 font-medium">¿Sabés quién te compró? No. Los datos son de la App. Vos solo sos la cocina que prepara la comida.</p>
+            </div>
+          </div>
+          <p className="text-xl sm:text-2xl font-bold text-gray-900 max-w-2xl mx-auto">
+            Es hora de dejar de trabajar para ellos. <br />
+            <span className="text-orange-600">Es hora de tener tu propio sistema.</span>
           </p>
         </div>
       </section>
 
+
+
       {/* STICKY MOBILE CTA */}
-      <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden animate-in slide-in-from-bottom-5 duration-500">
+      {/* STICKY MOBILE CTA - OPTIMIZED */}
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-white/90 backdrop-blur-lg border-t border-gray-200 p-4 pb-6 animate-in slide-in-from-bottom-5 duration-500 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
         <button
           onClick={() => navigate("/register")}
-          className="w-full py-4 bg-orange-600 text-white font-black rounded-xl shadow-2xl shadow-orange-900/40 flex items-center justify-center gap-2"
+          className="w-full py-3.5 bg-orange-600 text-white font-black rounded-xl shadow-lg shadow-orange-500/30 flex flex-col items-center justify-center leading-tight active:scale-[0.98] transition-transform"
         >
-          Quiero Dejar de Perder Plata <ArrowRight size={20} />
+          <span className="flex items-center gap-2 text-lg uppercase tracking-tight">EMPEZAR GRATIS <ArrowRight size={20} /></span>
+          <span className="text-[10px] font-bold text-orange-100 opacity-90 mt-0.5">Sin tarjeta · Cancelá cuando quieras</span>
         </button>
       </div>
 
@@ -259,7 +363,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-5 gap-4 lg:gap-6 max-w-6xl mx-auto items-center">
+          <div className="grid md:grid-cols-5 gap-4 lg:gap-5 max-w-7xl mx-auto items-center">
             {/* STEP 1: DISCOVERY (APPS) */}
             <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative group hover:border-red-100 transition-colors">
               <div className="text-6xl font-black text-gray-200 mb-4 absolute top-4 right-6 group-hover:text-red-100 transition-colors">1</div>
@@ -421,8 +525,8 @@ export default function Landing() {
               <BrainCircuit size={16} /> Inteligencia de Negocio
             </div>
             <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
-              Datos para crecer. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">No para acumular.</span>
+              Tablero de Control. <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Para Dueños, no Contadores.</span>
             </h2>
             <p className="text-xl text-gray-600 font-medium mb-8 leading-relaxed">
               Pedilo dejó de ser una simple web de pedidos. Ahora es tu <strong>Socio Estratégico</strong>. Te damos métricas claras para que tomes decisiones basadas en datos reales, no en intuición.
@@ -435,7 +539,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">Productos Estrella y Huesos</h3>
-                  <p className="text-gray-500 font-medium">Identificá qué platos te dan ganancia real (80/20) y cuáles solo ocupan espacio en la heladera.</p>
+                  <p className="text-gray-500 font-medium">Eliminá del menú lo que nadie pide. Potenciá los platos que realmente te dejan ganancia.</p>
                 </div>
               </li>
 
@@ -445,7 +549,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">Ranking de Clientes</h3>
-                  <p className="text-gray-500 font-medium">Sabé exactamente quiénes son tus clientes fieles. Premialos y asegurate de que vuelvan siempre.</p>
+                  <p className="text-gray-500 font-medium">Transformá clientes anónimos en fanáticos con nombre y apellido. Dales motivos para volver.</p>
                 </div>
               </li>
 
@@ -455,7 +559,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">Horarios Pico</h3>
-                  <p className="text-gray-500 font-medium">Organizá tu personal de cocina y reparto sabiendo de antemano cuándo va a explotar la demanda.</p>
+                  <p className="text-gray-500 font-medium">Anticipate a la demanda. Sabé cuándo reforzar la cocina y cuándo liberar personal.</p>
                 </div>
               </li>
             </ul>
@@ -610,9 +714,9 @@ export default function Landing() {
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-orange-700 text-sm font-bold mb-6 border border-orange-200 shadow-sm">
               <Truck size={16} /> Especial para Mayoristas
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Diseñado también para Distribuidores.</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Vendé por Mayor sin enloquecer con Excel.</h2>
             <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed">
-              Sabemos que venderle a comercios no es lo mismo que venderle a consumidores. Pedilo tiene un <strong>Modo B2B</strong> nativo.
+              Tus clientes mayoristas quieren comprar fácil y rápido. Dales una App moderna, no un PDF de 20 páginas desactualizado.
             </p>
 
             <ul className="space-y-6">
@@ -1185,7 +1289,7 @@ export default function Landing() {
             </div>
 
             {/* TOPPING MOCKUP */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-6 max-w-sm mx-auto">
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-6 max-w-sm lg:w-6xl mx-auto">
               <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
                 <div className="w-14 h-14 bg-gray-100 rounded-xl"></div>
                 <div>
@@ -1269,6 +1373,7 @@ export default function Landing() {
                 { feature: "Modo Mayorista (B2B)", basic: false, pedilo: true },
                 { feature: "Ranking de clientes y productos", basic: false, pedilo: true },
                 { feature: "Flyer QR descargable con tu marca", basic: false, pedilo: true },
+                { feature: "Rápido", basic: false, pedilo: true }
               ].map((row, idx) => (
                 <div key={idx} className={`grid grid-cols-3 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} border-b border-gray-50 last:border-0`}>
                   <div className="p-4 flex items-center">
@@ -1389,9 +1494,9 @@ export default function Landing() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-bold mb-8 border border-orange-500/20">
             <Zap size={16} /> Empezá hoy, vendé mañana
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">Tomá el control <br className="hidden md:block" />de tu negocio.</h2>
+          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">El momento de cortar <br className="hidden md:block" />con las comisiones es ahora.</h2>
           <p className="text-xl text-gray-400 font-medium mb-12 max-w-2xl mx-auto">
-            Sin contratos. Sin letra chica. Tu negocio online en menos de 10 minutos.
+            Unite a los 250+ negocios que ya tienen su propia App y no regalan ni un centavo más.
           </p>
 
           <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
