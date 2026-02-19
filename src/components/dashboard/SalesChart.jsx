@@ -149,8 +149,9 @@ export default function SalesChart({ initialData, initialRange }) {
                         <YAxis
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 12 }}
-                            tickFormatter={(val) => `$${val / 1000}k`}
+                            tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 600 }}
+                            tickFormatter={(val) => val >= 1000 ? `$${(val / 1000).toFixed(val % 1000 === 0 ? 0 : 1)}k` : `$${val}`}
+                            width={55}
                         />
                         <Tooltip
                             content={({ active, payload }) => {

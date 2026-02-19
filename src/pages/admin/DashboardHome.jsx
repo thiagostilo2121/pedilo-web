@@ -12,7 +12,8 @@ import TopProductsCard from "../../components/dashboard/TopProductsCard";
 import TopClientsCard from "../../components/dashboard/TopClientsCard";
 import RecentOrdersCard from "../../components/dashboard/RecentOrdersCard";
 import CategoryRankingCard from "../../components/dashboard/CategoryRankingCard";
-import PeakHoursChart from "../../components/dashboard/PeakHoursChart";
+import WeeklyHeatmap from "../../components/dashboard/WeeklyHeatmap";
+import ProductInsightsCard from "../../components/dashboard/ProductInsightsCard";
 
 export default function DashboardHome() {
     const [overview, setOverview] = useState(null);
@@ -22,7 +23,8 @@ export default function DashboardHome() {
     const [tipoNegocio, setTipoNegocio] = useState("minorista");
     const [loading, setLoading] = useState(true);
     const [categoryData, setCategoryData] = useState([]);
-    const [hourlyData, setHourlyData] = useState([]);
+    const [heatmapData, setHeatmapData] = useState([]);
+    const [productInsights, setProductInsights] = useState(null);
     const [recentOrders, setRecentOrders] = useState([]);
 
     useEffect(() => {
@@ -33,19 +35,21 @@ export default function DashboardHome() {
         try {
             setLoading(true);
             const savedRange = localStorage.getItem("dashboard_days_range") || 7;
-            const [ov, chart, top, negocioRes, orders, peakHours] = await Promise.all([
+            const [ov, chart, top, negocioRes, orders, heatmap, insights] = await Promise.all([
                 statsService.getOverview(),
                 statsService.getSalesChart(savedRange),
                 statsService.getTopProducts(5),
                 negocioService.getMiNegocio(),
                 pedidosService.getAll(5),
-                statsService.getPeakHours().catch(() => [])
+                statsService.getWeeklyHeatmap(30).catch(() => []),
+                statsService.getProductInsights(30).catch(() => null)
             ]);
             setOverview(ov);
             setChartData(chart);
             setTopProducts(top);
             setRecentOrders(orders || []);
-            setHourlyData(peakHours || []);
+            setHeatmapData(heatmap || []);
+            setProductInsights(insights);
             setTipoNegocio(negocioRes?.tipo_negocio || "minorista");
 
             // Fetch top clients only for distribuidoras
@@ -76,12 +80,7 @@ export default function DashboardHome() {
                 setCategoryData(cats);
             }
 
-            if (!peakHours || peakHours.length === 0) {
-                setHourlyData([
-                    { hour: "00h", volume: 0 }, { hour: "06h", volume: 0 },
-                    { hour: "12h", volume: 0 }, { hour: "18h", volume: 0 },
-                ]);
-            }
+
         } catch (error) {
             console.error("Error loading stats", error);
         } finally {
@@ -92,21 +91,21 @@ export default function DashboardHome() {
     if (loading) {
         return (
             <DashboardLayout>
-                <div className="space-y-8">
+                <div className="max-w-[1600px] mx-auto space-y-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
                     <div>
-                        <Skeleton className="h-8 w-48 mb-2" />
-                        <Skeleton className="h-4 w-64" />
+                        <Skeleton className="h-8 w-48 mb-2 rounded-xl" />
+                        <Skeleton className="h-4 w-64 rounded-lg" />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
                         {[1, 2, 3, 4].map((i) => (
-                            <Skeleton key={i} className="h-32 rounded-2xl" />
+                            <Skeleton key={i} className="h-32 rounded-3xl" />
                         ))}
                     </div>
 
-                    <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8">
-                        <Skeleton className="xl:col-span-2 h-96 rounded-2xl" />
-                        <Skeleton className="h-96 rounded-2xl" />
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+                        <Skeleton className="lg:col-span-8 h-96 rounded-3xl" />
+                        <Skeleton className="lg:col-span-4 h-96 rounded-3xl" />
                     </div>
                 </div>
             </DashboardLayout>
@@ -155,10 +154,17 @@ export default function DashboardHome() {
 
     return (
         <DashboardLayout>
-            <div className="space-y-8 px-4 sm:px-0">
-                <div>
-                    <h1 className="text-2xl font-black text-gray-900 tracking-tight">Dashboard</h1>
-                    <p className="text-gray-500 mt-1 font-medium">Resumen de tu negocio hoy</p>
+            <div className="max-w-[1600px] mx-auto space-y-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+                {/* HEADER SECTION */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <div>
+                        <h1 className="text-3xl font-black text-gray-900 tracking-tight sm:text-4xl">Dashboard</h1>
+                        <p className="text-gray-500 mt-1 font-bold text-sm sm:text-base">Análisis detallado de tu negocio en tiempo real</p>
+                    </div>
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full w-fit">
+                        <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                        Actualizado: {new Date().toLocaleTimeString()}
+                    </div>
                 </div>
 
                 {/* METRICS GRID */}
@@ -166,41 +172,42 @@ export default function DashboardHome() {
                     <StatsCard
                         title="Ventas Hoy"
                         value={`$${overview?.ventas_hoy?.toLocaleString() || 0}`}
-                        icon={<DollarSign size={24} />}
+                        icon={<DollarSign size={20} />}
                         subtext={dailyTrend.text}
                         trend={dailyTrend.trend}
                     />
                     <StatsCard
                         title="Pedidos Hoy"
                         value={overview?.pedidos_hoy || 0}
-                        icon={<ShoppingBag size={24} />}
+                        icon={<ShoppingBag size={20} />}
                         subtext="Ordenes recibidas"
                     />
                     <StatsCard
                         title="Ticket Promedio"
-                        value={`$${overview?.ticket_promedio?.toLocaleString() || 0}`}
-                        icon={<TrendingUp size={24} />}
+                        value={`$${Math.round(Number(overview?.ticket_promedio || 0)).toLocaleString()}`}
+                        icon={<TrendingUp size={20} />}
                         subtext="Histórico"
                     />
                     <StatsCard
                         title="Pendientes"
                         value={overview?.pedidos_pendientes || 0}
-                        icon={<AlertCircle size={24} />}
+                        icon={<AlertCircle size={20} />}
                         subtext="Requieren atención"
                         variant={overview?.pedidos_pendientes > 0 ? "warning" : "default"}
                     />
                 </div>
 
-                {/* MAIN GRID: 2 COLUMNS LAYOUT */}
-                <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 sm:gap-8">
-                    {/* LEFT COLUMN: MAIN CHARTS & DATA (2/3) */}
-                    <div className="xl:col-span-2 space-y-6 sm:space-y-8">
+                {/* MAIN CONTENT AREA */}
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+
+                    {/* LEFT COLUMN: MAIN CHARTS & PRIMARY METRICS (8/12) */}
+                    <div className="lg:col-span-8 space-y-6 lg:space-y-8">
                         <SalesChart
                             initialData={chartData}
                             initialRange={parseInt(localStorage.getItem("dashboard_days_range") || 7)}
                         />
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
                             <TopProductsCard products={topProducts} />
 
                             {tipoNegocio === "distribuidora" ? (
@@ -209,24 +216,31 @@ export default function DashboardHome() {
                                 <RecentOrdersCard orders={recentOrders} />
                             )}
                         </div>
+
+                        <ProductInsightsCard data={productInsights} />
                     </div>
 
-                    {/* RIGHT COLUMN: ANALYTICS & SIDEBAR (1/3) */}
-                    <div className="space-y-6">
+                    {/* RIGHT COLUMN: ANALYTICS & SIDEBAR (4/12) */}
+                    <div className="lg:col-span-4 space-y-6 lg:space-y-8">
                         <CategoryRankingCard data={categoryData} />
-                        <PeakHoursChart data={hourlyData} />
 
-                        {/* ACCESOS RÁPIDOS */}
-                        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                            <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">Accesos Rápidos</h3>
+                        <WeeklyHeatmap data={heatmapData} />
+
+                        {/* ACCESOS RÁPIDOS - MEJORADO */}
+                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-3xl shadow-xl text-white">
+                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Gestión Rápida</h3>
                             <div className="grid grid-cols-2 gap-3">
-                                <a href="/dashboard/productos" className="p-3 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all flex flex-col items-center gap-2 active:scale-95 group">
-                                    <Plus size={18} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
-                                    <span className="text-[10px] font-bold text-gray-600">Nuevo Producto</span>
+                                <a href="/dashboard/productos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
+                                    <div className="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:scale-110 transition-transform">
+                                        <Plus size={20} className="text-white" />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-wider">Nuevo Item</span>
                                 </a>
-                                <a href="/dashboard/pedidos" className="p-3 rounded-2xl bg-gray-50 hover:bg-gray-100 transition-all flex flex-col items-center gap-2 active:scale-95 group">
-                                    <ShoppingBag size={18} className="text-gray-400 group-hover:text-gray-900 transition-colors" />
-                                    <span className="text-[10px] font-bold text-gray-600">Ver Pedidos</span>
+                                <a href="/dashboard/pedidos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform">
+                                        <ShoppingBag size={18} className="text-white" />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-wider">Pedidos</span>
                                 </a>
                             </div>
                         </div>

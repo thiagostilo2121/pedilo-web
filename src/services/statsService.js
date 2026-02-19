@@ -21,8 +21,18 @@ export const statsService = {
         return response.data;
     },
 
-    getPeakHours: async () => {
-        const response = await api.get('/stats/hourly-sales');
+    getPeakHours: async (days = 7) => {
+        const response = await api.get(`/stats/hourly-sales?days=${days}`);
+        return response.data;
+    },
+
+    getWeeklyHeatmap: async (days = 30) => {
+        const response = await api.get(`/stats/heatmap?days=${days}`);
+        return response.data;
+    },
+
+    getProductInsights: async (days = 30) => {
+        const response = await api.get(`/stats/product-insights?days=${days}`);
         return response.data;
     }
 };

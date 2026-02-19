@@ -344,13 +344,32 @@ export default function PedidosDashboard() {
 
       {/* Modal Detalle (Full Screen Mobile) */}
       {pedidoActivo && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center z-50 p-0 sm:p-6">
-          <div className="bg-white w-full max-h-[95vh] sm:h-2 sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-end sm:items-center z-50 p-0 sm:p-6" onClick={() => setPedidoActivo(null)}>
+          <div
+            className="bg-white w-full h-[100dvh] sm:h-auto sm:max-h-[90vh] sm:max-w-md rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden animate-in slide-in-from-bottom duration-300 flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-white shrink-0">
               <div>
                 <h2 className="text-xl font-black text-gray-900">Pedido #{pedidoActivo.codigo || pedidoActivo.id}</h2>
-                <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase mt-1 ${getStatusConfig(pedidoActivo.estado).color}`}>
-                  {getStatusConfig(pedidoActivo.estado).icon} {getStatusConfig(pedidoActivo.estado).label}
+                <div className="flex items-center gap-2 mt-1">
+                  <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase ${getStatusConfig(pedidoActivo.estado).color}`}>
+                    {getStatusConfig(pedidoActivo.estado).icon} {getStatusConfig(pedidoActivo.estado).label}
+                  </div>
+                  <span className="text-[10px] text-gray-400 font-medium">
+                    {(() => {
+                      const fecha = new Date(pedidoActivo.creado_en);
+                      const hoy = new Date();
+                      const ayer = new Date(hoy);
+                      ayer.setDate(hoy.getDate() - 1);
+                      const esHoy = fecha.toDateString() === hoy.toDateString();
+                      const esAyer = fecha.toDateString() === ayer.toDateString();
+                      const hora = fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                      if (esHoy) return `Hoy ${hora}`;
+                      if (esAyer) return `Ayer ${hora}`;
+                      return `${fecha.getDate()}/${fecha.getMonth() + 1} ${hora}`;
+                    })()}
+                  </span>
                 </div>
               </div>
               <button onClick={() => setPedidoActivo(null)} className="p-2 hover:bg-gray-100 rounded-full transition-colors active:scale-95">
@@ -358,7 +377,7 @@ export default function PedidosDashboard() {
               </button>
             </div>
 
-            <div className="p-5 space-y-6 flex-1 overflow-y-auto bg-gray-50/50">
+            <div className="p-5 space-y-4 flex-1 overflow-y-auto bg-gray-50/50">
               {/* Info Cliente */}
               <div className="bg-white p-4 rounded-2xl shadow-sm border border-gray-100 space-y-3">
                 <div className="flex items-center gap-3">
@@ -378,6 +397,24 @@ export default function PedidosDashboard() {
                 )}
               </div>
 
+              {/* Método de pago y tipo entrega */}
+              <div className="flex gap-2">
+                <div className="flex-1 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-2">
+                  <CreditCard size={16} className="text-gray-400" />
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase">Pago</p>
+                    <p className="text-xs font-bold text-gray-800 capitalize">{pedidoActivo.metodo_pago || "—"}</p>
+                  </div>
+                </div>
+                <div className="flex-1 bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex items-center gap-2">
+                  <Truck size={16} className="text-gray-400" />
+                  <div>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase">Entrega</p>
+                    <p className="text-xs font-bold text-gray-800 capitalize">{pedidoActivo.tipo_entrega || "Retiro"}</p>
+                  </div>
+                </div>
+              </div>
+
               {/* Notas */}
               {pedidoActivo.notas && (
                 <div className="bg-yellow-50 p-4 rounded-2xl border border-yellow-100">
@@ -387,7 +424,7 @@ export default function PedidosDashboard() {
               )}
 
               {/* Items */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest flex items-center gap-2">
                   <Package size={16} /> Productos
                 </h3>
@@ -426,19 +463,61 @@ export default function PedidosDashboard() {
 
             {/* Footer Actions */}
             <div className="p-5 bg-white border-t border-gray-100 shrink-0 shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.05)]">
-              <div className="flex justify-between items-center mb-6">
+              <div className="flex justify-between items-center mb-4">
                 <span className="text-sm font-bold text-gray-400">Total a cobrar</span>
                 <span className="text-3xl font-black text-gray-900 tracking-tight">${Number(pedidoActivo.total).toFixed(0)}</span>
               </div>
+
+              {/* Botones de acción según estado */}
+              {(['pendiente', 'aceptado', 'en_progreso'].includes(pedidoActivo.estado)) && (
+                <div className="flex gap-2 mb-3">
+                  {pedidoActivo.estado === "pendiente" && (
+                    <>
+                      <button
+                        onClick={() => updateEstado(pedidoActivo.id, "aceptar")}
+                        disabled={updatingId === pedidoActivo.id}
+                        className="flex-1 bg-green-500 text-white py-3 rounded-xl text-sm font-bold hover:bg-green-600 transition-colors shadow-lg shadow-green-100 disabled:opacity-50 active:scale-95"
+                      >
+                        Aceptar
+                      </button>
+                      <button
+                        onClick={() => updateEstado(pedidoActivo.id, "rechazar")}
+                        disabled={updatingId === pedidoActivo.id}
+                        className="flex-1 bg-white text-red-500 border border-red-200 py-3 rounded-xl text-sm font-bold hover:bg-red-50 transition-colors disabled:opacity-50 active:scale-95"
+                      >
+                        Rechazar
+                      </button>
+                    </>
+                  )}
+                  {pedidoActivo.estado === "aceptado" && (
+                    <button
+                      onClick={() => updateEstado(pedidoActivo.id, "progreso")}
+                      disabled={updatingId === pedidoActivo.id}
+                      className="w-full bg-purple-600 text-white py-3 rounded-xl text-sm font-bold hover:bg-purple-700 shadow-lg shadow-purple-100 disabled:opacity-50 active:scale-95"
+                    >
+                      Enviar a Cocina
+                    </button>
+                  )}
+                  {pedidoActivo.estado === "en_progreso" && (
+                    <button
+                      onClick={() => updateEstado(pedidoActivo.id, "finalizar")}
+                      disabled={updatingId === pedidoActivo.id}
+                      className="w-full bg-green-600 text-white py-3 rounded-xl text-sm font-bold hover:bg-green-700 shadow-lg shadow-green-100 disabled:opacity-50 active:scale-95"
+                    >
+                      Listo para retirar
+                    </button>
+                  )}
+                </div>
+              )}
 
               <button
                 onClick={() => {
                   const mensaje = `Hola ${pedidoActivo.nombre_cliente}! 🍽️\n\nEstado de tu pedido *#${pedidoActivo.codigo || pedidoActivo.id}*:\n${pedidoActivo.estado === 'pendiente' ? '⏳ Recibido, esperando confirmación.' : pedidoActivo.estado === 'aceptado' ? '✅ ¡Aceptado! Estamos preparándolo.' : pedidoActivo.estado === 'en_progreso' ? '🍳 ¡En la cocina!' : '🚀 ¡Listo para disfrutar!'}`;
                   window.open(`https://wa.me/${pedidoActivo.telefono_cliente}?text=${encodeURIComponent(mensaje)}`);
                 }}
-                className="w-full py-4 bg-[#25D366] text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-100 text-lg active:scale-[0.98]"
+                className="w-full py-3.5 bg-[#25D366] text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
               >
-                <Phone size={20} /> Contactar por WhatsApp
+                <Phone size={18} /> WhatsApp
               </button>
             </div>
           </div>
