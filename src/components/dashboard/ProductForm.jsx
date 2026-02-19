@@ -352,15 +352,15 @@ export default function ProductForm({
                                             <div
                                                 key={grupo.id}
                                                 className={`rounded-2xl p-4 border transition-all duration-200 ${productoToppingsConfig[grupo.id]?.enabled
-                                                        ? "bg-orange-50 border-orange-200 shadow-sm"
-                                                        : "bg-white border-gray-100 hover:border-orange-100"
+                                                    ? "bg-orange-50 border-orange-200 shadow-sm"
+                                                    : "bg-white border-gray-100 hover:border-orange-100"
                                                     }`}
                                             >
                                                 <div className="flex items-center justify-between mb-3">
                                                     <label className="flex items-center gap-3 cursor-pointer w-full select-none">
                                                         <div className={`w-5 h-5 rounded-md border flex items-center justify-center transition-colors ${productoToppingsConfig[grupo.id]?.enabled
-                                                                ? "bg-orange-600 border-orange-600"
-                                                                : "bg-white border-gray-300"
+                                                            ? "bg-orange-600 border-orange-600"
+                                                            : "bg-white border-gray-300"
                                                             }`}>
                                                             {productoToppingsConfig[grupo.id]?.enabled && <div className="w-2 h-2 bg-white rounded-full" />}
                                                             <input
