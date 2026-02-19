@@ -1,6 +1,11 @@
+/*
+ * Copyright (C) 2026 Thiago Valentín Stilo Limarino
+ */
+
 import React from 'react';
-import { MapPin, Clock, BadgeCheck, Award } from 'lucide-react';
+import { MapPin, Clock } from 'lucide-react';
 import { DEFAULT_LOGO } from '../../constants';
+import DynamicIcon from '../common/DynamicIcon';
 
 export default function BusinessHero({ negocio, onShowInfo }) {
     return (
@@ -29,22 +34,44 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                             <h1 className="text-3xl sm:text-4xl font-black leading-none drop-shadow-lg">{negocio.nombre}</h1>
 
                             {/* REPUTATION BADGES */}
-                            {negocio.insignias?.includes("VERIFICADO_50") && (
-                                <div className="group/badge relative bg-blue-500 rounded-full p-1 cursor-help shadow-lg shadow-blue-500/30">
-                                    <BadgeCheck size={16} className="text-white" fill="currentColor" />
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                                        Verificado (+50 Ventas)
+                            {negocio.insignias?.map((badge) => {
+                                const isFounder = badge.id === 'FOUNDER';
+
+                                // FOUNDER BADGE: Special Pill Design
+                                if (isFounder) {
+                                    return (
+                                        <div key={badge.id} className="group/badge relative flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full shadow-lg shadow-orange-500/40 animate-pulse border border-white/20">
+                                            <DynamicIcon name={badge.icon} size={14} className="text-white drop-shadow-sm" />
+                                            <span className="text-[10px] font-black tracking-widest text-white uppercase drop-shadow-sm">FUNDADOR</span>
+
+                                            {/* TOOLTIP */}
+                                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl border border-white/10">
+                                                <div className="flex flex-col items-center gap-0.5">
+                                                    <span className="text-yellow-400">{badge.name}</span>
+                                                    <span className="text-[9px] text-gray-400 font-normal">{badge.description}</span>
+                                                </div>
+                                                <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                                            </div>
+                                        </div>
+                                    );
+                                }
+
+                                // STANDARD BADGES
+                                return (
+                                    <div key={badge.id} className="group/badge relative bg-white/10 backdrop-blur-md rounded-full p-1.5 cursor-help shadow-lg border border-white/10 hover:bg-white/20 transition-all">
+                                        <DynamicIcon name={badge.icon || "Award"} size={16} className="text-white" />
+
+                                        {/* TOOLTIP */}
+                                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl border border-white/10">
+                                            <div className="flex flex-col items-center gap-0.5">
+                                                <span className="text-white">{badge.name}</span>
+                                                <span className="text-[9px] text-gray-400 font-normal">{badge.description}</span>
+                                            </div>
+                                            <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                            {negocio.insignias?.includes("TOP_SELLER_100") && (
-                                <div className="group/badge relative bg-yellow-500 rounded-full p-1 cursor-help shadow-lg shadow-yellow-500/30">
-                                    <Award size={16} className="text-white" fill="currentColor" />
-                                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-lg opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
-                                        Top Seller (+100 Ventas)
-                                    </div>
-                                </div>
-                            )}
+                                );
+                            })}
                         </div>
 
                         {negocio.descripcion && (

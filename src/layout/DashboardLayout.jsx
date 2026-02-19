@@ -41,7 +41,8 @@ import {
   Instagram,
   User,
   ExternalLink,
-  Store
+  Store,
+  Lock
 } from "lucide-react";
 
 export default function DashboardLayout({ children }) {
@@ -82,6 +83,14 @@ export default function DashboardLayout({ children }) {
     { name: "Configuración", path: "/dashboard/configuracion", icon: <Settings size={20} /> },
     { name: "Mi Suscripción", path: "/dashboard/mi-suscripcion", icon: <CreditCard size={20} /> },
   ];
+
+  if (user?.es_admin) {
+    menuItems.push({
+      name: "Admin Panel",
+      path: "/dashboard/admin",
+      icon: <Lock size={20} className="text-purple-500" />
+    });
+  }
 
   const activeClass = "bg-orange-600 text-white shadow-md shadow-orange-200";
   const inactiveClass = "text-gray-500 hover:bg-gray-50 hover:text-gray-900";
@@ -203,6 +212,7 @@ export default function DashboardLayout({ children }) {
                   </span>
                   <span className="text-[10px] font-bold text-gray-400 flex items-center gap-1 uppercase tracking-wider">
                     <User size={10} /> {user?.nombre || "Usuario"}
+                    {user?.es_admin && <span className="ml-1 bg-purple-100 text-purple-600 px-1.5 py-px rounded-full text-[9px]">ADMIN</span>}
                   </span>
                 </div>
               </div>
