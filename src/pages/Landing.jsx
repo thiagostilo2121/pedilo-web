@@ -45,12 +45,24 @@ import {
   BrainCircuit,
   PieChart,
   MessageCircle,
-  AlertTriangle
+  AlertTriangle,
+  Bell,
+  ChefHat,
+  ScanBarcode,
+  Upload,
+  Target,
+  Lightbulb,
+  Cherry,
+  Flame,
+  Clock,
+  Crown,
+  HandPlatter
 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Landing() {
   const navigate = useNavigate();
+  const [openFaq, setOpenFaq] = useState(null);
 
   // ROI Calculator State
   const [sales, setSales] = useState(1500000);
@@ -134,6 +146,30 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* --- SOCIAL PROOF NUMBERS STRIP --- */}
+      <section className="py-10 bg-gray-900 border-t border-gray-800">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
+            <div>
+              <div className="text-3xl md:text-4xl font-black text-white">250+</div>
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Negocios Activos</div>
+            </div>
+            <div>
+              <div className="text-3xl md:text-4xl font-black text-orange-400">0%</div>
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Comisión por Venta</div>
+            </div>
+            <div>
+              <div className="text-3xl md:text-4xl font-black text-white">&lt;30s</div>
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Tiempo por Pedido</div>
+            </div>
+            <div>
+              <div className="text-3xl md:text-4xl font-black text-green-400">100%</div>
+              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Tu Dinero, Tu Data</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* STICKY MOBILE CTA */}
       <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden animate-in slide-in-from-bottom-5 duration-500">
         <button
@@ -155,7 +191,7 @@ export default function Landing() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-4 lg:gap-8 max-w-6xl mx-auto items-center">
+          <div className="grid md:grid-cols-5 gap-4 lg:gap-6 max-w-6xl mx-auto items-center">
             {/* STEP 1: DISCOVERY (APPS) */}
             <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative group hover:border-red-100 transition-colors">
               <div className="text-6xl font-black text-gray-200 mb-4 absolute top-4 right-6 group-hover:text-red-100 transition-colors">1</div>
@@ -181,7 +217,7 @@ export default function Landing() {
             </div>
 
             {/* STEP 2: CONVERSION (THE HACK) */}
-            <div className="p-8 rounded-3xl bg-orange-600 text-white shadow-2xl shadow-orange-200 relative scale-110 z-10">
+            <div className="p-8 rounded-3xl bg-orange-600 text-white shadow-2xl shadow-orange-200 relative md:scale-110 z-10">
               <div className="text-6xl font-black text-orange-500 mb-4 absolute top-4 right-6">2</div>
               <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-6 text-white backdrop-blur-sm">
                 <QrCode size={24} />
@@ -341,7 +377,7 @@ export default function Landing() {
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">Ranking de Clientes</h3>
-                  <p className="text-gray-500 font-medium">Sabé exactamante quiénes son tus clientes fieles. Premialos y asegurate de que vuelvan siempre.</p>
+                  <p className="text-gray-500 font-medium">Sabé exactamente quiénes son tus clientes fieles. Premialos y asegurate de que vuelvan siempre.</p>
                 </div>
               </li>
 
@@ -727,6 +763,469 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* --- COMMAND CENTER: REAL-TIME ORDER MANAGEMENT --- */}
+      <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-orange-900/30 via-gray-900 to-gray-950" />
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-bold mb-6 border border-orange-500/20">
+              <Bell size={16} /> Panel de Control
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Tu Cocina tiene un <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400">Centro de Comando.</span></h2>
+            <p className="text-xl text-gray-400 font-medium max-w-3xl mx-auto">
+              Cada pedido pasa por un pipeline profesional. Sonido, notificaciones push, y un tablero visual que tu equipo entiende en 2 segundos.
+            </p>
+          </div>
+
+          {/* ORDER PIPELINE MOCKUP */}
+          <div className="max-w-5xl mx-auto">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-12">
+              {/* Stage 1 */}
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 text-center relative group hover:bg-amber-500/20 transition-all">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <span className="relative flex h-3 w-3">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                  </span>
+                </div>
+                <div className="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-amber-400">
+                  <Bell size={24} />
+                </div>
+                <h4 className="font-black text-amber-300 text-sm uppercase tracking-wider mb-1">Nuevo</h4>
+                <p className="text-[10px] text-gray-500 font-medium">Suena la alarma. Decidís al instante.</p>
+              </div>
+
+              {/* Stage 2 */}
+              <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-5 text-center group hover:bg-blue-500/20 transition-all">
+                <div className="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-blue-400">
+                  <CheckCircle2 size={24} />
+                </div>
+                <h4 className="font-black text-blue-300 text-sm uppercase tracking-wider mb-1">Aceptado</h4>
+                <p className="text-[10px] text-gray-500 font-medium">Con un toque. El cliente ya sabe.</p>
+              </div>
+
+              {/* Stage 3 */}
+              <div className="bg-purple-500/10 border border-purple-500/30 rounded-2xl p-5 text-center group hover:bg-purple-500/20 transition-all">
+                <div className="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-purple-400">
+                  <ChefHat size={24} />
+                </div>
+                <h4 className="font-black text-purple-300 text-sm uppercase tracking-wider mb-1">Cocinando</h4>
+                <p className="text-[10px] text-gray-500 font-medium">Tu equipo sabe qué preparar.</p>
+              </div>
+
+              {/* Stage 4 */}
+              <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-5 text-center group hover:bg-green-500/20 transition-all">
+                <div className="w-12 h-12 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-green-400">
+                  <HandPlatter size={24} />
+                </div>
+                <h4 className="font-black text-green-300 text-sm uppercase tracking-wider mb-1">Listo</h4>
+                <p className="text-[10px] text-gray-500 font-medium">Avisale por WhatsApp automático.</p>
+              </div>
+            </div>
+
+            {/* NOTIFICATION MOCKUP */}
+            <div className="max-w-lg mx-auto">
+              <div className="bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-700 p-5 shadow-2xl relative">
+                <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-black text-white animate-bounce">1</div>
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30">
+                    <Bell size={20} />
+                  </div>
+                  <div className="flex-1">
+                    <div className="flex justify-between items-start">
+                      <p className="font-black text-white text-sm">🔔 ¡Nuevo Pedido!</p>
+                      <span className="text-[10px] text-gray-500 font-bold">Ahora</span>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">De: <span className="text-white font-bold">María García</span> — $18.500</p>
+                    <p className="text-[10px] text-gray-500 mt-0.5">2x Milanesa Napolitana, 1x Papas Cheddar</p>
+                    <div className="flex gap-2 mt-3">
+                      <button className="flex-1 py-2 bg-green-500 text-white text-xs font-bold rounded-lg">Aceptar</button>
+                      <button className="flex-1 py-2 bg-gray-700 text-gray-300 text-xs font-bold rounded-lg border border-gray-600">Ver</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p className="text-center text-xs text-gray-600 mt-4 font-medium">* Sonido + notificación push. Funciona aunque tengas la pantalla apagada.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- DEEP INTELLIGENCE: CART INSIGHTS + HEATMAP + BEST CLIENTS --- */}
+      <section className="py-24 bg-white relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
+          <div className="absolute top-1/3 left-0 w-80 h-80 bg-purple-50 rounded-full blur-3xl opacity-50"></div>
+          <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-orange-50 rounded-full blur-3xl opacity-40"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 text-purple-700 text-sm font-bold mb-6 border border-purple-100">
+              <Lightbulb size={16} /> Inteligencia Automática
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Tu negocio <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">piensa solo.</span></h2>
+            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
+              Pedilo analiza tus ventas en segundo plano y te dice exactamente qué funciona, qué sobra, y qué combinaciones te hacen ganar más.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+
+            {/* CART INTELLIGENCE */}
+            <div className="bg-gray-900 p-6 md:p-8 rounded-3xl shadow-xl text-white relative overflow-hidden group">
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-600/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="flex items-center gap-2 mb-6">
+                <div className="bg-orange-600 p-2 rounded-xl">
+                  <Target size={18} className="text-white" />
+                </div>
+                <h3 className="text-sm font-black uppercase tracking-widest">Inteligencia de Carrito</h3>
+              </div>
+
+              <div className="space-y-4 mb-6">
+                <div>
+                  <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-2">Productos Ancla</p>
+                  <p className="text-xs text-gray-400 mb-3">El motivo principal de la compra.</p>
+                  <div className="bg-white/5 rounded-xl p-3 border border-white/5">
+                    <p className="text-xs font-black text-white">🏆 Milanesa Napolitana</p>
+                    <p className="text-[9px] text-gray-500">145 pedidos como producto principal</p>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-green-400 uppercase tracking-widest mb-2">Reyes del Upsell</p>
+                  <p className="text-xs text-gray-400 mb-3">Siempre acompañan. Suben el ticket.</p>
+                  <div className="bg-white/5 rounded-xl p-3 border border-white/5">
+                    <p className="text-xs font-black text-white">⚡ Papas Cheddar</p>
+                    <p className="text-[9px] text-gray-500">Se vendió en combo 89 veces</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-orange-600/20 rounded-xl p-3 border border-orange-600/30">
+                <p className="text-[10px] font-bold text-orange-200">
+                  <span className="font-black text-white">💡 Insight:</span> Creá un combo "Milanga + Papas" y subí tu ticket promedio un 25%.
+                </p>
+              </div>
+            </div>
+
+            {/* WEEKLY HEATMAP */}
+            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 group hover:shadow-lg transition-all">
+              <div className="flex items-center gap-2 mb-6">
+                <div className="bg-red-100 p-2 rounded-xl">
+                  <Flame size={18} className="text-red-600" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider">Mapa de Calor</h3>
+                  <p className="text-[10px] text-gray-400 font-bold">Demanda hora x hora</p>
+                </div>
+              </div>
+
+              {/* HEATMAP MOCKUP */}
+              <div className="space-y-1.5 mb-6">
+                {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((day, dIdx) => (
+                  <div key={dIdx} className="flex items-center gap-2">
+                    <span className="text-[9px] font-black text-gray-400 w-7 text-right">{day}</span>
+                    <div className="flex-1 flex gap-0.5">
+                      {Array.from({ length: 12 }, (_, hIdx) => {
+                        const intensities = [
+                          [0, 0, 0, 0, 0, 1, 2, 1, 0, 2, 3, 4],
+                          [0, 0, 0, 0, 0, 1, 1, 2, 0, 3, 4, 3],
+                          [0, 0, 0, 0, 0, 2, 2, 1, 0, 2, 3, 3],
+                          [0, 0, 0, 0, 0, 1, 3, 2, 0, 4, 5, 4],
+                          [0, 0, 0, 0, 0, 2, 3, 2, 0, 5, 5, 5],
+                          [0, 0, 0, 0, 1, 3, 4, 3, 1, 5, 5, 5],
+                          [0, 0, 0, 0, 1, 2, 3, 2, 0, 3, 4, 3],
+                        ];
+                        const val = intensities[dIdx][hIdx];
+                        const colors = ["bg-gray-50", "bg-orange-100", "bg-orange-200", "bg-orange-300", "bg-orange-400", "bg-orange-600"];
+                        return <div key={hIdx} className={`h-5 flex-1 rounded-[3px] ${colors[val]} transition-all hover:scale-150 hover:z-10`} />;
+                      })}
+                    </div>
+                  </div>
+                ))}
+                <div className="flex items-center gap-2 mt-2">
+                  <span className="w-7" />
+                  <div className="flex-1 flex justify-between text-[8px] font-black text-gray-300 uppercase">
+                    <span>8h</span><span>12h</span><span>16h</span><span>20h</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-blue-50 p-3 rounded-xl border border-blue-100">
+                <p className="text-xs text-blue-800 font-bold">
+                  <span className="font-black">📊 Resultado:</span> Organizá turnos y stock sabiendo exactamente cuándo explota la demanda.
+                </p>
+              </div>
+            </div>
+
+            {/* BEST CLIENTS + METRICS */}
+            <div className="space-y-6">
+              {/* TODAY'S METRICS MOCKUP */}
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Métricas en Vivo</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="bg-green-50 p-3 rounded-2xl border border-green-100">
+                    <p className="text-[9px] font-bold text-green-600 uppercase">Ventas Hoy</p>
+                    <p className="text-lg font-black text-gray-900">$285K</p>
+                    <p className="text-[9px] font-bold text-green-600">↑ 18% vs ayer</p>
+                  </div>
+                  <div className="bg-blue-50 p-3 rounded-2xl border border-blue-100">
+                    <p className="text-[9px] font-bold text-blue-600 uppercase">Ticket Prom.</p>
+                    <p className="text-lg font-black text-gray-900">$14.2K</p>
+                    <p className="text-[9px] font-bold text-blue-500">Histórico 30d</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* BEST CLIENTS */}
+              <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
+                <div className="flex items-center gap-2 mb-4">
+                  <Crown size={16} className="text-yellow-500" />
+                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Mejores Clientes</h3>
+                </div>
+                <div className="space-y-3">
+                  {[{ name: "Almacén Don Pedro", orders: 47, total: "$892K" }, { name: "Bar La Esquina", orders: 31, total: "$654K" }, { name: "Rest. El Trébol", orders: 28, total: "$521K" }].map((c, i) => (
+                    <div key={i} className="flex items-center gap-3">
+                      <div className="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center text-[10px] font-black text-blue-600">{i + 1}</div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs font-black text-gray-900 truncate">{c.name}</p>
+                        <p className="text-[9px] text-gray-400 font-bold">{c.orders} compras</p>
+                      </div>
+                      <span className="text-xs font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg">{c.total}</span>
+                    </div>
+                  ))}
+                </div>
+                <p className="text-[9px] text-gray-400 mt-3 italic font-medium">* Ideal para distribuidoras B2B. Sabé a quién premiar.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- BARCODE SCANNER + MASS IMPORT --- */}
+      <section className="py-24 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+          <div>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-gray-700 text-sm font-bold mb-6 border border-gray-200 shadow-sm">
+              <ScanBarcode size={16} className="text-orange-600" /> Carga Inteligente
+            </div>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">2000 productos cargados <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">en 5 minutos.</span></h2>
+            <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed">
+              No cargues producto por producto como en 2015. Pedilo tiene herramientas que <strong>ninguna otra plataforma ofrece</strong>.
+            </p>
+
+            <ul className="space-y-6">
+              <li className="flex gap-4 items-start">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm shrink-0 border border-gray-100">
+                  <ScanBarcode size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Escáner de Código de Barras</h3>
+                  <p className="text-gray-500 font-medium">Escaneá con la cámara del celular. Pedilo busca el producto en una base de datos mundial y completa <strong>nombre, descripción e imagen</strong> automáticamente.</p>
+                </div>
+              </li>
+              <li className="flex gap-4 items-start">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-green-600 shadow-sm shrink-0 border border-gray-100">
+                  <Upload size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Importación Masiva Excel</h3>
+                  <p className="text-gray-500 font-medium">¿Tenés una lista de precios en Excel? Subila y listo. Todos tus productos cargados de una. Ideal para distribuidoras con <strong>catálogos enormes</strong>.</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          {/* SCANNER MOCKUP */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-gray-200 rounded-[3rem] rotate-2 transform"></div>
+            <div className="bg-white p-8 rounded-[3rem] shadow-xl relative border border-gray-100">
+              {/* Fake Scanner UI */}
+              <div className="bg-gray-900 rounded-2xl p-6 text-white mb-6">
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-black">Escáner</span>
+                  <div className="flex gap-1">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    <span className="text-[10px] text-green-400 font-bold">Cámara activa</span>
+                  </div>
+                </div>
+                <div className="bg-gray-800 rounded-xl p-8 flex items-center justify-center border border-dashed border-gray-600">
+                  <div className="text-center">
+                    <ScanBarcode size={48} className="text-orange-500 mx-auto mb-2 animate-pulse" />
+                    <p className="text-xs text-gray-400 font-medium">Apuntá al código de barras</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Found Product */}
+              <div className="bg-green-50 p-4 rounded-2xl border border-green-100">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle2 size={16} className="text-green-600" />
+                  <span className="text-xs font-black text-green-700 uppercase">Producto Encontrado</span>
+                </div>
+                <div className="flex gap-3">
+                  <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center">
+                    <Package size={24} className="text-gray-400" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-gray-900 text-sm">Coca Cola 2.25L</p>
+                    <p className="text-xs text-gray-500">Gaseosa sabor cola</p>
+                    <p className="text-[10px] text-gray-400">EAN: 7790895000065</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- TOPPINGS / EXTRAS SYSTEM --- */}
+      <section className="py-24 bg-white">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Cada cliente pide <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">a su gusto.</span></h2>
+            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto">
+              Toppings, extras, salsas, puntos de cocción. Configurá todo desde el Dashboard y tus clientes eligen solitos. Cero errores, cero audios de 2 minutos.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto items-center">
+            {/* EXPLANATION */}
+            <div className="space-y-6">
+              <div className="flex gap-4 items-start">
+                <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 shrink-0">
+                  <Cherry size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">Grupos de Toppings</h3>
+                  <p className="text-gray-500 font-medium">Creá grupos como "Salsas", "Extras", "Punto de Cocción". Cada grupo tiene sus opciones con precio extra individual.</p>
+                </div>
+              </div>
+              <div className="flex gap-4 items-start">
+                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+                  <Sparkles size={24} />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 text-lg">El cliente arma su pedido perfecto</h3>
+                  <p className="text-gray-500 font-medium">Interfaz visual que muestra las opciones con un toque. Nada de escribir "sin cebolla" en una nota.</p>
+                </div>
+              </div>
+              <div className="bg-green-50 p-4 rounded-2xl border border-green-100">
+                <p className="text-sm text-green-800 font-bold">
+                  <span className="font-black">Resultado:</span> El pedido llega completo, sin errores, con el precio correcto calculado automáticamente. Tu cocina agradece.
+                </p>
+              </div>
+            </div>
+
+            {/* TOPPING MOCKUP */}
+            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-6 max-w-sm mx-auto">
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                <div className="w-14 h-14 bg-gray-100 rounded-xl"></div>
+                <div>
+                  <p className="font-black text-gray-900">Burger Doble</p>
+                  <p className="text-sm text-gray-500">$9.500</p>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">🧀 Extras</p>
+                  <div className="space-y-2">
+                    {[{ name: "Cheddar extra", price: "+$800", selected: true }, { name: "Panceta", price: "+$1.200", selected: true }, { name: "Huevo frito", price: "+$500", selected: false }].map((t, i) => (
+                      <div key={i} className={`flex justify-between items-center p-2.5 rounded-xl border text-sm ${t.selected ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-100'}`}>
+                        <div className="flex items-center gap-2">
+                          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${t.selected ? 'bg-orange-500 border-orange-500' : 'border-gray-300'}`}>
+                            {t.selected && <CheckCircle2 size={12} className="text-white" />}
+                          </div>
+                          <span className="font-bold text-gray-900">{t.name}</span>
+                        </div>
+                        <span className="text-xs font-bold text-gray-500">{t.price}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">🔥 Cocción</p>
+                  <div className="flex gap-2">
+                    {["Jugosa", "A punto", "Cocida"].map((opt, i) => (
+                      <button key={i} className={`flex-1 py-2 rounded-xl text-xs font-bold border ${i === 0 ? 'bg-orange-600 text-white border-orange-600' : 'bg-white text-gray-600 border-gray-200'}`}>{opt}</button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center">
+                <span className="text-sm text-gray-500 font-bold">Total:</span>
+                <span className="text-xl font-black text-gray-900">$11.500</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* --- WHY A BASIC PAGE ISN'T ENOUGH --- */}
+      <section className="py-24 bg-gray-50 border-t border-gray-100 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Una web de pedidos <span className="text-red-600">ya no alcanza.</span></h2>
+            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
+              Cualquiera te hace una "paginita" para pedir. Pero sin inteligencia, sin datos, sin control real... es como tener un local sin caja registradora.
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+              {/* Header */}
+              <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-100">
+                <div className="p-4 text-center">
+                  <span className="text-xs font-bold text-gray-400">&nbsp;</span>
+                </div>
+                <div className="p-4 text-center border-x border-gray-100">
+                  <span className="text-xs font-black text-red-500 uppercase tracking-widest">Página Básica</span>
+                </div>
+                <div className="p-4 text-center bg-orange-50">
+                  <span className="text-xs font-black text-orange-600 uppercase tracking-widest">Pedilo</span>
+                </div>
+              </div>
+
+              {/* Rows */}
+              {[
+                { feature: "Recibir pedidos", basic: true, pedilo: true },
+                { feature: "Pipeline de cocina en vivo", basic: false, pedilo: true },
+                { feature: "Notificaciones push + sonido", basic: false, pedilo: true },
+                { feature: "Inteligencia de carrito (upsell)", basic: false, pedilo: true },
+                { feature: "Mapa de calor semanal", basic: false, pedilo: true },
+                { feature: "Escáner de código de barras", basic: false, pedilo: true },
+                { feature: "Carga masiva por Excel", basic: false, pedilo: true },
+                { feature: "Toppings y extras configurables", basic: false, pedilo: true },
+                { feature: "Cupones y promociones", basic: false, pedilo: true },
+                { feature: "Modo Mayorista (B2B)", basic: false, pedilo: true },
+                { feature: "Ranking de clientes y productos", basic: false, pedilo: true },
+                { feature: "Flyer QR descargable con tu marca", basic: false, pedilo: true },
+              ].map((row, idx) => (
+                <div key={idx} className={`grid grid-cols-3 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} border-b border-gray-50 last:border-0`}>
+                  <div className="p-4 flex items-center">
+                    <span className="text-sm font-bold text-gray-700">{row.feature}</span>
+                  </div>
+                  <div className="p-4 flex items-center justify-center border-x border-gray-100">
+                    {row.basic
+                      ? <CheckCircle2 size={18} className="text-gray-300" />
+                      : <XCircle size={18} className="text-red-300" />
+                    }
+                  </div>
+                  <div className="p-4 flex items-center justify-center bg-orange-50/50">
+                    <CheckCircle2 size={18} className="text-orange-600" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-center mt-8 text-lg text-gray-600 font-bold">
+              Una página básica recibe pedidos. <span className="text-orange-600 font-black">Pedilo hace crecer tu negocio.</span>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* --- QR RETENTION --- */}
       <section className="py-24 bg-gray-50 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
@@ -779,23 +1278,76 @@ export default function Landing() {
         </div>
       </section>
 
+      {/* --- FAQ SECTION --- */}
+      <section className="py-24 bg-white border-t border-gray-100">
+        <div className="max-w-3xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Preguntas Frecuentes</h2>
+            <p className="text-xl text-gray-500 font-medium">Todo lo que necesitás saber antes de empezar.</p>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              { q: "¿Realmente es 0% de comisión?", a: "Sí. Pedilo cobra un plan fijo mensual, no un porcentaje de tus ventas. Si vendés $1 o $10 millones, el costo es el mismo. Tu ganancia es toda tuya." },
+              { q: "¿Necesito saber de tecnología?", a: "Para nada. Si sabés usar WhatsApp, sabés usar Pedilo. Configurás tu negocio en menos de 10 minutos. Cargás productos con fotos o escaneando el código de barras." },
+              { q: "¿Mis clientes necesitan descargar una app?", a: "No. Tus clientes abren un link o escanean un QR y piden directo desde el navegador del celular. Sin registros, sin descargas. Menos fricción, más ventas." },
+              { q: "¿Sirve para distribuidoras/mayoristas?", a: "Sí, Pedilo tiene un Modo Mayorista nativo con listas de precios diferenciadas, mínimos de compra y venta por bulto. Es la única plataforma B2B diseñada para esto." },
+              { q: "¿Puedo usar Pedilo junto con PedidosYa/Rappi?", a: "¡Es la idea! Usá las apps para que te conozcan nuevos clientes y mandá un flyer QR con cada pedido para que la próxima vez pidan directo por Pedilo. Te ahorrás el 30% de comisión." },
+              { q: "¿Qué pasa con mis datos si me voy?", a: "Tus datos son TUYOS. Podés exportar todo cuando quieras. No hay contratos de permanencia ni letra chica." },
+            ].map((faq, idx) => (
+              <div key={idx} className="border border-gray-100 rounded-2xl overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
+                  className="w-full flex justify-between items-center p-5 text-left hover:bg-gray-50 transition-colors"
+                >
+                  <span className="font-bold text-gray-900 pr-4">{faq.q}</span>
+                  <ChevronRight size={20} className={`text-gray-400 shrink-0 transition-transform duration-200 ${openFaq === idx ? 'rotate-90' : ''}`} />
+                </button>
+                {openFaq === idx && (
+                  <div className="px-5 pb-5 text-gray-600 font-medium leading-relaxed animate-in slide-in-from-top-1 duration-200">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* --- FINAL CTA --- */}
       <section className="py-32 px-4 text-center bg-gray-900 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800 to-gray-950"></div>
         <div className="max-w-4xl mx-auto relative z-10">
-          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">Tomá el control de tu negocio.</h2>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-bold mb-8 border border-orange-500/20">
+            <Zap size={16} /> Empezá hoy, vendé mañana
+          </div>
+          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">Tomá el control <br className="hidden md:block" />de tu negocio.</h2>
           <p className="text-xl text-gray-400 font-medium mb-12 max-w-2xl mx-auto">
-            Sin contratos. Sin letra chica. Empezás gratis y cancelás cuando quieras.
+            Sin contratos. Sin letra chica. Tu negocio online en menos de 10 minutos.
           </p>
 
-          <button
-            onClick={() => navigate("/register")}
-            className="w-full md:w-auto px-12 py-5 bg-orange-600 text-white font-black rounded-2xl text-xl hover:bg-orange-500 hover:scale-[1.02] transition-all shadow-2xl shadow-orange-900/50"
-          >
-            Crear mi Cuenta Gratis
-          </button>
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+            <button
+              onClick={() => navigate("/register")}
+              className="px-12 py-5 bg-orange-600 text-white font-black rounded-2xl text-xl hover:bg-orange-500 hover:scale-[1.02] transition-all shadow-2xl shadow-orange-900/50"
+            >
+              Crear mi Cuenta Gratis
+            </button>
+            <button
+              onClick={() => window.open("/n/pedilo-oficial", "_blank", "noopener,noreferrer")}
+              className="px-12 py-5 bg-white/5 text-white font-black rounded-2xl text-xl hover:bg-white/10 border border-white/10 transition-all"
+            >
+              Ver Demo
+            </button>
+          </div>
 
-          <div className="mt-8 flex items-center justify-center gap-6 text-sm text-gray-500 font-medium">
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-gray-500 font-medium mb-8">
+            <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Sin tarjeta requerida</span>
+            <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Cancelá cuando quieras</span>
+            <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Soporte humano</span>
+          </div>
+
+          <div className="flex items-center justify-center gap-6 text-sm text-gray-600 font-medium">
             <span className="flex items-center gap-2"><Github size={16} /> Open Source Core</span>
             <span>·</span>
             <span>Hecho con ❤️ en Argentina</span>
