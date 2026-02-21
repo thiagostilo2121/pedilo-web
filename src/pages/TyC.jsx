@@ -70,23 +70,24 @@ const Terminos = () => {
               Naturaleza del Servicio
             </h2>
             <p>
-              <strong>Pedilo</strong> es una plataforma tecnológica (SaaS) diseñada para optimizar la toma de pedidos en comercios de cercanía.
-              Actuamos exclusivamente como facilitadores de comunicación entre el Comercio y el Cliente.
-              <strong> Importante:</strong> No somos una empresa de delivery, no poseemos flota logística y no intervenimos en la preparación de productos.
+              <strong>Pedilo</strong> es una plataforma tecnológica (SaaS) diseñada para optimizar la toma de pedidos y proveer inteligencia de negocio a comercios de cercanía y mayoristas.
+              Actuamos exclusivamente como proveedores de software y facilitadores tecnológicos entre el Comercio y el Cliente final.
+              <strong> Importante:</strong> No somos una empresa de delivery, no poseemos flota logística, no procesamos pagos de comensales y no intervenimos en la preparación de productos.
             </p>
           </section>
 
           <section id="comercios" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
               <span className="p-2 bg-orange-100 text-orange-600 rounded-md">2</span>
-              Cuentas y Gestión de Comercios
+              Cuentas, Gestión y Modos de Venta
             </h2>
             <p>
-              Para acceder al Dashboard, el Comercio debe registrarse con datos válidos. Cada suscripción permite la gestión de un (1) único slug comercial.
+              Para acceder al Dashboard, el Comercio debe registrarse con datos válidos. Cada suscripción permite la gestión de un (1) único slug comercial. Al configurar su negocio, el local acepta las siguientes condiciones:
             </p>
             <ul className="list-disc pl-5 space-y-2">
-              <li>El Comercio es responsable de la carga de precios, stock e imágenes.</li>
-              <li>Pedilo no verifica la veracidad de los datos del local (dirección, teléfono o legalidad del negocio).</li>
+              <li><strong>Datos y Catálogo:</strong> El Comercio es enteramente responsable de la carga de precios, stock, imágenes y descripciones. Pedilo no audita ni verifica la legalidad o veracidad de los datos del local.</li>
+              <li><strong>Propiedad de Clientes:</strong> Pedilo reconoce explícitamente que los clientes finales que compran a través del sistema son clientes del Comercio, no de Pedilo. Los datos generados pertenecen al negocio titular.</li>
+              <li><strong>Modo Mayorista:</strong> Si el Comercio opera como "Distribuidora", es el único responsable de configurar y hacer cumplir los montos mínimos de compra y los precios por volumen. Pedilo solo provee la herramienta técnica para limitar la continuación del pedido si no se alcanza dicho mínimo.</li>
             </ul>
           </section>
 
@@ -111,13 +112,16 @@ const Terminos = () => {
               Suscripción y Pagos del SaaS
             </h2>
             <p>
-              El uso del servicio para Comercios tiene un costo mensual acorde a las tarifas vigentes publicadas en nuestra sección de <Link to="/planes" className="text-orange-600 underline">Planes</Link>.
+              El uso del servicio para Comercios tiene un costo mensual fijo o anual acorde a las tarifas vigentes publicadas en nuestra sección de <Link to="/planes" className="text-orange-600 underline">Planes</Link>.
               Pedilo se reserva el derecho de modificar estas tarifas, notificando a los usuarios con 30 días de antelación.
-              Este pago otorga acceso al Dashboard, gestión de productos y recepción de pedidos ilimitados.
+              Este pago otorga acceso total e irrestricto al Dashboard, Tablero de Control de estadísticas (Business Intelligence), gestión de catálogo y recepción ilimitada de pedidos.
             </p>
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-4 mt-4">
-              <p className="text-sm text-blue-800 italic">
-                Nota: Pedilo NO cobra comisiones por venta. El pago es fijo por el uso de la herramienta tecnológica.
+            <div className="bg-green-50 border-l-4 border-green-500 p-4 mt-4">
+              <p className="text-sm font-bold text-green-900">
+                Garantía de 0% Comisión:
+              </p>
+              <p className="text-sm text-green-800 mt-1">
+                Pedilo NO cobra ni cobrará jamás comisiones por pedido, ni retenciones sobre las ventas. El 100% de la facturación generada a través de la plataforma le pertenece directamente al Comercio.
               </p>
             </div>
           </section>

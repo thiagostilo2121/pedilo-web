@@ -10,8 +10,8 @@ export default function PeakHoursChart({ data }) {
             <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Zap size={14} className="text-orange-500" /> Horarios Pico
             </h3>
-            <div className="h-40 w-full mt-4">
-                <ResponsiveContainer width="100%" height="100%">
+            <div className="h-40 w-full mt-4" style={{ minHeight: "160px" }}>
+                <ResponsiveContainer width="100%" height="100%" minWidth={300} minHeight={150}>
                     <BarChart data={data} margin={{ top: 10, right: 0, left: -25, bottom: 0 }}>
                         <XAxis
                             dataKey="hour"

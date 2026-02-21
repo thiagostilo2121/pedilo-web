@@ -40,7 +40,7 @@ export default function Footer() {
           <a href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37" target="_blank" rel="noopener noreferrer" className="hover:text-green-600 text-green-600 font-black flex items-center gap-2">
             Canal de Novedades
           </a>
-          <a href="https://instagram.com/pediloarg.ofc" target="_blank" rel="noopener noreferrer" className="hover:text-pink-600 text-gray-400 transition-colors">
+          <a href="https://instagram.com/pediloarg.ofc" target="_blank" rel="noopener noreferrer" className="hover:text-pink-600 text-gray-500 transition-colors">
             <Instagram size={22} />
           </a>
         </div>

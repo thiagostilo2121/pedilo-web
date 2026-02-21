@@ -334,9 +334,45 @@ export default function PublicNegocio({ slug }) {
 
         {/* Pedido Mínimo Banner (distribuidoras) */}
         {negocio.tipo_negocio === 'distribuidora' && negocio.pedido_minimo > 0 && (
-          <div className="mx-4 mb-4 flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 px-4 py-3 rounded-2xl text-sm font-bold">
-            <span className="text-lg">📦</span>
-            <span>Pedido mínimo: <span className="font-black">${negocio.pedido_minimo.toLocaleString()}</span></span>
+          <div className="mx-4 mb-4 bg-white border border-gray-100 px-4 py-4 rounded-3xl shadow-sm">
+            {(() => {
+              const currentTotal = calcularTotalCarrito(carrito, negocio);
+              const progress = Math.min(100, (currentTotal / negocio.pedido_minimo) * 100);
+              const reached = currentTotal >= negocio.pedido_minimo;
+
+              return (
+                <div className="flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">{reached ? '🎉' : '📦'}</span>
+                      <span className="text-sm font-bold text-gray-900">
+                        {reached ? '¡Mínimo alcanzado!' : 'Pedido mínimo'}
+                      </span>
+                    </div>
+                    <span className={`text-sm font-black ${reached ? 'text-green-500' : 'text-gray-900'}`}>
+                      ${currentTotal.toLocaleString()} <span className="text-xs text-gray-400 font-medium">/ ${negocio.pedido_minimo.toLocaleString()}</span>
+                    </span>
+                  </div>
+
+                  {/* Progress Bar */}
+                  <div className="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className={`h-full rounded-full transition-all duration-700 ease-out ${reached ? 'bg-green-500' : 'bg-orange-500'}`}
+                      style={{
+                        width: `${progress}%`,
+                        backgroundColor: !reached ? (negocio.color_primario || '#f97316') : undefined
+                      }}
+                    ></div>
+                  </div>
+
+                  {!reached && (
+                    <p className="text-[11px] text-gray-500 font-medium text-right mt-0.5">
+                      Faltan <strong className="text-gray-900">${(negocio.pedido_minimo - currentTotal).toLocaleString()}</strong>
+                    </p>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         )}
 
@@ -413,18 +449,18 @@ export default function PublicNegocio({ slug }) {
             {/* 3.5 VIEW TOGGLE (NEW) */}
             {productos.length > 0 && !searchTerm && (
               <div className="mb-4 flex justify-end">
-                <div className="bg-gray-100 p-1 rounded-lg flex items-center gap-1">
+                <div className="bg-gray-100 p-1 rounded-xl flex items-center gap-1">
                   <button
                     onClick={() => setViewMode("grid")}
-                    className={`p-2 rounded-md transition-all ${viewMode === 'grid' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                    className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-xs font-bold ${viewMode === 'grid' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
                   >
-                    <LayoutGrid size={18} />
+                    <LayoutGrid size={16} /> Grilla
                   </button>
                   <button
                     onClick={() => setViewMode("list")}
-                    className={`p-2 rounded-md transition-all ${viewMode === 'list' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-400 hover:text-gray-600'}`}
+                    className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5 text-xs font-bold ${viewMode === 'list' ? 'bg-white shadow-sm text-gray-900' : 'text-gray-500 hover:text-gray-700'}`}
                   >
-                    <List size={18} />
+                    <List size={16} /> Lista
                   </button>
                 </div>
               </div>

@@ -138,6 +138,7 @@ export default function Register() {
             </label>
             <input
               type="password"
+              autoComplete="new-password"
               {...register("password", {
                 required: "La contraseña es obligatoria",
                 minLength: { value: 8, message: "Mínimo 8 caracteres" },
@@ -158,6 +159,7 @@ export default function Register() {
             </label>
             <input
               type="password"
+              autoComplete="new-password"
               {...register("confirmPassword", {
                 required: "Repetí tu contraseña",
                 validate: (value) => value === watch("password") || "Las contraseñas no coinciden"

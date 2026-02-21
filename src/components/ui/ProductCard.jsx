@@ -55,10 +55,10 @@ export default function ProductCard({
             ) : product.destacado ? (
                 <div className="absolute top-4 left-4 z-10">
                     <span
-                        className="text-[10px] font-black text-white px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1"
+                        className="text-[10px] font-black text-white px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1.5"
                         style={{ backgroundColor: negocio?.color_primario || '#f97316' }}
                     >
-                        <Star size={10} fill="currentColor" /> POPULAR
+                        <Star size={10} fill="currentColor" /> MÁS VENDIDO
                     </span>
                 </div>
             ) : hasWholesale && isWholesaleApplied ? (
@@ -80,7 +80,7 @@ export default function ProductCard({
                     </p>
                 </div>
 
-                <div className="flex items-end justify-between mt-3">
+                <div className="flex items-center justify-between mt-3">
                     <div className="min-w-0">
                         <div className="flex items-baseline gap-1">
                             <span className={`text-lg sm:text-2xl font-black tracking-tight ${isWholesaleApplied ? 'text-green-600' : 'text-gray-900'}`}>${displayPrice}</span>

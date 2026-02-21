@@ -20,7 +20,7 @@ export default function CategoryStoryBar({ categorias, activeCategory, onSelectC
                             <span className="font-black text-[10px] uppercase text-gray-800">Menú</span>
                         </div>
                     </div>
-                    <span className={`text-xs font-bold truncate max-w-[80px] ${activeCategory === "todos" ? 'text-gray-900' : 'text-gray-500'}`}>Todos</span>
+                    <span className={`text-xs font-bold truncate max-w-[96px] ${activeCategory === "todos" ? 'text-gray-900' : 'text-gray-500'}`}>Todos</span>
                 </button>
 
                 {/* Categories Map */}
@@ -44,7 +44,7 @@ export default function CategoryStoryBar({ categorias, activeCategory, onSelectC
                                     />
                                 </div>
                             </div>
-                            <span className={`text-xs font-bold truncate max-w-[80px] ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>{cat.nombre}</span>
+                            <span className={`text-xs font-bold truncate max-w-[96px] ${isActive ? 'text-gray-900' : 'text-gray-500'}`}>{cat.nombre}</span>
                         </button>
                     )
                 })}

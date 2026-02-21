@@ -68,7 +68,7 @@ const Privacidad = () => {
             <p>En <strong>Pedilo</strong> diferenciamos dos tipos de usuarios:</p>
             <ul className="list-disc pl-5">
               <li><strong>Comercios:</strong> Recolectamos correo electrónico, nombre del negocio, teléfono y datos de configuración del local necesarios para la prestación del servicio SaaS.</li>
-              <li><strong>Clientes:</strong> Al realizar un pedido, se solicitan datos básicos (nombre, teléfono, dirección) que son transferidos al Comercio para procesar la orden. Pedilo no almacena estos datos con fines de marketing.</li>
+              <li><strong>Clientes Finales:</strong> Al realizar un pedido, se solicitan datos básicos (nombre, teléfono, dirección) que son transferidos directamente al Comercio para procesar la orden. <strong>Estos datos son propiedad exclusiva del Comercio.</strong> Pedilo no los almacena con fines de marketing propio ni los cruza entre diferentes locales.</li>
             </ul>
           </section>
 
@@ -88,9 +88,10 @@ const Privacidad = () => {
             <h2 className="text-2xl font-bold text-gray-900">3. Uso de la Información</h2>
             <p>La información recolectada se utiliza exclusivamente para:</p>
             <ul className="list-disc pl-5">
-              <li>Permitir el funcionamiento de la plataforma de pedidos.</li>
+              <li>Permitir el funcionamiento de la plataforma de pedidos e inventario.</li>
               <li>Facilitar la comunicación directa vía WhatsApp entre Cliente y Comercio.</li>
-              <li>Gestionar el cobro de la suscripción mensual del servicio SaaS.</li>
+              <li>Gestionar el cobro de la suscripción mensual del servicio SaaS al Comercio.</li>
+              <li><strong>Inteligencia de Negocio (Tablero de Control):</strong> Pedilo procesa los datos de ventas para generar métricas automáticas (ej. horarios pico, productos más vendidos, ranking de clientes) <strong>para uso exclusivo y privado del Comercio titular</strong>. Pedilo no comercializa estas métricas con terceros ni con comercios competidores.</li>
             </ul>
           </section>
 
@@ -107,11 +108,11 @@ const Privacidad = () => {
               Pedilo utiliza tecnologías de almacenamiento local (LocalStorage) y cookies técnicas estrictamente necesarias para:
             </p>
             <ul className="list-disc pl-5 mt-2">
-              <li>Mantener la sesión del usuario activa.</li>
-              <li>Recordar preferencias de configuración (como el carrito de compras temporal).</li>
+              <li>Mantener la sesión del usuario Comercio activa en el Dashboard.</li>
+              <li>Recordar preferencias de configuración (como el carrito de compras temporal del Cliente).</li>
             </ul>
-            <p className="mt-2">
-              No utilizamos cookies de terceros para rastreo publicitario invasivo.
+            <p className="mt-2 text-green-700 font-bold">
+              Pedilo es libre de rastreadores publicitarios externos. No utilizamos cookies de terceros (Third-Party Cookies) orientadas a retargeting o perfilado publicitario intrusivo a través de internet.
             </p>
           </section>
 

@@ -256,9 +256,9 @@ export default function DashboardLayout({ children }) {
 
         {/* MENU MOBILE DESPLEGABLE */}
         <div
-          className={`lg:hidden fixed inset-0 z-50 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out bg-gray-50/95 backdrop-blur-xl`}
+          className={`lg:hidden fixed inset-0 z-50 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out bg-gray-50/95 backdrop-blur-xl flex flex-col`}
         >
-          <div className="flex items-center justify-between h-16 px-6 border-b bg-white/50">
+          <div className="flex items-center justify-between h-16 px-6 border-b bg-white/50 shrink-0">
             <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
             <button
               onClick={() => setMobileMenuOpen(false)}
@@ -267,7 +267,8 @@ export default function DashboardLayout({ children }) {
               <X size={24} />
             </button>
           </div>
-          <nav className="p-4 space-y-2">
+
+          <nav className="p-4 space-y-2 flex-1 overflow-y-auto">
             {menuItems.map((item) => (
               <NavLink
                 key={item.path}
@@ -282,44 +283,44 @@ export default function DashboardLayout({ children }) {
               </NavLink>
             ))}
 
-            {/* Mobile Footer Section */}
-            <div className="pt-6 mt-6 border-t border-gray-100 space-y-4">
-              {/* Socials */}
-              <div className="grid grid-cols-2 gap-4">
-                <a
-                  href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-green-50 text-green-600"
-                >
-                  <MessageCircle size={24} />
-                  <span className="text-sm font-bold">Novedades</span>
-                </a>
-                <a
-                  href="https://instagram.com/pediloarg.ofc"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-pink-50 text-pink-600"
-                >
-                  <Instagram size={24} />
-                  <span className="text-sm font-bold">Instagram</span>
-                </a>
-              </div>
-
-              <button
-                onClick={logoutAction}
-                className="flex items-center justify-center gap-4 w-full px-4 py-3 text-red-600 hover:bg-red-50 rounded-xl"
+            {/* Socials inside scrollable area to save sticky space */}
+            <div className="grid grid-cols-2 gap-4 mt-6">
+              <a
+                href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-green-50 text-green-600"
               >
-                <LogOut size={20} />
-                <span className="text-lg font-medium">Cerrar Sesión</span>
-              </button>
+                <MessageCircle size={24} />
+                <span className="text-sm font-bold">Novedades</span>
+              </a>
+              <a
+                href="https://instagram.com/pediloarg.ofc"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center gap-2 p-4 rounded-2xl bg-pink-50 text-pink-600"
+              >
+                <Instagram size={24} />
+                <span className="text-sm font-bold">Instagram</span>
+              </a>
+            </div>
 
-              <div className="flex justify-center gap-6 pt-4 text-sm font-medium text-gray-400">
-                <button onClick={() => navigate("/terminos")}>Términos y Condiciones</button>
-                <button onClick={() => navigate("/privacidad")}>Privacidad</button>
-              </div>
+            <div className="flex justify-center gap-6 pt-6 pb-2 text-sm font-medium text-gray-400">
+              <button onClick={() => navigate("/terminos")}>Términos y Condiciones</button>
+              <button onClick={() => navigate("/privacidad")}>Privacidad</button>
             </div>
           </nav>
+
+          {/* Sticky Mobile Footer Section */}
+          <div className="p-4 bg-white border-t border-gray-100 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] shrink-0 z-10">
+            <button
+              onClick={logoutAction}
+              className="flex items-center justify-center gap-3 w-full px-4 py-3.5 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-colors font-bold"
+            >
+              <LogOut size={20} />
+              <span className="text-base">Cerrar Sesión</span>
+            </button>
+          </div>
         </div>
 
         {/* CONTENIDO SCROLLABLE */}

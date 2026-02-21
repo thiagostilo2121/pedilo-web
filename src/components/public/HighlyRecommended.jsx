@@ -1,5 +1,5 @@
-import React from 'react';
-import { Flame, Star, Plus, Minus } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Flame, Star, Plus, Minus, ChevronLeft, ChevronRight } from 'lucide-react';
 import { DEFAULT_PRODUCT_IMAGE } from '../../constants';
 import ProgressiveImage from '../ui/ProgressiveImage';
 
@@ -14,15 +14,46 @@ export default function HighlyRecommended({
     const destacadeProducts = productos.filter(p => p.destacado);
     if (destacadeProducts.length === 0) return null;
 
+    const scrollContainerRef = useRef(null);
+
+    const scroll = (direction) => {
+        if (scrollContainerRef.current) {
+            const scrollAmount = direction === 'left' ? -350 : 350;
+            scrollContainerRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
     return (
-        <section className="mb-10 pl-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
-            <div className="flex items-center justify-between pr-4 mb-4">
+        <section className="mb-10 pl-4 animate-in fade-in slide-in-from-bottom-4 duration-700 relative group/carousel">
+            <div className="flex flex-col pr-4 mb-4">
                 <h2 className="text-xl font-black text-gray-900 flex items-center gap-2">
                     Imperdibles <Flame className="text-orange-500 animate-pulse" size={24} fill="currentColor" />
                 </h2>
+                <p className="text-xs text-gray-500 font-medium mt-0.5">Los platos que se agotan más rápido hoy.</p>
             </div>
 
-            <div className="flex overflow-x-auto gap-4 pb-8 pr-4 -ml-4 pl-4 scrollbar-responsive snap-x pt-2">
+            {/* Desktop Navigation Arrows */}
+            {destacadeProducts.length > 2 && (
+                <>
+                    <button
+                        onClick={() => scroll('left')}
+                        className="hidden md:flex absolute left-2 top-[55%] -translate-y-1/2 z-30 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg shadow-gray-200/50 items-center justify-center text-gray-700 hover:text-orange-600 hover:scale-110 active:scale-95 opacity-0 group-hover/carousel:opacity-100 transition-all border border-gray-100"
+                    >
+                        <ChevronLeft size={28} />
+                    </button>
+                    <button
+                        onClick={() => scroll('right')}
+                        className="hidden md:flex absolute right-2 top-[55%] -translate-y-1/2 z-30 w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full shadow-lg shadow-gray-200/50 items-center justify-center text-gray-700 hover:text-orange-600 hover:scale-110 active:scale-95 opacity-0 group-hover/carousel:opacity-100 transition-all border border-gray-100"
+                    >
+                        <ChevronRight size={28} />
+                    </button>
+                </>
+            )}
+
+            <div
+                ref={scrollContainerRef}
+                className="flex overflow-x-auto gap-4 pb-8 pr-4 -ml-4 pl-4 scrollbar-responsive snap-x pt-2 scroll-smooth"
+            >
                 {destacadeProducts.map(prod => {
                     const cartItem = carrito.find(p => p.id === prod.id);
                     const canAdd = prod.stock && negocio?.acepta_pedidos;
@@ -43,14 +74,14 @@ export default function HighlyRecommended({
 
                                 <div className="absolute top-3 left-3 flex gap-2 z-20">
                                     <span
-                                        className="text-white text-[10px] font-black px-2.5 py-1 rounded-full flex items-center gap-1 shadow-lg shadow-orange-500/40 tracking-wide uppercase"
+                                        className="text-white text-[10px] font-black px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-lg shadow-orange-500/40 tracking-wide uppercase"
                                         style={{ backgroundColor: negocio.color_primario || '#f97316' }}
                                     >
-                                        <Star size={10} fill="currentColor" /> POPULAR
+                                        <Star size={10} fill="currentColor" /> MÁS VENDIDO
                                     </span>
                                 </div>
 
-                                <div className="absolute bottom-3 right-3 bg-white text-gray-900 px-3 py-1.5 rounded-full font-black text-sm shadow-xl flex items-center gap-1 z-20">
+                                <div className="absolute top-3 right-3 bg-white text-gray-900 px-3 py-1.5 rounded-full font-black text-sm shadow-xl flex items-center gap-1 z-20">
                                     ${prod.precio}
                                 </div>
                             </div>

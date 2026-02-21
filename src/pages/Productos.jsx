@@ -202,27 +202,29 @@ export default function ProductosDashboard() {
             <p className="text-gray-500 font-medium mt-1">Administra el stock y precios de tu menú.</p>
           </div>
 
-          <div className="grid grid-cols-2 sm:flex gap-2 w-full md:w-auto">
-            {/* Mobile: Scan takes full width or half? Let's do 2 cols for smaller actions and 1 for big action */}
+          <div className="flex items-center gap-2 w-full md:w-auto">
+            {/* Mobile: Scan and Import are icon-only to fit on one row with Nuevo Producto */}
             <button
               onClick={() => setShowScanner(true)}
-              className="flex items-center justify-center gap-2 bg-blue-50 text-blue-700 border border-blue-100 px-4 py-3 rounded-xl font-bold hover:bg-blue-100 transition-all active:scale-95"
+              className="p-3 bg-blue-50 text-blue-700 border border-blue-100 rounded-xl font-bold hover:bg-blue-100 transition-all active:scale-95 shrink-0 flex items-center justify-center"
+              title="Escanear Código"
             >
-              <ScanBarcode size={20} />
-              <span className="text-sm">Escanear</span>
+              <ScanBarcode size={22} />
+              <span className="hidden sm:inline text-sm ml-2">Escanear</span>
             </button>
             <button
               onClick={() => setShowImportModal(true)}
-              className="flex items-center justify-center gap-2 bg-green-50 text-green-700 border border-green-100 px-4 py-3 rounded-xl font-bold hover:bg-green-100 transition-all active:scale-95"
+              className="p-3 bg-green-50 text-green-700 border border-green-100 rounded-xl font-bold hover:bg-green-100 transition-all active:scale-95 shrink-0 flex items-center justify-center"
+              title="Importar Excel"
             >
-              <FileSpreadsheet size={20} />
-              <span className="text-sm">Importar Excel</span>
+              <FileSpreadsheet size={22} />
+              <span className="hidden sm:inline text-sm ml-2">Excel</span>
             </button>
             <button
               onClick={() => openModal()}
-              className="col-span-2 sm:col-span-1 flex items-center justify-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg shadow-gray-200 active:scale-95"
+              className="flex-1 sm:flex-none flex items-center justify-center gap-2 bg-gray-900 text-white px-4 sm:px-6 py-3 rounded-xl font-bold hover:bg-black transition-all shadow-lg shadow-gray-200 active:scale-95"
             >
-              <Plus size={20} /> Nuevo Producto
+              <Plus size={20} /> <span className="text-sm border-l border-gray-700 pl-2 ml-1 sm:border-none sm:pl-0 sm:ml-0 sm:text-base">Nuevo<span className="hidden sm:inline"> Producto</span></span>
             </button>
           </div>
         </div>
