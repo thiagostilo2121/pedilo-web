@@ -1,4 +1,6 @@
-# AGENTS.md
+# AGENTS.md - Frontend
+
+> **🚨 CRITICAL:** Before proceeding, verify you have read the global root [AGENTS.md](../AGENTS.md) and [PROJECT_STATE.md](../PROJECT_STATE.md). This file contains context specific to the Frontend application.
 
 This file provides guidance to WARP (warp.dev) when working with code in this repository.
 

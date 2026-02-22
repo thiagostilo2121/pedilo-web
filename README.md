@@ -188,18 +188,6 @@ Esto significa que si modificás este código y lo usás en un servicio público
 
 ---
 
-## 🔮 Roadmap v0.6.0 (En Preparación)
-
-El objetivo es consolidar el modelo híbrido (Minorista/Distribuidora) con funciones B2B robustas.
-
-- [x] **Validación Estricta de Mínimos**: Bloqueo de checkout si no se cumple el monto mínimo de compra (Distribuidoras).
-- [x] **Marketing Automático**: Smart Banners e Insignias de Reputación.
-- [ ] **Stock Numérico Real**: Gestión de inventario exacto (unidades) en lugar de binario (Sí/No).
-- [ ] **Cuentas Corrientes**: Gestión de saldos para clientes recurrentes.
-- [ ] **Multi-Depósito**: Manejo de stock desde múltiples ubicaciones.
-
----
-
 ## 💬 Nota del Desarrollador
 
 > Este proyecto fue creado en **una semana y media** (Backend + Frontend). El backend fue desarrollado principalmente por mí con asistencia de IA. El frontend, siendo honesto, tuvo una participación mayor de herramientas de IA dado que mi especialidad es el backend (Python/FastAPI).
