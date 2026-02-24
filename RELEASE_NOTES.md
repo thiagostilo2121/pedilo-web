@@ -1,3 +1,19 @@
+# Release Notes - v1.2.1
+
+**Fecha:** 24 de Febrero, 2026
+**Versión:** 1.2.1
+
+Esta versión de mantenimiento soluciona problemas críticos de linting y estandariza la configuración para garantizar que el CI de GitHub pase correctamente.
+
+## 🚀 Qué hay de nuevo
+
+### 🛠️ Calidad de Código & Linting
+- **Ruff Clean Pass:** Se han corregido más de 170 errores detectados por Ruff, incluyendo imports mal ubicados, nombres no definidos en tests y encadenamiento de excepciones.
+- **FastAPI Optimization:** Se ha ajustado la configuración de linting en `pyproject.toml` para ser compatible con el sistema de inyección de dependencias (`Depends`) de FastAPI.
+- **SSH Workflow:** Se ha corregido el origen del repositorio frontend para usar SSH, eliminando la necesidad de tokens manuales en el flujo de trabajo del desarrollador.
+
+---
+
 # Release Notes - v1.2.0
 
 **Fecha:** 24 de Febrero, 2026
