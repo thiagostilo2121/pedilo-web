@@ -85,9 +85,12 @@ export default function About() {
                             <Globe size={20} />
                         </div>
                         <h3 className="font-bold text-gray-900">Estado</h3>
-                        <p className="text-xl font-black text-gray-800">Producción</p>
-                        <p className="text-xs text-green-500 mt-1 flex items-center gap-1 font-bold italic">
-                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Online
+                        <p className="text-xl font-black text-gray-800">
+                            {import.meta.env.PROD ? "Producción" : "Desarrollo"}
+                        </p>
+                        <p className={`text-xs mt-1 flex items-center gap-1 font-bold italic ${import.meta.env.PROD ? "text-green-500" : "text-orange-500"}`}>
+                            <span className={`w-2 h-2 rounded-full animate-pulse ${import.meta.env.PROD ? "bg-green-500" : "bg-orange-500"}`}></span>
+                            {import.meta.env.PROD ? "Online" : "Localhost"}
                         </p>
                     </div>
                 </div>
