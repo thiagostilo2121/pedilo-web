@@ -1,3 +1,19 @@
+# Release Notes - v1.3.0
+
+**Fecha:** 24 de Febrero, 2026
+**Versión:** 1.3.0
+
+Esta versión trae un rediseño completo de la Landing Page, enfocándose en una estética premium y moderna con glassmorphism, para comunicar mejor nuestra propuesta de valor B2B a restaurantes y comercios.
+
+## 🚀 Qué hay de nuevo
+
+### 🎨 Landing Page 3.0 (Premium B2B)
+- **Glassmorphism & Gradients:** Nuevo lenguaje visual con tarjetas translúcidas, sombras suaves y mesh gradients.
+- **Flujo de Venta Mejorado:** Secciones reestructuradas: Modo Mayorista, Realidad vs Sistemas Tradicionales e Impacto de Gamificación.
+- **Sección de Inteligencia:** Nuevos mockups que muestran analíticas reales, mapa de calor y upsell automatizado.
+
+---
+
 # Release Notes - v1.2.1
 
 **Fecha:** 24 de Febrero, 2026
