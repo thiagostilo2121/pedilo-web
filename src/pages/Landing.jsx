@@ -18,6 +18,7 @@
 import { useNavigate } from "react-router-dom";
 import {
   ShoppingBag,
+  Activity,
   Zap,
   Smartphone,
   ChevronRight,
@@ -47,6 +48,7 @@ import {
   ChefHat,
   ScanBarcode,
   Upload,
+  ShieldCheck,
   Target,
   Lightbulb,
   Cherry,
@@ -97,119 +99,139 @@ export default function Landing() {
     <div className="bg-white text-gray-900 font-sans selection:bg-orange-100 selection:text-orange-600">
 
       {/* --- NAVBAR --- */}
-      <nav className="fixed w-full z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+      <nav className="fixed w-full z-50 transition-all duration-300 bg-white/70 backdrop-blur-xl border-b border-gray-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <span className="text-2xl font-black text-gray-900 tracking-tight">Pedilo<span className="text-orange-600">.</span></span>
-            <div className="flex gap-2 sm:gap-4 items-center">
+          <div className="flex justify-between h-[72px] items-center">
+            <span className="text-2xl font-black tracking-tighter text-gray-900 flex items-center gap-1">
+              Pedilo<span className="text-orange-600">.</span>
+            </span>
+            <div className="flex gap-3 sm:gap-6 items-center">
               <button
                 onClick={() => navigate("/login")}
-                className="text-gray-600 hover:text-orange-600 font-bold transition-colors text-sm px-1 sm:px-2"
+                className="text-gray-600 hover:text-gray-900 font-semibold transition-colors text-sm px-2"
               >
                 Ingresar
               </button>
               <button
                 onClick={() => navigate("/register")}
-                className="bg-orange-600 hover:bg-orange-700 text-white px-3 sm:px-4 py-2 rounded-xl font-bold transition-all text-xs sm:text-sm shadow-lg shadow-orange-100 ring-2 ring-orange-100 ring-offset-2"
+                className="bg-gray-900 hover:bg-gray-800 text-white px-5 py-2.5 rounded-full font-bold transition-all text-sm shadow-md hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
               >
-                Crear mi Tienda Gratis
+                Crear Tienda
               </button>
             </div>
           </div>
         </div>
       </nav>
 
-      {/* --- HERO SECTION: AGGRESSIVE & DIRECT --- */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-orange-100 via-white to-white -z-10"></div>
+      {/* --- HERO SECTION: PREMIUM & PROFESSIONAL --- */}
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-white">
+        {/* Modern Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] opacity-20 pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-rose-400 blur-[100px] rounded-full mix-blend-multiply"></div>
+        </div>
 
         <div className="max-w-7xl mx-auto px-4 relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-orange-50 border border-orange-100 text-orange-800 text-xs sm:text-sm font-bold mb-8 animate-fade-in-up">
+          {/* Sleek Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 backdrop-blur-md border border-gray-200/60 shadow-sm text-gray-800 text-xs sm:text-sm font-semibold mb-8 hover:bg-white/80 transition-colors">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
             </span>
-            Pedidos y crecimiento sin comisiones
+            <span>La nueva forma de recibir pedidos</span>
           </div>
 
-          <h1 className="text-4xl sm:text-6xl md:text-7xl font-black tracking-tight mb-6 sm:mb-8 leading-[1.1] text-gray-950 max-w-5xl mx-auto">
-            Tu propia web. Tu propio crecimiento. <br className="hidden md:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">Tus Clientes. Tu Ganancia (100%).</span>
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-6 sm:mb-8 leading-[1.05] text-gray-900 max-w-5xl mx-auto">
+            Tu negocio.<br className="hidden sm:block" />
+            Tus reglas.<br className="hidden sm:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-orange-500 to-rose-500">Tu ganancia.</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium">
-            La alternativa a las Apps que te cobra <span className="text-orange-600 font-extrabold">$0 comisión</span>. Fidelizá clientes y recuperá el control de tu negocio hoy mismo.
+          <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-10 leading-relaxed font-medium px-4">
+            La alternativa a las Apps que te cobra <span className="text-gray-900 font-black">$0 comisión</span>. Fidelizá a tus clientes y recuperá el control de tu local hoy mismo.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
             <button
               onClick={() => navigate("/register")}
-              className="px-10 py-5 bg-gray-900 text-white font-black rounded-2xl text-xl hover:bg-gray-800 hover:scale-[1.02] transition-all flex items-center justify-center gap-2 group shadow-xl shadow-gray-200"
+              className="px-8 py-4 bg-orange-600 text-white font-bold rounded-full text-lg hover:bg-orange-700 hover:shadow-orange-500/30 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-orange-600/20"
             >
-              Crear mi Tienda Gratis <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+              Crear mi Tienda Gratis <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
             <a
               href="/n/pedilo-oficial"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 sm:px-10 sm:py-5 flex items-center justify-center bg-white text-gray-600 font-bold rounded-2xl text-lg hover:text-gray-900 hover:bg-gray-50 border border-gray-200 transition-all shadow-sm"
+              className="px-8 py-4 flex items-center justify-center bg-white/80 backdrop-blur-md text-gray-700 font-bold rounded-full text-lg hover:text-gray-900 hover:bg-white border border-gray-200 shadow-sm transition-all hover:shadow-md hover:-translate-y-1"
             >
-              Ver Demo en Vivo
+              <Store size={20} className="mr-2 text-gray-500" /> Ver Demo en Vivo
             </a>
           </div>
-          <div className="flex items-center justify-center mb-12 animate-pulse">
-            <span className="inline-flex items-center gap-2 text-sm font-bold text-red-700 bg-red-50/50 px-5 py-2.5 rounded-full border border-red-100 shadow-sm shadow-red-500/10 backdrop-blur-sm">
-              <Flame size={18} className="text-red-600" /> Solo quedan 14 cupos para onboarding gratuito este mes.
-            </span>
+
+          <div className="flex items-center justify-center mb-16">
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-500 bg-gray-50/80 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-200">
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              Garantía de onboarding y soporte gratuito
+            </div>
           </div>
 
-          {/* REAL DATA EVIDENCE - HERO PLACEMENT */}
-          <div className="mt-8 mb-12 max-w-3xl mx-auto transform hover:scale-[1.01] transition-transform duration-500">
-            <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-1 border border-gray-200 shadow-xl relative overflow-hidden">
-              <div className="p-4 sm:p-6">
-                <h4 className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-4 flex items-center justify-center gap-2 border-b border-gray-100 pb-3">
-                  <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span> Dato Real de Tienda Demo ({dateRangeString})
-                </h4>
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-center">
-                  {/* VENTAS */}
-                  <div className="col-span-2 lg:col-span-1 border-r border-gray-100 pr-4 text-center lg:text-left">
-                    <div className="text-gray-400 text-[10px] font-bold uppercase mb-1">Ventas Totales</div>
-                    <div className="text-gray-900 font-black text-xl sm:text-3xl tracking-tight">{formatMoney(realSales)}</div>
+          {/* REAL DATA EVIDENCE - GLASSMORPHISM */}
+          <div className="max-w-5xl mx-auto transform hover:-translate-y-1 transition-transform duration-500 relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-50 to-white rounded-3xl blur-xl opacity-50"></div>
+            <div className="bg-white/80 backdrop-blur-2xl rounded-3xl p-6 md:p-8 border border-white shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-32 bg-orange-100 rounded-full blur-3xl opacity-40 -mr-16 -mt-16 pointer-events-none"></div>
+
+              <div className="flex flex-col sm:flex-row justify-between items-center mb-6 pb-6 border-b border-gray-100/80 relative z-10 gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-orange-100 to-orange-50 flex items-center justify-center border border-orange-200/50 text-orange-600">
+                    <TrendingUp size={20} />
                   </div>
-                  {/* PEDIDOS */}
-                  <div className="border-r border-gray-100 pr-4 text-center lg:text-left">
-                    <div className="text-gray-400 text-[10px] font-bold uppercase mb-1">Pedidos</div>
-                    <div className="text-gray-900 font-bold text-lg sm:text-xl flex items-center justify-center lg:justify-start gap-1">
-                      <ShoppingBag size={16} className="text-orange-500" /> {realOrders}
-                    </div>
+                  <div className="text-left">
+                    <h4 className="text-gray-900 font-bold">Datos Reales de Tienda Demo</h4>
+                    <span className="text-gray-500 text-xs font-medium">{dateRangeString}</span>
                   </div>
-                  {/* TICKET M */}
-                  <div className="text-center lg:text-left">
-                    <div className="text-gray-400 text-[10px] font-bold uppercase mb-1">Ticket Prom.</div>
-                    <div className="text-blue-600 font-bold text-lg sm:text-xl">{formatMoney(realAvgTicket)}</div>
+                </div>
+                <div className="flex items-center gap-1.5 text-green-700 text-xs font-bold bg-green-50 px-3 py-1.5 rounded-full border border-green-100 shadow-sm">
+                  <div className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                  Métricas en Vivo
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 items-center relative z-10">
+                <div className="p-4 sm:p-5 rounded-2xl bg-gray-50/50 border border-gray-100 text-center lg:text-left transition-colors hover:bg-white">
+                  <div className="text-gray-500 text-xs font-semibold uppercase mb-1.5 flex items-center justify-center lg:justify-start gap-1"><BadgeCheck size={14} /> Ventas Totales</div>
+                  <div className="text-gray-900 font-black text-2xl lg:text-3xl tracking-tight">{formatMoney(realSales)}</div>
+                </div>
+                <div className="p-4 sm:p-5 rounded-2xl bg-gray-50/50 border border-gray-100 text-center lg:text-left transition-colors hover:bg-white">
+                  <div className="text-gray-500 text-xs font-semibold uppercase mb-1.5 flex items-center justify-center lg:justify-start gap-1"><ShoppingBag size={14} /> Pedidos</div>
+                  <div className="text-gray-900 font-bold text-2xl lg:text-3xl">{realOrders}</div>
+                </div>
+                <div className="p-4 sm:p-5 rounded-2xl bg-gray-50/50 border border-gray-100 text-center lg:text-left transition-colors hover:bg-white">
+                  <div className="text-gray-500 text-xs font-semibold uppercase mb-1.5 flex items-center justify-center lg:justify-start gap-1"><Ticket size={14} /> Ticket Prom.</div>
+                  <div className="text-gray-700 font-bold text-xl lg:text-2xl">{formatMoney(realAvgTicket)}</div>
+                </div>
+                <div className="col-span-2 lg:col-span-1 p-5 rounded-2xl bg-gradient-to-br from-orange-500 to-orange-600 border border-orange-500 text-center shadow-lg shadow-orange-500/20 text-white transform hover:scale-105 transition-all cursor-default relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-white opacity-10 rounded-full blur-xl -mr-4 -mt-4"></div>
+                  <div className="text-orange-100 text-xs font-bold uppercase mb-1.5 tracking-wide">Tu Ahorro (30%)</div>
+                  <div className="font-black text-2xl lg:text-3xl tracking-tight">
+                    {formatMoney(realSavings)}
                   </div>
-                  {/* AHORRO */}
-                  <div className="col-span-2 lg:col-span-1 bg-orange-50 p-3 rounded-xl border border-orange-100 text-center lg:text-right">
-                    <div className="text-orange-600 text-[10px] font-bold uppercase mb-1">Tu Ahorro (30%)</div>
-                    <div className="font-black text-xl sm:text-2xl text-orange-600">
-                      {formatMoney(realSavings)}
-                    </div>
-                    <div className="text-[9px] text-orange-400 font-bold mt-1">¡Dinero tuyo!</div>
-                  </div>
+                  <div className="text-[10px] sm:text-xs text-orange-100 font-medium mt-1">Directo a tu bolsillo</div>
                 </div>
               </div>
             </div>
 
-            {/* TRUST BADGES STRIP (Moved here) */}
-            <div className="mt-6 flex flex-wrap justify-center gap-4 sm:gap-6 opacity-80">
-              <div className="flex gap-1.5 items-center text-gray-500 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
-                <div className="bg-green-100 p-0.5 rounded-full"><CheckCircle2 size={12} className="text-green-600" /></div> MercadoPago / Transferencia
+            {/* TRUST BADGES STRIP */}
+            <div className="mt-8 flex flex-wrap justify-center gap-3 sm:gap-4 opacity-90 relative z-10 pb-8">
+              <div className="flex gap-2 items-center text-gray-600 text-xs font-medium bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-transform hover:-translate-y-0.5">
+                <CheckCircle2 size={16} className="text-green-500" /> MercadoPago / Transferencia
               </div>
-              <div className="flex gap-1.5 items-center text-gray-500 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
-                <div className="bg-green-100 p-0.5 rounded-full"><CheckCircle2 size={12} className="text-green-600" /></div> 0% Comisión
+              <div className="flex gap-2 items-center text-gray-600 text-xs font-medium bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-transform hover:-translate-y-0.5">
+                <CheckCircle2 size={16} className="text-green-500" /> Sin comisiones ocultas
               </div>
-              <div className="flex gap-1.5 items-center text-gray-500 text-[10px] font-bold bg-white px-3 py-1.5 rounded-full border border-gray-200 shadow-sm">
-                <div className="bg-green-100 p-0.5 rounded-full"><CheckCircle2 size={12} className="text-green-600" /></div> Base de Datos Propia
+              <div className="flex gap-2 items-center text-gray-600 text-xs font-medium bg-white px-4 py-2 rounded-full border border-gray-200 shadow-sm transition-transform hover:-translate-y-0.5">
+                <CheckCircle2 size={16} className="text-green-500" /> Base de datos propia
               </div>
             </div>
           </div>
@@ -217,40 +239,44 @@ export default function Landing() {
       </section>
 
       {/* --- SOCIAL PROOF NUMBERS STRIP --- */}
-      <section className="py-10 bg-gray-900 border-t border-gray-800">
+      <section className="py-16 bg-gray-900 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 text-center">
-            <div>
-              <div className="text-3xl md:text-4xl font-black text-white">250+</div>
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Negocios Activos</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center divide-x-0 md:divide-x divide-gray-800">
+            <div className="flex flex-col items-center">
+              <div className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-2">250<span className="text-orange-500 text-3xl md:text-5xl align-top inline-block ml-1">+</span></div>
+              <div className="text-sm font-semibold text-gray-400 uppercase tracking-widest">Negocios Activos</div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-black text-orange-400">0%</div>
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Comisión por Venta</div>
+            <div className="flex flex-col items-center">
+              <div className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-2">0<span className="text-orange-500 text-3xl md:text-5xl align-top inline-block ml-1">%</span></div>
+              <div className="text-sm font-semibold text-gray-400 uppercase tracking-widest">Comisión por Venta</div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-black text-white">&lt;30s</div>
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Tiempo por Pedido</div>
+            <div className="flex flex-col items-center">
+              <div className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-2">&lt;30<span className="text-orange-500 text-3xl md:text-5xl align-top inline-block ml-1">s</span></div>
+              <div className="text-sm font-semibold text-gray-400 uppercase tracking-widest">Tiempo por Pedido</div>
             </div>
-            <div>
-              <div className="text-3xl md:text-4xl font-black text-green-400">100%</div>
-              <div className="text-xs font-bold text-gray-500 uppercase tracking-wider mt-1">Tu Dinero, Tu Data</div>
+            <div className="flex flex-col items-center">
+              <div className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-2">100<span className="text-orange-500 text-3xl md:text-5xl align-top inline-block ml-1">%</span></div>
+              <div className="text-sm font-semibold text-gray-400 uppercase tracking-widest">Tu Dinero y Data</div>
             </div>
           </div>
         </div>
-
-
       </section>
 
       {/* --- SEGMENTATION: IDENTIFY YOUR PAIN --- */}
-      <section className="py-32 bg-gray-50 border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <span className="text-orange-600 font-bold tracking-wider uppercase text-sm">Personalizá tu solución</span>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mt-2">¿Cómo vendés hoy?</h2>
+      <section className="py-24 md:py-32 bg-gray-50/50 relative overflow-hidden">
+        {/* Decorative blobs */}
+        <div className="absolute top-0 right-0 p-32 bg-orange-100 rounded-full blur-3xl opacity-40 -mr-16 -mt-16 pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 p-32 bg-blue-50 rounded-full blur-3xl opacity-40 -ml-16 -mb-16 pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16 px-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-orange-600 text-xs font-bold mb-4 border border-orange-100 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.1)]">
+              SOLUCIONES A MEDIDA
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tight">¿Cuál es la realidad de tu negocio?</h2>
           </div>
 
-          <div className="grid md:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
             {/* CARD 1: APPS */}
             <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-100 hover:shadow-xl hover:border-gray-200 transition-all group cursor-default">
               <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center text-gray-500 mb-6 group-hover:scale-110 group-hover:bg-rose-50 group-hover:text-rose-500 transition-all">
@@ -319,28 +345,35 @@ export default function Landing() {
       </section>
 
       {/* --- AGITATION SECTION: THE PAIN --- */}
-      <section className="py-32 bg-white">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-5xl font-black text-gray-900 mb-12 leading-tight">
-            ¿Tu socio o tu jefe? <br />
-            <span className="text-gray-500 font-bold text-2xl sm:text-4xl">Las Apps se quedan con tu ganancia.</span>
+      <section className="py-24 relative overflow-hidden bg-white">
+        <div className="max-w-5xl mx-auto px-4 text-center">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-12 leading-tight tracking-tight">
+            ¿Es tu socio o es tu jefe? <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-500 to-gray-400 font-bold text-3xl sm:text-5xl tracking-tight">Las Apps se quedan con tu ganancia.</span>
           </h2>
-          <div className="flex flex-col md:flex-row gap-8 items-stretch justify-center mb-16">
-            <div className="bg-gray-50 p-10 rounded-[2.5rem] border border-gray-100 max-w-sm hover:shadow-xl transition-shadow text-left">
-              <div className="text-gray-400 mb-6 flex"><XCircle size={40} /></div>
-              <h3 className="text-xl font-black text-gray-900 mb-3">Comisiones Abusivas</h3>
+          <div className="grid md:grid-cols-2 gap-8 items-stretch justify-center mb-16 relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-orange-100 rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+
+            <div className="bg-white p-8 md:p-10 rounded-3xl border border-gray-200/60 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-300 text-left relative z-10 overflow-hidden group">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-rose-50 rounded-bl-full opacity-50 transition-transform group-hover:scale-110"></div>
+              <div className="w-14 h-14 bg-rose-50 rounded-2xl flex items-center justify-center text-rose-500 mb-6 border border-rose-100/50"><XCircle size={28} /></div>
+              <h3 className="text-2xl font-black text-gray-900 mb-4 tracking-tight">Comisiones Abusivas</h3>
               <p className="text-gray-600 font-medium leading-relaxed">Si vendés $100.000, te quedan $70.000. Regalás el 30% de tu esfuerzo solo por usar su plataforma.</p>
             </div>
-            <div className="bg-gray-50 p-10 rounded-[2.5rem] border border-gray-100 max-w-sm hover:shadow-xl transition-shadow text-left">
-              <div className="text-gray-400 mb-6 flex"><AlertTriangle size={40} /></div>
-              <h3 className="text-xl font-black text-gray-900 mb-3">Clientes "Secuestrados"</h3>
-              <p className="text-gray-600 font-medium leading-relaxed">¿Sabés quién te compró? No. Los datos son de la App. Vos solo sos la cocina que prepara la comida.</p>
+            <div className="bg-white p-8 md:p-10 rounded-3xl border border-gray-200/60 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.08)] hover:-translate-y-1 transition-transform duration-300 text-left relative z-10 overflow-hidden group">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-orange-50 rounded-bl-full opacity-50 transition-transform group-hover:scale-110"></div>
+              <div className="w-14 h-14 bg-orange-50 rounded-2xl flex items-center justify-center text-orange-500 mb-6 border border-orange-100/50"><AlertTriangle size={28} /></div>
+              <h3 className="text-2xl font-black text-gray-900 mb-4 tracking-tight">Clientes "Secuestrados"</h3>
+              <p className="text-gray-600 font-medium leading-relaxed">¿Sabés quién te compró? No. Los datos son de la App. Vos pasás a ser solo el cocinero que les hace el producto.</p>
             </div>
           </div>
-          <p className="text-xl sm:text-3xl font-black text-gray-900 max-w-2xl mx-auto leading-tight">
-            Es hora de tener tu propio sistema.<br />
-            <span className="text-orange-600 underline decoration-orange-300 decoration-3 underline-offset-8 mt-2 inline-block">Es hora de elegir Pedilo.</span>
-          </p>
+          <div className="inline-block relative">
+            <span className="absolute -inset-1 bg-gradient-to-r from-orange-500 to-rose-500 rounded-xl blur opacity-30"></span>
+            <p className="relative bg-white px-8 py-4 rounded-xl text-xl sm:text-2xl font-black text-gray-900 border border-gray-100 shadow-sm">
+              Es hora de tener tu propio canal.<br className="sm:hidden" />
+              <span className="text-orange-600 sm:ml-2">Es hora de elegir Pedilo.</span>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -358,80 +391,87 @@ export default function Landing() {
       </div>
 
       {/* --- HYBRID STRATEGY: THE CYCLE OF SUCCESS --- */}
-      <section className="py-32 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-block px-4 py-1 bg-gray-900 text-white text-xs font-bold rounded-full mb-4 tracking-widest uppercase">Estrategia 2026</div>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">El Ciclo del Éxito.</h2>
-            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto">
-              No dejes las Apps. Usalas para pescar clientes, y traelos a tu pecera con Pedilo.
+      <section className="py-24 md:py-32 bg-gray-50 border-y border-gray-100 overflow-hidden relative">
+        <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white to-transparent opacity-80"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-16 md:mb-24">
+            <div className="inline-block px-4 py-1.5 bg-gray-900/5 backdrop-blur-sm border border-gray-200 text-gray-800 text-xs font-bold rounded-full mb-6 tracking-widest uppercase shadow-sm">
+              <span className="w-2 h-2 inline-block rounded-full bg-blue-500 mr-2 animate-pulse"></span>
+              Estrategia Recomendada
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">El Ciclo de Venta Inteligente.</h2>
+            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed">
+              No dejes las Apps si te traen clientes nuevos. <strong className="text-gray-900">Usalas para pescarlos</strong> y luego fidelizalos en tu propia plataforma con Pedilo.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-5 gap-4 lg:gap-5 max-w-7xl mx-auto items-center">
+          <div className="grid md:grid-cols-[1fr_auto_1.2fr_auto_1fr] gap-6 max-w-6xl mx-auto items-center">
             {/* STEP 1: DISCOVERY (APPS) */}
-            <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative group hover:border-red-100 transition-colors">
-              <div className="text-6xl font-black text-gray-200 mb-4 absolute top-4 right-6 group-hover:text-red-100 transition-colors">1</div>
-              <div className="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mb-6 text-gray-400">
-                <Search size={24} />
+            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 relative group transition-colors">
+              <div className="text-6xl font-black text-gray-100 mb-4 absolute top-4 right-6 pointer-events-none">1</div>
+              <div className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-100 flex items-center justify-center mb-6 text-gray-400 relative z-10">
+                <Search size={22} />
               </div>
-              <h3 className="text-xl font-black text-gray-900 mb-2">Descubrimiento</h3>
-              <p className="text-gray-500 font-medium mb-4 text-sm">El cliente tiene hambre y busca en las Apps. Te encuentra y pide.</p>
-              <div className="bg-white p-3 rounded-xl border border-gray-100">
-                <div className="flex justify-between text-xs font-bold text-gray-500 mb-1">
-                  <span>Costo (Comisión)</span>
-                  <span className="text-red-500">30% (Duele)</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 relative z-10">Descubrimiento</h3>
+              <p className="text-gray-500 font-medium mb-6 text-sm relative z-10">El usuario te encuentra en PedidosYa o similares y hace la primera compra.</p>
+              <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-100 relative z-10">
+                <div className="flex justify-between text-xs font-bold text-gray-500 mb-2">
+                  <span>Comisión App</span>
+                  <span className="text-rose-500">30%</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-1.5">
-                  <div className="bg-red-500 h-1.5 rounded-full w-[100%]"></div>
+                <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-gradient-to-r from-rose-400 to-rose-500 h-1.5 rounded-full w-[100%] shadow-[0_0_10px_rgba(244,63,94,0.5)]"></div>
                 </div>
               </div>
             </div>
 
             {/* ARROW */}
             <div className="hidden md:flex justify-center text-gray-300">
-              <ArrowRight size={48} />
+              <ArrowRight size={32} />
             </div>
 
             {/* STEP 2: CONVERSION (THE HACK) */}
-            <div className="p-8 rounded-3xl bg-orange-600 text-white shadow-2xl shadow-orange-200 relative md:scale-110 z-10">
-              <div className="text-6xl font-black text-orange-500 mb-4 absolute top-4 right-6">2</div>
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center mb-6 text-white backdrop-blur-sm">
-                <QrCode size={24} />
+            <div className="p-8 rounded-3xl bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 shadow-2xl relative md:scale-110 z-20 group">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:12px_12px] opacity-20 rounded-3xl pointer-events-none"></div>
+              <div className="text-6xl font-black text-gray-700/50 mb-4 absolute top-4 right-6 pointer-events-none z-0">2</div>
+              <div className="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center mb-6 text-white backdrop-blur-sm relative z-10">
+                <QrCode size={26} />
               </div>
-              <h3 className="text-xl font-black text-white mb-2">La Conversión</h3>
-              <p className="text-orange-100 font-medium mb-4 text-sm">Entregás el pedido con un Flyer/QR de Pedilo: "La próxima pedí directo y ahorrá".</p>
-              <div className="bg-orange-700/50 p-3 rounded-xl border border-orange-500/50">
-                <div className="flex justify-between text-xs font-bold text-white mb-1">
-                  <span>Inversión</span>
-                  <span className="text-yellow-300">$10 (Impresión)</span>
+              <h3 className="text-2xl font-black text-white mb-3 tracking-tight relative z-10">La Intercepción</h3>
+              <p className="text-gray-300 font-medium mb-6 text-sm leading-relaxed relative z-10">
+                Entregás ese pedido con un Flyer atractivo: <strong className="text-white">"La próxima pedí directo, más rápido y a mejor precio"</strong>.
+              </p>
+              <div className="bg-black/40 backdrop-blur-sm p-4 rounded-2xl border border-white/10 relative z-10">
+                <div className="flex justify-between text-xs font-bold text-gray-400 mb-2">
+                  <span>Costo Impresión</span>
+                  <span className="text-yellow-400">Diminuto</span>
                 </div>
-                <div className="w-full bg-orange-800 rounded-full h-1.5">
-                  <div className="bg-yellow-400 h-1.5 rounded-full w-[5%]"></div>
+                <div className="w-full bg-gray-700 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-gradient-to-r from-yellow-400 to-orange-400 h-1.5 rounded-full w-[15%] shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>
                 </div>
               </div>
             </div>
 
             {/* ARROW */}
             <div className="hidden md:flex justify-center text-gray-300">
-              <ArrowRight size={48} />
+              <ArrowRight size={32} />
             </div>
 
             {/* STEP 3: RETENTION (PEDILO) */}
-            <div className="p-8 rounded-3xl bg-gray-50 border border-gray-100 relative group hover:border-green-100 transition-colors">
-              <div className="text-6xl font-black text-gray-200 mb-4 absolute top-4 right-6 group-hover:text-green-100 transition-colors">3</div>
-              <div className="w-12 h-12 rounded-2xl bg-white border border-gray-200 flex items-center justify-center mb-6 text-green-600">
-                <TrendingUp size={24} />
+            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-200 relative group transition-colors">
+              <div className="text-6xl font-black text-gray-100 mb-4 absolute top-4 right-6 pointer-events-none">3</div>
+              <div className="w-12 h-12 rounded-2xl bg-green-50 border border-green-100 flex items-center justify-center mb-6 text-green-600 relative z-10">
+                <TrendingUp size={22} />
               </div>
-              <h3 className="text-xl font-black text-gray-900 mb-2">Rentabilidad</h3>
-              <p className="text-gray-500 font-medium mb-4 text-sm">El cliente vuelve a pedir por Pedilo. Es fiel a TU marca, no a la App.</p>
-              <div className="bg-white p-3 rounded-xl border border-gray-100">
-                <div className="flex justify-between text-xs font-bold text-gray-500 mb-1">
-                  <span>Costo (Comisión)</span>
-                  <span className="text-green-500">0% (Gloria)</span>
+              <h3 className="text-xl font-bold text-gray-900 mb-2 relative z-10">Rentabilidad</h3>
+              <p className="text-gray-500 font-medium mb-6 text-sm relative z-10">Ese cliente ahora te compra directo por Pedilo. Pasa a ser fiel a tu marca.</p>
+              <div className="bg-gray-50 p-3.5 rounded-2xl border border-gray-100 relative z-10">
+                <div className="flex justify-between text-xs font-bold text-gray-500 mb-2">
+                  <span>Comisión App</span>
+                  <span className="text-green-600">0%</span>
                 </div>
-                <div className="w-full bg-gray-100 rounded-full h-1.5">
-                  <div className="bg-gray-200 h-1.5 rounded-full w-[100%]"></div>
+                <div className="w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                  <div className="bg-gray-300 h-1.5 rounded-full w-[100%]"></div>
                 </div>
               </div>
             </div>
@@ -440,76 +480,82 @@ export default function Landing() {
       </section>
 
       {/* --- WHATSAPP REALITY: CHAOS VS ORDER --- */}
-      <section className="py-32 bg-gray-50 relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">SOLO con WhatsApp <br /><span className="text-orange-600">NO ALCANZA.</span></h2>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Vender SOLO con WhatsApp <br className="hidden sm:block" /><span className="text-red-600">no es escalable.</span></h2>
             <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed">
-              Perdés tiempo descifrando audios, direcciones incompletas y clientes que preguntan precios. Eso no es un negocio, es un caos.
+              Perdés tiempo descifrando audios, contestando "precio" mil veces al día y anotando mal la dirección. Eso no es un negocio serio, es un caos.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 items-stretch">
+          <div className="grid lg:grid-cols-2 gap-8 items-stretch max-w-6xl mx-auto">
             {/* THE CHAOS (MANUAL) */}
-            <div className="bg-white p-10 rounded-[2.5rem] shadow-sm border border-gray-100 relative overflow-hidden text-center md:text-left">
-              <div className="absolute top-0 right-0 bg-gray-100 text-gray-500 px-4 py-2 rounded-bl-2xl font-black text-sm">REALIDAD ACTUAL</div>
-              <h3 className="text-2xl font-black text-gray-900 mb-8 flex items-center justify-center md:justify-start gap-2">
-                <AlertTriangle className="text-gray-400" /> El Caos
+            <div className="bg-gray-50/80 backdrop-blur-sm p-8 md:p-10 rounded-3xl border border-gray-200 shadow-sm relative overflow-hidden text-center md:text-left flex flex-col">
+              <div className="absolute top-0 right-0 bg-gray-200 text-gray-600 px-5 py-2 rounded-bl-3xl font-bold text-xs tracking-widest uppercase shadow-sm">Realidad Actual</div>
+              <h3 className="text-2xl font-black text-gray-800 mb-8 flex items-center justify-center md:justify-start gap-3 tracking-tight">
+                <AlertTriangle className="text-gray-400" /> El Caos Diario
               </h3>
 
-              <div className="space-y-4 font-mono text-sm max-w-sm mx-auto md:mx-0 opacity-80">
-                <div className="bg-gray-50 p-3 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-600 border border-gray-100">
+              <div className="space-y-4 font-mono text-[13px] max-w-sm mx-auto md:mx-0 opacity-80 flex-1 w-full">
+                <div className="bg-white p-3.5 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-600 border border-gray-200 shadow-sm w-[85%]">
                   Hola precio de la hamburguesa?
                 </div>
-                <div className="bg-gray-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-gray-700 ml-auto text-right border border-gray-200">
+                <div className="bg-green-50 p-3.5 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-green-900 ml-auto text-right border border-green-200 shadow-sm w-[85%]">
                   $8500 la simple, $9500 la doble...
                 </div>
-                <div className="bg-gray-50 p-3 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-600 border border-gray-100">
+                <div className="bg-white p-3.5 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-600 border border-gray-200 shadow-sm w-[85%]">
                   Ah dale. Tenés papas?
                 </div>
-                <div className="bg-gray-100 p-3 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-gray-700 ml-auto text-right border border-gray-200">
+                <div className="bg-green-50 p-3.5 rounded-tr-2xl rounded-tl-2xl rounded-bl-2xl text-green-900 ml-auto text-right border border-green-200 shadow-sm w-[85%]">
                   Si, chicas $3000, grandes $5000
                 </div>
-                <div className="bg-gray-50 p-3 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-500 flex items-center gap-2 border border-gray-100">
-                  <span className="italic text-xs">Audio 0:45</span> 🎤
+                <div className="bg-white p-3.5 rounded-tr-2xl rounded-tl-2xl rounded-br-2xl text-gray-500 flex items-center gap-2 border border-gray-200 shadow-sm w-[60%]">
+                  <span className="italic">Audio 0:45</span> 🎤
                 </div>
               </div>
 
-              <div className="mt-10 text-center text-gray-500 font-bold">
-                Resultado: 20 minutos perdidos por pedido.
+              <div className="mt-8 pt-6 border-t border-gray-200 text-center">
+                <span className="inline-flex items-center gap-2 text-rose-600 font-bold bg-rose-50 px-4 py-2 rounded-full text-sm">
+                  <XCircle size={18} /> 20 minutos perdidos por pedido.
+                </span>
               </div>
             </div>
 
             {/* THE ORDER (PEDILO) */}
-            <div className="bg-gray-900 p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden transform md:scale-105 z-10 text-center md:text-left">
-              <div className="absolute top-0 right-0 bg-green-500 text-white px-4 py-2 rounded-bl-2xl font-black text-sm">CON PEDILO</div>
-              <h3 className="text-2xl font-black text-white mb-8 flex items-center justify-center md:justify-start gap-2">
-                <CheckCircle2 className="text-green-500" /> El Orden
+            <div className="bg-gray-900 p-8 md:p-10 rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] relative overflow-hidden transform lg:scale-105 z-10 text-center md:text-left flex flex-col border border-gray-700">
+              <div className="absolute inset-0 bg-gradient-to-b from-gray-800/50 to-transparent pointer-events-none"></div>
+              <div className="absolute top-0 right-0 bg-green-500 text-white px-5 py-2 rounded-bl-3xl font-bold text-xs tracking-widest uppercase shadow-sm z-20">Con Pedilo</div>
+              <h3 className="text-2xl font-black text-white mb-8 flex items-center justify-center md:justify-start gap-3 tracking-tight relative z-10">
+                <CheckCircle2 className="text-green-400" /> El Orden Absoluto
               </h3>
 
-              <div className="bg-gray-800/50 p-6 rounded-2xl border border-gray-700 text-left">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white shrink-0">
-                    <MessageCircle size={24} fill="currentColor" />
+              <div className="bg-gray-800/80 backdrop-blur-md p-6 rounded-2xl border border-gray-700 text-left relative z-10 flex-1 shadow-inner">
+                <div className="flex items-start gap-4 mb-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white shrink-0 shadow-lg shadow-green-500/30">
+                    <MessageCircle size={22} fill="currentColor" />
                   </div>
-                  <div>
-                    <div className="font-bold text-white mb-1">Nuevo Pedido #2491AB</div>
-                    <div className="text-green-400 font-mono text-xs mb-2">Hace 2 min</div>
-                    <p className="text-gray-300 text-sm leading-relaxed">
-                      ¡Hola Negocio Genial!<br />
-                      Realicé un pedido por Pedilo #2491AB<br />
-                      <strong>Total: $14.500 (Pagará por MP)</strong><br />
-                      Dirección: Av. Siempreviva 742, 2A.
-                    </p>
+                  <div className="flex-1 w-full min-w-0">
+                    <div className="font-bold text-white mb-1.5 flex items-center gap-2 flex-wrap">
+                      Nuevo Pedido #2491AB <span className="text-[10px] bg-gray-700 px-2 py-0.5 rounded-full text-green-400 animate-pulse">Ahora</span>
+                    </div>
+                    <div className="text-gray-300 text-xs sm:text-sm leading-relaxed font-mono bg-gray-900/50 p-3 rounded-xl border border-gray-700 overflow-hidden break-words">
+                      ¡Hola! Envío nuevo pedido ✨<br />
+                      <strong>Total: $14.500 (Abona c/ MP)</strong><br />
+                      Dir: Av. Siempreviva 742, 2A.<br />
+                      <span className="text-gray-500 text-xs">Ver detalle en el link adjunto.</span>
+                    </div>
                   </div>
                 </div>
-                <button className="w-full py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl transition-colors mt-2">
-                  Aceptar
+                <button className="w-full py-3.5 bg-green-500 hover:bg-green-400 text-green-950 font-black rounded-xl transition-all shadow-md active:scale-95 text-sm uppercase tracking-wider">
+                  Aceptar Pedido
                 </button>
               </div>
 
-              <div className="mt-10 text-center text-green-400 font-bold">
-                Resultado: 30 segundos por pedido. Cash en mano.
+              <div className="mt-8 pt-6 border-t border-gray-700 text-center relative z-10">
+                <span className="inline-flex items-center gap-2 text-green-400 font-bold bg-green-500/10 border border-green-500/20 px-4 py-2 rounded-full text-sm">
+                  <CheckCircle2 size={18} /> 30 segundos por pedido. Efectividad 100%.
+                </span>
               </div>
             </div>
           </div>
@@ -517,56 +563,61 @@ export default function Landing() {
       </section>
 
       {/* --- SOCIAL PROOF: TESTIMONIALS --- */}
-      <section className="py-32 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4">
+      <section className="py-24 md:py-32 bg-gray-50 border-t border-gray-100 relative overflow-hidden">
+        {/* Background Decorative patterns */}
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:20px_20px] opacity-30 pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">No nos creas a nosotros.</h2>
-            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto">
-              Escuchá a los dueños que ya se liberaron de las comisiones abusivas.
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">No nos creas a nosotros.</h2>
+            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto leading-relaxed">
+              Escuchá a los dueños que ya se liberaron de las comisiones abusivas y tomaron el control de su negocio.
             </p>
           </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-start">
             {/* Testimonial 1 */}
-            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 relative mt-8 hover:shadow-lg transition-shadow">
-              <div className="absolute -top-6 left-8 w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center font-black text-4xl leading-none pt-4">"</div>
-              <p className="text-gray-700 font-medium mb-6 relative z-10 italic">
+            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative mt-0 md:mt-8 hover:-translate-y-2 transition-transform duration-300">
+              <div className="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-orange-100 to-orange-50 text-orange-500 rounded-full flex items-center justify-center font-black text-5xl leading-none pt-6 shadow-sm border border-orange-100/50">"</div>
+              <p className="text-gray-700 font-medium leading-relaxed mb-8 relative z-10 italic mt-2">
                 "Antes de Pedilo, le dejaba el 30% de mi esfuerzo a una app. Ahora, ese dinero va directo al bolsillo o a mejorar el local. La gente prefiere pedir por acá porque es rapidísimo."
               </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-orange-600 rounded-full flex items-center justify-center text-white font-black">L</div>
+              <div className="flex items-center gap-4 border-t border-gray-50 pt-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center text-white font-black shadow-md shadow-orange-500/20">L</div>
                 <div>
-                  <div className="font-bold text-gray-900">Lucas M.</div>
-                  <div className="text-xs text-gray-500">Dueño de Hamburguesería</div>
+                  <div className="font-bold text-gray-900 tracking-tight">Lucas M.</div>
+                  <div className="text-sm text-gray-500 font-medium">Dueño de Hamburguesería</div>
                 </div>
               </div>
             </div>
 
-            {/* Testimonial 2 */}
-            <div className="bg-gray-900 p-8 rounded-3xl border border-gray-800 relative shadow-2xl transform md:-translate-y-4 hover:shadow-orange-500/20 transition-all">
-              <div className="absolute -top-6 left-8 w-12 h-12 bg-gray-800 border border-gray-700 text-orange-500 rounded-full flex items-center justify-center font-black text-4xl leading-none pt-4">"</div>
-              <p className="text-gray-300 font-medium mb-6 relative z-10 italic">
+            {/* Testimonial 2 (Featured) */}
+            <div className="bg-gray-900 p-8 md:p-10 rounded-3xl border border-gray-800 relative shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] transform hover:-translate-y-2 transition-transform duration-300 group overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-b from-gray-800/50 to-transparent pointer-events-none"></div>
+              <div className="absolute -top-6 left-8 w-14 h-14 bg-gray-800 border border-gray-700 text-orange-500 rounded-full flex items-center justify-center font-black text-5xl leading-none pt-6 shadow-lg z-20">"</div>
+              <p className="text-gray-300 font-medium leading-relaxed mb-8 relative z-10 italic mt-2 text-lg">
                 "Con el modo mayorista me ahorré horas de pasar precios por Excel. Mis clientes entran, ven su precio con descuento y piden. Es un antes y un después para la distribuidora."
               </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-900 font-black">C</div>
+              <div className="flex items-center gap-4 relative z-10 border-t border-gray-800 pt-6">
+                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-gray-900 font-black shadow-lg">C</div>
                 <div>
-                  <div className="font-bold text-white">Carla S.</div>
-                  <div className="text-xs text-gray-400">Gerente de Distribuidora</div>
+                  <div className="font-bold text-white tracking-tight">Carla S.</div>
+                  <div className="text-sm text-gray-400 font-medium">Gerente de Distribuidora</div>
                 </div>
               </div>
             </div>
 
             {/* Testimonial 3 */}
-            <div className="bg-gray-50 p-8 rounded-3xl border border-gray-100 relative mt-8 hover:shadow-lg transition-shadow">
-              <div className="absolute -top-6 left-8 w-12 h-12 bg-orange-100 text-orange-500 rounded-full flex items-center justify-center font-black text-4xl leading-none pt-4">"</div>
-              <p className="text-gray-700 font-medium mb-6 relative z-10 italic">
+            <div className="bg-white p-8 md:p-10 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative mt-0 md:mt-8 hover:-translate-y-2 transition-transform duration-300">
+              <div className="absolute -top-6 left-8 w-14 h-14 bg-gradient-to-br from-blue-100 to-blue-50 text-blue-500 rounded-full flex items-center justify-center font-black text-5xl leading-none pt-6 shadow-sm border border-blue-100/50">"</div>
+              <p className="text-gray-700 font-medium leading-relaxed mb-8 relative z-10 italic mt-2">
                 "El control que te da el dashboard es increíble. Supe que las papas solas casi no se vendían, armé un combo que me sugirió el sistema y las ventas volaron."
               </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-black">M</div>
+              <div className="flex items-center gap-4 border-t border-gray-50 pt-6">
+                <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl flex items-center justify-center text-white font-black shadow-md shadow-blue-500/20">M</div>
                 <div>
-                  <div className="font-bold text-gray-900">Martín P.</div>
-                  <div className="text-xs text-gray-500">Encargado de Pizzería</div>
+                  <div className="font-bold text-gray-900 tracking-tight">Martín P.</div>
+                  <div className="text-sm text-gray-500 font-medium">Encargado de Pizzería</div>
                 </div>
               </div>
             </div>
@@ -575,113 +626,120 @@ export default function Landing() {
       </section>
 
       {/* --- DATA & ANALYTICS: YOUR PARTNER --- */}
-      <section className="py-32 bg-white relative overflow-hidden">
+      <section className="py-24 md:py-32 bg-white relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-          <div className="absolute top-1/4 right-0 w-96 h-96 bg-blue-50 rounded-full blur-3xl opacity-50"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-orange-50 rounded-full blur-3xl opacity-50"></div>
+          <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-blue-50/50 rounded-full blur-[100px] opacity-60"></div>
+          <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-indigo-50/50 rounded-full blur-[100px] opacity-60"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
           {/* TEXT CONTENT */}
-          <div className="order-2 lg:order-1">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mb-6 border border-blue-100 shadow-sm">
+          <div className="order-2 lg:order-1 relative z-10">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-50 text-indigo-700 text-sm font-bold mb-6 border border-indigo-100 shadow-sm">
               <BrainCircuit size={16} /> Inteligencia de Negocio
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 leading-tight tracking-tight">
               Tablero de Control. <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Para Dueños, no Contadores.</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">Para Dueños, no Contables.</span>
             </h2>
-            <p className="text-xl text-gray-600 font-medium mb-8 leading-relaxed">
+            <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed">
               Pedilo dejó de ser una simple web de pedidos. Ahora es tu <strong>Socio Estratégico</strong>. Te damos métricas claras para que tomes decisiones basadas en datos reales, no en intuición.
             </p>
 
-            <ul className="space-y-6">
-              <li className="flex gap-4">
-                <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 shrink-0">
-                  <TrendingUp size={24} />
+            <ul className="space-y-8">
+              <li className="flex gap-5 group">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl flex items-center justify-center text-orange-600 shrink-0 border border-orange-200/50 shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
+                  <TrendingUp size={26} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Productos Estrella y Huesos</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed mt-1">Eliminá del menú lo que nadie pide. Potenciá los platos que realmente te dejan ganancia.</p>
+                  <h3 className="font-bold text-gray-900 text-xl tracking-tight mb-1">Productos Estrella y Huesos</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">Eliminá del menú lo que nadie pide. Potenciá los platos que realmente te dejan ganancia.</p>
                 </div>
               </li>
 
-              <li className="flex gap-4">
-                <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
-                  <Users size={24} />
+              <li className="flex gap-5 group">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center text-blue-600 shrink-0 border border-blue-200/50 shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
+                  <Users size={26} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Ranking de Clientes</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed mt-1">Transformá clientes anónimos en fanáticos con nombre y apellido. Dales motivos para volver.</p>
+                  <h3 className="font-bold text-gray-900 text-xl tracking-tight mb-1">Ranking de Clientes</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">Transformá clientes anónimos en fanáticos con nombre y apellido. Dales motivos para volver.</p>
                 </div>
               </li>
 
-              <li className="flex gap-4">
-                <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center text-purple-600 shrink-0">
-                  <Timer size={24} />
+              <li className="flex gap-5 group">
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl flex items-center justify-center text-purple-600 shrink-0 border border-purple-200/50 shadow-sm group-hover:scale-110 group-hover:shadow-md transition-all">
+                  <Timer size={26} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Horarios Pico</h3>
-                  <p className="text-gray-600 font-medium leading-relaxed mt-1">Anticipate a la demanda. Sabé cuándo reforzar la cocina y cuándo liberar personal.</p>
+                  <h3 className="font-bold text-gray-900 text-xl tracking-tight mb-1">Horarios Pico</h3>
+                  <p className="text-gray-600 font-medium leading-relaxed">Anticipate a la demanda. Sabé cuándo reforzar la cocina y cuándo liberar personal.</p>
                 </div>
               </li>
             </ul>
           </div>
 
           {/* VISUAL MOCKUP */}
-          <div className="order-1 lg:order-2 relative">
-            <div className="bg-white rounded-3xl shadow-2xl border border-gray-100 p-6 relative z-10 overflow-hidden transform rotate-2 hover:rotate-0 transition-all duration-500 group">
+          <div className="order-1 lg:order-2 relative z-10 perspective-1000">
+            <div className="bg-white/80 backdrop-blur-xl rounded-[2.5rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-gray-100/50 p-6 md:p-8 relative overflow-hidden transform rotate-y-[-5deg] rotate-x-[5deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700 group hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.2)]">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full opacity-50 pointer-events-none"></div>
+
               {/* Fake Dashboard Header */}
-              <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+              <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-5 relative z-10">
                 <div>
-                  <div className="text-xs font-bold text-gray-400 uppercase tracking-widest">Tus Ventas</div>
-                  <div className="text-2xl font-black text-gray-900">$1.250.000 <span className="text-green-500 text-sm font-bold bg-green-50 px-2 py-1 rounded-full">+12%</span></div>
+                  <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Tus Ventas</div>
+                  <div className="text-3xl font-black text-gray-900 tracking-tight">$1.250.000 <span className="text-emerald-600 text-sm font-bold bg-emerald-50 border border-emerald-100 px-2 py-1 rounded-full align-middle ml-2">+12%</span></div>
                 </div>
-                <div className="bg-gray-100 p-2 rounded-lg">
-                  <LayoutDashboard size={20} className="text-gray-500" />
+                <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center border border-gray-100 shadow-sm">
+                  <LayoutDashboard size={24} className="text-gray-500" />
                 </div>
               </div>
 
               {/* Fake Chart */}
-              <div className="flex items-end gap-3 h-48 mb-8 px-2">
-                {[40, 65, 45, 80, 55, 90, 70].map((h, i) => (
-                  <div key={i} className="flex-1 rounded-t-xl relative overflow-hidden bg-gray-100">
+              <div className="flex items-end gap-3 md:gap-4 h-56 mb-8 px-2 relative z-10">
+                {[40, 65, 45, 80, 55, 100, 70].map((h, i) => (
+                  <div key={i} className="flex-1 rounded-t-xl relative overflow-hidden bg-gray-50/80 border border-gray-100/50 border-b-0 group-hover:bg-gray-100 transition-colors duration-300">
                     <div
-                      className={`absolute bottom-0 w-full transition-all duration-1000 ${i === 5 ? 'bg-gradient-to-t from-orange-600 to-orange-400' : 'bg-gradient-to-t from-blue-500 to-blue-300 opacity-30'}`}
+                      className={`absolute bottom-0 w-full transition-all duration-1000 ease-out ${i === 5 ? 'bg-gradient-to-t from-indigo-600 to-blue-500 shadow-[0_0_20px_rgba(79,70,229,0.4)]' : 'bg-gradient-to-t from-gray-300 to-gray-200'}`}
                       style={{ height: `${h}%` }}
                     ></div>
+                    {i === 5 && (
+                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-[10px] font-bold px-2 py-1 rounded-md whitespace-nowrap hidden group-hover:block animate-in fade-in slide-in-from-bottom-2">
+                        Pico (+45%)
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>
 
               {/* Fake Stats Row */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-orange-50 p-4 rounded-2xl border border-orange-100">
-                  <div className="flex gap-2 items-center mb-2">
-                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-orange-600 shadow-sm font-black text-xs">1#</div>
-                    <span className="text-xs font-bold text-orange-800">Más Vendido</span>
+              <div className="grid grid-cols-2 gap-4 md:gap-6 relative z-10">
+                <div className="bg-orange-50/50 backdrop-blur-sm p-5 rounded-2xl border border-orange-100/50 hover:bg-orange-50 transition-colors">
+                  <div className="flex gap-3 items-center mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-orange-600 shadow-sm font-black text-sm border border-orange-100">1#</div>
+                    <span className="text-xs font-bold text-orange-800 uppercase tracking-wider">Más Vendido</span>
                   </div>
-                  <div className="font-bold text-gray-900 text-sm">Burger Doble Cheddar</div>
-                  <div className="text-xs text-gray-500">243 pedidos este mes</div>
+                  <div className="font-bold text-gray-900 text-base mb-1 tracking-tight">Burger Doble Cheddar</div>
+                  <div className="text-xs text-gray-500 font-medium">243 pedidos este mes</div>
                 </div>
-                <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100">
-                  <div className="flex gap-2 items-center mb-2">
-                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center text-blue-600 shadow-sm"><Users size={16} /></div>
-                    <span className="text-xs font-bold text-blue-800">Clientes Nuevos</span>
+                <div className="bg-blue-50/50 backdrop-blur-sm p-5 rounded-2xl border border-blue-100/50 hover:bg-blue-50 transition-colors">
+                  <div className="flex gap-3 items-center mb-3">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-blue-600 shadow-sm border border-blue-100"><Users size={20} /></div>
+                    <span className="text-xs font-bold text-blue-800 uppercase tracking-wider">Clientes Nuevos</span>
                   </div>
-                  <div className="font-bold text-gray-900 text-sm">45 nuevos socios</div>
-                  <div className="text-xs text-gray-500">Retención del 80%</div>
+                  <div className="font-bold text-gray-900 text-base mb-1 tracking-tight">45 nuevos socios</div>
+                  <div className="text-xs text-gray-500 font-medium">Retención del 80%</div>
                 </div>
               </div>
             </div>
 
             {/* Decor elements */}
-            <div className="absolute -bottom-6 -left-6 bg-white p-4 rounded-xl shadow-lg border border-gray-100 animate-bounce delay-1000 z-20 hidden md:block">
-              <div className="flex items-center gap-3">
-                <div className="bg-green-100 p-2 rounded-full text-green-600"><TrendingUp size={20} /></div>
+            <div className="absolute -bottom-8 -left-8 bg-white/90 backdrop-blur-md p-5 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.15)] border border-gray-100/50 animate-[bounce_4s_ease-in-out_infinite] z-20 hidden md:block group">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-gradient-to-br from-emerald-400 to-emerald-500 rounded-xl flex items-center justify-center text-white shadow-md shadow-emerald-500/20"><TrendingUp size={24} /></div>
                 <div>
-                  <div className="text-xs font-bold text-gray-400">Conversión</div>
-                  <div className="text-sm font-black text-gray-900">4.8% <span className="text-green-500">↑</span></div>
+                  <div className="text-xs font-bold text-gray-400 uppercase tracking-wider">Conversión Cierta</div>
+                  <div className="text-lg font-black text-gray-900 tracking-tight">4.8% <span className="text-emerald-500 ml-1">↑</span></div>
                 </div>
               </div>
             </div>
@@ -747,23 +805,25 @@ export default function Landing() {
                   </div>
                 </div>
 
-                <div className="bg-green-500/10 border border-green-500/30 p-4 rounded-2xl relative overflow-hidden">
-                  <div className="absolute top-0 right-0 bg-green-500 text-black text-xs font-black px-2 py-1 rounded-bl-lg">TU GANANCIA</div>
-                  <div className="text-gray-400 text-xs font-bold uppercase mb-1">Ahorro Anual con Pedilo</div>
-                  <div className="text-4xl font-black text-green-400 mb-2">
+                <div className="bg-gradient-to-br from-emerald-500/10 to-emerald-900/20 backdrop-blur-sm border border-emerald-500/30 p-6 md:p-8 rounded-2xl relative overflow-hidden shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+                  <div className="absolute top-0 right-0 bg-emerald-500 text-emerald-950 text-[10px] font-black px-3 py-1.5 rounded-bl-xl tracking-widest uppercase shadow-sm">TU GANANCIA</div>
+                  <div className="text-emerald-300 text-[10px] font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
+                    <CheckCircle2 size={14} /> Ahorro Anual (Usando Pedilo)
+                  </div>
+                  <div className="text-5xl font-black text-emerald-400 mb-4 tracking-tight drop-shadow-sm">
                     {formatMoney(yearlySavings)}
                   </div>
-                  <div className="text-sm font-medium text-gray-300 flex gap-2 items-center">
-                    <CheckCircle2 size={16} className="text-green-500" /> Podrías comprar:
-                    <span className="text-white font-bold">
+                  <div className="text-sm font-medium text-emerald-100/70 border-t border-emerald-500/20 pt-4 flex flex-col sm:flex-row sm:items-center gap-2">
+                    <span className="shrink-0 text-emerald-300">Este año podrías comprar:</span>
+                    <span className="text-white font-bold bg-white/10 px-3 py-1.5 rounded-lg border border-white/5 inline-flex w-max">
                       {yearlySavings > 8000000 ? "Un Auto Usado 🚗" : yearlySavings > 2000000 ? "Una Moto 0km 🏍️" : "3 Freezers Industriales ❄️"}
                     </span>
                   </div>
                 </div>
 
-                <p className="text-center text-xs text-gray-500 italic">
-                  *Costo Pedilo: $17.000 fijos. Sin letra chica.
-                </p>
+                <div className="flex items-center justify-center gap-2 text-xs text-gray-400 font-medium">
+                  <ShieldCheck size={14} className="text-green-500" /> Costo Pedilo: Solo $17.000 final, todo el año.
+                </div>
               </div>
 
             </div>
@@ -772,67 +832,67 @@ export default function Landing() {
       </section>
 
       {/* --- WHOLESALE MODE: CATEGORY DIFFERENTIATOR --- */}
-      <section className="py-32 bg-orange-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+      <section className="py-32 bg-white overflow-hidden border-t border-gray-100 relative">
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-50/50 -skew-x-12 transform origin-top hidden lg:block"></div>
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-orange-700 text-sm font-bold mb-6 border border-orange-200 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 text-sm font-bold mb-6 border border-blue-100 shadow-sm">
               <Truck size={16} /> Especial para Mayoristas
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Vendé por Mayor sin enloquecer con Excel.</h2>
+            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Vendé por Mayor sin enloquecer con Excel.</h2>
             <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed">
-              Tus clientes mayoristas quieren comprar fácil y rápido. Dales una App moderna, no un PDF de 20 páginas desactualizado.
+              Tus clientes mayoristas quieren comprar fácil y rápido. Dales una plataforma B2B moderna, no un PDF de 20 páginas desactualizado.
             </p>
 
             <ul className="space-y-6">
-              <li className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-blue-600 shadow-sm shrink-0 border border-gray-100">
+              <li className="flex gap-4 items-start group">
+                <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-sm shrink-0 border border-gray-100 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                   <FileSpreadsheet size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Listas de Precios & Excel</h3>
-                  <p className="text-gray-500 font-medium">Manejá miles de productos. Subí y actualizá precios masivamente desde Excel en segundos.</p>
+                  <h3 className="font-bold text-gray-900 text-lg mb-1">Listas de Precios & Excel</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">Manejá miles de productos. Subí y actualizá precios masivamente desde Excel en segundos.</p>
                 </div>
               </li>
-              <li className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm shrink-0 border border-gray-100">
+              <li className="flex gap-4 items-start group">
+                <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-blue-600 shadow-sm shrink-0 border border-gray-100 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                   <Package size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Mínimos y Bultos</h3>
-                  <p className="text-gray-500 font-medium">Configurá mínimo de compra monetario o venta por pack cerrado automágicamente.</p>
+                  <h3 className="font-bold text-gray-900 text-lg mb-1">Mínimos y Bultos Cerrados</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">Configurá mínimo de compra monetario o venta por pack cerrado automágicamente.</p>
                 </div>
               </li>
             </ul>
           </div>
 
           <div className="relative">
-            <div className="absolute inset-0 bg-orange-200 rounded-[3rem] rotate-3 transform"></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-indigo-50 rounded-[3rem] rotate-3 transform transition-transform group-hover:rotate-6"></div>
             <div className="bg-white p-8 rounded-[3rem] shadow-xl relative border border-gray-100">
               <div className="flex items-center justify-between mb-8 border-b border-gray-100 pb-4">
-                <span className="font-black text-xl text-gray-900">Distribuidora El Trebol</span>
-                <div className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">MODO MAYORISTA</div>
+                <span className="font-black text-xl text-gray-900">Distribuidora El Trébol</span>
+                <div className="px-3 py-1 bg-blue-100 text-blue-700 text-[10px] font-black tracking-widest uppercase rounded-full">B2B Premium</div>
               </div>
               {/* Mock Item */}
               <div className="flex gap-4 mb-6">
-                <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center text-gray-400">
+                <div className="w-16 h-16 bg-gray-50 border border-gray-100 rounded-xl flex items-center justify-center text-gray-400 shrink-0">
                   <Package size={28} />
                 </div>
-                <div className="flex-1">
-                  <div className="h-4 bg-gray-800 w-3/4 rounded-full mb-2"></div>
-
+                <div className="flex-1 min-w-0">
+                  <div className="h-4 bg-gray-800 w-3/4 rounded-full mb-3"></div>
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-lg text-gray-900">$4.500 <span className="text-xs font-normal text-gray-500">/pack x12</span></span>
-                    <div className="flex items-center gap-3">
-                      <button className="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center font-bold text-gray-600">-</button>
-                      <span className="font-bold">5</span>
-                      <button className="w-8 h-8 rounded-lg bg-orange-600 flex items-center justify-center font-bold text-white">+</button>
+                    <span className="font-black text-lg text-gray-900 truncate">$4.500 <span className="text-xs font-medium text-gray-500 ml-1">/pack x12</span></span>
+                    <div className="flex items-center gap-2 shrink-0 ml-2">
+                      <button className="w-8 h-8 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center font-bold text-gray-600 hover:bg-gray-100 transition-colors">-</button>
+                      <span className="font-bold w-4 text-center text-sm">5</span>
+                      <button className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold text-white shadow-md shadow-blue-500/20 hover:bg-blue-700 transition-colors">+</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="bg-blue-50 p-4 rounded-xl border border-blue-100 text-sm text-blue-800 font-medium flex gap-2">
-                <TrendingUp size={18} />
-                <span>Faltan $15.000 para llegar al mínimo de compra.</span>
+              <div className="bg-blue-50/80 p-4 rounded-2xl border border-blue-100 text-sm text-blue-800 font-medium flex gap-3 items-center backdrop-blur-sm">
+                <TrendingUp size={18} className="shrink-0" />
+                <span>Faltan <strong>$15.000</strong> para llegar al mínimo de compra.</span>
               </div>
             </div>
           </div>
@@ -840,52 +900,53 @@ export default function Landing() {
       </section>
 
       {/* --- LIVE DEMO WIDGET: SHOW, DON'T TELL --- */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-20">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Probá la Velocidad <span className="text-green-600">En Vivo.</span></h2>
-            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto">
-              Tus clientes no se bajan ninguna App. No se registran. Entran, piden y chau.
+      <section className="py-32 bg-gray-50 border-t border-gray-100 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-green-50/50 to-transparent pointer-events-none hidden lg:block"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Probá la Velocidad <span className="text-green-600">En Vivo.</span></h2>
+            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">
+              Tus clientes no se bajan ninguna App. No se registran. Entran, piden y chau. La menor fricción posible.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-16 items-center max-w-5xl mx-auto">
             {/* EXPLANATION */}
             <div className="order-2 md:order-1 space-y-8">
-              <div className="flex gap-4">
-                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-black text-xl shrink-0">1</div>
+              <div className="flex gap-5 group">
+                <div className="w-14 h-14 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center font-black text-xl text-gray-400 group-hover:bg-gray-900 group-hover:text-white transition-all shrink-0">1</div>
                 <div>
-                  <h3 className="font-bold text-xl mb-1">Escanean o Clickean</h3>
-                  <p className="text-gray-500">Desde Instagram o tu mesa. Se abre tu menú al instante.</p>
+                  <h3 className="font-bold text-xl mb-2 text-gray-900 group-hover:text-orange-600 transition-colors">Escanean o Clickean</h3>
+                  <p className="text-gray-500 leading-relaxed">Desde el perfil de Instagram o un QR en tu mesa. Se abre tu menú digital al instante.</p>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center font-black text-xl shrink-0">2</div>
+              <div className="flex gap-5 group">
+                <div className="w-14 h-14 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center font-black text-xl text-gray-400 group-hover:bg-gray-900 group-hover:text-white transition-all shrink-0">2</div>
                 <div>
-                  <h3 className="font-bold text-xl mb-1">Eligen sus gustos</h3>
-                  <p className="text-gray-500">Interfaz perfecta. Se ve increíble en cualquier celular.</p>
+                  <h3 className="font-bold text-xl mb-2 text-gray-900 group-hover:text-orange-600 transition-colors">Eligen sus gustos</h3>
+                  <p className="text-gray-500 leading-relaxed">Interfaz ultra-rápida. Creada para verse y funcionar increíble en cualquier celular.</p>
                 </div>
               </div>
-              <div className="flex gap-4">
-                <div className="w-12 h-12 bg-green-100 text-green-700 rounded-full flex items-center justify-center font-black text-xl shrink-0">3</div>
+              <div className="flex gap-5 group">
+                <div className="w-14 h-14 bg-green-50 rounded-2xl border border-green-100 flex items-center justify-center font-black text-xl text-green-600 group-hover:bg-green-600 group-hover:text-white transition-all shrink-0 shadow-sm shadow-green-500/10">3</div>
                 <div>
-                  <h3 className="font-bold text-xl mb-1">Te llega a WhatsApp</h3>
-                  <p className="text-gray-500">Limpio, calculado y listo para cobrar. Sin errores.</p>
+                  <h3 className="font-bold text-xl mb-2 text-gray-900 group-hover:text-green-600 transition-colors">Te llega a WhatsApp</h3>
+                  <p className="text-gray-500 leading-relaxed">Pedido limpio, calculado, con opciones claras y listo para cobrar. Sin vueltas ni audios.</p>
                 </div>
               </div>
 
-              <div className="pt-6 border-t border-gray-100">
-                <p className="font-bold text-gray-900 flex items-center gap-2">
-                  <Users className="text-blue-500" />
-                  <span className="text-sm">Más de <span className="underline decoration-yellow-400 decoration-4">250 Negocios</span> ya facturan millones con Pedilo.</span>
+              <div className="pt-8 border-t border-gray-200/60 mt-8">
+                <p className="font-bold text-gray-900 flex items-center gap-2 mb-5">
+                  <Users className="text-blue-500 shrink-0" />
+                  <span className="text-sm">Más de <span className="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-md">250 Negocios</span> ya facturan millones.</span>
                 </p>
-                <div className="flex -space-x-2 mt-4">
+                <div className="flex -space-x-3 items-center">
                   {[1, 2, 3, 4, 5].map(i => (
-                    <div key={i} className="w-10 h-10 rounded-full bg-gray-200 border-2 border-white flex items-center justify-center text-xs font-bold text-gray-500">
+                    <div key={i} className={`w-12 h-12 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-sm bg-gradient-to-br ${i % 2 === 0 ? 'from-orange-400 to-rose-400' : 'from-blue-400 to-indigo-400'}`} style={{ zIndex: 10 - i }}>
                       {String.fromCharCode(64 + i)}
                     </div>
                   ))}
-                  <div className="w-10 h-10 rounded-full bg-gray-900 border-2 border-white flex items-center justify-center text-xs font-bold text-white">
+                  <div className="w-12 h-12 rounded-full bg-gray-900 border-2 border-white flex items-center justify-center text-xs font-bold text-white shadow-sm z-0">
                     +200
                   </div>
                 </div>
@@ -894,54 +955,64 @@ export default function Landing() {
 
             {/* LIVE WIDGET */}
             <div className="order-1 md:order-2">
-              <div className="bg-white p-6 rounded-[2.5rem] border-4 border-gray-900 shadow-2xl relative max-w-sm mx-auto transform rotate-1 hover:rotate-0 transition-transform duration-500">
+              <div className="bg-white p-4 rounded-[3rem] border-8 border-gray-900 shadow-2xl relative max-w-[320px] mx-auto transform rotate-2 hover:rotate-0 transition-transform duration-500 group">
+                <div className="absolute inset-0 bg-gradient-to-tr from-green-500/5 to-transparent rounded-[2.5rem] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
                 {/* Notch */}
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 h-6 w-32 bg-gray-900 rounded-b-xl z-20"></div>
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 h-6 w-32 bg-gray-900 rounded-b-2xl z-20 flex items-center justify-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-gray-800"></div>
+                  <div className="w-12 h-2 rounded-full bg-gray-800"></div>
+                </div>
 
                 {/* Screen */}
-                <div className="bg-gray-50 rounded-2xl overflow-hidden h-[500px] flex flex-col relative">
+                <div className="bg-gray-50 rounded-[2rem] overflow-hidden h-[550px] flex flex-col relative border border-gray-100">
                   {/* Header */}
-                  <div className="bg-white p-4 shadow-sm z-10 pt-8">
+                  <div className="bg-white/80 backdrop-blur-md p-4 shadow-sm z-10 pt-10 border-b border-gray-100 sticky top-0">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-orange-500 rounded-full"></div>
+                      <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-rose-500 rounded-full shadow-sm"></div>
                       <div>
-                        <div className="font-bold text-sm">Burger King (Fake)</div>
-                        <div className="text-xs text-green-600 font-bold">• Abierto ahora</div>
+                        <div className="font-bold text-sm text-gray-900">Burger King (Fake)</div>
+                        <div className="text-[10px] text-green-600 font-extrabold uppercase tracking-widest flex items-center gap-1">
+                          <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span> Abierto
+                        </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Scrollable Content */}
-                  <div className="flex-1 overflow-auto p-4 space-y-4">
-                    <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex gap-3">
-                      <div className="w-20 h-20 bg-gray-200 rounded-lg shrink-0"></div>
-                      <div className="flex-1">
-                        <div className="font-bold text-sm">Doble Bacon</div>
-                        <div className="text-xs text-gray-500 mb-2">Con extra queso...</div>
-                        <div className="flex justify-between items-center">
-                          <span className="font-black text-sm">$8.500</span>
-                          <button className="w-6 h-6 bg-orange-600 rounded text-white font-bold flex items-center justify-center text-sm">+</button>
+                  <div className="flex-1 overflow-auto p-4 space-y-4 relative">
+                    <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 hover:border-orange-200 transition-colors cursor-pointer group/item">
+                      <div className="w-20 h-20 bg-gray-100 rounded-xl shrink-0"></div>
+                      <div className="flex-1 min-w-0 flex flex-col justify-between">
+                        <div>
+                          <div className="font-bold text-sm text-gray-900 truncate">Doble Bacon</div>
+                          <div className="text-xs text-gray-500 line-clamp-1">Con extra cheddar...</div>
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <span className="font-black text-sm text-gray-900">$8.500</span>
+                          <button className="w-7 h-7 bg-orange-50 text-orange-600 rounded-lg font-bold flex items-center justify-center text-sm group-hover/item:bg-orange-600 group-hover/item:text-white transition-colors">+</button>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-white p-3 rounded-xl shadow-sm border border-gray-100 flex gap-3">
-                      <div className="w-20 h-20 bg-gray-200 rounded-lg shrink-0"></div>
-                      <div className="flex-1">
-                        <div className="font-bold text-sm">Papas Cheddar</div>
-                        <div className="text-xs text-gray-500 mb-2">Bañadas en...</div>
-                        <div className="flex justify-between items-center">
-                          <span className="font-black text-sm">$4.500</span>
-                          <button className="w-6 h-6 bg-orange-600 rounded text-white font-bold flex items-center justify-center text-sm">+</button>
+                    <div className="bg-white p-3.5 rounded-2xl shadow-sm border border-gray-100 flex gap-3 hover:border-orange-200 transition-colors cursor-pointer group/item">
+                      <div className="w-20 h-20 bg-gray-100 rounded-xl shrink-0"></div>
+                      <div className="flex-1 min-w-0 flex flex-col justify-between">
+                        <div>
+                          <div className="font-bold text-sm text-gray-900 truncate">Papas Cheddar</div>
+                          <div className="text-xs text-gray-500 line-clamp-1">Bañadas en salsa...</div>
+                        </div>
+                        <div className="flex justify-between items-center mt-2">
+                          <span className="font-black text-sm text-gray-900">$4.500</span>
+                          <button className="w-7 h-7 bg-orange-50 text-orange-600 rounded-lg font-bold flex items-center justify-center text-sm group-hover/item:bg-orange-600 group-hover/item:text-white transition-colors">+</button>
                         </div>
                       </div>
                     </div>
                   </div>
 
                   {/* Sticky Footer */}
-                  <div className="bg-white p-4 border-t border-gray-100">
-                    <button className="w-full bg-green-600 text-white font-bold py-3 rounded-xl shadow-lg shadow-green-200 flex items-center justify-center gap-2 animate-pulse">
-                      <Smartphone size={18} /> Enviar Pedido (WhatsApp)
+                  <div className="bg-white/90 backdrop-blur-md p-4 border-t border-gray-100 sticky bottom-0 z-10">
+                    <button className="w-full bg-[#25D366] hover:bg-[#1DA851] text-white font-bold py-3.5 rounded-xl shadow-lg shadow-[#25D366]/30 flex items-center justify-center gap-2 transition-all">
+                      <Smartphone size={18} /> Enviar al WhatsApp
                     </button>
                   </div>
                 </div>
@@ -952,47 +1023,48 @@ export default function Landing() {
       </section>
 
       {/* --- MARKETING & SEO SUITE --- */}
-      <section className="py-24 bg-gray-50 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-4">Herramientas para vender más.</h2>
-            <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium">No solo procesamos pedidos. Te damos las armas para combatir a la competencia y aparecer primero.</p>
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#f3f4f6_1px,transparent_1px),linear-gradient(to_bottom,#f3f4f6_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50"></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Herramientas para <span className="text-orange-600">vender más.</span></h2>
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">No solo procesamos pedidos. Te damos las armas para combatir a la competencia y aparecer primero en tu zona.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {/* SEO */}
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-bl-[100%] -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(59,130,246,0.15)] hover:border-blue-100 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full opacity-50 transition-transform group-hover:scale-125"></div>
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                  <Search size={28} />
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-blue-200/50 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
+                  <Search size={26} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">SEO Automático</h3>
-                <p className="text-gray-500 font-medium leading-relaxed">Tu tienda carga tan rápido que Google la prefiere. Aparecé primero cuando busquen delivery en tu zona sin pagar anuncios.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">SEO Local Automático</h3>
+                <p className="text-gray-500 font-medium leading-relaxed text-sm">Tu tienda carga extremadamente rápido bajo los estándares de Google. Aparecé primero cuando busquen delivery en tu zona sin pagar un peso en anuncios.</p>
               </div>
             </div>
 
             {/* SMART BANNERS */}
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-bl-[100%] -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(249,115,22,0.15)] hover:border-orange-100 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-orange-50 to-transparent rounded-bl-full opacity-50 transition-transform group-hover:scale-125"></div>
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                  <Megaphone size={28} />
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-50 to-orange-100 text-orange-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-orange-200/50 group-hover:bg-orange-600 group-hover:text-white transition-colors duration-300">
+                  <Megaphone size={26} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Smart Banners</h3>
-                <p className="text-gray-500 font-medium leading-relaxed">Cartelera digital para anunciar ofertas flash, cambios de horario o promos. Tus clientes se enteran al instante.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-orange-600 transition-colors">Smart Banners</h3>
+                <p className="text-gray-500 font-medium leading-relaxed text-sm">Convertí el inicio de tu tienda en una marquesina digital. Anunciá ofertas flash, promociones 2x1 o cambios de horario para que todos se enteren al instante.</p>
               </div>
             </div>
 
             {/* COUPONS */}
-            <div className="bg-white p-8 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-bl-[100%] -mr-8 -mt-8 transition-transform group-hover:scale-110"></div>
+            <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(34,197,94,0.15)] hover:border-green-100 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-green-50 to-transparent rounded-bl-full opacity-50 transition-transform group-hover:scale-125"></div>
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm">
-                  <Ticket size={28} />
+                <div className="w-14 h-14 bg-gradient-to-br from-green-50 to-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-green-200/50 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
+                  <Ticket size={26} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3">Motor de Cupones</h3>
-                <p className="text-gray-500 font-medium leading-relaxed">Creá códigos como "MANDALE20" en segundos. Reactivá clientes dormidos y premiá a los fieles.</p>
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">Motor de Cupones</h3>
+                <p className="text-gray-500 font-medium leading-relaxed text-sm">Creá códigos como "MANDALE20" con fecha de caducidad en segundos. Reactivá clientes dormidos por WhatsApp y premiá a los fieles para fidelizarlos.</p>
               </div>
             </div>
           </div>
@@ -1000,237 +1072,252 @@ export default function Landing() {
       </section>
 
       {/* --- COMMAND CENTER: REAL-TIME ORDER MANAGEMENT --- */}
-      <section className="py-24 bg-gray-900 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-orange-900/30 via-gray-900 to-gray-950" />
+      <section className="py-32 bg-gray-900 text-white relative overflow-hidden border-t border-gray-800">
+        <div className="absolute inset-0 bg-[#0a0a0a] bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-64 bg-orange-600/10 rounded-full blur-[120px] pointer-events-none"></div>
         <div className="max-w-7xl mx-auto px-4 relative z-10">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-bold mb-6 border border-orange-500/20">
-              <Bell size={16} /> Panel de Control
+          <div className="text-center mb-20 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gray-800/80 backdrop-blur-sm text-gray-300 text-sm font-bold mb-6 border border-gray-700 shadow-sm">
+              <LayoutDashboard size={16} className="text-orange-500" /> Dashboard en Tiempo Real
             </div>
-            <h2 className="text-3xl md:text-5xl font-black mb-6 tracking-tight">Tu Cocina tiene un <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400">Centro de Comando.</span></h2>
-            <p className="text-xl text-gray-400 font-medium max-w-3xl mx-auto">
-              Cada pedido pasa por un pipeline profesional. Sonido, notificaciones push, y un tablero visual que tu equipo entiende en 2 segundos.
+            <h2 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">Tu Cocina tiene un <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-orange-500 to-yellow-500">Centro de Comando.</span></h2>
+            <p className="text-xl text-gray-400 font-medium max-w-3xl mx-auto leading-relaxed">
+              Cada pedido pasa por un pipeline profesional de 4 estados. Sonido de alerta, notificaciones push, y un tablero visual diseñado para que tu equipo opere bajo presión.
             </p>
           </div>
 
           {/* ORDER PIPELINE MOCKUP */}
           <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-12">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-16">
               {/* Stage 1 */}
-              <div className="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-5 text-center relative group hover:bg-amber-500/20 transition-all">
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="relative flex h-3 w-3">
+              <div className="bg-gray-800/40 backdrop-blur-md border border-amber-500/20 rounded-[2rem] p-6 text-center relative group hover:bg-gray-800/60 transition-all cursor-default shadow-lg shadow-amber-900/10 hover:-translate-y-1">
+                <div className="absolute -top-2 left-1/2 -translate-x-1/2">
+                  <span className="relative flex h-4 w-4">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-amber-500 shadow-[0_0_15px_rgba(245,158,11,0.5)]"></span>
                   </span>
                 </div>
-                <div className="w-12 h-12 bg-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-amber-400">
-                  <Bell size={24} />
+                <div className="w-14 h-14 bg-gradient-to-br from-amber-500/20 to-amber-500/5 border border-amber-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-amber-400 group-hover:scale-110 transition-transform">
+                  <Bell size={26} />
                 </div>
-                <h4 className="font-black text-amber-300 text-sm uppercase tracking-wider mb-1">Nuevo</h4>
-                <p className="text-[10px] text-gray-500 font-medium">Suena la alarma. Decidís al instante.</p>
+                <h4 className="font-black text-amber-300 text-sm uppercase tracking-widest mb-2">Nuevo</h4>
+                <p className="text-xs text-gray-400 font-medium leading-relaxed">Suena la alarma. Decidís al instante.</p>
               </div>
 
               {/* Stage 2 */}
-              <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-5 text-center group hover:bg-blue-500/20 transition-all">
-                <div className="w-12 h-12 bg-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-blue-400">
-                  <CheckCircle2 size={24} />
+              <div className="bg-gray-800/40 backdrop-blur-md border border-blue-500/20 rounded-[2rem] p-6 text-center group hover:bg-gray-800/60 transition-all cursor-default hover:-translate-y-1">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500/20 to-blue-500/5 border border-blue-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-blue-400 group-hover:scale-110 transition-transform">
+                  <CheckCircle2 size={26} />
                 </div>
-                <h4 className="font-black text-blue-300 text-sm uppercase tracking-wider mb-1">Aceptado</h4>
-                <p className="text-[10px] text-gray-500 font-medium">Con un toque. El cliente ya sabe.</p>
+                <h4 className="font-black text-blue-300 text-sm uppercase tracking-widest mb-2">Aceptado</h4>
+                <p className="text-xs text-gray-400 font-medium leading-relaxed">Con un toque. El cliente ya sabe.</p>
               </div>
 
               {/* Stage 3 */}
-              <div className="bg-purple-500/10 border border-purple-500/30 rounded-2xl p-5 text-center group hover:bg-purple-500/20 transition-all">
-                <div className="w-12 h-12 bg-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-purple-400">
-                  <ChefHat size={24} />
+              <div className="bg-gray-800/40 backdrop-blur-md border border-purple-500/20 rounded-[2rem] p-6 text-center group hover:bg-gray-800/60 transition-all cursor-default hover:-translate-y-1">
+                <div className="w-14 h-14 bg-gradient-to-br from-purple-500/20 to-purple-500/5 border border-purple-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-purple-400 group-hover:scale-110 transition-transform">
+                  <ChefHat size={26} />
                 </div>
-                <h4 className="font-black text-purple-300 text-sm uppercase tracking-wider mb-1">Cocinando</h4>
-                <p className="text-[10px] text-gray-500 font-medium">Tu equipo sabe qué preparar.</p>
+                <h4 className="font-black text-purple-300 text-sm uppercase tracking-widest mb-2">Cocinando</h4>
+                <p className="text-xs text-gray-400 font-medium leading-relaxed">Tu equipo sabe qué preparar.</p>
               </div>
 
               {/* Stage 4 */}
-              <div className="bg-green-500/10 border border-green-500/30 rounded-2xl p-5 text-center group hover:bg-green-500/20 transition-all">
-                <div className="w-12 h-12 bg-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-3 text-green-400">
-                  <HandPlatter size={24} />
+              <div className="bg-gray-800/40 backdrop-blur-md border border-green-500/20 rounded-[2rem] p-6 text-center group hover:bg-gray-800/60 transition-all cursor-default hover:-translate-y-1">
+                <div className="w-14 h-14 bg-gradient-to-br from-green-500/20 to-green-500/5 border border-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-4 text-green-400 group-hover:scale-110 transition-transform">
+                  <HandPlatter size={26} />
                 </div>
-                <h4 className="font-black text-green-300 text-sm uppercase tracking-wider mb-1">Listo</h4>
-                <p className="text-[10px] text-gray-500 font-medium">Avisale por WhatsApp automático.</p>
+                <h4 className="font-black text-green-300 text-sm uppercase tracking-widest mb-2">Listo</h4>
+                <p className="text-xs text-gray-400 font-medium leading-relaxed">Avisale por WhatsApp automático.</p>
               </div>
             </div>
 
-            {/* NOTIFICATION MOCKUP */}
-            <div className="max-w-lg mx-auto">
-              <div className="bg-gray-800/80 backdrop-blur-xl rounded-2xl border border-gray-700 p-5 shadow-2xl relative">
-                <div className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-[10px] font-black text-white animate-bounce">1</div>
-                <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30">
-                    <Bell size={20} />
+            {/* NOTIFICATION MOCKUP OVERLAY */}
+            <div className="max-w-md mx-auto relative group">
+              <div className="absolute inset-0 bg-gradient-to-b from-orange-500/20 to-transparent blur-2xl opacity-50 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl"></div>
+              <div className="bg-gray-800/90 backdrop-blur-xl rounded-[2rem] border border-gray-700/80 p-6 shadow-2xl relative transform transition-transform hover:scale-105">
+                <div className="absolute -top-3 -right-3 w-7 h-7 bg-red-500 rounded-full flex items-center justify-center text-xs font-black text-white animate-bounce shadow-lg shadow-red-500/50">1</div>
+                <div className="flex items-start gap-5">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-rose-500 rounded-2xl flex items-center justify-center text-white shrink-0 shadow-lg shadow-orange-500/30">
+                    <Bell size={24} />
                   </div>
                   <div className="flex-1">
-                    <div className="flex justify-between items-start">
-                      <p className="font-black text-white text-sm">🔔 ¡Nuevo Pedido!</p>
-                      <span className="text-[10px] text-gray-500 font-bold">Ahora</span>
+                    <div className="flex justify-between items-start mb-1">
+                      <p className="font-black text-white text-base tracking-tight">🔔 ¡Nuevo Pedido!</p>
+                      <span className="text-xs text-gray-400 font-bold bg-gray-900/50 px-2 py-0.5 rounded-md border border-gray-700">Ahora</span>
                     </div>
-                    <p className="text-xs text-gray-400 mt-1">De: <span className="text-white font-bold">María García</span> — $18.500</p>
-                    <p className="text-[10px] text-gray-500 mt-0.5">2x Milanesa Napolitana, 1x Papas Cheddar</p>
-                    <div className="flex gap-2 mt-3">
-                      <button className="flex-1 py-2 bg-green-500 text-white text-xs font-bold rounded-lg">Aceptar</button>
-                      <button className="flex-1 py-2 bg-gray-700 text-gray-300 text-xs font-bold rounded-lg border border-gray-600">Ver</button>
+                    <p className="text-sm text-gray-400 mb-2">De: <span className="text-white font-bold">María García</span> — <span className="text-green-400 font-black">$18.500</span></p>
+                    <p className="text-xs text-gray-500 font-medium mb-4 p-2.5 bg-gray-900/50 rounded-lg border border-gray-800 leading-relaxed">2x Milanesa Napolitana, 1x Papas Cheddar</p>
+                    <div className="flex gap-3">
+                      <button className="flex-1 py-2.5 bg-green-500 hover:bg-green-400 text-gray-900 text-sm font-black rounded-xl transition-colors shadow-lg shadow-green-500/20">Aceptar</button>
+                      <button className="flex-1 py-2.5 bg-gray-700/50 hover:bg-gray-700 text-white text-sm font-bold rounded-xl border border-gray-600 transition-colors">Ver Detalle</button>
                     </div>
                   </div>
                 </div>
               </div>
-              <p className="text-center text-xs text-gray-600 mt-4 font-medium">* Sonido + notificación push. Funciona aunque tengas la pantalla apagada.</p>
+              <p className="text-center text-xs text-gray-500 mt-6 font-medium italic">
+                * El sonido y la notificación push funcionan aunque tengas la pantalla de tu celular apagada o estés en otra app.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* --- DEEP INTELLIGENCE: CART INSIGHTS + HEATMAP + BEST CLIENTS --- */}
-      <section className="py-24 bg-white relative overflow-hidden">
+      <section className="py-32 bg-white relative overflow-hidden border-t border-gray-100">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10 pointer-events-none">
-          <div className="absolute top-1/3 left-0 w-80 h-80 bg-purple-50 rounded-full blur-3xl opacity-50"></div>
-          <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-orange-50 rounded-full blur-3xl opacity-40"></div>
+          <div className="absolute top-1/4 left-0 w-[600px] h-[600px] bg-purple-600/5 rounded-full blur-[120px] mix-blend-multiply"></div>
+          <div className="absolute bottom-1/4 right-0 w-[600px] h-[600px] bg-indigo-600/5 rounded-full blur-[120px] mix-blend-multiply"></div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 text-purple-700 text-sm font-bold mb-6 border border-purple-100">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 text-purple-700 text-sm font-bold mb-6 border border-purple-100 shadow-sm">
               <Lightbulb size={16} /> Inteligencia Automática
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Tu negocio <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">piensa solo.</span></h2>
-            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
-              Pedilo analiza tus ventas en segundo plano y te dice exactamente qué funciona, qué sobra, y qué combinaciones te hacen ganar más.
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Tu negocio <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600">piensa solo.</span></h2>
+            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto leading-relaxed">
+              Pedilo analiza tus ventas en segundo plano y te dice exactamente qué funciona, qué sobra, y qué combinaciones te hacen ganar más dinero.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid lg:grid-cols-3 gap-8">
 
             {/* CART INTELLIGENCE */}
-            <div className="bg-gray-900 p-6 md:p-8 rounded-3xl shadow-xl text-white relative overflow-hidden group">
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-orange-600/10 rounded-full blur-3xl pointer-events-none" />
-              <div className="flex items-center gap-2 mb-6">
-                <div className="bg-orange-600 p-2 rounded-xl">
-                  <Target size={18} className="text-white" />
+            <div className="bg-gray-900 p-8 rounded-[2.5rem] shadow-[0_20px_40px_-15px_rgba(147,51,234,0.3)] text-white relative overflow-hidden group">
+              <div className="absolute -top-10 -right-10 w-48 h-48 bg-purple-600/20 rounded-full blur-3xl pointer-events-none transition-transform duration-500 group-hover:scale-150" />
+              <div className="flex items-center gap-3 mb-8 relative z-10">
+                <div className="bg-gradient-to-br from-purple-500 to-indigo-500 p-2.5 rounded-xl shadow-lg shadow-purple-500/30">
+                  <Target size={20} className="text-white" />
                 </div>
-                <h3 className="text-sm font-black uppercase tracking-widest">Inteligencia de Carrito</h3>
+                <h3 className="text-sm font-black uppercase tracking-widest text-gray-100">Inteligencia de Carrito</h3>
               </div>
 
-              <div className="space-y-4 mb-6">
+              <div className="space-y-5 mb-8 relative z-10">
                 <div>
-                  <p className="text-[10px] font-black text-orange-400 uppercase tracking-widest mb-2">Productos Ancla</p>
-                  <p className="text-xs text-gray-400 mb-3">El motivo principal de la compra.</p>
-                  <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-                    <p className="text-xs font-black text-white">🏆 Milanesa Napolitana</p>
-                    <p className="text-[9px] text-gray-500">145 pedidos como producto principal</p>
+                  <p className="text-[10px] font-black text-purple-400 uppercase tracking-widest mb-2 flex items-center gap-1"><Crown size={12} /> Productos Ancla</p>
+                  <p className="text-xs text-gray-400 mb-3 font-medium">El motivo principal de la compra.</p>
+                  <div className="bg-white/5 rounded-2xl p-4 border border-white/5 hover:bg-white/10 transition-colors">
+                    <p className="text-sm font-black text-white mb-0.5">Milanesa Napolitana</p>
+                    <p className="text-[10px] text-gray-400 font-medium">145 pedidos como base</p>
                   </div>
                 </div>
                 <div>
-                  <p className="text-[10px] font-black text-green-400 uppercase tracking-widest mb-2">Reyes del Upsell</p>
-                  <p className="text-xs text-gray-400 mb-3">Siempre acompañan. Suben el ticket.</p>
-                  <div className="bg-white/5 rounded-xl p-3 border border-white/5">
-                    <p className="text-xs font-black text-white">⚡ Papas Cheddar</p>
-                    <p className="text-[9px] text-gray-500">Se vendió en combo 89 veces</p>
+                  <p className="text-[10px] font-black text-indigo-400 uppercase tracking-widest mb-2 flex items-center gap-1"><Zap size={12} /> Reyes del Upsell</p>
+                  <p className="text-xs text-gray-400 mb-3 font-medium">Siempre acompañan. Suben el ticket.</p>
+                  <div className="bg-white/5 rounded-2xl p-4 border border-white/5 hover:bg-white/10 transition-colors">
+                    <p className="text-sm font-black text-white mb-0.5">Papas Cheddar</p>
+                    <p className="text-[10px] text-gray-400 font-medium">Se vendió en combo 89 veces</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-orange-600/20 rounded-xl p-3 border border-orange-600/30">
-                <p className="text-[10px] font-bold text-orange-200">
-                  <span className="font-black text-white">💡 Insight:</span> Creá un combo "Milanga + Papas" y subí tu ticket promedio un 25%.
+              <div className="bg-gradient-to-r from-purple-500/20 to-indigo-500/20 rounded-2xl p-4 border border-purple-500/30 relative z-10">
+                <p className="text-xs font-medium text-purple-100 leading-relaxed">
+                  <span className="font-black text-white bg-purple-500/50 px-2 py-0.5 rounded mr-2">💡 Insight</span>
+                  Creá un combo "Milanga + Papas" y vas a subir tu ticket promedio un 25%.
                 </p>
               </div>
             </div>
 
             {/* WEEKLY HEATMAP */}
-            <div className="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 group hover:shadow-lg transition-all">
-              <div className="flex items-center gap-2 mb-6">
-                <div className="bg-red-100 p-2 rounded-xl">
-                  <Flame size={18} className="text-red-600" />
+            <div className="bg-white p-8 rounded-[2.5rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 group hover:-translate-y-1 hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50/50 rounded-bl-full pointer-events-none transition-transform duration-500 group-hover:scale-150"></div>
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-8">
+                  <div className="bg-orange-50 p-2.5 rounded-xl border border-orange-100 text-orange-600">
+                    <Flame size={20} />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">Mapa de Calor</h3>
+                    <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Demanda hora x hora</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-sm font-black text-gray-900 uppercase tracking-wider">Mapa de Calor</h3>
-                  <p className="text-[10px] text-gray-400 font-bold">Demanda hora x hora</p>
-                </div>
-              </div>
 
-              {/* HEATMAP MOCKUP */}
-              <div className="space-y-1.5 mb-6">
-                {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((day, dIdx) => (
-                  <div key={dIdx} className="flex items-center gap-2">
-                    <span className="text-[9px] font-black text-gray-400 w-7 text-right">{day}</span>
-                    <div className="flex-1 flex gap-0.5">
-                      {Array.from({ length: 12 }, (_, hIdx) => {
-                        const intensities = [
-                          [0, 0, 0, 0, 0, 1, 2, 1, 0, 2, 3, 4],
-                          [0, 0, 0, 0, 0, 1, 1, 2, 0, 3, 4, 3],
-                          [0, 0, 0, 0, 0, 2, 2, 1, 0, 2, 3, 3],
-                          [0, 0, 0, 0, 0, 1, 3, 2, 0, 4, 5, 4],
-                          [0, 0, 0, 0, 0, 2, 3, 2, 0, 5, 5, 5],
-                          [0, 0, 0, 0, 1, 3, 4, 3, 1, 5, 5, 5],
-                          [0, 0, 0, 0, 1, 2, 3, 2, 0, 3, 4, 3],
-                        ];
-                        const val = intensities[dIdx][hIdx];
-                        const colors = ["bg-gray-50", "bg-orange-100", "bg-orange-200", "bg-orange-300", "bg-orange-400", "bg-orange-600"];
-                        return <div key={hIdx} className={`h-5 flex-1 rounded-[3px] ${colors[val]} transition-all hover:scale-150 hover:z-10`} />;
-                      })}
+                {/* HEATMAP MOCKUP */}
+                <div className="space-y-2 mb-8">
+                  {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"].map((day, dIdx) => (
+                    <div key={dIdx} className="flex items-center gap-3">
+                      <span className="text-[10px] font-black text-gray-400 w-8 text-right uppercase">{day}</span>
+                      <div className="flex-1 flex gap-1">
+                        {Array.from({ length: 12 }, (_, hIdx) => {
+                          const intensities = [
+                            [0, 0, 0, 0, 0, 1, 2, 1, 0, 2, 3, 4],
+                            [0, 0, 0, 0, 0, 1, 1, 2, 0, 3, 4, 3],
+                            [0, 0, 0, 0, 0, 2, 2, 1, 0, 2, 3, 3],
+                            [0, 0, 0, 0, 0, 1, 3, 2, 0, 4, 5, 4],
+                            [0, 0, 0, 0, 0, 2, 3, 2, 0, 5, 5, 5],
+                            [0, 0, 0, 0, 1, 3, 4, 3, 1, 5, 5, 5],
+                            [0, 0, 0, 0, 1, 2, 3, 2, 0, 3, 4, 3],
+                          ];
+                          const val = intensities[dIdx][hIdx];
+                          const colors = ["bg-gray-50", "bg-orange-100/50", "bg-orange-200", "bg-orange-300", "bg-orange-400", "bg-orange-500"];
+                          return <div key={hIdx} className={`h-6 flex-1 rounded-[4px] ${colors[val]} transition-all hover:scale-150 hover:z-10 cursor-crosshair`} />;
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                  <div className="flex items-center gap-3 mt-3">
+                    <span className="w-8" />
+                    <div className="flex-1 flex justify-between text-[9px] font-black text-gray-300 uppercase tracking-widest">
+                      <span>8h</span><span>12h</span><span>16h</span><span>20h</span>
                     </div>
                   </div>
-                ))}
-                <div className="flex items-center gap-2 mt-2">
-                  <span className="w-7" />
-                  <div className="flex-1 flex justify-between text-[8px] font-black text-gray-300 uppercase">
-                    <span>8h</span><span>12h</span><span>16h</span><span>20h</span>
-                  </div>
                 </div>
               </div>
 
-              <div className="bg-blue-50 p-3 rounded-xl border border-blue-100">
-                <p className="text-xs text-blue-800 font-bold">
-                  <span className="font-black">📊 Resultado:</span> Organizá turnos y stock sabiendo exactamente cuándo explota la demanda.
+              <div className="bg-orange-50 p-4 rounded-2xl border border-orange-100/50 relative z-10">
+                <p className="text-xs text-orange-800 font-medium leading-relaxed">
+                  <span className="font-black">📊 Acción:</span> Reforzá tu cocina los viernes a las 20h, ahí está tu cuello de botella mensual.
                 </p>
               </div>
             </div>
 
             {/* BEST CLIENTS + METRICS */}
-            <div className="space-y-6">
+            <div className="space-y-8 flex flex-col justify-between h-full">
               {/* TODAY'S METRICS MOCKUP */}
-              <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4">Métricas en Vivo</h3>
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-green-50 p-3 rounded-2xl border border-green-100">
-                    <p className="text-[9px] font-bold text-green-600 uppercase">Ventas Hoy</p>
-                    <p className="text-lg font-black text-gray-900">$285K</p>
-                    <p className="text-[9px] font-bold text-green-600">↑ 18% vs ayer</p>
+              <div className="bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 group hover:shadow-xl transition-all duration-300">
+                <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2"><Activity size={12} /> Métricas en Vivo</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-green-50 p-4 rounded-2xl border border-green-100/50">
+                    <p className="text-[9px] font-black text-green-600 uppercase tracking-wider mb-1">Ventas Hoy</p>
+                    <p className="text-2xl font-black text-gray-900 mb-1">$285K</p>
+                    <p className="text-[10px] font-bold text-green-600 flex items-center gap-0.5"><TrendingUp size={10} /> 18% vs ayer</p>
                   </div>
-                  <div className="bg-blue-50 p-3 rounded-2xl border border-blue-100">
-                    <p className="text-[9px] font-bold text-blue-600 uppercase">Ticket Prom.</p>
-                    <p className="text-lg font-black text-gray-900">$14.2K</p>
-                    <p className="text-[9px] font-bold text-blue-500">Histórico 30d</p>
+                  <div className="bg-blue-50 p-4 rounded-2xl border border-blue-100/50">
+                    <p className="text-[9px] font-black text-blue-600 uppercase tracking-wider mb-1">Ticket Prom.</p>
+                    <p className="text-2xl font-black text-gray-900 mb-1">$14.2K</p>
+                    <p className="text-[10px] font-bold text-blue-500">Histórico 30d</p>
                   </div>
                 </div>
               </div>
 
               {/* BEST CLIENTS */}
-              <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-                <div className="flex items-center gap-2 mb-4">
-                  <Crown size={16} className="text-yellow-500" />
-                  <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Mejores Clientes</h3>
-                </div>
-                <div className="space-y-3">
-                  {[{ name: "Almacén Don Pedro", orders: 47, total: "$892K" }, { name: "Bar La Esquina", orders: 31, total: "$654K" }, { name: "Rest. El Trébol", orders: 28, total: "$521K" }].map((c, i) => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="w-6 h-6 rounded-lg bg-blue-50 flex items-center justify-center text-[10px] font-black text-blue-600">{i + 1}</div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs font-black text-gray-900 truncate">{c.name}</p>
-                        <p className="text-[9px] text-gray-400 font-bold">{c.orders} compras</p>
-                      </div>
-                      <span className="text-xs font-black text-blue-600 bg-blue-50 px-2 py-0.5 rounded-lg">{c.total}</span>
+              <div className="bg-white p-6 rounded-[2rem] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 flex-1 flex flex-col group hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-yellow-50/50 rounded-bl-full pointer-events-none transition-transform duration-500 group-hover:scale-150"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="bg-yellow-50 p-2 rounded-xl border border-yellow-100 text-yellow-600">
+                      <Crown size={16} />
                     </div>
-                  ))}
+                    <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Mejores Clientes</h3>
+                  </div>
+                  <div className="space-y-4 flex-1">
+                    {[{ name: "Almacén Don Pedro", orders: 47, total: "$892K" }, { name: "Bar La Esquina", orders: 31, total: "$654K" }, { name: "Rest. El Trébol", orders: 28, total: "$521K" }].map((c, i) => (
+                      <div key={i} className="flex items-center gap-4 group/item">
+                        <div className="w-8 h-8 rounded-xl bg-gray-50 flex items-center justify-center text-[11px] font-black text-gray-400 group-hover/item:bg-yellow-100 group-hover/item:text-yellow-700 transition-colors border border-gray-100">{i + 1}</div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-black text-gray-900 truncate">{c.name}</p>
+                          <p className="text-[10px] text-gray-500 font-medium">{c.orders} pedidos registrados</p>
+                        </div>
+                        <span className="text-xs font-black text-gray-900 bg-gray-50 px-2.5 py-1 rounded-lg border border-gray-100">{c.total}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-[10px] text-gray-400 mt-5 font-bold tracking-wide italic border-t border-gray-50 pt-4 text-center">
+                    💡 Ideal para B2B: Sabé a quién darle trato VIP.
+                  </p>
                 </div>
-                <p className="text-[9px] text-gray-400 mt-3 italic font-medium">* Ideal para distribuidoras B2B. Sabé a quién premiar.</p>
               </div>
             </div>
           </div>
@@ -1238,74 +1325,81 @@ export default function Landing() {
       </section>
 
       {/* --- BARCODE SCANNER + MASS IMPORT --- */}
-      <section className="py-24 bg-gray-50 border-t border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center">
+      <section className="py-32 bg-gray-50 border-t border-gray-100 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:2rem_2rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-40"></div>
+        <div className="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-16 items-center relative z-10">
           <div>
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-gray-700 text-sm font-bold mb-6 border border-gray-200 shadow-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white text-gray-700 text-sm font-bold mb-6 border border-gray-200 shadow-sm animate-fade-in-up">
               <ScanBarcode size={16} className="text-orange-600" /> Carga Inteligente
             </div>
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">2000 productos cargados <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-orange-500">en 5 minutos.</span></h2>
-            <p className="text-xl text-gray-600 font-medium mb-10 leading-relaxed">
-              No cargues producto por producto como en 2015. Pedilo tiene herramientas que <strong>ninguna otra plataforma ofrece</strong>.
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">2000 productos cargados <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-rose-500">en 5 minutos.</span></h2>
+            <p className="text-xl text-gray-500 font-medium mb-10 leading-relaxed">
+              No cargues producto por producto como si fuera 2015. Pedilo incluye herramientas únicas preparadas para <strong>ahorrarte horas de trabajo manual</strong>.
             </p>
 
             <ul className="space-y-6">
-              <li className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-sm shrink-0 border border-gray-100">
-                  <ScanBarcode size={24} />
+              <li className="flex gap-4 items-start group">
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-orange-600 shadow-[0_8px_30px_rgb(0,0,0,0.04)] shrink-0 border border-orange-100 group-hover:bg-orange-600 group-hover:text-white transition-all duration-300">
+                  <ScanBarcode size={26} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Escáner de Código de Barras</h3>
-                  <p className="text-gray-500 font-medium">Escaneá con la cámara del celular. Pedilo busca el producto en una base de datos mundial y completa <strong>nombre, descripción e imagen</strong> automáticamente.</p>
+                  <h3 className="font-bold text-gray-900 text-xl mb-2 group-hover:text-orange-600 transition-colors duration-300">Escáner de Código de Barras</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">Escaneá con la cámara del celular. Buscamos en una base de datos mundial y completamos <strong>nombre, descripción e imagen</strong> automágicamente.</p>
                 </div>
               </li>
-              <li className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-green-600 shadow-sm shrink-0 border border-gray-100">
-                  <Upload size={24} />
+              <li className="flex gap-4 items-start group">
+                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-green-600 shadow-[0_8px_30px_rgb(0,0,0,0.04)] shrink-0 border border-green-100 group-hover:bg-green-600 group-hover:text-white transition-all duration-300">
+                  <Upload size={26} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Importación Masiva Excel</h3>
-                  <p className="text-gray-500 font-medium">¿Tenés una lista de precios en Excel? Subila y listo. Todos tus productos cargados de una. Ideal para distribuidoras con <strong>catálogos enormes</strong>.</p>
+                  <h3 className="font-bold text-gray-900 text-xl mb-2 group-hover:text-green-600 transition-colors duration-300">Importación Masiva Excel</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">¿Ya tenés tu catálogo en Excel? Subilo y listo. Miles de productos online en un clic. Ideal para supermercados y distribuidoras mayoristas.</p>
                 </div>
               </li>
             </ul>
           </div>
 
           {/* SCANNER MOCKUP */}
-          <div className="relative">
-            <div className="absolute inset-0 bg-gray-200 rounded-[3rem] rotate-2 transform"></div>
-            <div className="bg-white p-8 rounded-[3rem] shadow-xl relative border border-gray-100">
+          <div className="relative group perspective">
+            <div className="absolute inset-0 bg-gradient-to-tr from-gray-200 to-gray-100 rounded-[3rem] rotate-2 transform transition-all duration-500 group-hover:rotate-6 group-hover:scale-[1.02]"></div>
+            <div className="bg-white p-8 rounded-[3rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] relative border border-gray-100 transition-transform duration-500 group-hover:-translate-y-2">
               {/* Fake Scanner UI */}
-              <div className="bg-gray-900 rounded-2xl p-6 text-white mb-6">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-black">Escáner</span>
-                  <div className="flex gap-1">
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                    <span className="text-[10px] text-green-400 font-bold">Cámara activa</span>
+              <div className="bg-gray-900 rounded-[2rem] p-6 text-white mb-6 shadow-inner relative overflow-hidden">
+                <div className="absolute top-1/2 left-0 w-full h-0.5 bg-green-500/80 shadow-[0_0_20px_rgba(34,197,94,1)] animate-scan_fast"></div>
+
+                <div className="flex items-center justify-between mb-6 relative z-10">
+                  <span className="text-sm font-black tracking-widest uppercase text-gray-300">Escáner AR</span>
+                  <div className="flex items-center gap-2 bg-gray-800 px-3 py-1.5 rounded-full border border-gray-700 shadow-inner">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse shadow-[0_0_10px_rgba(74,222,128,0.8)]" />
+                    <span className="text-[10px] text-green-400 font-bold uppercase tracking-wider">Cámara Activa</span>
                   </div>
                 </div>
-                <div className="bg-gray-800 rounded-xl p-8 flex items-center justify-center border border-dashed border-gray-600">
+                <div className="bg-gray-800/80 backdrop-blur-sm rounded-2xl p-10 flex items-center justify-center border-2 border-dashed border-gray-600 relative z-10">
                   <div className="text-center">
-                    <ScanBarcode size={48} className="text-orange-500 mx-auto mb-2 animate-pulse" />
-                    <p className="text-xs text-gray-400 font-medium">Apuntá al código de barras</p>
+                    <ScanBarcode size={56} className="text-orange-500 mx-auto mb-4 opacity-80" />
+                    <p className="text-[10px] text-gray-400 font-black uppercase tracking-widest">Apuntá al EAN</p>
                   </div>
                 </div>
               </div>
 
               {/* Found Product */}
-              <div className="bg-green-50 p-4 rounded-2xl border border-green-100">
-                <div className="flex items-center gap-2 mb-3">
-                  <CheckCircle2 size={16} className="text-green-600" />
-                  <span className="text-xs font-black text-green-700 uppercase">Producto Encontrado</span>
-                </div>
-                <div className="flex gap-3">
-                  <div className="w-14 h-14 bg-gray-100 rounded-xl flex items-center justify-center">
-                    <Package size={24} className="text-gray-400" />
+              <div className="bg-green-50/50 backdrop-blur-md p-5 rounded-2xl border border-green-200 shadow-sm animate-fade-in-up">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="bg-green-100 p-1.5 rounded-lg text-green-600">
+                    <CheckCircle2 size={16} />
                   </div>
-                  <div>
-                    <p className="font-bold text-gray-900 text-sm">Coca Cola 2.25L</p>
-                    <p className="text-xs text-gray-500">Gaseosa sabor cola</p>
-                    <p className="text-[10px] text-gray-400">EAN: 7790895000065</p>
+                  <span className="text-xs font-black text-green-700 uppercase tracking-widest">Encontrado en Base de Datos</span>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-16 h-16 bg-white rounded-xl flex items-center justify-center border border-green-100 shadow-sm shrink-0">
+                    <Package size={28} className="text-gray-300" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-black text-gray-900 text-base truncate mb-1">Coca Cola 2.25L Retornable</p>
+                    <p className="text-xs text-gray-500 mb-2 font-medium">Gaseosa sabor cola original</p>
+                    <div className="inline-block bg-white px-2 py-1.5 rounded border border-gray-100 text-[10px] font-mono font-bold text-gray-400 shadow-sm">
+                      EAN: 7790895000065
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1315,236 +1409,279 @@ export default function Landing() {
       </section>
 
       {/* --- TOPPINGS / EXTRAS SYSTEM --- */}
-      <section className="py-24 bg-white">
+      <section className="py-32 bg-white relative overflow-hidden">
+        <div className="absolute top-1/2 left-0 w-full h-[500px] bg-gradient-to-b from-transparent via-orange-50/50 to-transparent -z-10 skew-y-3"></div>
         <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Cada cliente pide <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">a su gusto.</span></h2>
-            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto">
-              Toppings, extras, salsas, puntos de cocción. Configurá todo desde el Dashboard y tus clientes eligen solitos. Cero errores, cero audios de 2 minutos.
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Cada cliente pide <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 to-red-600">a su gusto.</span></h2>
+            <p className="text-xl text-gray-500 font-medium max-w-3xl mx-auto leading-relaxed">
+              Toppings, extras, salsas, y puntos de cocción. Configurá todo desde el Dashboard y tus clientes eligen solitos. Cero errores de cocina, cero audios de 2 minutos.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto items-center">
+          <div className="grid md:grid-cols-2 gap-16 max-w-6xl mx-auto items-center">
             {/* EXPLANATION */}
-            <div className="space-y-6">
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center text-orange-600 shrink-0">
+            <div className="space-y-8">
+              <div className="flex gap-5 items-start group">
+                <div className="w-14 h-14 bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl flex items-center justify-center text-orange-600 shrink-0 shadow-sm border border-orange-200/50 group-hover:scale-110 transition-transform">
                   <Cherry size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">Grupos de Toppings</h3>
-                  <p className="text-gray-500 font-medium">Creá grupos como "Salsas", "Extras", "Punto de Cocción". Cada grupo tiene sus opciones con precio extra individual.</p>
+                  <h3 className="font-bold text-gray-900 text-xl mb-2 group-hover:text-orange-600 transition-colors">Grupos de Modificadores</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">Creá grupos como "Salsas", "Extras", o "Punto de cocción". Definí si son obligatorios u opcionales, y cuántos pueden elegir.</p>
                 </div>
               </div>
-              <div className="flex gap-4 items-start">
-                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600 shrink-0">
+              <div className="flex gap-5 items-start group">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center text-blue-600 shrink-0 shadow-sm border border-blue-200/50 group-hover:scale-110 transition-transform">
                   <Sparkles size={24} />
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 text-lg">El cliente arma su pedido perfecto</h3>
-                  <p className="text-gray-500 font-medium">Interfaz visual que muestra las opciones con un toque. Nada de escribir "sin cebolla" en una nota.</p>
+                  <h3 className="font-bold text-gray-900 text-xl mb-2 group-hover:text-blue-600 transition-colors">El cliente arma su pedido Perfecto</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">Interfaz visual e intuitiva para armar su producto con un par de toques. Chau a las aclaraciones larguísimas escritas a mano.</p>
                 </div>
               </div>
-              <div className="bg-green-50 p-4 rounded-2xl border border-green-100">
-                <p className="text-sm text-green-800 font-bold">
-                  <span className="font-black">Resultado:</span> El pedido llega completo, sin errores, con el precio correcto calculado automáticamente. Tu cocina agradece.
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 p-6 rounded-2xl border border-green-100 shadow-sm animate-fade-in-up">
+                <p className="text-sm text-green-800 font-medium leading-relaxed">
+                  <span className="font-black text-green-900 block mb-1">✅ Resultado:</span> El pedido llega completo a la cocina y con el precio de los extras calculado automáticamente.
                 </p>
               </div>
             </div>
 
             {/* TOPPING MOCKUP */}
-            <div className="bg-white rounded-3xl border border-gray-100 shadow-xl p-6 max-w-sm lg:w-6xl mx-auto">
-              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
-                <div className="w-14 h-14 bg-gray-100 rounded-xl"></div>
-                <div>
-                  <p className="font-black text-gray-900">Burger Doble</p>
-                  <p className="text-sm text-gray-500">$9.500</p>
+            <div className="relative group perspective">
+               <div className="absolute inset-0 bg-gradient-to-tr from-orange-200/50 to-red-100/50 rounded-[3rem] -rotate-3 transform transition-all duration-500 group-hover:-rotate-6 group-hover:scale-[1.02]"></div>
+               <div className="bg-white rounded-[2.5rem] border border-gray-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] p-8 relative z-10 transition-transform duration-500 group-hover:-translate-y-2">
+                <div className="flex items-center gap-4 mb-8 pb-6 border-b border-gray-100">
+                  <div className="w-16 h-16 bg-gradient-to-br from-orange-400 to-rose-400 rounded-2xl shadow-inner"></div>
+                  <div>
+                    <p className="font-black text-xl text-gray-900">Burger Doble Smash</p>
+                    <p className="text-base text-gray-500 font-bold">$9.500</p>
+                  </div>
                 </div>
-              </div>
 
-              <div className="space-y-4">
-                <div>
-                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">🧀 Extras</p>
-                  <div className="space-y-2">
-                    {[{ name: "Cheddar extra", price: "+$800", selected: true }, { name: "Panceta", price: "+$1.200", selected: true }, { name: "Huevo frito", price: "+$500", selected: false }].map((t, i) => (
-                      <div key={i} className={`flex justify-between items-center p-2.5 rounded-xl border text-sm ${t.selected ? 'bg-orange-50 border-orange-200' : 'bg-gray-50 border-gray-100'}`}>
-                        <div className="flex items-center gap-2">
-                          <div className={`w-5 h-5 rounded-md border-2 flex items-center justify-center ${t.selected ? 'bg-orange-500 border-orange-500' : 'border-gray-300'}`}>
-                            {t.selected && <CheckCircle2 size={12} className="text-white" />}
+                <div className="space-y-6">
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <p className="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Cherry size={14}/> Agregá Extras</p>
+                      <span className="text-[10px] bg-gray-100 text-gray-500 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Opcional</span>
+                    </div>
+                    <div className="space-y-2.5">
+                      {[{ name: "Doble Cheddar", price: "+$800", selected: true }, { name: "Bacon Crujiente", price: "+$1.200", selected: true }, { name: "Huevo frito", price: "+$500", selected: false }].map((t, i) => (
+                        <div key={i} className={`flex justify-between items-center p-3.5 rounded-2xl border transition-all ${t.selected ? 'bg-orange-50 border-orange-200 shadow-sm' : 'bg-gray-50/50 border-gray-100 hover:border-gray-200 cursor-pointer'}`}>
+                          <div className="flex items-center gap-3">
+                            <div className={`w-5 h-5 rounded drop-shadow-sm flex items-center justify-center transition-colors ${t.selected ? 'bg-orange-500 text-white' : 'bg-white border-2 border-gray-300'}`}>
+                              {t.selected && <CheckCircle2 size={14} />}
+                            </div>
+                            <span className={`font-bold text-sm ${t.selected ? 'text-orange-900' : 'text-gray-700'}`}>{t.name}</span>
                           </div>
-                          <span className="font-bold text-gray-900">{t.name}</span>
+                          <span className={`text-xs font-black ${t.selected ? 'text-orange-600' : 'text-gray-400'}`}>{t.price}</span>
                         </div>
-                        <span className="text-xs font-bold text-gray-500">{t.price}</span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-3">
+                      <p className="text-xs font-black text-gray-400 uppercase tracking-widest flex items-center gap-1.5"><Flame size={14}/> Punto de Cocción</p>
+                      <span className="text-[10px] bg-orange-100 text-orange-600 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Obligatorio</span>
+                    </div>
+                    <div className="flex gap-2.5">
+                      {["Jugosa", "A punto", "Cocida"].map((opt, i) => (
+                        <button key={i} className={`flex-1 py-3 rounded-2xl text-xs font-bold border transition-all shadow-sm ${i === 1 ? 'bg-gray-900 text-white border-gray-900' : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'}`}>{opt}</button>
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <div>
-                  <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-2">🔥 Cocción</p>
-                  <div className="flex gap-2">
-                    {["Jugosa", "A punto", "Cocida"].map((opt, i) => (
-                      <button key={i} className={`flex-1 py-2 rounded-xl text-xs font-bold border ${i === 0 ? 'bg-orange-600 text-white border-orange-600' : 'bg-white text-gray-600 border-gray-200'}`}>{opt}</button>
-                    ))}
-                  </div>
-                </div>
-              </div>
 
-              <div className="mt-6 pt-4 border-t border-gray-100 flex justify-between items-center">
-                <span className="text-sm text-gray-500 font-bold">Total:</span>
-                <span className="text-xl font-black text-gray-900">$11.500</span>
+                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-between items-center bg-gray-50 -mx-8 -mb-8 p-8 rounded-b-[2.5rem]">
+                  <span className="text-sm text-gray-500 font-bold uppercase tracking-widest">Total Calculado</span>
+                  <span className="text-3xl font-black text-gray-900">$11.500</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- WHY A BASIC PAGE ISN'T ENOUGH --- */}
-      <section className="py-24 bg-gray-50 border-t border-gray-100 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Una web de pedidos <span className="text-red-600">ya no alcanza.</span></h2>
-            <p className="text-xl text-gray-600 font-medium max-w-3xl mx-auto">
-              Cualquiera te hace una "paginita" para pedir. Pero sin inteligencia, sin datos, sin control real... es como tener un local sin caja registradora.
+      {/* --- WHY A BASIC PAGE ISN'T ENOUGH (COMPARISON) --- */}
+      <section className="py-32 bg-gray-900 border-t border-gray-800 relative overflow-hidden text-white">
+        <div className="absolute inset-0 bg-[#0a0a0a] bg-[radial-gradient(#1f2937_1px,transparent_1px)] [background-size:24px_24px] opacity-40"></div>
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-orange-600/10 rounded-full blur-[150px] mix-blend-screen pointer-events-none"></div>
+
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="text-center mb-20 animate-fade-in-up">
+            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight">Una web básica <span className="text-red-500">ya no alcanza.</span></h2>
+            <p className="text-xl text-gray-400 font-medium max-w-3xl mx-auto leading-relaxed">
+              Cualquiera te hace una "paginita" para pedir. Pero sin inteligencia, sin datos y sin control real... es como tener un local sin caja registradora.
             </p>
           </div>
 
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-gray-800/50 backdrop-blur-xl rounded-[2.5rem] border border-gray-700/50 shadow-2xl overflow-hidden">
               {/* Header */}
-              <div className="grid grid-cols-3 bg-gray-50 border-b border-gray-100">
-                <div className="p-4 text-center">
-                  <span className="text-xs font-bold text-gray-400">&nbsp;</span>
+              <div className="grid grid-cols-[1.5fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr] bg-gray-800/80 border-b border-gray-700">
+                <div className="p-6 flex items-center">
+                  <span className="text-xs font-black text-gray-500 uppercase tracking-widest">Característica</span>
                 </div>
-                <div className="p-4 text-center border-x border-gray-100">
-                  <span className="text-xs font-black text-red-500 uppercase tracking-widest">Página Básica</span>
+                <div className="p-6 text-center border-l border-gray-700 flex flex-col items-center justify-center">
+                  <span className="text-xs md:text-sm font-black text-red-400 uppercase tracking-widest">Página Básica</span>
+                  <span className="text-[10px] text-gray-500 mt-1 font-medium hidden md:block">Catálogo Común</span>
                 </div>
-                <div className="p-4 text-center bg-orange-50">
-                  <span className="text-xs font-black text-orange-600 uppercase tracking-widest">Pedilo</span>
+                <div className="p-6 text-center border-l border-orange-500/30 bg-orange-500/10 flex flex-col items-center justify-center relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-400 to-yellow-400"></div>
+                  <span className="text-sm md:text-base font-black text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-yellow-400 uppercase tracking-widest">Pedilo</span>
+                  <span className="text-[10px] text-orange-200 mt-1 font-medium hidden md:block">Potencia Absoluta</span>
                 </div>
               </div>
 
               {/* Rows */}
-              {[
-                { feature: "Recibir pedidos", basic: true, pedilo: true },
-                { feature: "Pipeline de cocina en vivo", basic: false, pedilo: true },
-                { feature: "Notificaciones push + sonido", basic: false, pedilo: true },
-                { feature: "Inteligencia de carrito (upsell)", basic: false, pedilo: true },
-                { feature: "Mapa de calor semanal", basic: false, pedilo: true },
-                { feature: "Escáner de código de barras", basic: false, pedilo: true },
-                { feature: "Carga masiva por Excel", basic: false, pedilo: true },
-                { feature: "Toppings y extras configurables", basic: false, pedilo: true },
-                { feature: "Cupones y promociones", basic: false, pedilo: true },
-                { feature: "Modo Mayorista (B2B)", basic: false, pedilo: true },
-                { feature: "Ranking de clientes y productos", basic: false, pedilo: true },
-                { feature: "Flyer QR descargable con tu marca", basic: false, pedilo: true },
-                { feature: "Rápido", basic: false, pedilo: true }
-              ].map((row, idx) => (
-                <div key={idx} className={`grid grid-cols-3 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50/50'} border-b border-gray-50 last:border-0`}>
-                  <div className="p-4 flex items-center">
-                    <span className="text-sm font-bold text-gray-700">{row.feature}</span>
+              <div className="divide-y divide-gray-700/50">
+                {[
+                  { feature: "Recibir pedidos por WhatsApp", basic: true, pedilo: true },
+                  { feature: "Pipeline de cocina interactivo", basic: false, pedilo: true },
+                  { feature: "Notificaciones Push + Alarma", basic: false, pedilo: true },
+                  { feature: "Inteligencia de Upsell automática", basic: false, pedilo: true },
+                  { feature: "Mapa de Calor por día y hora", basic: false, pedilo: true },
+                  { feature: "Escáner Inteligente Barcode", basic: false, pedilo: true },
+                  { feature: "Importación Masiva Excel", basic: false, pedilo: true },
+                  { feature: "Toppings, Salsas y Extras combinados", basic: false, pedilo: true },
+                  { feature: "Motor de Cupones y Descuentos", basic: false, pedilo: true },
+                  { feature: "Modo Distribuidores Mayoristas (B2B)", basic: false, pedilo: true },
+                  { feature: "Flyers y QRs listos para imprimir", basic: false, pedilo: true },
+                  { feature: "Insignias de Confianza Automáticas", basic: false, pedilo: true }
+                ].map((row, idx) => (
+                  <div key={idx} className={`grid grid-cols-[1.5fr_1fr_1fr] md:grid-cols-[2fr_1fr_1fr] transition-colors hover:bg-gray-700/30`}>
+                    <div className="p-4 md:p-6 flex items-center">
+                      <span className="text-sm md:text-base font-bold text-gray-300">{row.feature}</span>
+                    </div>
+                    <div className="p-4 md:p-6 flex items-center justify-center border-l border-gray-700">
+                      {row.basic
+                        ? <CheckCircle2 size={20} className="text-gray-500" />
+                        : <XCircle size={20} className="text-red-500/50" />
+                      }
+                    </div>
+                    <div className="p-4 md:p-6 flex items-center justify-center border-l border-orange-500/30 bg-orange-500/5 relative">
+                      {row.pedilo && (
+                        <>
+                          <div className="absolute inset-0 bg-orange-500/5 mix-blend-overlay"></div>
+                          <CheckCircle2 size={24} className="text-orange-400 relative z-10 drop-shadow-[0_0_8px_rgba(251,146,60,0.5)]" />
+                        </>
+                      )}
+                    </div>
                   </div>
-                  <div className="p-4 flex items-center justify-center border-x border-gray-100">
-                    {row.basic
-                      ? <CheckCircle2 size={18} className="text-gray-300" />
-                      : <XCircle size={18} className="text-red-300" />
-                    }
-                  </div>
-                  <div className="p-4 flex items-center justify-center bg-orange-50/50">
-                    <CheckCircle2 size={18} className="text-orange-600" />
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
 
-            <p className="text-center mt-8 text-lg text-gray-600 font-bold">
-              Una página básica recibe pedidos. <span className="text-orange-600 font-black">Pedilo hace crecer tu negocio.</span>
+            <p className="text-center mt-12 text-xl text-gray-400 font-bold mb-4">
+              Una simple página recibe pedidos. <span className="text-white">Pedilo hace crecer tu restaurante.</span>
             </p>
           </div>
         </div>
       </section>
 
-      {/* --- QR RETENTION --- */}
-      <section className="py-24 bg-gray-50 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 text-center relative z-10">
-          <div className="inline-block p-4 bg-white rounded-3xl shadow-xl mb-8 -rotate-2">
-            <QrCode size={64} className="text-gray-900" />
-          </div>
-          <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6">Convertí cada pedido en un cliente recurrente.</h2>
-          <p className="text-xl text-gray-600 font-medium mb-10 max-w-2xl mx-auto">
-            El sistema genera automáticamente <strong className="text-orange-600">Flyers y QRs</strong> con tu marca. Ponelos en las mesas, en las bolsas de delivery o en las facturas.
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <span className="px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-bold text-gray-600 shadow-sm">En la caja</span>
-            <span className="px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-bold text-gray-600 shadow-sm">En la bolsa</span>
-            <span className="px-4 py-2 bg-white rounded-lg border border-gray-200 text-sm font-bold text-gray-600 shadow-sm">En la mesa</span>
-          </div>
-        </div>
-      </section>
-
-      {/* --- REPUTATION / GAMIFICATION --- */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
-          <div className="order-2 md:order-1 relative">
-            {/* Visual Mockup of Badge */}
-            <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-xl max-w-sm mx-auto">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-gray-100"></div>
-                <div>
-                  <div className="h-3 w-32 bg-gray-200 rounded-full mb-1"></div>
-                  <div className="flex gap-1">
-                    <BadgeCheck size={16} className="text-blue-500" />
-                    <span className="text-xs font-bold text-blue-600">Verificado</span>
-                  </div>
-                </div>
+      {/* --- RETENTION & TRUST (QR + GAMIFICATION) --- */}
+      <section className="py-32 bg-gray-50 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-full h-full bg-grid-slate-200/[0.04] bg-[bottom_center] inset-0" style={{ backgroundImage: 'radial-gradient(#e5e7eb 1px, transparent 1px)', backgroundSize: '32px 32px' }}></div>
+        <div className="max-w-7xl mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            
+            {/* QR RETENTION */}
+            <div className="bg-white p-10 md:p-12 rounded-[3rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col justify-center items-center md:items-start text-center md:text-left relative group hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-indigo-50 to-transparent rounded-bl-full pointer-events-none transition-transform duration-500 group-hover:scale-125"></div>
+              
+              <div className="inline-block p-5 bg-gradient-to-br from-indigo-50 to-purple-50 rounded-3xl shadow-sm border border-indigo-100 mb-8 transform -rotate-3 group-hover:rotate-0 transition-transform duration-500 relative z-10">
+                <QrCode size={56} className="text-indigo-600" />
               </div>
-              <div className="h-24 bg-gray-50 rounded-xl w-full mb-4"></div>
-              <div className="bg-yellow-50 text-yellow-800 p-2 rounded-lg text-xs font-bold text-center border border-yellow-100">
-                <Megaphone size={14} className="inline mr-1" /> Envío Gratis Jueves!
+              
+              <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6 tracking-tight relative z-10 leading-[1.1]">Convertí la comida en clientes <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">recurrentes.</span></h2>
+              <p className="text-lg text-gray-500 font-medium mb-8 leading-relaxed relative z-10">
+                Pedilo genera automáticamente <strong className="text-indigo-600 font-bold">Flyers y QRs</strong> hiper atractivos con tu marca, listos para imprimir. Pegalos en tus bolsas o ponelos en las mesas para que pidan solitos.
+              </p>
+              
+              <div className="flex flex-wrap justify-center md:justify-start gap-3 relative z-10 w-full">
+                <span className="px-5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 shadow-sm flex items-center gap-2 transition-all hover:bg-gray-100"><div className="w-2 h-2 rounded-full bg-indigo-500"></div> En la caja</span>
+                <span className="px-5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 shadow-sm flex items-center gap-2 transition-all hover:bg-gray-100"><div className="w-2 h-2 rounded-full bg-purple-500"></div> En la bolsa delivery</span>
+                <span className="px-5 py-2.5 bg-gray-50 rounded-xl border border-gray-200 text-xs font-bold text-gray-700 shadow-sm flex items-center gap-2 transition-all hover:bg-gray-100"><div className="w-2 h-2 rounded-full bg-pink-500"></div> En la mesa del local</span>
               </div>
             </div>
-          </div>
-          <div className="order-1 md:order-2">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6">Insignias que venden por vos.</h2>
-            <p className="text-lg text-gray-600 font-medium mb-6">
-              Pedilo detecta tu buen desempeño y te premia con insignias de <strong>"Vendedor Verificado"</strong> y <strong>"Top Seller"</strong>.
-            </p>
-            <p className="text-gray-500 font-medium">
-              Un negocio verificado aumenta su conversión un 40% porque genera confianza instantánea.
-            </p>
+
+            {/* GAMIFICATION & BADGES */}
+            <div className="bg-white p-10 md:p-12 rounded-[3rem] shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col justify-center relative group hover:shadow-2xl hover:border-blue-100 transition-all duration-500 overflow-hidden">
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-blue-50 to-transparent rounded-bl-full pointer-events-none transition-transform duration-500 group-hover:scale-125"></div>
+              
+              {/* Visual Mockup of Badge */}
+              <div className="bg-gradient-to-b from-gray-50 to-white p-8 rounded-[2rem] border border-gray-100 shadow-xl border-b-[6px] border-b-gray-200 mx-auto w-full max-w-sm mb-12 transform rotate-2 group-hover:rotate-0 group-hover:-translate-y-2 transition-all duration-500 relative z-10">
+                <div className="flex items-center gap-5 mb-6">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-gray-200 to-gray-100 shadow-inner"></div>
+                  <div>
+                    <div className="h-3 w-32 bg-gray-200 rounded-full mb-2"></div>
+                    <div className="inline-flex items-center gap-1.5 bg-gradient-to-r from-blue-50 to-blue-100/50 border border-blue-200/50 px-3 py-1.5 rounded-lg shadow-sm">
+                      <BadgeCheck size={16} className="text-blue-600" />
+                      <span className="text-[11px] font-black text-blue-800 uppercase tracking-widest">Verificado</span>
+                    </div>
+                  </div>
+                </div>
+                <div className="h-24 bg-gray-100/80 border border-gray-100 rounded-2xl w-full mb-6"></div>
+                <div className="bg-gradient-to-r from-yellow-50 to-amber-50 text-amber-900 p-3.5 rounded-xl text-xs font-black uppercase tracking-wider text-center border border-yellow-200/60 shadow-sm flex items-center justify-center gap-2.5">
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500"></span>
+                  </span>
+                  Super Vendedor
+                </div>
+              </div>
+
+              <div className="relative z-10 text-center md:text-left">
+                <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-5 tracking-tight leading-[1.1]">Insignias que venden <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">por vos.</span></h2>
+                <p className="text-lg text-gray-500 font-medium mb-6 leading-relaxed">
+                  El sistema detecta tu buen desempeño (rapidez, sin cancelaciones) y te premia con insignias de <strong className="text-blue-600 font-bold">"Verificado"</strong> y <strong className="text-amber-600 font-bold">"Top Seller"</strong>.
+                </p>
+                <div className="bg-gradient-to-r from-blue-50/80 to-blue-50/30 border border-blue-100/80 rounded-2xl p-5 shadow-sm">
+                  <p className="text-sm font-bold text-blue-900 leading-relaxed">
+                    <span className="text-lg block mb-1">💡</span> Un negocio verificado convierte hasta un <strong className="font-black">40% más</strong> sus visitas en ventas porque genera confianza instantánea al consumidor.
+                  </p>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
       {/* --- FAQ SECTION --- */}
-      <section className="py-24 bg-white border-t border-gray-100">
-        <div className="max-w-3xl mx-auto px-4">
+      <section className="py-32 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Preguntas Frecuentes</h2>
-            <p className="text-xl text-gray-500 font-medium">Todo lo que necesitás saber antes de empezar.</p>
+            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Preguntas Frecuentes</h2>
+            <p className="text-xl text-gray-500 font-medium max-w-2xl mx-auto leading-relaxed">Respuestas claras, sin vueltas ni letra chica.</p>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-4">
             {[
-              { q: "¿Realmente es 0% de comisión?", a: "Sí. Pedilo cobra un plan fijo mensual, no un porcentaje de tus ventas. Si vendés $1 o $10 millones, el costo es el mismo. Tu ganancia es toda tuya." },
-              { q: "¿Necesito saber de tecnología?", a: "Para nada. Si sabés usar WhatsApp, sabés usar Pedilo. Configurás tu negocio en menos de 10 minutos. Cargás productos con fotos o escaneando el código de barras." },
-              { q: "¿Mis clientes necesitan descargar una app?", a: "No. Tus clientes abren un link o escanean un QR y piden directo desde el navegador del celular. Sin registros, sin descargas. Menos fricción, más ventas." },
-              { q: "¿Sirve para distribuidoras/mayoristas?", a: "Sí, Pedilo tiene un Modo Mayorista nativo con listas de precios diferenciadas, mínimos de compra y venta por bulto. Es la única plataforma B2B diseñada para esto." },
-              { q: "¿Puedo usar Pedilo junto con PedidosYa/Rappi?", a: "¡Es la idea! Usá las apps para que te conozcan nuevos clientes y mandá un flyer QR con cada pedido para que la próxima vez pidan directo por Pedilo. Te ahorrás el 30% de comisión." },
-              { q: "¿Qué pasa con mis datos si me voy?", a: "Tus datos son TUYOS. Podés exportar todo cuando quieras. No hay contratos de permanencia ni letra chica." },
+              { q: "¿Realmente es 0% de comisión?", a: "Sí. Pedilo cobra un plan fijo mensual, no un porcentaje de tus ventas. Si vendés $1 o $10 millones, el costo es el mismo. Tu ganancia es toda tuya, como debe ser." },
+              { q: "¿Necesito saber de tecnología?", a: "Para nada. Si sabés usar WhatsApp, sabés usar Pedilo. Configurás tu negocio rápido y directo. Podés cargar productos con fotos o incluso escaneando el código de barras." },
+              { q: "¿Mis clientes necesitan descargar una app?", a: "No, eso es del pasado. Tus clientes abren un link o escanean un QR y piden directo desde el navegador del celular. Sin registros pesados, sin barreras. Menos fricción significa más ventas." },
+              { q: "¿Sirve para distribuidoras/mayoristas?", a: "Absolutamente sí. Pedilo tiene un Modo Mayorista nativo con listas de precios diferenciadas, mínimos de compra y venta por bulto/pack. Es una plataforma B2B premium pensada para este formato." },
+              { q: "¿Puedo usar Pedilo junto con PedidosYa/Rappi?", a: "¡Esa es la estrategia híbrida! Usá las apps para que te conozcan nuevos clientes (gastas en marketing), y mandá un flyer/QR en la bolsa con cada pedido para que la próxima vez pidan directo por Pedilo. Así transformás un cliente caro en uno rentable." },
+              { q: "¿Qué pasa con mis datos si me voy?", a: "Tus datos son 100% TUYOS. Tu base de clientes e información te pertenece. No hay contratos de permanencia ni trampas para retenerte." },
             ].map((faq, idx) => (
-              <div key={idx} className="border border-gray-100 rounded-2xl overflow-hidden">
+              <div key={idx} className="bg-white border border-gray-200 hover:border-orange-300 rounded-3xl overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md">
                 <button
                   onClick={() => setOpenFaq(openFaq === idx ? null : idx)}
-                  className="w-full flex justify-between items-center p-5 text-left hover:bg-gray-50 transition-colors"
+                  className="w-full flex justify-between items-center p-6 text-left group cursor-pointer border-none outline-none"
                 >
-                  <span className="font-bold text-gray-900 pr-4">{faq.q}</span>
-                  <ChevronRight size={20} className={`text-gray-400 shrink-0 transition-transform duration-200 ${openFaq === idx ? 'rotate-90' : ''}`} />
-                </button>
-                {openFaq === idx && (
-                  <div className="px-5 pb-5 text-gray-600 font-medium leading-relaxed animate-in slide-in-from-top-1 duration-200">
-                    {faq.a}
+                  <span className="font-bold text-gray-900 text-lg group-hover:text-orange-600 transition-colors pr-4">{faq.q}</span>
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-gray-50 group-hover:bg-orange-50 shrink-0 transition-colors ${openFaq === idx ? 'bg-orange-100 text-orange-600' : 'text-gray-400 group-hover:text-orange-600'}`}>
+                    <ChevronRight size={24} className={`transition-all duration-300 ${openFaq === idx ? 'rotate-90' : ''}`} />
                   </div>
-                )}
+                </button>
+                <div className={`grid transition-[grid-template-rows] duration-300 ease-in-out ${openFaq === idx ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]'}`}>
+                  <div className="overflow-hidden">
+                    <div className="px-6 pb-6 pt-2 text-gray-600 font-medium leading-relaxed border-t border-dashed border-gray-100 mt-2">
+                      {faq.a}
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
@@ -1552,56 +1689,70 @@ export default function Landing() {
       </section>
 
       {/* --- PRICING ANCHOR & FINAL CTA --- */}
-      <section className="py-32 px-4 text-center bg-gray-900 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-gray-800 to-gray-950"></div>
+      <section className="py-32 px-4 text-center bg-gray-900 border-t border-gray-800 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-orange-600/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
+        <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
         <div className="max-w-4xl mx-auto relative z-10">
 
           {/* PRICING ANCHOR */}
-          <div className="mb-16 animate-fade-in-up">
-            <div className="inline-block bg-gray-800/80 backdrop-blur-md border border-gray-700 rounded-3xl px-8 py-6 shadow-2xl hover:border-orange-500/50 transition-colors">
-              <div className="text-orange-400 font-bold text-sm tracking-widest uppercase mb-2">Transparencia Total</div>
-              <div className="text-white font-black text-4xl md:text-5xl mb-2 flex flex-col md:flex-row items-center justify-center gap-2">
-                Un solo plan. <span className="text-green-400">$17.000<span className="text-lg text-gray-400 font-medium">/mes</span></span>
+          <div className="mb-16">
+            <div className="inline-block bg-gray-800/40 backdrop-blur-xl border border-gray-700/50 rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] hover:border-orange-500/30 transition-all duration-500 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-gray-800/50 via-gray-800/0 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10">
+                <div className="text-orange-400 font-bold text-xs tracking-[0.2em] uppercase mb-4">Suscripción Única</div>
+                <div className="text-white font-black text-5xl md:text-7xl mb-4 flex items-center justify-center gap-3 tracking-tight">
+                  $17.000<span className="text-xl md:text-2xl text-gray-500 font-bold self-end mb-2 tracking-normal">/mes</span>
+                </div>
+                <p className="text-gray-400 font-medium text-base md:text-lg max-w-sm mx-auto leading-relaxed">
+                  Todo incluido. Sin comisiones por venta. Sin costos ocultos. Precio final.
+                </p>
               </div>
-              <p className="text-gray-400 font-medium text-sm md:text-base max-w-sm mx-auto">
-                Sin comisiones sorpresa. Precio final, con todas las herramientas incluidas.
-              </p>
             </div>
           </div>
 
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-500/10 text-orange-400 text-sm font-bold mb-8 border border-orange-500/20">
+          <div className="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-orange-500/10 text-orange-400 text-sm font-bold mb-8 border border-orange-500/20 shadow-sm">
             <Zap size={16} /> Empezá hoy, vendé mañana
           </div>
-          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">El momento de cortar <br className="hidden md:block" />con las comisiones es ahora.</h2>
-          <p className="text-xl text-gray-400 font-medium mb-12 max-w-2xl mx-auto">
-            Unite a los 250+ negocios que ya tienen su propia App y no regalan ni un centavo más.
+          <h2 className="text-5xl md:text-7xl font-black text-white mb-8 leading-tight tracking-tight">El momento de recuperar <br className="hidden md:block" />tu ganancia es ahora.</h2>
+          <p className="text-xl md:text-2xl text-gray-400 font-medium mb-16 max-w-3xl mx-auto leading-relaxed">
+            Unite a los negocios que ya transformaron sus ventas por WhatsApp en un e-commerce automático y profesional.
           </p>
 
-          <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 mb-16">
             <button
               onClick={() => navigate("/register")}
-              className="px-12 py-5 bg-orange-600 text-white font-black rounded-2xl text-xl hover:bg-orange-500 hover:scale-[1.02] transition-all shadow-2xl shadow-orange-900/50"
+              className="px-10 py-5 bg-gradient-to-r from-orange-600 to-orange-500 text-white font-black rounded-2xl text-xl hover:from-orange-500 hover:to-orange-400 hover:scale-[1.02] transition-all shadow-[0_0_40px_-10px_rgba(234,88,12,0.5)] flex items-center justify-center gap-3 tracking-wide"
             >
-              Crear mi Tienda Gratis
+              Crear Tienda Gratis <ArrowRight size={24} />
             </button>
             <button
               onClick={() => window.open("/n/pedilo-oficial", "_blank", "noopener,noreferrer")}
-              className="px-12 py-5 bg-white/5 text-white font-black rounded-2xl text-xl hover:bg-white/10 border border-white/10 transition-all"
+              className="px-10 py-5 bg-gray-800 text-white font-bold rounded-2xl text-xl hover:bg-gray-700 border border-gray-700 transition-all flex items-center justify-center gap-2"
             >
-              Ver Demo
+              Ver Demo Interactiva
             </button>
           </div>
 
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-sm text-gray-500 font-medium mb-8">
-            <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Sin tarjeta requerida</span>
-            <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Cancelá cuando quieras</span>
-            <span className="flex items-center gap-2"><CheckCircle2 size={14} className="text-green-500" /> Soporte humano</span>
+          <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm text-gray-400 font-bold mb-16">
+            <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-orange-500" /> Sin tarjeta de crédito</span>
+            <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-orange-500" /> Cancelá cuando quieras</span>
+            <span className="flex items-center gap-2"><CheckCircle2 size={18} className="text-orange-500" /> Soporte humano real</span>
           </div>
 
-          <div className="flex items-center justify-center gap-6 text-sm text-gray-600 font-medium">
-            <span className="flex items-center gap-2"><Github size={16} /> Open Source Core</span>
-            <span>·</span>
-            <span>Hecho con ❤️ en Argentina</span>
+          {/* Footer Bottom Line */}
+          <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-gray-800/50 text-sm text-gray-500 font-medium">
+            <div className="flex items-center gap-3 mb-4 md:mb-0">
+              <span className="w-8 h-8 bg-gray-800 rounded-lg flex items-center justify-center text-white font-black">P</span>
+              <span className="font-bold text-gray-400">pediloarg.netlify.app</span>
+              <span className="text-gray-600">© {new Date().getFullYear()}</span>
+            </div>
+            <div className="flex items-center gap-6">
+              <a href="#" className="flex items-center gap-2 hover:text-gray-300 transition-colors"><Github size={16} /> Open Source</a>
+              <span className="hidden md:inline text-gray-700">|</span>
+              <a href="mailto:stilothiagovalentin@gmail.com" className="hover:text-gray-300 transition-colors">Contacto</a>
+              <span className="hidden md:inline text-gray-700">|</span>
+              <span>Hecho con ❤️ en Argentina</span>
+            </div>
           </div>
         </div>
       </section>
