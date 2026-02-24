@@ -11,7 +11,8 @@ import {
     Database,
     Zap,
     LayoutPanelTop,
-    BarChart3
+    BarChart3,
+    Heart
 } from 'lucide-react';
 import pkg from '../../package.json';
 import apiPublic from '../api/apiPublic';
@@ -90,6 +91,17 @@ export default function About() {
                     <p className="text-gray-500 font-medium max-w-lg mx-auto">
                         Arquitectura técnica, estado de los servicios y stack de desarrollo del ecosistema Pedilo.
                     </p>
+                    <div className="pt-4 flex justify-center">
+                        <a
+                            href="https://github.com/thiagostilo2121/pedilo-web/blob/main/CONTRIBUTING.md"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-3xl font-black shadow-lg shadow-orange-500/20 hover:scale-105 transition-all group"
+                        >
+                            <Heart size={20} className="fill-white group-hover:animate-pulse" />
+                            Quiero ser parte de Pedilo
+                        </a>
+                    </div>
                 </section>
 
                 {/* Project Statistics Grid - Expanded to 4 columns on MD */}
