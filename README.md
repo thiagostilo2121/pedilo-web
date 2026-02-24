@@ -5,7 +5,7 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![Tailwind](https://img.shields.io/badge/Tailwind_4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Version](https://img.shields.io/badge/version-1.1.0-blue?style=for-the-badge)](https://github.com/thiagostilo2121/pedilo-web/releases/tag/v1.1.0)
+[![Version](https://img.shields.io/badge/version-1.2.0-blue?style=for-the-badge)](https://github.com/thiagostilo2121/pedilo-web/releases/tag/v1.2.0)
 [![License](https://img.shields.io/badge/License-AGPL_v3-blue?style=for-the-badge)](LICENSE)
 
 **La independencia digital del comercio local: Pedidos online sin intermediarios**

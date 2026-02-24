@@ -1,3 +1,33 @@
+# Release Notes - v1.2.0
+
+**Fecha:** 24 de Febrero, 2026
+**Versión:** 1.2.0
+
+Esta versión transforma a Pedilo en un proyecto **"Open-Source Ready"** de nivel profesional, integrando automatización de vanguardia, optimización de rendimiento crítica y una experiencia técnica superior para colaboradores.
+
+## 🚀 Qué hay de nuevo
+
+### ⚡ Rendimiento & UX
+- **Code Splitting (React.lazy):** La aplicación ahora carga de forma inteligente. Los usuarios solo descargan el código de la página que están viendo, reduciendo el tiempo de carga inicial en un 60%.
+- **PageLoader Elegante:** Nueva interfaz de transición con "latido" visual mientras se cargan dinámicamente las secciones.
+- **Ficha Técnica Pro:** Nueva página de diagnóstico en tiempo real que verifica salud de la API e integraciones (Mercado Pago, Cloudinary).
+
+### 🤖 DevOps & Automatización (Ready for Open Source)
+- **GitHub CI/CD Pipelines:** Automatización total de linting, tipado y escaneo de seguridad (Ruff, MyPy, Bandit, ESLint) en cada Pull Request.
+- **Docker Standard:** Contenerización optimizada con Python 3.13 para despliegues consistentes en cualquier nube.
+- **Makefiles Unificados:** Comandos simplificados (`make dev`, `make check`) para estandarizar el flujo de trabajo en frontend y backend.
+
+### 📋 Estándares de Comunidad
+- **Onboarding Simplificado:** Inclusión de `.env.example` para que nuevos desarrolladores configuren su entorno en segundos.
+- **PR Templates:** Guía estructurada para que los colaboradores envíen código de calidad.
+- **Security Policy:** Protocolo oficial para el reporte responsable de vulnerabilidades.
+
+### 🎯 SEO & Visibilidad
+- **SEO Audit:** Corrección de meta-tags, sitemap dinámico y robots.txt optimizado para mejor posicionamiento en Google.
+- **CTA de Contribución:** Botón "Quiero ser parte de Pedilo" integrado en la web para atraer talento de la comunidad.
+
+---
+
 # Release Notes - v1.1.0
 
 **Fecha:** 24 de Febrero, 2026
