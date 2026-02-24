@@ -5,4 +5,4 @@ Allow: /AI_CONTEXT.md
 Allow: /llms.txt
 
 # Sitemap
-Sitemap: https://pedilo.com.ar/sitemap.xml
+Sitemap: https://pediloarg.netlify.app/sitemap.xml
