@@ -6,7 +6,7 @@ Nos tomamos la seguridad muy en serio. Si descubres una vulnerabilidad en Pedilo
 
 **No abras un Issue público para reportar un problema de seguridad.**
 
-Por favor, envía un correo electrónico a **thiagostilo2121@gmail.com** (o al contacto del autor en GitHub) con los detalles del hallazgo.
+Por favor, envía un correo electrónico a **stilothiagovalentin@gmail.com** (o al contacto del autor en GitHub) con los detalles del hallazgo.
 
 ### Qué incluir en el reporte:
 - Descripción del posible riesgo.
