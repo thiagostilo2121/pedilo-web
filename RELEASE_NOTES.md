@@ -1,4 +1,23 @@
-# Release Notes - v0.7.0
+# Release Notes - v1.1.0
+
+**Fecha:** 24 de Febrero, 2026
+**Versión:** 1.1.0
+
+Esta versión consolida el proyecto con una identidad visual renovada, el último stack tecnológico y una licencia robusta que protege la libertad de los comercios.
+
+## 🚀 Qué hay de nuevo
+
+### ⚖️ Licencia AGPL v3.0
+- **Protección SaaS:** Todo el proyecto (Frontend y Backend) ahora utiliza la licencia GNU Affero General Public License v3.0.
+- **Ecosistema Abierto:** Garantizamos que cualquier mejora de la comunidad permanezca libre para todos los socios de Pedilo.
+
+### 🎨 Excelencia Técnica & Marca
+- **UI Modernizada:** Adopción total de **React 19**, **Tailwind CSS 4** y **Vite 7**.
+- **Documentación:** Renovación completa de los READMEs para reflejar el tono premium y la madurez actual del sistema.
+- **Estrategia de Marca:** Los manuales internos de marca y agentes han sido sincronizados para la fase 1.0 (v1.1.0).
+
+---
+
 
 **Fecha:** 13 de Febrero, 2026
 **Versión:** 0.7.0
