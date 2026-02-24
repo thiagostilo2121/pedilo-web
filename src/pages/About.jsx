@@ -1,6 +1,3 @@
-/*
- * Copyright (C) 2026 Thiago Valentín Stilo Limarino
- */
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -10,24 +7,59 @@ import {
     Globe,
     ShieldCheck,
     GitBranch,
-    ChevronLeft
+    ChevronLeft,
+    Database,
+    Zap,
+    LayoutPanelTop,
+    BarChart3
 } from 'lucide-react';
-import { DEFAULT_LOGO } from '../constants';
 import pkg from '../../package.json';
+import apiPublic from '../api/apiPublic';
 
 export default function About() {
     const navigate = useNavigate();
+    const [apiStatus, setApiStatus] = React.useState('checking');
 
     React.useEffect(() => {
         document.title = "Ficha Técnica | Pedilo";
+
+        // Verificar salud de la API
+        const checkApi = async () => {
+            try {
+                // Un ping rápido al root de la API
+                await apiPublic.get('/');
+                setApiStatus('online');
+            } catch (error) {
+                // Si devuelve 404 o similar pero responde, está online (FastAPI suele tener root)
+                if (error.response) {
+                    setApiStatus('online');
+                } else {
+                    setApiStatus('offline');
+                }
+            }
+        };
+
+        checkApi();
     }, []);
+
+    const buildDate = import.meta.env.VITE_BUILD_TIME
+        ? new Date(import.meta.env.VITE_BUILD_TIME).toLocaleString('es-AR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        })
+        : "N/A";
 
     const techStack = [
         { name: "React 19", category: "Core", description: "Biblioteca principal para la interfaz." },
         { name: "Vite 7", category: "Build Tool", description: "Entorno de desarrollo ultra rápido." },
         { name: "Tailwind CSS 4", category: "Styles", description: "Framework de diseño moderno." },
-        { name: "Lucide React", category: "Icons", description: "Set de iconos limpios y consistentes." },
-        { name: "Axios", category: "Network", description: "Gestión de peticiones HTTP." },
+        { name: "Recharts", category: "Analytics", description: "Gráficos estadísticos e interactivos." },
+        { name: "Vite PWA", category: "Mobile", description: "Tecnología de App instalable." },
+        { name: "Lucide React", category: "Icons", description: "Set de iconos premium consistentes." },
+        { name: "Axios", category: "Network", description: "Gestión de peticiones y sincronía." },
         { name: "React Router 7", category: "Routing", description: "Navegación dinámica y protegida." }
     ];
 
@@ -56,42 +88,85 @@ export default function About() {
                     </div>
                     <h1 className="text-4xl font-black text-gray-900 tracking-tight">Ficha Técnica</h1>
                     <p className="text-gray-500 font-medium max-w-lg mx-auto">
-                        Detalles internos y stack tecnológico que hace posible la experiencia de Pedilo.
+                        Arquitectura técnica, estado de los servicios y stack de desarrollo del ecosistema Pedilo.
                     </p>
                 </section>
 
-                {/* Project Statistics Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                        <div className="w-10 h-10 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-600 mb-4">
-                            <GitBranch size={20} />
+                {/* Project Statistics Grid - Expanded to 4 columns on MD */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+                    {/* Versión */}
+                    <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+                        <div className="w-9 h-9 rounded-2xl bg-orange-100 flex items-center justify-center text-orange-600 mb-3">
+                            <GitBranch size={18} />
                         </div>
-                        <h3 className="font-bold text-gray-900">Versión</h3>
-                        <p className="text-2xl font-black text-orange-600">{pkg.version}</p>
-                        <p className="text-xs text-gray-400 mt-1 uppercase font-bold tracking-wider underline decoration-orange-300">Rama Estable</p>
+                        <h3 className="font-bold text-gray-400 text-xs uppercase tracking-wider">Versión</h3>
+                        <p className="text-xl font-black text-gray-900">{pkg.version}</p>
+                        <p className="text-[10px] text-gray-400 mt-1 flex items-center gap-1 font-bold">
+                            <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span> Build: {buildDate}
+                        </p>
                     </div>
 
-                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                        <div className="w-10 h-10 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 mb-4">
-                            <ShieldCheck size={20} />
+                    {/* Licencia */}
+                    <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+                        <div className="w-9 h-9 rounded-2xl bg-blue-100 flex items-center justify-center text-blue-600 mb-3">
+                            <ShieldCheck size={18} />
                         </div>
-                        <h3 className="font-bold text-gray-900">Licencia</h3>
-                        <p className="text-xl font-black text-gray-800">AGPL-3.0</p>
-                        <p className="text-xs text-gray-400 mt-1">Open Source & Libre</p>
+                        <h3 className="font-bold text-gray-400 text-xs uppercase tracking-wider">Licencia</h3>
+                        <p className="text-xl font-black text-gray-900">AGPL-3.0</p>
+                        <p className="text-[10px] text-gray-400 mt-1 font-bold italic">Software Libre</p>
                     </div>
 
-                    <div className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm">
-                        <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 mb-4">
-                            <Globe size={20} />
+                    {/* Backend Status */}
+                    <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+                        <div className="w-9 h-9 rounded-2xl bg-purple-100 flex items-center justify-center text-purple-600 mb-3">
+                            <Database size={18} />
                         </div>
-                        <h3 className="font-bold text-gray-900">Estado</h3>
-                        <p className="text-xl font-black text-gray-800">
-                            {import.meta.env.PROD ? "Producción" : "Desarrollo"}
+                        <h3 className="font-bold text-gray-400 text-xs uppercase tracking-wider">Backend API</h3>
+                        <p className="text-xl font-black text-gray-900">
+                            {apiStatus === 'online' ? 'Conectado' : apiStatus === 'checking' ? '...' : 'Inaccesible'}
                         </p>
-                        <p className={`text-xs mt-1 flex items-center gap-1 font-bold italic ${import.meta.env.PROD ? "text-green-500" : "text-orange-500"}`}>
-                            <span className={`w-2 h-2 rounded-full animate-pulse ${import.meta.env.PROD ? "bg-green-500" : "bg-orange-500"}`}></span>
-                            {import.meta.env.PROD ? "Online" : "Localhost"}
+                        <div className="mt-1 flex items-center gap-1 font-bold italic">
+                            <span className={`w-2 h-2 rounded-full ${apiStatus === 'online' ? 'bg-green-500 animate-pulse' : apiStatus === 'checking' ? 'bg-gray-300' : 'bg-red-500'}`}></span>
+                            <span className={`text-[10px] ${apiStatus === 'online' ? 'text-green-500' : apiStatus === 'checking' ? 'text-gray-400' : 'text-red-500'}`}>
+                                {apiStatus === 'online' ? 'Sincronizado' : apiStatus === 'checking' ? 'Verificando...' : 'Error de Link'}
+                            </span>
+                        </div>
+                    </div>
+
+                    {/* Environment */}
+                    <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-sm">
+                        <div className="w-9 h-9 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-600 mb-3">
+                            <Globe size={18} />
+                        </div>
+                        <h3 className="font-bold text-gray-400 text-xs uppercase tracking-wider">Entorno</h3>
+                        <p className="text-xl font-black text-gray-900">
+                            {import.meta.env.PROD ? 'Cloud' : 'Local'}
                         </p>
+                        <p className={`text-[10px] mt-1 font-black ${import.meta.env.PROD ? "text-green-600" : "text-orange-500"}`}>
+                            {import.meta.env.PROD ? "PRODUCCIÓN" : "DESARROLLO"}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Cloudinary & MP Check Section */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100">
+                        <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
+                            <Zap size={20} fill="currentColor" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Multimedia</p>
+                            <p className="font-bold text-gray-900">Cloudinary <span className="text-green-500 ml-1 text-xs">● Active</span></p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-4 bg-white p-4 rounded-2xl border border-gray-100">
+                        <div className="p-2 bg-emerald-50 text-emerald-600 rounded-xl">
+                            <LayoutPanelTop size={20} />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Pagos</p>
+                            <p className="font-bold text-gray-900">Mercado Pago <span className="text-green-500 ml-1 text-xs">● Active</span></p>
+                        </div>
                     </div>
                 </div>
 
@@ -102,16 +177,16 @@ export default function About() {
                             <Cpu className="text-orange-500" /> Stack Tecnológico
                         </h2>
                     </div>
-                    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {techStack.map((tech, idx) => (
                             <div key={idx} className="p-4 rounded-2xl hover:bg-gray-50 transition-colors border border-transparent hover:border-gray-100 group">
                                 <div className="flex items-center justify-between mb-1">
-                                    <span className="px-2 py-0.5 rounded-lg bg-gray-100 text-[10px] font-black uppercase text-gray-500 tracking-wider">
+                                    <span className="px-2 py-0.5 rounded-lg bg-gray-100 text-[9px] font-black uppercase text-gray-500 tracking-wider">
                                         {tech.category}
                                     </span>
                                 </div>
-                                <h4 className="font-bold text-gray-900 text-lg group-hover:text-orange-600 transition-colors">{tech.name}</h4>
-                                <p className="text-sm text-gray-400 font-medium leading-relaxed">{tech.description}</p>
+                                <h4 className="font-bold text-gray-900 text-sm group-hover:text-orange-600 transition-colors">{tech.name}</h4>
+                                <p className="text-[11px] text-gray-400 font-medium leading-relaxed">{tech.description}</p>
                             </div>
                         ))}
                     </div>
@@ -175,3 +250,4 @@ $ npm run dev`}
         </div>
     );
 }
+
