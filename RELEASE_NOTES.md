@@ -1,3 +1,22 @@
+# Release Notes - v1.4.0
+
+**Fecha:** 25 de Febrero, 2026
+**Versión:** 1.4.0
+
+Esta versión introduce el sistema de búsqueda y seguimiento de pedidos en tiempo real, mejorando la transparencia para el cliente final y optimizando la gestión de estados desde el panel administrativo.
+
+## 🚀 Qué hay de nuevo
+
+### 🔍 Seguimiento de Pedidos (Customer Experience)
+- **Buscador de Pedidos:** Nueva interfaz intuitiva para que los clientes consulten el estado de su pedido mediante el código único.
+- **Tracking en Tiempo Real:** Visualización clara de los estados (Pendiente, En Preparación, En Camino, Entregado).
+
+### 🛠️ Mejoras Técnicas
+- **Versión Sync:** Sincronización de versiones en todo el ecosistema (Frontend + Backend).
+- **SEO & Metadata:** Actualización de tags para mejores resultados de búsqueda en la nueva funcionalidad.
+
+---
+
 # Release Notes - v1.3.0
 
 **Fecha:** 24 de Febrero, 2026
