@@ -308,7 +308,7 @@ export default function PublicNegocio({ slug }) {
 
       {/* 1. IMMERSIVE HEADER (Blurry Banner Effect) */}
       {/* Header Sticky Bar */}
-      <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-xl shadow-sm py-3' : 'bg-transparent py-4'}`}>
+      <nav className={`sticky top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-white/90 backdrop-blur-xl shadow-sm py-3' : 'bg-transparent py-4'}`}>
         <div className="max-w-4xl mx-auto px-4 flex justify-between items-center">
           <div className={`flex items-center gap-3 transition-all duration-300 ${scrolled ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'}`}>
             {negocio.logo_url && <img src={negocio.logo_url} className="w-8 h-8 rounded-full border border-gray-200" alt="Logo" />}
@@ -328,7 +328,9 @@ export default function PublicNegocio({ slug }) {
         </div>
       </nav>
 
-      <BusinessHero negocio={negocio} onShowInfo={() => setShowInfoModal(true)} />
+      <div className="-mt-[68px] sm:-mt-[80px]">
+        <BusinessHero negocio={negocio} onShowInfo={() => setShowInfoModal(true)} />
+      </div>
 
       <main className="max-w-6xl mx-auto relative z-10 -mt-8 bg-gray-50 rounded-t-[2.5rem] min-h-screen pb-10 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] pt-8">
 

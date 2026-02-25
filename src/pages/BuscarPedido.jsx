@@ -314,7 +314,7 @@ export default function SeguimientoPedido() {
                   )}
                   <div className="flex justify-between items-end">
                     <div className="flex flex-col">
-                      <span className="text-xs font-black text-gray-900 uppercase tracking-widest leading-none mb-1">Total Pagado</span>
+                      <span className="text-xs font-black text-gray-900 uppercase tracking-widest leading-none mb-2">Total Pagado</span>
                       <span className="text-[10px] text-gray-400 font-bold">{pedido.metodo_pago.replace('_', ' ')}</span>
                     </div>
                     <span className="text-3xl font-black text-orange-600 tracking-tighter">${pedido.total}</span>
