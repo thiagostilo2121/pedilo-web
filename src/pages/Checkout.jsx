@@ -21,6 +21,7 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { calcularPrecioEfectivo, calcularTotalCarrito } from "../utils/precioUtils";
+import { getCheckoutMessage, BuildWhatsAppUrl } from "../utils/whatsappFormatter";
 
 export default function Checkout({ slug }) {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -194,9 +195,7 @@ export default function Checkout({ slug }) {
         <div className="space-y-3">
           {negocio.telefono && (
             <a
-              href={`https://wa.me/${(negocio.codigo_pais || "") + negocio.telefono.replace(/\D/g, "")}?text=${encodeURIComponent(
-                `¡Hola ${negocio.nombre}! Acabo de realizar un pedido.\n\nCódigo: *${pedido.codigo}*\nNombre: ${pedido.nombre_cliente}${pedido.direccion ? `\nDirección: ${pedido.direccion}` : ""}`
-              )}`}
+              href={BuildWhatsAppUrl((negocio.codigo_pais || "") + negocio.telefono, getCheckoutMessage(negocio, pedido))}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full bg-green-500 text-white py-4 rounded-2xl font-bold hover:bg-green-600 transition-all shadow-lg shadow-green-100"

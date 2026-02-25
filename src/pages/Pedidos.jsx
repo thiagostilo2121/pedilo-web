@@ -30,6 +30,7 @@ import {
   MapPin
 } from "lucide-react";
 import Skeleton from "../components/ui/Skeleton";
+import { getStatusUpdateMessage, BuildWhatsAppUrl } from "../utils/whatsappFormatter";
 
 export default function PedidosDashboard() {
   const [pedidos, setPedidos] = useState([]);
@@ -556,8 +557,7 @@ export default function PedidosDashboard() {
 
               <button
                 onClick={() => {
-                  const mensaje = `Hola ${pedidoActivo.nombre_cliente}! 🍽️\n\nEstado de tu pedido *#${pedidoActivo.codigo || pedidoActivo.id}*:\n${pedidoActivo.estado === 'pendiente' ? '⏳ Recibido, esperando confirmación.' : pedidoActivo.estado === 'aceptado' ? '✅ ¡Aceptado! Estamos preparándolo.' : pedidoActivo.estado === 'en_progreso' ? '🍳 ¡En la cocina!' : '🚀 ¡Listo para disfrutar!'}`;
-                  window.open(`https://wa.me/${pedidoActivo.telefono_cliente}?text=${encodeURIComponent(mensaje)}`);
+                  window.open(BuildWhatsAppUrl(pedidoActivo.telefono_cliente, getStatusUpdateMessage(pedidoActivo)));
                 }}
                 className="w-full py-3.5 bg-[#25D366] text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-100 active:scale-[0.98]"
               >
