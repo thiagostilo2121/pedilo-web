@@ -140,15 +140,6 @@ export default function IntelligenceCard() {
             {/* Header */}
             <div className="p-5 sm:p-6 border-b border-gray-100 bg-gradient-to-r from-violet-50 via-white to-indigo-50">
                 <div className="flex items-start sm:items-center justify-between flex-col sm:flex-row gap-3">
-                    <div className="flex items-center gap-3">
-                        <div className="w-11 h-11 bg-gradient-to-br from-violet-500 to-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-violet-500/20">
-                            <BrainCircuit size={22} />
-                        </div>
-                        <div>
-                            <h3 className="font-black text-gray-900 text-base tracking-tight">Autopilot</h3>
-                            <p className="text-[11px] text-gray-500 font-medium">Motor de predicción y acciones</p>
-                        </div>
-                    </div>
                     <div className="flex items-center gap-2">
                         {criticalActions > 0 && (
                             <span className="flex items-center gap-1.5 bg-red-50 text-red-700 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider border border-red-200 animate-pulse">
