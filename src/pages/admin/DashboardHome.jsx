@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { statsService } from "../../services/statsService";
 import StatsCard from "../../components/dashboard/StatsCard";
-import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Plus } from "lucide-react";
+import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Plus, BrainCircuit, ArrowRight } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
 import negocioService from "../../services/negocioService";
 import pedidosService from "../../services/pedidosService";
@@ -13,7 +13,6 @@ import TopClientsCard from "../../components/dashboard/TopClientsCard";
 import RecentOrdersCard from "../../components/dashboard/RecentOrdersCard";
 import CategoryRankingCard from "../../components/dashboard/CategoryRankingCard";
 import WeeklyHeatmap from "../../components/dashboard/WeeklyHeatmap";
-import ProductInsightsCard from "../../components/dashboard/ProductInsightsCard";
 
 export default function DashboardHome() {
     const [overview, setOverview] = useState(null);
@@ -24,7 +23,6 @@ export default function DashboardHome() {
     const [loading, setLoading] = useState(true);
     const [categoryData, setCategoryData] = useState([]);
     const [heatmapData, setHeatmapData] = useState([]);
-    const [productInsights, setProductInsights] = useState(null);
     const [recentOrders, setRecentOrders] = useState([]);
 
     useEffect(() => {
@@ -35,21 +33,19 @@ export default function DashboardHome() {
         try {
             setLoading(true);
             const savedRange = localStorage.getItem("dashboard_days_range") || 7;
-            const [ov, chart, top, negocioRes, orders, heatmap, insights] = await Promise.all([
+            const [ov, chart, top, negocioRes, orders, heatmap] = await Promise.all([
                 statsService.getOverview(),
                 statsService.getSalesChart(savedRange),
                 statsService.getTopProducts(5),
                 negocioService.getMiNegocio(),
                 pedidosService.getAll(5),
-                statsService.getWeeklyHeatmap(30).catch(() => []),
-                statsService.getProductInsights(30).catch(() => null)
+                statsService.getWeeklyHeatmap(30).catch(() => [])
             ]);
             setOverview(ov);
             setChartData(chart);
             setTopProducts(top);
             setRecentOrders(orders || []);
             setHeatmapData(heatmap || []);
-            setProductInsights(insights);
             setTipoNegocio(negocioRes?.tipo_negocio || "minorista");
 
             // Fetch top clients only for distribuidoras
@@ -217,7 +213,7 @@ export default function DashboardHome() {
                             )}
                         </div>
 
-                        <ProductInsightsCard data={productInsights} />
+
                     </div>
 
                     {/* RIGHT COLUMN: ANALYTICS & SIDEBAR (4/12) */}
@@ -244,6 +240,26 @@ export default function DashboardHome() {
                                 </a>
                             </div>
                         </div>
+
+                        {/* AUTOPILOT CTA */}
+                        <a href="/dashboard/autopilot" className="block bg-gradient-to-br from-violet-600 to-indigo-600 p-6 rounded-3xl shadow-xl text-white relative overflow-hidden group hover:-translate-y-1 transition-all">
+                            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:12px_12px] opacity-20 rounded-3xl pointer-events-none"></div>
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-3 mb-3">
+                                    <div className="w-11 h-11 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
+                                        <BrainCircuit size={22} />
+                                    </div>
+                                    <div>
+                                        <h3 className="font-black text-base tracking-tight">Autopilot</h3>
+                                        <p className="text-[10px] text-violet-200 font-bold uppercase tracking-wider">Motor de Inteligencia</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm text-violet-100 font-medium leading-relaxed mb-4">Combos sugeridos, pronósticos de demanda, clientes en riesgo y más.</p>
+                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-white/90 group-hover:text-white">
+                                    Ir a Autopilot <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                                </div>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

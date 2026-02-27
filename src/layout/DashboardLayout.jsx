@@ -78,7 +78,7 @@ export default function DashboardLayout({ children }) {
     { name: "Inicio", path: "/dashboard/inicio", icon: <LayoutDashboard size={20} />, end: true },
     { name: "Pedidos", path: "/dashboard/pedidos", icon: <ShoppingBag size={20} /> },
     { name: "Marketing", path: "/dashboard/marketing", icon: <CirclePercent size={20} /> },
-    { name: "Autopilot", path: "/dashboard/autopilot", icon: <BrainCircuit size={20} /> },
+    { name: "Autopilot", path: "/dashboard/autopilot", icon: <BrainCircuit size={20} />, activeViolet: true },
     { name: "Productos", path: "/dashboard/productos", icon: <Pizza size={20} /> },
     { name: "Categorías", path: "/dashboard/categorias", icon: <Tags size={20} /> },
     { name: "Toppings", path: "/dashboard/toppings", icon: <Cherry size={20} /> },
@@ -95,6 +95,7 @@ export default function DashboardLayout({ children }) {
   }
 
   const activeClass = "bg-orange-600 text-white shadow-md shadow-orange-200";
+  const activeVioletClass = "bg-violet-600 text-white shadow-md shadow-violet-200";
   const inactiveClass = "text-gray-500 hover:bg-gray-50 hover:text-gray-900";
 
   return (
@@ -120,8 +121,9 @@ export default function DashboardLayout({ children }) {
             <NavLink
               key={item.path}
               to={item.path}
+              end={item.end}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-bold text-sm ${isActive ? activeClass : inactiveClass
+                `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 font-bold text-sm ${isActive ? (item.activeViolet ? activeVioletClass : activeClass) : inactiveClass
                 }`
               }
             >
@@ -277,7 +279,7 @@ export default function DashboardLayout({ children }) {
                 to={item.path}
                 onClick={() => setMobileMenuOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 px-4 py-3 rounded-xl ${isActive ? activeClass : inactiveClass}`
+                  `flex items-center gap-4 px-4 py-3 rounded-xl ${isActive ? (item.activeViolet ? activeVioletClass : activeClass) : inactiveClass}`
                 }
               >
                 {item.icon}

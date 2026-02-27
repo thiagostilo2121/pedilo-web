@@ -1043,7 +1043,7 @@ export default function Landing() {
         <div className="max-w-7xl mx-auto px-4 relative z-10">
           <div className="text-center mb-20 animate-fade-in-up">
             <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tight">Herramientas para <span className="text-orange-600">vender más.</span></h2>
-            <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">No solo procesamos pedidos. Te damos las armas para combatir a la competencia y aparecer primero en tu zona.</p>
+            <p className="text-xl text-gray-500 max-w-2xl mx-auto font-medium leading-relaxed">Marketing integrado + las recomendaciones inteligentes de <strong className="text-violet-600">Autopilot</strong>.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -1071,15 +1071,19 @@ export default function Landing() {
               </div>
             </div>
 
-            {/* COUPONS */}
-            <div className="bg-white p-8 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(34,197,94,0.15)] hover:border-green-100 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-green-50 to-transparent rounded-bl-full opacity-50 transition-transform group-hover:scale-125"></div>
+            {/* AUTOPILOT POWERED PROMOS */}
+            <div className="bg-gradient-to-br from-violet-600 to-indigo-600 p-8 rounded-3xl shadow-[0_8px_30px_rgba(139,92,246,0.15)] border border-violet-500/20 relative overflow-hidden group hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(139,92,246,0.3)] transition-all duration-300">
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:12px_12px] opacity-20 rounded-3xl pointer-events-none"></div>
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-bl-full opacity-50 transition-transform group-hover:scale-125"></div>
               <div className="relative z-10">
-                <div className="w-14 h-14 bg-gradient-to-br from-green-50 to-green-100 text-green-600 rounded-2xl flex items-center justify-center mb-6 shadow-sm border border-green-200/50 group-hover:bg-green-600 group-hover:text-white transition-colors duration-300">
-                  <Ticket size={26} />
+                <div className="w-14 h-14 bg-white/15 backdrop-blur-sm text-white rounded-2xl flex items-center justify-center mb-6 border border-white/20">
+                  <BrainCircuit size={26} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">Motor de Cupones</h3>
-                <p className="text-gray-500 font-medium leading-relaxed text-sm">Creá códigos como "MANDALE20" con fecha de caducidad en segundos. Reactivá clientes dormidos por WhatsApp y premiá a los fieles para fidelizarlos.</p>
+                <h3 className="text-xl font-bold text-white mb-3">Cupones y Promos Inteligentes</h3>
+                <p className="text-violet-100 font-medium leading-relaxed text-sm">Autopilot detecta productos en caída y clientes dormidos. Te sugiere cupones con nombre y porcentaje, listos para enviar por WhatsApp.</p>
+                <div className="mt-4 flex items-center gap-1.5 text-xs font-bold text-violet-200 uppercase tracking-wider">
+                  <Sparkles size={12} /> Powered by Autopilot
+                </div>
               </div>
             </div>
           </div>
