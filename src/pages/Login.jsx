@@ -48,7 +48,7 @@ export default function Login() {
         } else if (!u.tiene_negocio) {
           navigate("/crear-negocio");
         } else {
-          navigate("/dashboard/configuracion");
+          navigate("/dashboard/");
         }
       } catch (err) {
         console.error("Error verificando sesión:", err);
@@ -69,7 +69,7 @@ export default function Login() {
       if (!u.es_premium) {
         navigate("/planes");
       } else {
-        navigate("/dashboard/configuracion");
+        navigate("/dashboard/");
       }
     } catch (err) {
       toast.error(err.response?.data?.message || "Email o contraseña incorrectos.");

@@ -49,7 +49,7 @@ export default function Register() {
         } else if (!u.tiene_negocio) {
           navigate("/crear-negocio");
         } else {
-          navigate("/dashboard/configuracion");
+          navigate("/dashboard/");
         }
       } catch (err) {
         console.error("Error verificando sesión:", err);

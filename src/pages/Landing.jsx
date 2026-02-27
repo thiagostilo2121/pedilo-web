@@ -44,6 +44,7 @@ import {
   BrainCircuit,
   MessageCircle,
   AlertTriangle,
+  DollarSign,
   Bell,
   ChefHat,
   ScanBarcode,

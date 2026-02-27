@@ -1,3 +1,28 @@
+# Release Notes - v1.5.0
+
+**Fecha:** 27 de Febrero, 2026
+**Versión:** 1.5.0
+
+Esta versión introduce **Autopilot**, el motor de inteligencia artificial de Pedilo que analiza pedidos, clientes y productos para generar recomendaciones accionables automáticas.
+
+## 🚀 Qué hay de nuevo
+
+### 🧠 Autopilot — Motor de Predicción e Inteligencia
+- **7 Motores de Análisis:** Combos sugeridos, promos recomendadas, clientes en riesgo, productos muertos, pronóstico de demanda, simulador de ROI y acciones de retención.
+- **Página Dedicada:** Nueva sección `/dashboard/autopilot` con acceso directo desde el sidebar.
+- **Acciones de WhatsApp:** Contacto directo con clientes VIP en riesgo desde el dashboard.
+- **Revenue-Denominated:** Todas las recomendaciones están denominadas en pesos con impacto estimado.
+
+### 🎨 Landing Page
+- **Sección Autopilot:** Nueva sección destacada en la Landing que presenta las 7 capacidades del motor de inteligencia.
+- **Simplificación Visual:** Se consolidaron features de Business Intelligence bajo el paraguas de Autopilot.
+
+### 🛠️ Mejoras Técnicas
+- **Backend Service:** Nuevo `intelligence_service.py` con análisis de datos reales de pedidos.
+- **API Endpoint:** `/api/stats/intelligence` con parámetro configurable de días.
+
+---
+
 # Release Notes - v1.4.0
 
 **Fecha:** 25 de Febrero, 2026
