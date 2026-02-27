@@ -34,5 +34,10 @@ export const statsService = {
     getProductInsights: async (days = 30) => {
         const response = await api.get(`/stats/product-insights?days=${days}`);
         return response.data;
+    },
+
+    getIntelligence: async (days = 30) => {
+        const response = await api.get(`/stats/intelligence?days=${days}`);
+        return response.data;
     }
 };

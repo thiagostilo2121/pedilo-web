@@ -42,6 +42,7 @@ import {
   User,
   ExternalLink,
   Store,
+  BrainCircuit,
   Lock
 } from "lucide-react";
 
@@ -77,6 +78,7 @@ export default function DashboardLayout({ children }) {
     { name: "Inicio", path: "/dashboard/inicio", icon: <LayoutDashboard size={20} />, end: true },
     { name: "Pedidos", path: "/dashboard/pedidos", icon: <ShoppingBag size={20} /> },
     { name: "Marketing", path: "/dashboard/marketing", icon: <CirclePercent size={20} /> },
+    { name: "Autopilot", path: "/dashboard/autopilot", icon: <BrainCircuit size={20} /> },
     { name: "Productos", path: "/dashboard/productos", icon: <Pizza size={20} /> },
     { name: "Categorías", path: "/dashboard/categorias", icon: <Tags size={20} /> },
     { name: "Toppings", path: "/dashboard/toppings", icon: <Cherry size={20} /> },
@@ -258,11 +260,11 @@ export default function DashboardLayout({ children }) {
         <div
           className={`lg:hidden fixed inset-0 z-50 transform ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"} transition-transform duration-300 ease-out bg-gray-50/95 backdrop-blur-xl flex flex-col`}
         >
-          <div className="flex items-center justify-between h-16 px-6 border-b bg-white/50 shrink-0">
+          <div className="flex items-center justify-between h-20 px-6 border-b border-gray-100/50 bg-white shrink-0">
             <span className="text-2xl font-black text-gray-900">Pedilo<span className="text-orange-600">.</span></span>
             <button
               onClick={() => setMobileMenuOpen(false)}
-              className="p-2 -mr-2 rounded-xl hover:bg-black/5"
+              className="p-2 -mr-2 rounded-xl text-gray-400 hover:text-gray-900 hover:bg-gray-50 transition-all"
             >
               <X size={24} />
             </button>

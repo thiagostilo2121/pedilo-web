@@ -33,6 +33,7 @@ const AdminDashboard = lazy(() => import("./pages/admin/AdminDashboard"));
 const AdminUsers = lazy(() => import("./pages/admin/AdminUsers"));
 const AdminNegocios = lazy(() => import("./pages/admin/AdminNegocios"));
 const Marketing = lazy(() => import("./pages/admin/Marketing"));
+const Autopilot = lazy(() => import("./pages/admin/Autopilot"));
 const Brochure = lazy(() => import("./pages/marketing/Brochure"));
 const About = lazy(() => import("./pages/About"));
 
@@ -115,6 +116,9 @@ export default function App() {
             } />
             <Route path="/dashboard/mi-suscripcion" element={
               <PrivateRoute><MiSuscripcion /></PrivateRoute>
+            } />
+            <Route path="/dashboard/autopilot" element={
+              <PrivateRoute><Autopilot /></PrivateRoute>
             } />
 
             {/* RUTAS DE ADMIN */}
