@@ -1,6 +1,6 @@
 ﻿import { useEffect, useState, useRef } from "react";
-import apiPublic from "../api/apiPublic";
-import toppingPublicService from "../services/toppingPublicService";
+import apiPublic from "../../api/apiPublic";
+import toppingPublicService from "../../services/toppingPublicService";
 import { useNavigate } from "react-router-dom";
 import {
   Search,
@@ -10,22 +10,22 @@ import {
   LayoutGrid,
   List
 } from "lucide-react";
-import ToppingSelector from "../components/ToppingSelector";
+import ToppingSelector from "../../components/ToppingSelector";
 import { toast } from "react-hot-toast";
-import ProductCard from "../components/ui/ProductCard";
-import ProductCardList from "../components/ui/ProductCardList";
-import CartDrawer from "../components/ui/CartDrawer";
-import Skeleton from "../components/ui/Skeleton";
-import { calcularTotalCarrito } from "../utils/precioUtils";
+import ProductCard from "../../components/ui/ProductCard";
+import ProductCardList from "../../components/ui/ProductCardList";
+import CartDrawer from "../../components/ui/CartDrawer";
+import Skeleton from "../../components/ui/Skeleton";
+import { calcularTotalCarrito } from "../../utils/precioUtils";
 
 // Modular Components
-import SmartAnuncio from "../components/public/SmartAnuncio";
-import BusinessHero from "../components/public/BusinessHero";
-import HighlyRecommended from "../components/public/HighlyRecommended";
-import CategoryStoryBar from "../components/public/CategoryStoryBar";
-import FloatingCartButton from "../components/public/FloatingCartButton";
-import BusinessInfoModal from "../components/public/BusinessInfoModal";
-import DynamicIcon from "../components/common/DynamicIcon";
+import SmartAnuncio from "../../components/public/SmartAnuncio";
+import BusinessHero from "../../components/public/BusinessHero";
+import HighlyRecommended from "../../components/public/HighlyRecommended";
+import CategoryStoryBar from "../../components/public/CategoryStoryBar";
+import FloatingCartButton from "../../components/public/FloatingCartButton";
+import BusinessInfoModal from "../../components/public/BusinessInfoModal";
+import DynamicIcon from "../../components/common/DynamicIcon";
 
 
 export default function PublicNegocio({ slug }) {

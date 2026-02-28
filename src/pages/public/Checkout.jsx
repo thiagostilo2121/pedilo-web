@@ -4,9 +4,9 @@
 
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import apiPublic from "../api/apiPublic";
-import pedidosService from "../services/pedidosService";
-import { useToast } from "../contexts/ToastProvider";
+import apiPublic from "../../api/apiPublic";
+import pedidosService from "../../services/pedidosService";
+import { useToast } from "../../contexts/ToastProvider";
 import {
   CheckCircle2,
   ArrowLeft,
@@ -20,8 +20,8 @@ import {
   AlertCircle
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { calcularPrecioEfectivo, calcularTotalCarrito } from "../utils/precioUtils";
-import { getCheckoutMessage, BuildWhatsAppUrl } from "../utils/whatsappFormatter";
+import { calcularPrecioEfectivo, calcularTotalCarrito } from "../../utils/precioUtils";
+import { getCheckoutMessage, BuildWhatsAppUrl } from "../../utils/whatsappFormatter";
 
 export default function Checkout({ slug }) {
   const { register, handleSubmit, watch, formState: { errors } } = useForm();

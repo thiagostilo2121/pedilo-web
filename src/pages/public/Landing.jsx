@@ -58,7 +58,7 @@ import {
   HandPlatter
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
-import { getDemoStats } from "../services/publicStatsService";
+import { getDemoStats } from "../../services/publicStatsService";
 
 export default function Landing() {
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export default function Landing() {
   const [sales, setSales] = useState(1500000);
   const [commission, setCommission] = useState(30);
   const appCost = (sales * commission) / 100;
-  const pediloCost = 17000;
+  const pediloCost = 18000;
   const savings = appCost - pediloCost;
   const yearlySavings = savings * 12;
 
@@ -755,9 +755,9 @@ export default function Landing() {
           {/* CTA */}
           <div className="text-center">
             <button onClick={() => navigate("/register")} className="px-8 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-bold rounded-full text-lg hover:shadow-violet-500/30 hover:-translate-y-1 transition-all flex items-center justify-center gap-2 group shadow-xl shadow-violet-600/20 mx-auto">
-              Probá Autopilot Gratis <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+              Probá el Plan Pro Gratis (14 Días) <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
             </button>
-            <p className="mt-4 text-sm text-gray-400 font-medium">Se activa automáticamente cuando tenés pedidos. Sin configuración.</p>
+            <p className="mt-4 text-sm text-gray-400 font-medium">Incluye Autopilot y todas las herramientas avanzadas. Sin tarjeta de crédito.</p>
           </div>
         </div>
       </section>
@@ -837,7 +837,7 @@ export default function Landing() {
                 </div>
 
                 <div className="flex items-center justify-center gap-2 text-xs text-gray-400 font-medium">
-                  <ShieldCheck size={14} className="text-green-500" /> Costo Pedilo: Solo $17.000 final, todo el año.
+                  <ShieldCheck size={14} className="text-green-500" /> Costo base con Pedilo: $18.000/mes para siempre. Ahorro sin límites.
                 </div>
               </div>
 
@@ -1713,19 +1713,53 @@ export default function Landing() {
         <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[100px] pointer-events-none mix-blend-screen"></div>
         <div className="max-w-4xl mx-auto relative z-10">
 
-          {/* PRICING ANCHOR */}
-          <div className="mb-16">
-            <div className="inline-block bg-gray-800/40 backdrop-blur-xl border border-gray-700/50 rounded-[2.5rem] p-8 md:p-12 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] hover:border-orange-500/30 transition-all duration-500 group relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-gray-800/50 via-gray-800/0 to-orange-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <div className="relative z-10">
-                <div className="text-orange-400 font-bold text-xs tracking-[0.2em] uppercase mb-4">Suscripción Única</div>
-                <div className="text-white font-black text-5xl md:text-7xl mb-4 flex items-center justify-center gap-3 tracking-tight">
-                  $17.000<span className="text-xl md:text-2xl text-gray-500 font-bold self-end mb-2 tracking-normal">/mes</span>
-                </div>
-                <p className="text-gray-400 font-medium text-base md:text-lg max-w-sm mx-auto leading-relaxed">
-                  Todo incluido. Sin comisiones por venta. Sin costos ocultos. Precio final.
-                </p>
+          {/* DOS PLANES */}
+          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-6 lg:gap-8 mb-16 max-w-5xl mx-auto">
+            {/* PLAN BASICO */}
+            <div className="w-full lg:w-1/2 bg-gray-800/40 backdrop-blur-xl border border-gray-700/50 rounded-[2.5rem] p-8 md:p-10 hover:border-orange-500/30 transition-all duration-300 flex flex-col items-center">
+              <div className="text-gray-400 font-bold text-xs md:text-sm tracking-[0.2em] uppercase mb-4 text-center">Plan Básico</div>
+              <div className="text-white font-black text-5xl md:text-6xl mb-4 flex items-center justify-center gap-2 tracking-tight">
+                $18.000<span className="text-lg md:text-xl text-gray-500 font-bold self-end mb-1 tracking-normal">/mes</span>
               </div>
+              <p className="text-gray-400 font-medium text-sm md:text-base mb-8 text-center px-4">
+                El motor para recibir pedidos sin regalar comisiones. Ideal para arrancar fuerte.
+              </p>
+              <ul className="space-y-4 text-left w-full max-w-[320px] mb-8 flex-1">
+                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Resto Web (0% Comisiones)</li>
+                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Pedidos Ilimitados en WhatsApp</li>
+                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Modificadores Integrados (Toppings)</li>
+                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Comando Inteligente Básico</li>
+                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Importación Masiva Barcode/Excel</li>
+              </ul>
+              <button onClick={() => navigate("/register")} className="w-full py-4 rounded-2xl bg-gray-700/80 hover:bg-gray-600 text-white font-bold transition-all shadow-md active:scale-95 border border-gray-600">
+                Elegir Básico
+              </button>
+            </div>
+
+            {/* PLAN PRO */}
+            <div className="w-full lg:w-1/2 bg-gradient-to-b from-gray-800 to-gray-900 backdrop-blur-xl border-2 border-orange-500/60 rounded-[2.5rem] p-8 md:p-10 shadow-[0_20px_60px_-15px_rgba(234,88,12,0.3)] hover:shadow-[0_20px_80px_-15px_rgba(234,88,12,0.4)] transition-all duration-300 relative overflow-hidden flex flex-col items-center">
+              <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-orange-400 via-rose-500 to-purple-500"></div>
+              <div className="absolute top-8 right-8 bg-orange-500/10 border border-orange-500/50 text-orange-400 px-3 py-1 text-[10px] md:text-xs font-black uppercase tracking-wider rounded-full z-10">
+                Recomendado
+              </div>
+              <div className="text-orange-400 font-bold text-xs md:text-sm tracking-[0.2em] uppercase mb-4 text-center mt-2">Plan Pro</div>
+              <div className="text-white font-black text-5xl md:text-6xl mb-2 flex items-center justify-center gap-2 tracking-tight relative z-10">
+                $55.000<span className="text-lg md:text-xl text-gray-500 font-bold self-end mb-1 tracking-normal">/mes</span>
+              </div>
+              <div className="text-green-400 font-bold text-[11px] md:text-xs mb-6 flex items-center gap-1 justify-center bg-green-500/10 px-3 py-1.5 rounded-full border border-green-500/20"><Sparkles size={14} /> 14 Días de Prueba Gratis</div>
+              <p className="text-gray-300 font-medium text-sm md:text-base mb-8 text-center px-4 relative z-10">
+                El ecosistema completo con Inteligencia Artificial para escalar facturación sin límites.
+              </p>
+              <ul className="space-y-4 text-left w-full max-w-[320px] mb-8 flex-1 relative z-10">
+                <li className="flex items-center gap-3 text-gray-400 font-medium italic"><CheckCircle2 size={20} className="text-gray-600 shrink-0" /> Todo lo del plan Básico, más:</li>
+                <li className="flex items-center gap-3 text-white font-bold"><BrainCircuit size={20} className="text-violet-400 shrink-0" /> Autopilot (Motor de Promos IA)</li>
+                <li className="flex items-center gap-3 text-white font-bold"><Target size={20} className="text-blue-400 shrink-0" /> Inteligencia de Carrito y Upsells</li>
+                <li className="flex items-center gap-3 text-white font-bold"><Flame size={20} className="text-orange-400 shrink-0" /> Mapa de Calor de Demanda</li>
+                <li className="flex items-center gap-3 text-white font-bold"><Truck size={20} className="text-green-400 shrink-0" /> Modo B2B Expandido (Mayorista)</li>
+              </ul>
+              <button onClick={() => navigate("/register")} className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-600 to-rose-600 text-white font-black hover:from-orange-500 hover:to-rose-500 transition-all shadow-lg shadow-orange-500/30 active:scale-95 text-base md:text-lg border-b-4 border-rose-700 hover:border-b-0 hover:translate-y-1 relative z-10">
+                Probar Gratis (14 Días)
+              </button>
             </div>
           </div>
 

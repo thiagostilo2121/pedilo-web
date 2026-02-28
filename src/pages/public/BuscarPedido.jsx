@@ -17,8 +17,8 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import pedidosService from "../services/pedidosService";
-import apiPublic from "../api/apiPublic";
+import pedidosService from "../../services/pedidosService";
+import apiPublic from "../../api/apiPublic";
 import {
   ChevronLeft,
   Search,

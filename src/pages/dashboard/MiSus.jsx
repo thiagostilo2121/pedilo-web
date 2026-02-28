@@ -27,11 +27,13 @@ import {
     Loader2,
     Gift
 } from "lucide-react";
-import { getMiSuscripcion, getCheckoutUrl } from "../services/suscripcionService";
-import { useToast } from "../contexts/ToastProvider";
-import DashboardLayout from "../layout/DashboardLayout";
+import { getMiSuscripcion, getCheckoutUrl } from "../../services/suscripcionService";
+import { useToast } from "../../contexts/ToastProvider";
+import { useAuth } from "../../auth/useAuth";
+import DashboardLayout from "../../layout/DashboardLayout";
 
 export default function MiSuscripcion() {
+    const { user } = useAuth();
     const [suscripcion, setSuscripcion] = useState(null);
     const [loading, setLoading] = useState(true);
     const [checkoutLoading, setCheckoutLoading] = useState(false);
@@ -75,10 +77,10 @@ export default function MiSuscripcion() {
     if (!suscripcion || suscripcion.status === "expired" || suscripcion.status === "cancelled") {
         return (
             <DashboardLayout>
-                <div className="p-8 bg-white rounded-3xl border border-dashed border-gray-300 text-center max-w-2xl mx-auto mt-10">
+                <div className="p-8 bg-white dark:bg-zinc-900 rounded-3xl border border-dashed border-gray-300 dark:border-white/15 text-center max-w-2xl mx-auto mt-10">
                     <AlertTriangle className="mx-auto text-orange-500 mb-4" size={40} />
                     <h3 className="text-xl font-bold">Sin suscripción activa</h3>
-                    <p className="text-gray-500 mt-2 mb-6">Suscribite al Plan Profesional para acceder a todas las funciones.</p>
+                    <p className="text-gray-500 dark:text-zinc-400 mt-2 mb-6">Suscribite al Plan Profesional para acceder a todas las funciones.</p>
                     <button
                         onClick={handleSuscribirse}
                         disabled={checkoutLoading}
@@ -106,27 +108,47 @@ export default function MiSuscripcion() {
     const trialEndDate = suscripcion.next_payment_date ? new Date(suscripcion.next_payment_date) : null;
     const daysRemaining = trialEndDate ? Math.max(0, Math.ceil((trialEndDate - new Date()) / (1000 * 60 * 60 * 24))) : 0;
 
+    const currentPlan = user?.plan_actual === "pro" ? "Plan Pro" : "Plan Básico";
+    const isBasico = user?.plan_actual === "basico";
+
+    const handleUpgradeToPro = async () => {
+        setCheckoutLoading(true);
+        try {
+            const data = await getCheckoutUrl("pro");
+            if (data.url) {
+                window.location.href = data.url;
+            } else {
+                toast.error("No se pudo generar el link de pago");
+            }
+        } catch (err) {
+            console.error("Error:", err);
+            toast.error("Error al procesar");
+        } finally {
+            setCheckoutLoading(false);
+        }
+    };
+
     return (
         <DashboardLayout>
             <div className="max-w-2xl mx-auto space-y-6 p-4">
-                <h2 className="text-2xl font-black text-gray-900 flex items-center gap-2">
+                <h2 className="text-2xl font-black text-gray-900 dark:text-zinc-100 flex items-center gap-2">
                     <CreditCard className="text-orange-600" /> Mi Suscripción
                 </h2>
 
                 {/* CARD PRINCIPAL INFORMATIVA */}
-                <div className="bg-white rounded-[2rem] sm:rounded-[2.5rem] shadow-sm border border-gray-100 overflow-hidden">
-                    <div className={`p-5 sm:p-8 ${isActive ? 'bg-green-50/50' : 'bg-gray-50'}`}>
+                <div className="bg-white dark:bg-zinc-900 rounded-[2rem] sm:rounded-[2.5rem] shadow-sm border border-gray-100 dark:border-white/10 overflow-hidden">
+                    <div className={`p-5 sm:p-8 ${isActive ? 'bg-green-50/50 dark:bg-green-900/10' : 'bg-gray-50 dark:bg-zinc-800/50'}`}>
                         <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-6">
                             <div className="w-full md:w-auto">
-                                <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1 w-fit ${isActive ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                                <span className={`px-3 py-1 rounded-full text-xs font-black uppercase tracking-widest flex items-center gap-1 w-fit ${isActive ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
                                     }`}>
                                     {isActive ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
-                                    {isActive ? "Plan Activo" : "Estado: " + displayStatus}
+                                    {isActive ? currentPlan : "Estado: " + displayStatus}
                                 </span>
 
                                 {/* Badge de Trial */}
                                 {isTrial && isActive && (
-                                    <div className="bg-purple-100 text-purple-700 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 w-fit mt-2">
+                                    <div className="bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 w-fit mt-2">
                                         <Gift size={12} />
                                         Período de prueba • {daysRemaining} días restantes
                                     </div>
@@ -134,15 +156,15 @@ export default function MiSuscripcion() {
 
                                 <h3 className="text-3xl md:text-4xl font-black mt-4 flex items-baseline">
                                     ${suscripcion.amount?.toFixed(0) || "0"}
-                                    <span className="text-sm md:text-lg text-gray-400 font-bold uppercase ml-2">
+                                    <span className="text-sm md:text-lg text-gray-400 dark:text-zinc-500 font-bold uppercase ml-2">
                                         {suscripcion.currency || "ARS"}
                                     </span>
                                 </h3>
-                                <p className="text-gray-500 font-medium text-sm md:text-base">
+                                <p className="text-gray-500 dark:text-zinc-400 font-medium text-sm md:text-base">
                                     Cobro {suscripcion.frequency_type === "months" ? "Mensual" : "Anual"} • ID: {suscripcion.mp_subscription_id?.slice(0, 15)}...
                                 </p>
                             </div>
-                            <div className="bg-white p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center w-full md:w-auto min-w-[140px]">
+                            <div className="bg-white dark:bg-zinc-900 p-3 sm:p-4 rounded-2xl shadow-sm border border-gray-100 dark:border-white/10 flex items-center justify-center w-full md:w-auto min-w-[140px]">
                                 <img
                                     src="https://upload.wikimedia.org/wikipedia/commons/9/98/Mercado_Pago.svg"
                                     alt="Mercado Pago"
@@ -151,37 +173,54 @@ export default function MiSuscripcion() {
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-gray-200/50 pt-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 border-t border-gray-200/50 dark:border-white/10 pt-6">
                             <div className="flex items-center gap-3">
-                                <Calendar className="text-gray-400" size={20} />
+                                <Calendar className="text-gray-400 dark:text-zinc-500" size={20} />
                                 <div>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Próximo Vencimiento</p>
-                                    <p className="font-bold text-gray-700">
+                                    <p className="text-[10px] font-black text-gray-400 dark:text-zinc-500 uppercase tracking-tighter">Próximo Vencimiento</p>
+                                    <p className="font-bold text-gray-700 dark:text-zinc-300">
                                         {suscripcion.next_payment_date ? new Date(suscripcion.next_payment_date).toLocaleDateString() : "No programado"}
                                     </p>
                                 </div>
                             </div>
                             <div className="flex items-center gap-3">
-                                <Clock className="text-gray-400" size={20} />
+                                <Clock className="text-gray-400 dark:text-zinc-500" size={20} />
                                 <div>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-tighter">Fecha de Inicio</p>
-                                    <p className="font-bold text-gray-700">{new Date(suscripcion.start_date).toLocaleDateString()}</p>
+                                    <p className="text-[10px] font-black text-gray-400 dark:text-zinc-500 uppercase tracking-tighter">Fecha de Inicio</p>
+                                    <p className="font-bold text-gray-700 dark:text-zinc-300">{new Date(suscripcion.start_date).toLocaleDateString()}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+                    {isBasico && (
+                        <div className="p-6 bg-violet-50 dark:bg-violet-900/10 border-t border-violet-100 dark:border-violet-900/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h4 className="font-black text-violet-900 dark:text-violet-200">Mejora al Plan Pro</h4>
+                                <p className="text-violet-700 dark:text-violet-400 text-sm">Obtené Autopilot, Simulador ROI, y métricas avanzadas.</p>
+                            </div>
+                            <button
+                                onClick={handleUpgradeToPro}
+                                disabled={checkoutLoading}
+                                className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-xl font-bold transition-all w-full sm:w-auto shrink-0 flex items-center justify-center gap-2"
+                            >
+                                {checkoutLoading ? <Loader2 className="animate-spin" size={18} /> : null}
+                                Cambiar a Pro
+                            </button>
+                        </div>
+                    )}
+
                     {/* MENSAJE DE GESTIÓN EXTERNA */}
-                    <div className="p-6 bg-gray-50 border-t border-gray-100">
+                    <div className="p-6 bg-gray-50 dark:bg-white/5 border-t border-gray-100 dark:border-white/10">
                         <a
                             href="https://www.mercadopago.com.ar/subscriptions"
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="flex items-center justify-center gap-2 w-full py-4 bg-white border-2 border-gray-200 text-gray-700 font-bold rounded-2xl hover:bg-gray-100 transition-all active:scale-[0.98]"
+                            className="flex items-center justify-center gap-2 w-full py-4 bg-white dark:bg-zinc-900 border-2 border-gray-200 dark:border-white/10 text-gray-700 dark:text-zinc-300 font-bold rounded-2xl hover:bg-gray-100 dark:hover:bg-white/10 transition-all active:scale-[0.98]"
                         >
                             Gestionar en Mercado Pago <ExternalLink size={18} />
                         </a>
-                        <p className="text-center text-[11px] text-gray-400 mt-4 px-4 leading-tight">
+                        <p className="text-center text-[11px] text-gray-400 dark:text-zinc-500 mt-4 px-4 leading-tight">
                             Para cancelar tu suscripción, actualizar medios de pago o ver comprobantes, por favor ingresa a tu cuenta de Mercado Pago.
                         </p>
                     </div>

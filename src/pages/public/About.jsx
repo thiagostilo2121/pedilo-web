@@ -14,8 +14,8 @@ import {
     BarChart3,
     Heart
 } from 'lucide-react';
-import pkg from '../../package.json';
-import apiPublic from '../api/apiPublic';
+import pkg from '../../../package.json';
+import apiPublic from '../../api/apiPublic';
 
 export default function About() {
     const navigate = useNavigate();

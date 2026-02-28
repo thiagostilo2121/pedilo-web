@@ -22,9 +22,9 @@ export default function BusinessHero({ negocio, onShowInfo }) {
             <div className="absolute bottom-0 left-0 w-full p-6 pb-12 z-20 max-w-4xl mx-auto inset-x-0">
                 <div className="flex items-end gap-5">
                     <div className="relative shrink-0">
-                        <img src={negocio.logo_url || DEFAULT_LOGO} className="w-24 h-24 rounded-[1.8rem] border-[3px] border-white shadow-2xl object-cover bg-white" alt="Logo Big" />
+                        <img src={negocio.logo_url || DEFAULT_LOGO} className="w-24 h-24 rounded-[1.8rem] border-[3px] border-white shadow-2xl object-cover bg-white dark:bg-zinc-900" alt="Logo Big" />
                         <div className={`absolute -top-3 -right-3 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-xl backdrop-blur-md border border-white/10 ${negocio.acepta_pedidos ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
-                            <span className={`w-2 h-2 rounded-full ${negocio.acepta_pedidos ? 'bg-white animate-pulse' : 'bg-white/50'}`}></span>
+                            <span className={`w-2 h-2 rounded-full ${negocio.acepta_pedidos ? 'bg-white dark:bg-zinc-900 animate-pulse' : 'bg-white/50'}`}></span>
                             {negocio.acepta_pedidos ? 'Abierto' : 'Cerrado'}
                         </div>
                     </div>
@@ -48,7 +48,7 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                                             <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl border border-white/10">
                                                 <div className="flex flex-col items-center gap-0.5">
                                                     <span className="text-yellow-400">{badge.name}</span>
-                                                    <span className="text-[9px] text-gray-400 font-normal">{badge.description}</span>
+                                                    <span className="text-[9px] text-gray-400 dark:text-zinc-500 font-normal">{badge.description}</span>
                                                 </div>
                                                 <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
                                             </div>
@@ -65,7 +65,7 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                                         <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900 text-white text-[10px] font-bold px-3 py-1.5 rounded-xl opacity-0 group-hover/badge:opacity-100 transition-opacity pointer-events-none z-50 shadow-xl border border-white/10">
                                             <div className="flex flex-col items-center gap-0.5">
                                                 <span className="text-white">{badge.name}</span>
-                                                <span className="text-[9px] text-gray-400 font-normal">{badge.description}</span>
+                                                <span className="text-[9px] text-gray-400 dark:text-zinc-500 font-normal">{badge.description}</span>
                                             </div>
                                             <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
                                         </div>

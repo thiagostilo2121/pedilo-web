@@ -1,13 +1,14 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { Zap } from "lucide-react";
+import Card from "./Card";
 
 export default function PeakHoursChart({ data }) {
     if (!data || data.length === 0) return null;
 
     return (
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100">
-            <h3 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+        <Card>
+            <h3 className="text-sm font-black text-gray-400 dark:text-zinc-500 uppercase tracking-widest mb-4 flex items-center gap-2">
                 <Zap size={14} className="text-orange-500" /> Horarios Pico
             </h3>
             <div className="h-40 w-full mt-4" style={{ minHeight: "160px" }}>
@@ -32,9 +33,9 @@ export default function PeakHoursChart({ data }) {
 
                                     return (
                                         <div className="bg-gray-900 px-3 py-2 rounded-xl shadow-xl border border-gray-800 text-white z-50">
-                                            <p className="text-[10px] font-medium text-gray-400 mb-1">{range}</p>
+                                            <p className="text-[10px] font-medium text-gray-400 dark:text-zinc-500 mb-1">{range}</p>
                                             <p className="mt-2 text-xl font-black text-white leading-none">
-                                                {payload[0].value} <span className="text-[10px] font-bold text-gray-500 uppercase">Pedidos</span>
+                                                {payload[0].value} <span className="text-[10px] font-bold text-gray-500 dark:text-zinc-400 uppercase">Pedidos</span>
                                             </p>
                                         </div>
                                     );
@@ -65,14 +66,14 @@ export default function PeakHoursChart({ data }) {
             <div className="mt-2 flex items-center justify-between px-2">
                 <div className="flex items-center gap-2">
                     <div className="flex gap-0.5 h-3 items-end">
-                        <div className="w-1 h-1 bg-gray-200 rounded-sm"></div>
+                        <div className="w-1 h-1 bg-gray-200 dark:bg-white/10 rounded-sm"></div>
                         <div className="w-1 h-2 bg-orange-300 rounded-sm"></div>
                         <div className="w-1 h-3 bg-orange-600 rounded-sm"></div>
                     </div>
-                    <span className="text-[10px] font-bold text-gray-400">Intensidad</span>
+                    <span className="text-[10px] font-bold text-gray-400 dark:text-zinc-500">Intensidad</span>
                 </div>
                 <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">Últimos 30 días</span>
             </div>
-        </div>
+        </Card>
     );
 }

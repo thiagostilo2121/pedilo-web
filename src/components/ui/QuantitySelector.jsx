@@ -76,19 +76,19 @@ export default function QuantitySelector(props) {
 
     return (
         <div
-            className={`flex items-center bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden select-none ${disabled ? 'opacity-50 pointer-events-none grayscale' : ''}`}
+            className={`flex items-center bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl shadow-sm overflow-hidden select-none ${disabled ? 'opacity-50 pointer-events-none grayscale' : ''}`}
             onClick={e => e.stopPropagation()}
         >
             <button
                 type="button"
                 onClick={decrement}
                 disabled={value <= min}
-                className={`${btnSize} flex items-center justify-center text-gray-400 hover:text-gray-700 hover:bg-gray-50 active:bg-gray-100 transition-colors border-r border-gray-100 disabled:opacity-30`}
+                className={`${btnSize} flex items-center justify-center text-gray-400 dark:text-zinc-500 hover:text-gray-700 dark:text-zinc-300 hover:bg-gray-50 dark:hover:bg-white/5 dark:bg-zinc-800/50 active:bg-gray-100 dark:bg-white/5 transition-colors border-r border-gray-100 dark:border-white/10 disabled:opacity-30`}
             >
                 <Minus size={iconSize} strokeWidth={2.5} />
             </button>
 
-            <div className={`relative h-full flex items-center justify-center bg-white ${inputWidth}`}>
+            <div className={`relative h-full flex items-center justify-center bg-white dark:bg-zinc-900 ${inputWidth}`}>
                 <input
                     ref={inputRef}
                     type="tel" // Better numeric keyboard on mobile
@@ -98,7 +98,7 @@ export default function QuantitySelector(props) {
                     onChange={(e) => setValue(e.target.value)}
                     onBlur={handleBlur}
                     onKeyDown={handleKeyDown}
-                    className="w-full text-center font-bold text-gray-900 bg-transparent outline-none p-0 appearance-none m-0"
+                    className="w-full text-center font-bold text-gray-900 dark:text-zinc-100 bg-transparent outline-none p-0 appearance-none m-0"
                     style={{ MozAppearance: 'textfield' }}
                 />
             </div>

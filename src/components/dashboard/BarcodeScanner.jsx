@@ -206,21 +206,21 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
 
     return (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex justify-center items-center z-50 p-2 sm:p-4 animate-in fade-in duration-200">
-            <div className="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
+            <div className="bg-white dark:bg-zinc-900 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[95vh] animate-in zoom-in-95 duration-200">
                 {/* Header */}
-                <div className="p-5 border-b flex justify-between items-center bg-gray-50">
+                <div className="p-5 border-b flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
                     <div className="flex items-center gap-3">
                         <div className="p-2 bg-orange-100 rounded-xl">
                             <ScanBarcode size={22} className="text-orange-600" />
                         </div>
                         <div>
-                            <h2 className="text-lg font-bold text-gray-900">Escanear Código</h2>
-                            <p className="text-xs text-gray-500">Escaneá o ingresá un código de barras</p>
+                            <h2 className="text-lg font-bold text-gray-900 dark:text-zinc-100">Escanear Código</h2>
+                            <p className="text-xs text-gray-500 dark:text-zinc-400">Escaneá o ingresá un código de barras</p>
                         </div>
                     </div>
                     <button
                         onClick={handleClose}
-                        className="p-2 hover:bg-gray-200 rounded-full transition-colors"
+                        className="p-2 hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 dark:hover:bg-white/15 dark:bg-white/10 rounded-full transition-colors"
                     >
                         <X size={20} />
                     </button>
@@ -235,7 +235,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                 onClick={() => setMode("camera")}
                                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "camera"
                                     ? "bg-orange-600 text-white shadow-lg shadow-orange-200"
-                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    : "bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 dark:hover:bg-white/15 dark:bg-white/10"
                                     }`}
                             >
                                 <Camera size={16} /> Cámara
@@ -249,7 +249,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                 }}
                                 className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-bold transition-all ${mode === "manual"
                                     ? "bg-orange-600 text-white shadow-lg shadow-orange-200"
-                                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                                    : "bg-gray-100 dark:bg-white/5 text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 dark:hover:bg-white/15 dark:bg-white/10"
                                     }`}
                             >
                                 <Keyboard size={16} /> Manual
@@ -265,7 +265,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                 ref={containerRef}
                                 className="rounded-2xl overflow-hidden border-2 border-dashed border-orange-200 bg-gray-900 min-h-[250px]"
                             />
-                            <p className="text-center text-xs text-gray-400 mt-3 font-medium">
+                            <p className="text-center text-xs text-gray-400 dark:text-zinc-500 mt-3 font-medium">
                                 Apuntá la cámara al código de barras del producto
                             </p>
                         </div>
@@ -275,11 +275,11 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                     {mode === "manual" && !result && !loading && (
                         <form onSubmit={handleManualSubmit} className="space-y-4">
                             <div>
-                                <label className="text-sm font-bold text-gray-700 mb-2 block">
+                                <label className="text-sm font-bold text-gray-700 dark:text-zinc-300 mb-2 block">
                                     Código de barras (EAN/UPC)
                                 </label>
                                 <div className="relative">
-                                    <ScanBarcode className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                    <ScanBarcode className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500" size={18} />
                                     <input
                                         type="text"
                                         inputMode="numeric"
@@ -287,7 +287,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                         value={manualCode}
                                         onChange={(e) => setManualCode(e.target.value)}
                                         placeholder="7790001234567"
-                                        className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-lg font-mono tracking-widest"
+                                        className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl focus:ring-2 focus:ring-orange-500 outline-none transition-all text-lg font-mono tracking-widest"
                                         autoFocus
                                     />
                                 </div>
@@ -309,8 +309,8 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                 <Loader2 size={32} className="text-orange-600 animate-spin" />
                             </div>
                             <div className="text-center">
-                                <p className="font-bold text-gray-900">Buscando producto...</p>
-                                <p className="text-xs text-gray-500 mt-1">Consultando base de datos global</p>
+                                <p className="font-bold text-gray-900 dark:text-zinc-100">Buscando producto...</p>
+                                <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1">Consultando base de datos global</p>
                             </div>
                         </div>
                     )}
@@ -319,9 +319,9 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                     {result && (
                         <div className="space-y-5">
                             {/* Barcode Display */}
-                            <div className="bg-gray-50 rounded-2xl p-4 text-center">
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Código</p>
-                                <p className="text-xl font-mono font-bold text-gray-900 tracking-widest">{result.barcode}</p>
+                            <div className="bg-gray-50 dark:bg-zinc-800/50 rounded-2xl p-4 text-center">
+                                <p className="text-[10px] font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-widest mb-1">Código</p>
+                                <p className="text-xl font-mono font-bold text-gray-900 dark:text-zinc-100 tracking-widest">{result.barcode}</p>
                             </div>
 
                             {result.product ? (
@@ -333,19 +333,19 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                                 <img
                                                     src={result.product.imagen_url}
                                                     alt={result.product.nombre}
-                                                    className="w-20 h-20 object-contain rounded-xl bg-white border border-gray-100 p-1"
+                                                    className="w-20 h-20 object-contain rounded-xl bg-white dark:bg-zinc-900 border border-gray-100 dark:border-white/10 p-1"
                                                 />
                                             )}
                                             <div className="flex-1 min-w-0">
                                                 <p className="text-[10px] font-bold text-green-600 uppercase tracking-wider mb-1">
                                                     ✓ Producto encontrado
                                                 </p>
-                                                <p className="font-bold text-gray-900 text-sm leading-tight">{result.product.nombre}</p>
+                                                <p className="font-bold text-gray-900 dark:text-zinc-100 text-sm leading-tight">{result.product.nombre}</p>
                                                 {result.product.marca && (
-                                                    <p className="text-xs text-gray-500 mt-0.5">{result.product.marca}</p>
+                                                    <p className="text-xs text-gray-500 dark:text-zinc-400 mt-0.5">{result.product.marca}</p>
                                                 )}
                                                 {result.product.descripcion && (
-                                                    <p className="text-xs text-gray-400 mt-1">{result.product.descripcion}</p>
+                                                    <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">{result.product.descripcion}</p>
                                                 )}
                                             </div>
                                         </div>
@@ -360,7 +360,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                         </button>
                                         <button
                                             onClick={handleCreateEmpty}
-                                            className="w-full py-3 bg-gray-100 text-gray-700 rounded-xl font-bold hover:bg-gray-200 transition-all text-sm"
+                                            className="w-full py-3 bg-gray-100 dark:bg-white/5 text-gray-700 dark:text-zinc-300 rounded-xl font-bold hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 dark:hover:bg-white/15 dark:bg-white/10 transition-all text-sm"
                                         >
                                             Crear producto vacío
                                         </button>
@@ -371,10 +371,10 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
                                     {/* Product Not Found */}
                                     <div className="bg-yellow-50 border border-yellow-100 rounded-2xl p-5 text-center">
                                         <div className="text-3xl mb-2">🔍</div>
-                                        <p className="font-bold text-gray-900 text-sm">
+                                        <p className="font-bold text-gray-900 dark:text-zinc-100 text-sm">
                                             Producto no encontrado en la base global
                                         </p>
-                                        <p className="text-xs text-gray-500 mt-1">
+                                        <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1">
                                             Podés crear el producto manualmente con este código
                                         </p>
                                     </div>
@@ -390,7 +390,7 @@ export default function BarcodeScanner({ isOpen, onClose, onProductFound, existi
 
                             <button
                                 onClick={handleReset}
-                                className="w-full py-2.5 text-gray-500 font-bold text-sm hover:text-gray-700 transition-colors"
+                                className="w-full py-2.5 text-gray-500 dark:text-zinc-400 font-bold text-sm hover:text-gray-700 dark:text-zinc-300 transition-colors"
                             >
                                 Escanear otro código
                             </button>

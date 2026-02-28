@@ -34,7 +34,7 @@ export function useRequirePremium() {
             try {
                 const u = await get_usuario();
 
-                if (!u.es_premium) {
+                if (u.plan_actual === "gratis") {
                     navigate("/planes");
                 } else if (!u.tiene_negocio) {
                     navigate("/crear-negocio");

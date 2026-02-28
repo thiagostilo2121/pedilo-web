@@ -21,6 +21,7 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}", // Incluye todos los archivos dentro de src
     "./public/index.html"          // También el index.html si usas clases ahí
   ],
+  darkMode: "selector",
   theme: {
     extend: {},
   },

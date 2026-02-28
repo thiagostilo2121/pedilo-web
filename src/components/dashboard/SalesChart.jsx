@@ -4,8 +4,11 @@ import {
 } from 'recharts';
 import { Loader2, Download } from "lucide-react";
 import { statsService } from "../../services/statsService";
+import Card from "./Card";
+import { useTheme } from "../../contexts/ThemeProvider";
 
 export default function SalesChart({ initialData, initialRange }) {
+    const { isDark } = useTheme();
     const [chartData, setChartData] = useState(initialData || []);
     const [daysRange, setDaysRange] = useState(() => {
         const saved = localStorage.getItem("dashboard_days_range");
@@ -66,38 +69,28 @@ export default function SalesChart({ initialData, initialRange }) {
 
         if (last > first) return { text: `Crecieron un ${percent}%`, color: "text-green-600", icon: "↑" };
         if (last < first) return { text: `Cayeron un ${Math.abs(percent)}%`, color: "text-red-600", icon: "↓" };
-        return { text: "Se mantuvieron estables", color: "text-gray-500", icon: "→" };
+        return { text: "Se mantuvieron estables", color: "text-gray-500 dark:text-zinc-400", icon: "→" };
     };
 
     const rangeTrend = calculateRangeTrend();
 
     return (
-        <div className="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 relative overflow-hidden">
+        <Card className="relative overflow-hidden">
             {/* INLINE LOADING OVERLAY */}
             {chartLoading && (
-                <div className="absolute inset-0 bg-white/50 backdrop-blur-[1px] z-10 flex items-center justify-center">
-                    <div className="flex items-center gap-2 bg-white px-4 py-2 rounded-full shadow-lg border border-gray-100">
+                <div className="absolute inset-0 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-[1px] z-10 flex items-center justify-center">
+                    <div className="flex items-center gap-2 bg-white dark:bg-white/5 px-4 py-2 rounded-full shadow-lg border border-gray-100 dark:border-white/10">
                         <Loader2 size={16} className="text-orange-600 animate-spin" />
-                        <span className="text-xs font-black text-gray-900 uppercase tracking-widest">Actualizando...</span>
+                        <span className="text-xs font-black text-gray-900 dark:text-zinc-100 uppercase tracking-widest">Actualizando...</span>
                     </div>
                 </div>
             )}
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-start justify-between mb-8 gap-4">
                 <div>
-                    <div className="flex items-center gap-3">
-                        <h3 className="text-lg font-black text-gray-900 tracking-tight">Ventas últimos {daysRange} días</h3>
-                        <button
-                            onClick={handleExportCSV}
-                            className="p-2 rounded-xl bg-gray-50 hover:bg-gray-100 text-gray-400 hover:text-gray-900 transition-all active:scale-95 group flex items-center gap-2"
-                            title="Exportar Detalle"
-                        >
-                            <Download size={14} className="group-hover:translate-y-0.5 transition-transform" />
-                            <span className="text-[10px] font-black uppercase tracking-tighter">Exportar</span>
-                        </button>
-                    </div>
-                    <div className="flex items-center gap-2 mt-1">
-                        <div className="inline-block px-2 py-0.5 bg-orange-50 rounded text-[9px] font-black text-orange-600 uppercase tracking-widest">Ingresos Brutos</div>
+                    <h3 className="text-xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">Ventas</h3>
+                    <div className="flex items-center gap-2 mt-2">
+                        <div className="inline-block px-2 py-0.5 bg-orange-50 dark:bg-orange-900/20 rounded text-[9px] font-black text-orange-600 uppercase tracking-widest">Ingresos Brutos</div>
                         {rangeTrend && (
                             <span className={`text-[10px] font-bold ${rangeTrend.color}`}>
                                 {rangeTrend.icon} {rangeTrend.text}
@@ -106,19 +99,30 @@ export default function SalesChart({ initialData, initialRange }) {
                     </div>
                 </div>
 
-                <div className="flex bg-gray-50 p-1 rounded-xl border border-gray-100">
-                    {[7, 15, 30, 90].map((range) => (
-                        <button
-                            key={range}
-                            onClick={() => setDaysRange(range)}
-                            className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${daysRange === range
-                                ? "bg-white text-orange-600 shadow-sm"
-                                : "text-gray-400 hover:text-gray-600"
-                                }`}
-                        >
-                            {range}D
-                        </button>
-                    ))}
+                <div className="flex flex-col sm:flex-row items-end sm:items-center gap-3">
+                    <button
+                        onClick={handleExportCSV}
+                        className="px-3 py-2 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 text-gray-500 dark:text-zinc-400 hover:text-gray-900 dark:hover:text-zinc-100 dark:text-zinc-100 dark:hover:text-zinc-100 dark:text-zinc-100 dark:hover:text-zinc-200 transition-all active:scale-95 group flex items-center gap-2 border border-gray-100 dark:border-white/10"
+                        title="Exportar Detalle CSV"
+                    >
+                        <Download size={14} className="group-hover:translate-y-0.5 transition-transform" />
+                        <span className="text-[10px] font-black uppercase tracking-tighter hidden sm:inline-block">Exportar</span>
+                    </button>
+
+                    <div className="flex bg-gray-50 dark:bg-white/5 p-1 rounded-xl border border-gray-100 dark:border-white/10">
+                        {[7, 15, 30, 90].map((range) => (
+                            <button
+                                key={range}
+                                onClick={() => setDaysRange(range)}
+                                className={`px-3 py-1.5 rounded-lg text-[10px] font-black transition-all ${daysRange === range
+                                    ? "bg-white dark:bg-white/10 text-orange-600 shadow-sm"
+                                    : "text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:text-zinc-400 dark:hover:text-zinc-300"
+                                    }`}
+                            >
+                                {range}D
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
             <div className="h-80 w-full" style={{ minHeight: "320px" }}>
@@ -130,12 +134,12 @@ export default function SalesChart({ initialData, initialRange }) {
                                 <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
                             </linearGradient>
                         </defs>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDark ? "var(--color-white-10, rgba(255,255,255,0.05))" : "#f3f4f6"} />
                         <XAxis
                             dataKey="fecha"
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 10 }}
+                            tick={{ fill: isDark ? '#a1a1aa' : '#9ca3af', fontSize: 10 }} // zinc-400 / gray-400
                             tickFormatter={(val) => {
                                 // Reemplazar guiones por barras para que JS interprete como local y no como UTC midnight
                                 const d = new Date(val.replace(/-/g, '\/'));
@@ -149,7 +153,7 @@ export default function SalesChart({ initialData, initialRange }) {
                         <YAxis
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#9ca3af', fontSize: 11, fontWeight: 600 }}
+                            tick={{ fill: isDark ? '#a1a1aa' : '#9ca3af', fontSize: 11, fontWeight: 600 }}
                             tickFormatter={(val) => val >= 1000 ? `$${(val / 1000).toFixed(val % 1000 === 0 ? 0 : 1)}k` : `$${val}`}
                             width={55}
                         />
@@ -158,11 +162,11 @@ export default function SalesChart({ initialData, initialRange }) {
                                 if (active && payload && payload.length) {
                                     const dateStr = payload[0].payload.fecha.replace(/-/g, '\/');
                                     return (
-                                        <div className="bg-white p-3 rounded-2xl shadow-xl border border-gray-50 flex flex-col gap-1">
-                                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                        <div className="bg-white dark:bg-white/5 p-3 rounded-2xl shadow-xl border border-gray-50 dark:border-white/10 flex flex-col gap-1">
+                                            <p className="text-[10px] font-black text-gray-400 dark:text-zinc-500 uppercase tracking-widest">
                                                 {new Date(dateStr).toLocaleDateString()}
                                             </p>
-                                            <p className="text-sm font-black text-gray-900">${payload[0].value.toLocaleString()}</p>
+                                            <p className="text-sm font-black text-gray-900 dark:text-zinc-100">${payload[0].value.toLocaleString()}</p>
                                         </div>
                                     );
                                 }
@@ -181,6 +185,6 @@ export default function SalesChart({ initialData, initialRange }) {
                     </AreaChart>
                 </ResponsiveContainer>
             </div>
-        </div>
+        </Card>
     );
 }

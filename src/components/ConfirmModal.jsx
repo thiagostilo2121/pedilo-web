@@ -43,16 +43,16 @@ export default function ConfirmModal({
 
     const variants = {
         danger: {
-            icon: "bg-red-100 text-red-600",
-            button: "bg-red-600 hover:bg-red-700 shadow-red-100"
+            icon: "bg-red-100 dark:bg-red-500/15 text-red-600 dark:text-red-400",
+            button: "bg-red-600 hover:bg-red-700 shadow-red-100 dark:shadow-none"
         },
         warning: {
-            icon: "bg-amber-100 text-amber-600",
-            button: "bg-amber-600 hover:bg-amber-700 shadow-amber-100"
+            icon: "bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400",
+            button: "bg-amber-600 hover:bg-amber-700 shadow-amber-100 dark:shadow-none"
         },
         info: {
-            icon: "bg-blue-100 text-blue-600",
-            button: "bg-blue-600 hover:bg-blue-700 shadow-blue-100"
+            icon: "bg-blue-100 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400",
+            button: "bg-blue-600 hover:bg-blue-700 shadow-blue-100 dark:shadow-none"
         }
     };
 
@@ -60,7 +60,7 @@ export default function ConfirmModal({
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-150">
-            <div className="bg-white rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-sm shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
                 {/* Header */}
                 <div className="p-6 pb-0 flex justify-between items-start">
                     <div className={`p-3 rounded-full ${style.icon}`}>
@@ -68,7 +68,7 @@ export default function ConfirmModal({
                     </div>
                     <button
                         onClick={onClose}
-                        className="text-gray-400 hover:text-gray-600 transition-colors"
+                        className="text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:text-zinc-400 transition-colors"
                     >
                         <X size={20} />
                     </button>
@@ -76,15 +76,15 @@ export default function ConfirmModal({
 
                 {/* Content */}
                 <div className="p-6 pt-4">
-                    <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
-                    <p className="text-gray-500 text-sm">{message}</p>
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100 mb-2">{title}</h3>
+                    <p className="text-gray-500 dark:text-zinc-400 text-sm">{message}</p>
                 </div>
 
                 {/* Actions */}
                 <div className="p-6 pt-2 flex gap-3">
                     <button
                         onClick={onClose}
-                        className="flex-1 py-3 px-4 rounded-xl font-bold text-gray-600 bg-gray-100 hover:bg-gray-200 transition-all"
+                        className="flex-1 py-3 px-4 rounded-xl font-bold text-gray-600 dark:text-zinc-400 bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 transition-all"
                     >
                         {cancelText}
                     </button>

@@ -3,10 +3,10 @@
  */
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
-import adminService from "../../services/adminService";
+import DashboardLayout from "../../../layout/DashboardLayout";
+import adminService from "../../../services/adminService";
 import { Users, Store, TrendingUp, RefreshCw, Lock, ShoppingBag } from "lucide-react";
-import StatsCard from "../../components/dashboard/StatsCard";
+import StatsCard from "../../../components/dashboard/StatsCard";
 
 export default function AdminDashboard() {
     const [stats, setStats] = useState(null);
@@ -57,8 +57,8 @@ export default function AdminDashboard() {
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                     <div>
-                        <h1 className="text-3xl font-black text-gray-900 tracking-tight">Admin Panel</h1>
-                        <p className="text-gray-500 font-medium">Gestión global de la plataforma Pedilo</p>
+                        <h1 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tight">Admin Panel</h1>
+                        <p className="text-gray-500 dark:text-zinc-400 font-medium">Gestión global de la plataforma Pedilo</p>
                     </div>
                     <div className="flex gap-2">
                         <button
@@ -100,36 +100,36 @@ export default function AdminDashboard() {
 
                 {/* Quick Links */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <a href="/dashboard/admin/users" className="block p-6 bg-white rounded-3xl border border-gray-100 hover:shadow-lg transition-all group">
+                    <a href="/dashboard/admin/users" className="block p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-white/10 hover:shadow-lg transition-all group">
                         <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <Users size={24} />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900">Gestionar Usuarios</h3>
-                        <p className="text-sm text-gray-500 mt-1">Ver lista completa, toggle premium status.</p>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100">Gestionar Usuarios</h3>
+                        <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">Ver lista completa, toggle premium status.</p>
                     </a>
 
-                    <a href="/dashboard/admin/negocios" className="block p-6 bg-white rounded-3xl border border-gray-100 hover:shadow-lg transition-all group">
+                    <a href="/dashboard/admin/negocios" className="block p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-white/10 hover:shadow-lg transition-all group">
                         <div className="w-12 h-12 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
                             <Store size={24} />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900">Gestionar Negocios</h3>
-                        <p className="text-sm text-gray-500 mt-1">Asignar badges exclusivos, ver métricas.</p>
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100">Gestionar Negocios</h3>
+                        <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">Asignar badges exclusivos, ver métricas.</p>
                     </a>
 
                     {/* Bootstrap Section */}
-                    <div className="p-6 bg-white rounded-3xl border border-gray-100 hover:shadow-lg transition-all">
-                        <h3 className="text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
+                    <div className="p-6 bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-white/10 hover:shadow-lg transition-all">
+                        <h3 className="text-lg font-bold text-gray-900 dark:text-zinc-100 mb-2 flex items-center gap-2">
                             <Lock size={18} className="text-orange-500" />
                             Admin Bootstrap
                         </h3>
-                        <p className="text-sm text-gray-500 mb-4">
+                        <p className="text-sm text-gray-500 dark:text-zinc-400 mb-4">
                             Si no sos admin, usá tu SECRET aquí.
                         </p>
                         <div className="flex gap-2">
                             <input
                                 type="password"
                                 placeholder="ADMIN_SECRET"
-                                className="flex-1 px-4 py-2 border rounded-xl text-sm bg-gray-50"
+                                className="flex-1 px-4 py-2 border rounded-xl text-sm bg-gray-50 dark:bg-white/5"
                                 value={bootstrapSecret}
                                 onChange={(e) => setBootstrapSecret(e.target.value)}
                             />

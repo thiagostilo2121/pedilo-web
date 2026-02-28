@@ -78,7 +78,7 @@ export default function CommandPalette() {
             .slice(0, 5)
             .map(p => ({
                 name: p.nombre,
-                path: `/dashboard/productos`, // In a real app index, maybe deep link or open modal
+                path: `/dashboard/productos`,
                 icon: <Tags size={18} className="text-orange-600" />,
                 type: "Producto",
                 price: p.precio
@@ -106,23 +106,23 @@ export default function CommandPalette() {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh] px-4 backdrop-blur-sm bg-black/20 animate-in fade-in duration-200">
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[10vh] px-4 backdrop-blur-sm bg-black/20 dark:bg-black/50 animate-in fade-in duration-200">
             <div
-                className="w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden animate-in slide-in-from-top-4 duration-300"
+                className="w-full max-w-2xl bg-white dark:bg-zinc-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-white/10 overflow-hidden animate-in slide-in-from-top-4 duration-300"
                 onKeyDown={handleKeyDown}
             >
                 {/* Search Input Area */}
-                <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-50">
-                    <Search className="text-gray-400" size={20} />
+                <div className="flex items-center gap-3 px-6 py-4 border-b border-gray-50 dark:border-white/10">
+                    <Search className="text-gray-400 dark:text-zinc-500" size={20} />
                     <input
                         ref={inputRef}
                         type="text"
                         placeholder="Buscar páginas, productos o acciones..."
-                        className="flex-1 bg-transparent outline-none text-gray-900 placeholder:text-gray-400 font-medium"
+                        className="flex-1 bg-transparent outline-none text-gray-900 dark:text-zinc-100 placeholder:text-gray-400 dark:text-zinc-500 dark:placeholder:text-gray-500 dark:text-zinc-400 font-medium"
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                     />
-                    <div className="flex items-center gap-1 px-2 py-1 bg-gray-100 rounded-lg text-[10px] font-black text-gray-500 uppercase tracking-tighter">
+                    <div className="flex items-center gap-1 px-2 py-1 bg-gray-100 dark:bg-white/5 rounded-lg text-[10px] font-black text-gray-500 dark:text-zinc-400 uppercase tracking-tighter">
                         ESC
                     </div>
                 </div>
@@ -139,16 +139,16 @@ export default function CommandPalette() {
                                         else if (item.path) navigate(item.path);
                                         setIsOpen(false);
                                     }}
-                                    className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${index === selectedIndex ? "bg-orange-600 text-white shadow-lg shadow-orange-100 translate-x-1" : "hover:bg-gray-50 text-gray-700"
+                                    className={`w-full flex items-center justify-between px-4 py-3 rounded-xl transition-all ${index === selectedIndex ? "bg-orange-600 text-white shadow-lg shadow-orange-100 dark:shadow-orange-900/30 translate-x-1" : "hover:bg-gray-50 dark:hover:bg-white/5 dark:bg-zinc-800/50 dark:hover:bg-white/5 dark:bg-zinc-800/50 dark:hover:bg-white/5 text-gray-700 dark:text-zinc-300"
                                         }`}
                                 >
                                     <div className="flex items-center gap-4">
-                                        <div className={`p-2 rounded-lg ${index === selectedIndex ? "bg-white/20" : "bg-gray-100 text-gray-500"}`}>
+                                        <div className={`p-2 rounded-lg ${index === selectedIndex ? "bg-white/20" : "bg-gray-100 dark:bg-white/5 text-gray-500 dark:text-zinc-400"}`}>
                                             {item.icon}
                                         </div>
                                         <div className="text-left">
                                             <p className="font-bold text-sm">{item.name}</p>
-                                            <p className={`text-[10px] uppercase font-black tracking-widest ${index === selectedIndex ? "text-orange-100" : "text-gray-400"}`}>
+                                            <p className={`text-[10px] uppercase font-black tracking-widest ${index === selectedIndex ? "text-orange-100" : "text-gray-400 dark:text-zinc-500"}`}>
                                                 {item.type} {item.price ? `• $${item.price}` : ""}
                                             </p>
                                         </div>
@@ -159,23 +159,23 @@ export default function CommandPalette() {
                         </div>
                     ) : (
                         <div className="py-12 text-center">
-                            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Search className="text-gray-300" size={32} />
+                            <div className="w-16 h-16 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Search className="text-gray-300 dark:text-zinc-600" size={32} />
                             </div>
-                            <p className="text-gray-500 font-medium">No encontramos resultados para "{query}"</p>
-                            <p className="text-xs text-gray-400 mt-1">Intentá con otras palabras clave.</p>
+                            <p className="text-gray-500 dark:text-zinc-400 font-medium">No encontramos resultados para "{query}"</p>
+                            <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">Intentá con otras palabras clave.</p>
                         </div>
                     )}
                 </div>
 
                 {/* Footer / Tip Area */}
-                <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400 font-medium">
+                <div className="px-6 py-3 bg-gray-50 dark:bg-white/5 border-t border-gray-100 dark:border-white/10 flex items-center justify-between text-[11px] text-gray-400 dark:text-zinc-500 font-medium">
                     <div className="flex items-center gap-4">
                         <span className="flex items-center gap-1">
-                            <span className="bg-white border border-gray-200 px-1 rounded-sm shadow-xs text-gray-500">↑↓</span> Navegar
+                            <span className="bg-white dark:bg-white/10 border border-gray-200 dark:border-white/20 px-1 rounded-sm shadow-xs text-gray-500 dark:text-zinc-400">↑↓</span> Navegar
                         </span>
                         <span className="flex items-center gap-1">
-                            <span className="bg-white border border-gray-200 px-1 rounded-sm shadow-xs text-gray-500">ENTER</span> Seleccionar
+                            <span className="bg-white dark:bg-white/10 border border-gray-200 dark:border-white/20 px-1 rounded-sm shadow-xs text-gray-500 dark:text-zinc-400">ENTER</span> Seleccionar
                         </span>
                     </div>
                     <div className="flex items-center gap-1">

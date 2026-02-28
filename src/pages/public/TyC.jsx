@@ -109,12 +109,18 @@ const Terminos = () => {
           <section id="pagos" className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 flex items-center gap-2">
               <span className="p-2 bg-orange-100 text-orange-600 rounded-md">4</span>
-              Suscripción y Pagos del SaaS
+              Suscripciones, Pagos y Período de Prueba
             </h2>
-            <p>
-              El uso del servicio para Comercios tiene un costo mensual fijo o anual acorde a las tarifas vigentes publicadas en nuestra sección de <Link to="/planes" className="text-orange-600 underline">Planes</Link>.
+            <p className="mt-4">
+              El uso del servicio para Comercios tiene un costo mensual fijo acorde a las tarifas vigentes publicadas en nuestra sección de <Link to="/planes" className="text-orange-600 underline">Planes</Link>.
+            </p>
+            <ul className="list-disc pl-5 space-y-2 mt-4">
+              <li><strong>Plan Básico:</strong> Ideal para empezar a digitalizarse y recibir pedidos.</li>
+              <li><strong>Plan Pro:</strong> Incluye herramientas avanzadas como <i>Autopilot</i>, métricas exclusivas y un <strong>período de prueba gratuito de 14 días</strong> aplicable únicamente a nuevos suscriptores de este plan.</li>
+            </ul>
+            <p className="mt-4">
               Pedilo se reserva el derecho de modificar estas tarifas, notificando a los usuarios con 30 días de antelación.
-              Este pago otorga acceso total e irrestricto al Dashboard, Tablero de Control de estadísticas (Business Intelligence), gestión de catálogo y recepción ilimitada de pedidos.
+              El pago otorga acceso irrestricto a los beneficios del plan elegido.
             </p>
             <div className="bg-green-50 border-l-4 border-green-500 p-4 mt-4">
               <p className="text-sm font-bold text-green-900">

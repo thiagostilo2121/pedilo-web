@@ -60,13 +60,13 @@ export default function FlyerGenerator({ negocio }) {
     if (!negocio) return null;
 
     return (
-        <section className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col">
-            <div className="p-6 border-b border-gray-100">
-                <h2 className="text-lg font-bold flex items-center gap-2 text-gray-800">
+        <section className="bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm overflow-hidden flex flex-col">
+            <div className="p-6 border-b border-gray-100 dark:border-white/10">
+                <h2 className="text-lg font-bold flex items-center gap-2 text-gray-800 dark:text-zinc-200">
                     <Share2 className="text-orange-600" size={20} />
                     Flyer del Negocio
                 </h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">
                     Diseña y descarga un cartel profesional para tu vidriera.
                 </p>
             </div>
@@ -74,7 +74,7 @@ export default function FlyerGenerator({ negocio }) {
             <div className="p-6 flex flex-col lg:flex-row gap-8 items-start">
 
                 {/* --- SECCIÓN DE VISTA PREVIA (FLYER) --- */}
-                <div className="flex-1 w-full flex justify-center bg-gray-50 rounded-xl p-8 border border-dashed border-gray-200">
+                <div className="flex-1 w-full flex justify-center bg-gray-50 dark:bg-zinc-800/50 rounded-xl p-8 border border-dashed border-gray-200 dark:border-white/10">
                     {/* Contenedor del Flyer (Referencia para captura) */}
                     <div
                         ref={flyerRef}
@@ -112,7 +112,7 @@ export default function FlyerGenerator({ negocio }) {
                                     value={`${window.location.origin}/n/${negocio.slug}`}
                                     size={180}
                                     level="H"
-                                    includeMargin={false}
+                                    marginSize={0}
                                     fgColor={isBrandMode ? brandColor : "#000000"}
                                     bgColor="#ffffff"
                                 />
@@ -147,14 +147,14 @@ export default function FlyerGenerator({ negocio }) {
 
                     {/* Selector de CTA */}
                     <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                        <label className="text-sm font-semibold text-gray-700 dark:text-zinc-300 flex items-center gap-2">
                             <Type size={16} className="text-orange-500" />
                             Texto del llamado a la acción
                         </label>
                         <select
                             value={ctaText}
                             onChange={(e) => setCtaText(e.target.value)}
-                            className="w-full p-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-hidden transition-all shadow-xs"
+                            className="w-full p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-hidden transition-all shadow-xs"
                         >
                             <option value="Escaneá y pedí online">Escaneá y pedí online</option>
                             <option value="¡Mirá nuestro menú!">¡Mirá nuestro menú!</option>
@@ -168,22 +168,22 @@ export default function FlyerGenerator({ negocio }) {
                             onChange={(e) => setCtaText(e.target.value)}
                             placeholder="O escribí tu propio texto..."
                             maxLength={25}
-                            className="w-full p-3 bg-white border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-hidden transition-all shadow-xs"
+                            className="w-full p-3 bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 rounded-xl text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-hidden transition-all shadow-xs"
                         />
                     </div>
 
                     {/* Selector de Estilo */}
                     <div className="space-y-3">
-                        <label className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                        <label className="text-sm font-semibold text-gray-700 dark:text-zinc-300 flex items-center gap-2">
                             <Palette size={16} className="text-purple-500" />
                             Estilo del Cartel
                         </label>
-                        <div className="flex p-1 bg-gray-100 rounded-xl">
+                        <div className="flex p-1 bg-gray-100 dark:bg-white/5 rounded-xl">
                             <button
                                 onClick={() => setIsBrandMode(false)}
                                 className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${!isBrandMode
-                                        ? 'bg-white text-orange-600 shadow-sm'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                    ? 'bg-white dark:bg-zinc-900 text-orange-600 shadow-sm'
+                                    : 'text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-300'
                                     }`}
                             >
                                 Modo Claro
@@ -191,8 +191,8 @@ export default function FlyerGenerator({ negocio }) {
                             <button
                                 onClick={() => setIsBrandMode(true)}
                                 className={`flex-1 py-2 text-sm font-medium rounded-lg transition-all ${isBrandMode
-                                        ? 'bg-white text-orange-600 shadow-sm'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                    ? 'bg-white dark:bg-zinc-900 text-orange-600 shadow-sm'
+                                    : 'text-gray-500 dark:text-zinc-400 hover:text-gray-700 dark:text-zinc-300'
                                     }`}
                             >
                                 Modo Marca
@@ -201,11 +201,11 @@ export default function FlyerGenerator({ negocio }) {
                     </div>
 
                     {/* Botones de Acción */}
-                    <div className="pt-4 border-t border-gray-100 space-y-3">
+                    <div className="pt-4 border-t border-gray-100 dark:border-white/10 space-y-3">
                         <button
                             onClick={handleDownloadFlyer}
                             disabled={downloading}
-                            className="w-full py-3.5 bg-gray-900 text-white rounded-xl font-bold shadow-lg shadow-gray-200 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                            className="w-full py-3.5 bg-gray-900 dark:bg-white text-white dark:text-zinc-900 rounded-xl font-bold shadow-lg shadow-gray-200 dark:shadow-black/20 hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                         >
                             {downloading ? (
                                 <RefreshCw className="animate-spin" size={20} />
@@ -217,15 +217,15 @@ export default function FlyerGenerator({ negocio }) {
 
                         <button
                             onClick={copyLink}
-                            className="w-full py-3 bg-white border border-gray-200 text-gray-700 rounded-xl font-semibold hover:bg-gray-50 hover:text-gray-900 transition-all flex items-center justify-center gap-2"
+                            className="w-full py-3 bg-white dark:bg-zinc-800 border border-gray-200 dark:border-white/10 text-gray-700 dark:text-zinc-300 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-zinc-700 hover:text-gray-900 dark:hover:text-zinc-100 transition-all flex items-center justify-center gap-2"
                         >
                             <Copy size={18} />
                             Copiar Link
                         </button>
                     </div>
 
-                    <div className="bg-blue-50/50 p-4 rounded-xl border border-blue-100">
-                        <p className="text-xs text-blue-700 leading-relaxed">
+                    <div className="bg-blue-50/50 dark:bg-blue-500/10 p-4 rounded-xl border border-blue-100 dark:border-blue-500/20">
+                        <p className="text-xs text-blue-700 dark:text-blue-400 leading-relaxed">
                             <strong>Tip Pro:</strong> Este diseño está optimizado para imprimir en tamaño A5 o A4. Usá un papel de buen gramaje para un mejor resultado.
                         </p>
                     </div>

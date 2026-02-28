@@ -30,7 +30,7 @@ export default function FloatingCartButton({ carrito, negocio, onClick }) {
                         </div>
                     )}
                 </div>
-                <div className="bg-white text-gray-900 px-6 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:bg-gray-100 transition-colors">
+                <div className="bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 px-6 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 transition-colors">
                     Ver Pedido <ShoppingBag size={18} />
                 </div>
             </button>

@@ -17,11 +17,11 @@
 
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "../../auth/useAuth";
 import { useEffect } from "react";
 import { Spinner } from "flowbite-react";
 import { LogIn, AlertCircle, ChevronLeft } from "lucide-react";
-import { useToast } from "../contexts/ToastProvider";
+import { useToast } from "../../contexts/ToastProvider";
 
 export default function Login() {
   const {
@@ -43,7 +43,7 @@ export default function Login() {
       try {
         const u = await get_usuario();
 
-        if (!u.es_premium) {
+        if (u.plan_actual === "gratis") {
           navigate("/planes");
         } else if (!u.tiene_negocio) {
           navigate("/crear-negocio");
@@ -66,7 +66,7 @@ export default function Login() {
 
       toast.success(`¡Bienvenido de nuevo!`);
 
-      if (!u.es_premium) {
+      if (u.plan_actual === "gratis") {
         navigate("/planes");
       } else {
         navigate("/dashboard/");

@@ -16,12 +16,12 @@
  */
 
 import { useForm } from "react-hook-form";
-import { useAuth } from "../auth/useAuth";
+import { useAuth } from "../../auth/useAuth";
 import { useNavigate, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Spinner } from "flowbite-react";
 import { UserPlus, AlertCircle, ShieldCheck, ChevronLeft } from "lucide-react";
-import { useToast } from "../contexts/ToastProvider";
+import { useToast } from "../../contexts/ToastProvider";
 
 export default function Register() {
   const {
@@ -44,7 +44,7 @@ export default function Register() {
       try {
         const u = await get_usuario();
 
-        if (!u.es_premium) {
+        if (u.plan_actual === "gratis") {
           navigate("/planes");
         } else if (!u.tiene_negocio) {
           navigate("/crear-negocio");

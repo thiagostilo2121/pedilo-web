@@ -17,7 +17,7 @@ export default function ProductInsightsCard({ data }) {
                 </div>
                 <div>
                     <h3 className="text-sm font-black uppercase tracking-widest text-white">Inteligencia de Carrito</h3>
-                    <p className="text-[10px] text-gray-400 font-bold">Cómo compran tus clientes</p>
+                    <p className="text-[10px] text-gray-400 dark:text-zinc-500 font-bold">Cómo compran tus clientes</p>
                 </div>
             </div>
 
@@ -28,7 +28,7 @@ export default function ProductInsightsCard({ data }) {
                         <Target size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">Productos Ancla</span>
                     </div>
-                    <p className="text-xs text-gray-400 leading-relaxed italic">
+                    <p className="text-xs text-gray-400 dark:text-zinc-500 leading-relaxed italic">
                         Son el motivo principal de compra. Clientes entran buscando estos items específicamente.
                     </p>
                     <div className="space-y-3">
@@ -36,14 +36,14 @@ export default function ProductInsightsCard({ data }) {
                             <div key={idx} className="bg-white/5 rounded-2xl p-3 border border-white/5 flex justify-between items-center group hover:bg-white/10 transition-all">
                                 <div>
                                     <p className="text-xs font-black text-gray-100 uppercase tracking-tight">{product.nombre}</p>
-                                    <p className="text-[9px] text-gray-500 font-bold">{product.frecuencia} pedidos solitarios</p>
+                                    <p className="text-[9px] text-gray-500 dark:text-zinc-400 font-bold">{product.frecuencia} pedidos solitarios</p>
                                 </div>
                                 <div className="text-orange-500 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <ArrowRight size={14} />
                                 </div>
                             </div>
                         ))}
-                        {anchors.length === 0 && <p className="text-[10px] text-gray-600 italic">No hay datos suficientes aún</p>}
+                        {anchors.length === 0 && <p className="text-[10px] text-gray-600 dark:text-zinc-400 italic">No hay datos suficientes aún</p>}
                     </div>
                 </div>
 
@@ -53,7 +53,7 @@ export default function ProductInsightsCard({ data }) {
                         <Zap size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">Reyes del Upsell</span>
                     </div>
-                    <p className="text-xs text-gray-400 leading-relaxed italic">
+                    <p className="text-xs text-gray-400 dark:text-zinc-500 leading-relaxed italic">
                         Ideales para acompañar. Rara vez se piden solos, suelen aumentar el ticket promedio.
                     </p>
                     <div className="space-y-3">
@@ -61,14 +61,14 @@ export default function ProductInsightsCard({ data }) {
                             <div key={idx} className="bg-white/5 rounded-2xl p-3 border border-white/5 flex justify-between items-center group hover:bg-white/10 transition-all">
                                 <div>
                                     <p className="text-xs font-black text-gray-100 uppercase tracking-tight">{product.nombre}</p>
-                                    <p className="text-[9px] text-gray-500 font-bold">Vendido en combos {product.frecuencia} veces</p>
+                                    <p className="text-[9px] text-gray-500 dark:text-zinc-400 font-bold">Vendido en combos {product.frecuencia} veces</p>
                                 </div>
                                 <div className="text-green-500 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <ArrowRight size={14} />
                                 </div>
                             </div>
                         ))}
-                        {complements.length === 0 && <p className="text-[10px] text-gray-600 italic">No hay datos de combos aún</p>}
+                        {complements.length === 0 && <p className="text-[10px] text-gray-600 dark:text-zinc-400 italic">No hay datos de combos aún</p>}
                     </div>
                 </div>
             </div>

@@ -18,9 +18,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Store, Globe, CheckCircle2, Loader2, AlertCircle, ShoppingBag, Warehouse } from "lucide-react";
-import api from "../api/api";
-import { useAuth } from "../auth/useAuth";
-import { useToast } from "../contexts/ToastProvider";
+import api from "../../api/api";
+import { useAuth } from "../../auth/useAuth";
+import { useToast } from "../../contexts/ToastProvider";
 
 export default function CrearNegocio() {
   const [nombre, setNombre] = useState("");

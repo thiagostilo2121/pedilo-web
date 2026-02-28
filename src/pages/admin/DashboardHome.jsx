@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { statsService } from "../../services/statsService";
+import { statsService } from "../../../services/statsService";
 import StatsCard from "../../components/dashboard/StatsCard";
 import { DollarSign, ShoppingBag, TrendingUp, AlertCircle, Plus, BrainCircuit, ArrowRight } from "lucide-react";
 import Skeleton from "../../components/ui/Skeleton";
-import negocioService from "../../services/negocioService";
-import pedidosService from "../../services/pedidosService";
+import negocioService from "../../../services/negocioService";
+import pedidosService from "../../../services/pedidosService";
 
 import DashboardLayout from "../../layout/DashboardLayout";
 import SalesChart from "../../components/dashboard/SalesChart";
@@ -154,10 +154,10 @@ export default function DashboardHome() {
                 {/* HEADER SECTION */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-black text-gray-900 tracking-tight sm:text-4xl">Dashboard</h1>
-                        <p className="text-gray-500 mt-1 font-bold text-sm sm:text-base">Análisis detallado de tu negocio en tiempo real</p>
+                        <h1 className="text-3xl font-black text-gray-900 dark:text-zinc-100 tracking-tight sm:text-4xl">Dashboard</h1>
+                        <p className="text-gray-500 dark:text-zinc-400 mt-1 font-bold text-sm sm:text-base">Análisis detallado de tu negocio en tiempo real</p>
                     </div>
-                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full w-fit">
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-gray-400 dark:text-zinc-500 bg-gray-100 dark:bg-white/5 px-3 py-1.5 rounded-full w-fit">
                         <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                         Actualizado: {new Date().toLocaleTimeString()}
                     </div>
@@ -213,34 +213,6 @@ export default function DashboardHome() {
                             )}
                         </div>
 
-
-                    </div>
-
-                    {/* RIGHT COLUMN: ANALYTICS & SIDEBAR (4/12) */}
-                    <div className="lg:col-span-4 space-y-6 lg:space-y-8">
-                        <CategoryRankingCard data={categoryData} />
-
-                        <WeeklyHeatmap data={heatmapData} />
-
-                        {/* ACCESOS RÁPIDOS - MEJORADO */}
-                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-3xl shadow-xl text-white">
-                            <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mb-4">Gestión Rápida</h3>
-                            <div className="grid grid-cols-2 gap-3">
-                                <a href="/dashboard/productos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
-                                    <div className="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:scale-110 transition-transform">
-                                        <Plus size={20} className="text-white" />
-                                    </div>
-                                    <span className="text-[10px] font-black uppercase tracking-wider">Nuevo Item</span>
-                                </a>
-                                <a href="/dashboard/pedidos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
-                                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform">
-                                        <ShoppingBag size={18} className="text-white" />
-                                    </div>
-                                    <span className="text-[10px] font-black uppercase tracking-wider">Pedidos</span>
-                                </a>
-                            </div>
-                        </div>
-
                         {/* AUTOPILOT CTA */}
                         <a href="/dashboard/autopilot" className="block bg-gradient-to-br from-violet-600 to-indigo-600 p-6 rounded-3xl shadow-xl text-white relative overflow-hidden group hover:-translate-y-1 transition-all">
                             <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:12px_12px] opacity-20 rounded-3xl pointer-events-none"></div>
@@ -260,6 +232,35 @@ export default function DashboardHome() {
                                 </div>
                             </div>
                         </a>
+
+
+                    </div>
+
+
+                    {/* RIGHT COLUMN: ANALYTICS & SIDEBAR (4/12) */}
+                    <div className="lg:col-span-4 space-y-6 lg:space-y-8">
+                        <CategoryRankingCard data={categoryData} />
+
+                        <WeeklyHeatmap data={heatmapData} />
+
+                        {/* ACCESOS RÁPIDOS - MEJORADO */}
+                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-6 rounded-3xl shadow-xl text-white">
+                            <h3 className="text-[10px] font-black text-gray-400 dark:text-zinc-500 uppercase tracking-[0.2em] mb-4">Gestión Rápida</h3>
+                            <div className="grid grid-cols-2 gap-3">
+                                <a href="/dashboard/productos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
+                                    <div className="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:scale-110 transition-transform">
+                                        <Plus size={20} className="text-white" />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-wider">Nuevo Item</span>
+                                </a>
+                                <a href="/dashboard/pedidos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
+                                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform">
+                                        <ShoppingBag size={18} className="text-white" />
+                                    </div>
+                                    <span className="text-[10px] font-black uppercase tracking-wider">Pedidos</span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

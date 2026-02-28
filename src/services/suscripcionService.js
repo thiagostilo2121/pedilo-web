@@ -23,8 +23,8 @@ import api from "../api/api";
  * 
  * @returns {Promise<{url: string|null, has_subscription: boolean, message?: string}>}
  */
-export async function getCheckoutUrl() {
-    const res = await api.get("/suscripcion/checkout-url");
+export async function getCheckoutUrl(plan = "pro") {
+    const res = await api.get(`/suscripcion/checkout-url?plan=${plan}`);
     return res.data;
 }
 

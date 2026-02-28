@@ -27,9 +27,9 @@ export default function ProductCardList({
     const displayPrice = isWholesaleApplied ? product.precio_mayorista : product.precio;
 
     return (
-        <div className={`group relative flex items-start gap-3 p-3 bg-white rounded-2xl border border-gray-100 shadow-sm transition-all mb-2 ${!canAdd ? 'opacity-60 bg-gray-50' : 'active:bg-gray-50'}`}>
+        <div className={`group relative flex items-start gap-3 p-3 bg-white dark:bg-zinc-900 rounded-2xl border border-gray-100 dark:border-white/10 shadow-sm transition-all mb-2 ${!canAdd ? 'opacity-60 bg-gray-50 dark:bg-zinc-800/50' : 'active:bg-gray-50 dark:bg-zinc-800/50'}`}>
             {/* Thumbnail */}
-            <div className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-gray-100 border border-gray-50">
+            <div className="relative shrink-0 w-20 h-20 sm:w-24 sm:h-24 rounded-xl overflow-hidden bg-gray-100 dark:bg-white/5 border border-gray-50 dark:border-white/5">
                 <ProgressiveImage
                     src={product.imagen_url || DEFAULT_PRODUCT_IMAGE}
                     alt={product.nombre}
@@ -54,23 +54,23 @@ export default function ProductCardList({
             <div className="flex-1 min-w-0 pr-1 flex flex-col h-full justify-between py-0.5">
                 <div>
                     <div className="flex justify-between items-start gap-2">
-                        <h3 className="font-exrabold text-gray-900 text-sm sm:text-base leading-tight line-clamp-2">{product.nombre}</h3>
+                        <h3 className="font-exrabold text-gray-900 dark:text-zinc-100 text-sm sm:text-base leading-tight line-clamp-2">{product.nombre}</h3>
                         <div className="flex flex-col items-end shrink-0">
-                            <span className={`font-black text-gray-900 text-base sm:text-lg tracking-tight ${isWholesaleApplied ? 'text-green-600' : ''}`}>
+                            <span className={`font-black text-gray-900 dark:text-zinc-100 text-base sm:text-lg tracking-tight ${isWholesaleApplied ? 'text-green-600' : ''}`}>
                                 ${displayPrice}
                             </span>
                             {isWholesaleApplied && (
-                                <span className="text-[10px] text-gray-400 line-through decoration-gray-300">${product.precio}</span>
+                                <span className="text-[10px] text-gray-400 dark:text-zinc-500 line-through decoration-gray-300">${product.precio}</span>
                             )}
                         </div>
                     </div>
 
-                    <p className="text-xs text-gray-400 truncate mt-0.5 font-medium max-w-[90%]">
+                    <p className="text-xs text-gray-400 dark:text-zinc-500 truncate mt-0.5 font-medium max-w-[90%]">
                         {product.descripcion ? product.descripcion : <span className="text-gray-300 italic">Sin descripción</span>}
                     </p>
                 </div>
 
-                <div className="flex items-end justify-between mt-2 pt-2 border-t border-gray-50 border-dashed sm:border-none sm:pt-0 sm:mt-1">
+                <div className="flex items-end justify-between mt-2 pt-2 border-t border-gray-50 dark:border-white/5 border-dashed sm:border-none sm:pt-0 sm:mt-1">
                     <div className="flex flex-col gap-1 min-w-0">
                         {/* Wholesale Nudge */}
                         {hasWholesale && (
@@ -86,13 +86,13 @@ export default function ProductCardList({
                         )}
                         {/* Min Order */}
                         {isDistribuidora && product.cantidad_minima > 1 && (
-                            <div className="flex items-center gap-1 text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                            <div className="flex items-center gap-1 text-[10px] text-gray-400 dark:text-zinc-500 font-bold uppercase tracking-wide">
                                 <Package size={10} strokeWidth={2} /> Mín. {product.cantidad_minima} un.
                             </div>
                         )}
                         {/* Unit */}
                         {isDistribuidora && product.unidad && product.unidad !== "unidad" && (
-                            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wide">
+                            <span className="text-[10px] text-gray-400 dark:text-zinc-500 font-bold uppercase tracking-wide">
                                 Por {product.unidad}
                             </span>
                         )}
@@ -117,9 +117,9 @@ export default function ProductCardList({
                                     <>
                                         <button
                                             onClick={() => onAdd(product)}
-                                            className="h-8 px-4 bg-gray-100 text-gray-900 rounded-lg text-xs font-bold hover:bg-gray-200 active:scale-95 transition-all flex items-center gap-1 border border-gray-200"
+                                            className="h-8 px-4 bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-zinc-100 rounded-lg text-xs font-bold hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 active:scale-95 transition-all flex items-center gap-1 border border-gray-200 dark:border-white/10"
                                         >
-                                            Agregar <ShoppingCart size={14} className="text-gray-500" />
+                                            Agregar <ShoppingCart size={14} className="text-gray-500 dark:text-zinc-400" />
                                         </button>
                                         {totalQty > 0 && (
                                             <span className="absolute -top-2 -right-2 bg-gray-900 text-white text-[10px] font-black w-5 h-5 flex items-center justify-center rounded-full border-2 border-white shadow-md animate-in zoom-in">
@@ -130,7 +130,7 @@ export default function ProductCardList({
                                 )}
                             </div>
                         ) : (
-                            <span className="text-[10px] font-black text-gray-400 bg-gray-100 px-2 py-1 rounded-md border border-gray-200 uppercase tracking-wider">
+                            <span className="text-[10px] font-black text-gray-400 dark:text-zinc-500 bg-gray-100 dark:bg-white/5 px-2 py-1 rounded-md border border-gray-200 dark:border-white/10 uppercase tracking-wider">
                                 Agotado
                             </span>
                         )}

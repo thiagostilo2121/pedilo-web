@@ -3,8 +3,8 @@
  */
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
-import adminService from "../../services/adminService";
+import DashboardLayout from "../../../layout/DashboardLayout";
+import adminService from "../../../services/adminService";
 import { Search, ChevronLeft, ChevronRight, Check, X, Shield, Star } from "lucide-react";
 
 export default function AdminUsers() {
@@ -49,13 +49,13 @@ export default function AdminUsers() {
         <DashboardLayout>
             <div className="max-w-[1600px] mx-auto space-y-6 px-4 md:px-8 py-6">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h1 className="text-2xl font-black text-gray-900">Gestión de Usuarios</h1>
+                    <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100">Gestión de Usuarios</h1>
 
                     <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
                         <input
                             type="text"
                             placeholder="Buscar por nombre o email..."
-                            className="px-4 py-2 rounded-xl border border-gray-200 w-full md:w-64"
+                            className="px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 w-full md:w-64"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -65,10 +65,10 @@ export default function AdminUsers() {
                     </form>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-gray-100 dark:border-white/10 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-gray-50 text-gray-500 font-bold uppercase text-xs">
+                            <thead className="bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-zinc-400 font-bold uppercase text-xs">
                                 <tr>
                                     <th className="px-6 py-4">ID</th>
                                     <th className="px-6 py-4">Usuario</th>
@@ -81,15 +81,15 @@ export default function AdminUsers() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <tr><td colSpan="7" className="p-8 text-center text-gray-400">Cargando...</td></tr>
+                                    <tr><td colSpan="7" className="p-8 text-center text-gray-400 dark:text-zinc-500">Cargando...</td></tr>
                                 ) : users.length === 0 ? (
-                                    <tr><td colSpan="7" className="p-8 text-center text-gray-400">No se encontraron usuarios</td></tr>
+                                    <tr><td colSpan="7" className="p-8 text-center text-gray-400 dark:text-zinc-500">No se encontraron usuarios</td></tr>
                                 ) : (
                                     users.map(user => (
-                                        <tr key={user.id} className="hover:bg-gray-50/50">
-                                            <td className="px-6 py-4 font-mono text-gray-400">#{user.id}</td>
-                                            <td className="px-6 py-4 font-bold text-gray-900">{user.nombre || "-"}</td>
-                                            <td className="px-6 py-4 text-gray-600">{user.email}</td>
+                                        <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-white/5/50">
+                                            <td className="px-6 py-4 font-mono text-gray-400 dark:text-zinc-500">#{user.id}</td>
+                                            <td className="px-6 py-4 font-bold text-gray-900 dark:text-zinc-100">{user.nombre || "-"}</td>
+                                            <td className="px-6 py-4 text-gray-600 dark:text-zinc-400">{user.email}</td>
                                             <td className="px-6 py-4 text-center">
                                                 {user.es_admin ? <Shield size={16} className="mx-auto text-purple-600" /> : "-"}
                                             </td>
@@ -99,7 +99,7 @@ export default function AdminUsers() {
                                                         <Star size={12} fill="currentColor" /> PREMIUM
                                                     </span>
                                                 ) : (
-                                                    <span className="text-gray-400 text-xs">FREE</span>
+                                                    <span className="text-gray-400 dark:text-zinc-500 text-xs">FREE</span>
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 text-center">
@@ -121,19 +121,19 @@ export default function AdminUsers() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+                    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50">
                         <button
                             disabled={page === 0}
                             onClick={() => setPage(p => Math.max(0, p - 1))}
-                            className="flex items-center gap-1 text-sm font-bold text-gray-500 disabled:opacity-50 hover:text-gray-900"
+                            className="flex items-center gap-1 text-sm font-bold text-gray-500 dark:text-zinc-400 disabled:opacity-50 hover:text-gray-900 dark:hover:text-zinc-100 dark:text-zinc-100"
                         >
                             <ChevronLeft size={16} /> Anterior
                         </button>
-                        <span className="text-xs font-bold text-gray-400">Página {page + 1}</span>
+                        <span className="text-xs font-bold text-gray-400 dark:text-zinc-500">Página {page + 1}</span>
                         <button
                             disabled={users.length < limit}
                             onClick={() => setPage(p => p + 1)}
-                            className="flex items-center gap-1 text-sm font-bold text-gray-500 disabled:opacity-50 hover:text-gray-900"
+                            className="flex items-center gap-1 text-sm font-bold text-gray-500 dark:text-zinc-400 disabled:opacity-50 hover:text-gray-900 dark:hover:text-zinc-100 dark:text-zinc-100"
                         >
                             Siguiente <ChevronRight size={16} />
                         </button>

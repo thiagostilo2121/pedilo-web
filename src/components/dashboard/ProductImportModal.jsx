@@ -48,16 +48,16 @@ export default function ProductImportModal({ isOpen, onClose, onSuccess }) {
 
     return (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-in fade-in duration-150">
-            <div className="bg-white rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
+            <div className="bg-white dark:bg-zinc-900 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
                 {/* Header */}
-                <div className="p-6 border-b flex justify-between items-center bg-gray-50">
-                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                <div className="p-6 border-b flex justify-between items-center bg-gray-50 dark:bg-zinc-800/50">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-zinc-100 flex items-center gap-2">
                         <FileSpreadsheet className="text-green-600" size={24} />
                         Importar Productos
                     </h3>
                     <button
                         onClick={handleClose}
-                        className="text-gray-400 hover:text-gray-600 transition-colors p-1 rounded-full hover:bg-gray-200"
+                        className="text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:text-zinc-400 transition-colors p-1 rounded-full hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 dark:hover:bg-white/15 dark:bg-white/10"
                     >
                         <X size={20} />
                     </button>
@@ -89,7 +89,7 @@ export default function ProductImportModal({ isOpen, onClose, onSuccess }) {
                             </div>
 
                             <div
-                                className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors cursor-pointer ${file ? "border-green-300 bg-green-50" : "border-gray-300 hover:border-orange-300 hover:bg-gray-50"
+                                className={`border-2 border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center transition-colors cursor-pointer ${file ? "border-green-300 bg-green-50" : "border-gray-300 dark:border-white/15 hover:border-orange-300 hover:bg-gray-50 dark:hover:bg-white/5 dark:bg-zinc-800/50 dark:hover:bg-white/5 dark:bg-zinc-800/50"
                                     }`}
                                 onClick={() => fileInputRef.current?.click()}
                             >
@@ -103,8 +103,8 @@ export default function ProductImportModal({ isOpen, onClose, onSuccess }) {
                                 {file ? (
                                     <>
                                         <FileSpreadsheet className="text-green-600 mb-3" size={48} />
-                                        <p className="font-bold text-gray-800">{file.name}</p>
-                                        <p className="text-xs text-gray-500 mt-1">{(file.size / 1024).toFixed(1)} KB</p>
+                                        <p className="font-bold text-gray-800 dark:text-zinc-200">{file.name}</p>
+                                        <p className="text-xs text-gray-500 dark:text-zinc-400 mt-1">{(file.size / 1024).toFixed(1)} KB</p>
                                         <button
                                             onClick={(e) => {
                                                 e.stopPropagation();
@@ -117,9 +117,9 @@ export default function ProductImportModal({ isOpen, onClose, onSuccess }) {
                                     </>
                                 ) : (
                                     <>
-                                        <Upload className="text-gray-400 mb-3" size={48} />
-                                        <p className="font-bold text-gray-600">Hacé click para subir tu Excel</p>
-                                        <p className="text-xs text-gray-400 mt-1">Soporta archivos .xlsx</p>
+                                        <Upload className="text-gray-400 dark:text-zinc-500 mb-3" size={48} />
+                                        <p className="font-bold text-gray-600 dark:text-zinc-400">Hacé click para subir tu Excel</p>
+                                        <p className="text-xs text-gray-400 dark:text-zinc-500 mt-1">Soporta archivos .xlsx</p>
                                     </>
                                 )}
                             </div>
@@ -137,8 +137,8 @@ export default function ProductImportModal({ isOpen, onClose, onSuccess }) {
                                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <CheckCircle className="text-green-600" size={32} />
                                 </div>
-                                <h4 className="text-xl font-bold text-gray-900">¡Importación completada!</h4>
-                                <p className="text-gray-500">El proceso finalizó correctamente.</p>
+                                <h4 className="text-xl font-bold text-gray-900 dark:text-zinc-100">¡Importación completada!</h4>
+                                <p className="text-gray-500 dark:text-zinc-400">El proceso finalizó correctamente.</p>
                             </div>
 
                             <div className="grid grid-cols-2 gap-4">
@@ -174,12 +174,12 @@ export default function ProductImportModal({ isOpen, onClose, onSuccess }) {
                 </div>
 
                 {/* Footer */}
-                <div className="p-6 bg-gray-50 border-t flex justify-end gap-3">
+                <div className="p-6 bg-gray-50 dark:bg-zinc-800/50 border-t flex justify-end gap-3">
                     {!result ? (
                         <>
                             <button
                                 onClick={handleClose}
-                                className="px-6 py-2.5 rounded-xl font-bold text-gray-600 hover:bg-gray-200 transition-colors"
+                                className="px-6 py-2.5 rounded-xl font-bold text-gray-600 dark:text-zinc-400 hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 dark:hover:bg-white/15 dark:bg-white/10 transition-colors"
                                 disabled={loading}
                             >
                                 Cancelar

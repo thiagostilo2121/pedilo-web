@@ -3,10 +3,10 @@
  */
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
-import adminService from "../../services/adminService";
+import DashboardLayout from "../../../layout/DashboardLayout";
+import adminService from "../../../services/adminService";
 import { Search, ChevronLeft, ChevronRight, Store, Plus, X, Award } from "lucide-react";
-import DynamicIcon from "../../components/common/DynamicIcon";
+import DynamicIcon from "../../../components/common/DynamicIcon";
 
 export default function AdminNegocios() {
     const [negocios, setNegocios] = useState([]);
@@ -91,13 +91,13 @@ export default function AdminNegocios() {
         <DashboardLayout>
             <div className="max-w-[1600px] mx-auto space-y-6 px-4 md:px-8 py-6 relative">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h1 className="text-2xl font-black text-gray-900">Gestión de Negocios</h1>
+                    <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100">Gestión de Negocios</h1>
 
                     <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
                         <input
                             type="text"
                             placeholder="Buscar por nombre o slug..."
-                            className="px-4 py-2 rounded-xl border border-gray-200 w-full md:w-64"
+                            className="px-4 py-2 rounded-xl border border-gray-200 dark:border-white/10 w-full md:w-64"
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
@@ -107,10 +107,10 @@ export default function AdminNegocios() {
                     </form>
                 </div>
 
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="bg-white dark:bg-zinc-900 rounded-3xl shadow-sm border border-gray-100 dark:border-white/10 overflow-hidden">
                     <div className="overflow-x-auto">
                         <table className="w-full text-sm text-left">
-                            <thead className="bg-gray-50 text-gray-500 font-bold uppercase text-xs">
+                            <thead className="bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-zinc-400 font-bold uppercase text-xs">
                                 <tr>
                                     <th className="px-6 py-4">ID</th>
                                     <th className="px-6 py-4">Negocio</th>
@@ -122,18 +122,18 @@ export default function AdminNegocios() {
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {loading ? (
-                                    <tr><td colSpan="6" className="p-8 text-center text-gray-400">Cargando...</td></tr>
+                                    <tr><td colSpan="6" className="p-8 text-center text-gray-400 dark:text-zinc-500">Cargando...</td></tr>
                                 ) : negocios.length === 0 ? (
-                                    <tr><td colSpan="6" className="p-8 text-center text-gray-400">No se encontraron negocios</td></tr>
+                                    <tr><td colSpan="6" className="p-8 text-center text-gray-400 dark:text-zinc-500">No se encontraron negocios</td></tr>
                                 ) : (
                                     negocios.map(negocio => (
-                                        <tr key={negocio.id} className="hover:bg-gray-50/50">
-                                            <td className="px-6 py-4 font-mono text-gray-400">#{negocio.id}</td>
-                                            <td className="px-6 py-4 font-bold text-gray-900 flex items-center gap-2">
+                                        <tr key={negocio.id} className="hover:bg-gray-50 dark:hover:bg-white/5/50">
+                                            <td className="px-6 py-4 font-mono text-gray-400 dark:text-zinc-500">#{negocio.id}</td>
+                                            <td className="px-6 py-4 font-bold text-gray-900 dark:text-zinc-100 flex items-center gap-2">
                                                 <Store size={16} className={negocio.activo ? "text-green-500" : "text-gray-300"} />
                                                 {negocio.nombre}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-600 font-mono text-xs">{negocio.slug}</td>
+                                            <td className="px-6 py-4 text-gray-600 dark:text-zinc-400 font-mono text-xs">{negocio.slug}</td>
                                             <td className="px-6 py-4 text-center font-bold">{negocio.total_pedidos}</td>
                                             <td className="px-6 py-4">
                                                 <div className="flex flex-wrap gap-1">
@@ -151,7 +151,7 @@ export default function AdminNegocios() {
                                             <td className="px-6 py-4 text-center">
                                                 <button
                                                     onClick={() => openBadgeModal(negocio)}
-                                                    className="bg-gray-100 hover:bg-gray-200 text-gray-600 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
+                                                    className="bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/15 dark:bg-white/10 text-gray-600 dark:text-zinc-400 px-3 py-1.5 rounded-lg text-xs font-bold transition-colors"
                                                 >
                                                     Gestionar Badges
                                                 </button>
@@ -164,19 +164,19 @@ export default function AdminNegocios() {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 bg-gray-50/50">
+                    <div className="flex items-center justify-between px-6 py-4 border-t border-gray-100 dark:border-white/10 bg-gray-50/50">
                         <button
                             disabled={page === 0}
                             onClick={() => setPage(p => Math.max(0, p - 1))}
-                            className="flex items-center gap-1 text-sm font-bold text-gray-500 disabled:opacity-50 hover:text-gray-900"
+                            className="flex items-center gap-1 text-sm font-bold text-gray-500 dark:text-zinc-400 disabled:opacity-50 hover:text-gray-900 dark:hover:text-zinc-100 dark:text-zinc-100"
                         >
                             <ChevronLeft size={16} /> Anterior
                         </button>
-                        <span className="text-xs font-bold text-gray-400">Página {page + 1}</span>
+                        <span className="text-xs font-bold text-gray-400 dark:text-zinc-500">Página {page + 1}</span>
                         <button
                             disabled={negocios.length < limit}
                             onClick={() => setPage(p => p + 1)}
-                            className="flex items-center gap-1 text-sm font-bold text-gray-500 disabled:opacity-50 hover:text-gray-900"
+                            className="flex items-center gap-1 text-sm font-bold text-gray-500 dark:text-zinc-400 disabled:opacity-50 hover:text-gray-900 dark:hover:text-zinc-100 dark:text-zinc-100"
                         >
                             Siguiente <ChevronRight size={16} />
                         </button>
@@ -186,19 +186,19 @@ export default function AdminNegocios() {
                 {/* BADGE MODAL */}
                 {modalOpen && selectedNegocio && (
                     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-                        <div className="bg-white w-full max-w-lg rounded-3xl p-6 shadow-2xl scale-100 animate-in zoom-in-95 duration-200">
-                            <div className="flex justify-between items-center mb-6 border-b border-gray-100 pb-4">
+                        <div className="bg-white dark:bg-zinc-900 w-full max-w-lg rounded-3xl p-6 shadow-2xl scale-100 animate-in zoom-in-95 duration-200">
+                            <div className="flex justify-between items-center mb-6 border-b border-gray-100 dark:border-white/10 pb-4">
                                 <div>
-                                    <h2 className="text-xl font-black text-gray-900">Badges de {selectedNegocio.nombre}</h2>
-                                    <p className="text-xs text-gray-500 font-medium">Gestionar insignias exclusivas</p>
+                                    <h2 className="text-xl font-black text-gray-900 dark:text-zinc-100">Badges de {selectedNegocio.nombre}</h2>
+                                    <p className="text-xs text-gray-500 dark:text-zinc-400 font-medium">Gestionar insignias exclusivas</p>
                                 </div>
-                                <button onClick={() => setModalOpen(false)} className="p-2 hover:bg-gray-100 rounded-full">
+                                <button onClick={() => setModalOpen(false)} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:bg-white/5 rounded-full">
                                     <X size={20} />
                                 </button>
                             </div>
 
                             <div className="mb-6">
-                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Badges Asignados</h3>
+                                <h3 className="text-xs font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-3">Badges Asignados</h3>
                                 <div className="flex flex-wrap gap-2">
                                     {selectedNegocio.badges.length > 0 ? (
                                         selectedNegocio.badges.map(badgeId => {
@@ -214,26 +214,26 @@ export default function AdminNegocios() {
                                             );
                                         })
                                     ) : (
-                                        <p className="text-sm text-gray-400 italic">Sin badges asignados.</p>
+                                        <p className="text-sm text-gray-400 dark:text-zinc-500 italic">Sin badges asignados.</p>
                                     )}
                                 </div>
                             </div>
 
                             <div>
-                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Disponibles para Asignar</h3>
+                                <h3 className="text-xs font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-wider mb-3">Disponibles para Asignar</h3>
                                 <div className="grid grid-cols-2 gap-2 max-h-60 overflow-y-auto pr-2">
                                     {definitions.filter(d => !selectedNegocio.badges.includes(d.id)).map(def => (
                                         <button
                                             key={def.id}
                                             onClick={() => handleAddBadge(def.id)}
-                                            className="text-left flex items-center gap-3 p-3 rounded-xl border border-gray-100 hover:bg-orange-50 hover:border-orange-200 group transition-all"
+                                            className="text-left flex items-center gap-3 p-3 rounded-xl border border-gray-100 dark:border-white/10 hover:bg-orange-50 hover:border-orange-200 group transition-all"
                                         >
-                                            <div className="w-8 h-8 flex items-center justify-center bg-gray-50 rounded-lg group-hover:bg-white text-lg shadow-sm">
+                                            <div className="w-8 h-8 flex items-center justify-center bg-gray-50 dark:bg-white/5 rounded-lg group-hover:bg-white dark:bg-zinc-900 text-lg shadow-sm">
                                                 <DynamicIcon name={def.icon} size={18} />
                                             </div>
                                             <div className="flex-1 min-w-0">
-                                                <div className="font-bold text-gray-900 text-xs truncate">{def.name}</div>
-                                                <div className="text-[10px] text-gray-400 truncate">{def.type === 'manual' ? '(Manual)' : '(Auto)'}</div>
+                                                <div className="font-bold text-gray-900 dark:text-zinc-100 text-xs truncate">{def.name}</div>
+                                                <div className="text-[10px] text-gray-400 dark:text-zinc-500 truncate">{def.type === 'manual' ? '(Manual)' : '(Auto)'}</div>
                                             </div>
                                             <div className="opacity-0 group-hover:opacity-100 text-orange-500">
                                                 <Plus size={16} />
@@ -243,7 +243,7 @@ export default function AdminNegocios() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 pt-4 border-t border-gray-100 flex justify-end">
+                            <div className="mt-6 pt-4 border-t border-gray-100 dark:border-white/10 flex justify-end">
                                 <button onClick={() => setModalOpen(false)} className="px-5 py-2.5 bg-gray-900 text-white font-bold rounded-xl text-sm hover:bg-black transition-colors">
                                     Listo
                                 </button>

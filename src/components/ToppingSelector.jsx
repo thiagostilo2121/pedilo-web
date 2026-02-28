@@ -77,14 +77,14 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
 
     return (
         <div className="fixed inset-0 bg-black/60 flex items-end sm:items-center justify-center z-[100]">
-            <div className="bg-white w-full sm:max-w-md sm:rounded-3xl rounded-t-3xl max-h-[85vh] flex flex-col">
+            <div className="bg-white dark:bg-zinc-900 w-full sm:max-w-md sm:rounded-3xl rounded-t-3xl max-h-[85vh] flex flex-col">
                 {/* Header */}
                 <div className="p-4 border-b flex items-center justify-between">
                     <div>
                         <h2 className="font-bold text-lg">{producto.nombre}</h2>
-                        <p className="text-sm text-gray-500">${producto.precio}</p>
+                        <p className="text-sm text-gray-500 dark:text-zinc-400">${producto.precio}</p>
                     </div>
-                    <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-full">
+                    <button onClick={onClose} className="p-2 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 rounded-full">
                         <X size={20} />
                     </button>
                 </div>
@@ -94,8 +94,8 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                     {gruposToppings.map((grupo, gIdx) => (
                         <div key={grupo.id || gIdx}>
                             <div className="flex justify-between items-center mb-2">
-                                <h3 className="font-bold text-gray-900">{grupo.nombre}</h3>
-                                <span className="text-xs text-gray-500">
+                                <h3 className="font-bold text-gray-900 dark:text-zinc-100">{grupo.nombre}</h3>
+                                <span className="text-xs text-gray-500 dark:text-zinc-400">
                                     {(grupo.min_selecciones || 0) > 0 ? `Mín ${grupo.min_selecciones}` : "Opcional"}
                                     {grupo.max_selecciones && ` · Máx ${grupo.max_selecciones}`}
                                 </span>
@@ -113,15 +113,15 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                                             key={topping.id || tIdx}
                                             className={`w-full flex items-center justify-between p-3 rounded-xl border transition-all ${count > 0
                                                 ? "border-orange-500 bg-orange-50/50"
-                                                : "border-gray-200"
-                                                } ${sinStock ? "opacity-60 bg-gray-50" : ""}`}
+                                                : "border-gray-200 dark:border-white/10"
+                                                } ${sinStock ? "opacity-60 bg-gray-50 dark:bg-zinc-800/50" : ""}`}
                                         >
                                             <div className="flex flex-col">
                                                 <div className="flex items-center gap-2">
-                                                    <span className={`font-medium ${sinStock ? "line-through text-gray-400" : "text-gray-900"}`}>{topping.nombre}</span>
+                                                    <span className={`font-medium ${sinStock ? "line-through text-gray-400 dark:text-zinc-500" : "text-gray-900 dark:text-zinc-100"}`}>{topping.nombre}</span>
                                                     {sinStock && <span className="text-[10px] uppercase font-bold text-red-500 bg-red-100 px-1.5 py-0.5 rounded">Sin Stock</span>}
                                                 </div>
-                                                <span className={`text-sm ${(topping.precio_extra || topping.precio) > 0 ? "text-orange-600 font-bold" : "text-gray-400"}`}>
+                                                <span className={`text-sm ${(topping.precio_extra || topping.precio) > 0 ? "text-orange-600 font-bold" : "text-gray-400 dark:text-zinc-500"}`}>
                                                     {(topping.precio_extra || topping.precio) > 0 ? `+$${topping.precio_extra || topping.precio}` : "Incluido"}
                                                 </span>
                                             </div>
@@ -130,7 +130,7 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                                                 {count > 0 && (
                                                     <button
                                                         onClick={() => updateToppingQuantity(grupo, topping, -1)}
-                                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-gray-200 text-orange-600 hover:bg-orange-50 transition-colors"
+                                                        className="w-8 h-8 flex items-center justify-center rounded-full bg-white dark:bg-zinc-900 border border-gray-200 dark:border-white/10 text-orange-600 hover:bg-orange-50 transition-colors"
                                                     >
                                                         <Minus size={14} />
                                                     </button>
@@ -138,14 +138,14 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                                                 {count > 0 ? (
                                                     <span className="font-bold text-orange-600 w-4 text-center">{count}</span>
                                                 ) : (
-                                                    !sinStock && <span className="text-xs text-gray-400 mr-2">Agregar</span>
+                                                    !sinStock && <span className="text-xs text-gray-400 dark:text-zinc-500 mr-2">Agregar</span>
                                                 )}
                                                 <button
                                                     onClick={() => updateToppingQuantity(grupo, topping, 1)}
                                                     disabled={maxReached || sinStock}
                                                     className={`w-8 h-8 flex items-center justify-center rounded-full border transition-all ${maxReached || sinStock
-                                                        ? "bg-gray-100 border-gray-200 text-gray-300 cursor-not-allowed"
-                                                        : "bg-white border-orange-200 text-orange-600 hover:bg-orange-600 hover:text-white shadow-sm"
+                                                        ? "bg-gray-100 dark:bg-white/5 border-gray-200 dark:border-white/10 text-gray-300 cursor-not-allowed"
+                                                        : "bg-white dark:bg-zinc-900 border-orange-200 text-orange-600 hover:bg-orange-600 hover:text-white shadow-sm"
                                                         }`}
                                                 >
                                                     <Plus size={14} />
@@ -171,20 +171,20 @@ export default function ToppingSelector({ isOpen, onClose, onConfirm, producto, 
                 )}
 
                 {/* Footer */}
-                <div className="p-4 border-t bg-gray-50">
+                <div className="p-4 border-t bg-gray-50 dark:bg-zinc-800/50">
                     <div className="flex items-center justify-between mb-3">
-                        <span className="text-sm text-gray-600">Cantidad</span>
-                        <div className="flex items-center gap-3 bg-white rounded-full px-2 py-1 border">
+                        <span className="text-sm text-gray-600 dark:text-zinc-400">Cantidad</span>
+                        <div className="flex items-center gap-3 bg-white dark:bg-zinc-900 rounded-full px-2 py-1 border">
                             <button
                                 onClick={() => setCantidad(c => Math.max(1, c - 1))}
-                                className="p-1 hover:bg-gray-100 rounded-full"
+                                className="p-1 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 rounded-full"
                             >
                                 <Minus size={16} />
                             </button>
                             <span className="font-bold w-6 text-center">{cantidad}</span>
                             <button
                                 onClick={() => setCantidad(c => c + 1)}
-                                className="p-1 hover:bg-gray-100 rounded-full"
+                                className="p-1 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 rounded-full"
                             >
                                 <Plus size={16} />
                             </button>

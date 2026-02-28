@@ -26,19 +26,19 @@ export default function ProductCard({
     return (
         <div
             id={`producto-${product.id}`}
-            className={`group bg-white p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border border-gray-100 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative ${isWholesaleApplied ? 'ring-2 ring-green-500/20' : ''}`}
+            className={`group bg-white dark:bg-zinc-900 p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border border-gray-100 dark:border-white/10 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative ${isWholesaleApplied ? 'ring-2 ring-green-500/20' : ''}`}
         >
             {/* Imagen Progresiva */}
             <ProgressiveImage
                 src={product.imagen_url || DEFAULT_PRODUCT_IMAGE}
                 alt={product.nombre}
-                className={`w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 rounded-3xl bg-gray-50 object-cover ${!canAdd && "grayscale opacity-70"}`}
+                className={`w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0 rounded-3xl bg-gray-50 dark:bg-zinc-800/50 object-cover ${!canAdd && "grayscale opacity-70"}`}
             />
 
             {/* Share Button */}
             <button
                 onClick={(e) => onShare(e, product)}
-                className="absolute top-4 right-4 bg-white/90 backdrop-blur p-2.5 rounded-full text-gray-400 shadow-sm opacity-0 group-hover:opacity-100 transition-all hover:text-orange-600 hover:bg-orange-50 hover:scale-110 z-10"
+                className="absolute top-4 right-4 bg-white/90 backdrop-blur p-2.5 rounded-full text-gray-400 dark:text-zinc-500 shadow-sm opacity-0 group-hover:opacity-100 transition-all hover:text-orange-600 hover:bg-orange-50 hover:scale-110 z-10"
             >
                 <Share2 size={16} />
             </button>
@@ -72,10 +72,10 @@ export default function ProductCard({
             {/* Content */}
             <div className="flex-1 flex flex-col justify-between min-w-0 py-0.5">
                 <div>
-                    <h3 className="font-bold text-gray-900 truncate text-base sm:text-xl leading-tight">
+                    <h3 className="font-bold text-gray-900 dark:text-zinc-100 truncate text-base sm:text-xl leading-tight">
                         {product.nombre}
                     </h3>
-                    <p className="text-gray-500 text-xs sm:text-sm line-clamp-2 mt-1.5 leading-relaxed font-medium">
+                    <p className="text-gray-500 dark:text-zinc-400 text-xs sm:text-sm line-clamp-2 mt-1.5 leading-relaxed font-medium">
                         {product.descripcion || "Sin descripción."}
                     </p>
                 </div>
@@ -83,12 +83,12 @@ export default function ProductCard({
                 <div className="flex items-center justify-between mt-3">
                     <div className="min-w-0">
                         <div className="flex items-baseline gap-1">
-                            <span className={`text-lg sm:text-2xl font-black tracking-tight ${isWholesaleApplied ? 'text-green-600' : 'text-gray-900'}`}>${displayPrice}</span>
+                            <span className={`text-lg sm:text-2xl font-black tracking-tight ${isWholesaleApplied ? 'text-green-600' : 'text-gray-900 dark:text-zinc-100'}`}>${displayPrice}</span>
                             {isWholesaleApplied && (
-                                <span className="text-xs text-gray-400 line-through font-bold">${product.precio}</span>
+                                <span className="text-xs text-gray-400 dark:text-zinc-500 line-through font-bold">${product.precio}</span>
                             )}
                             {isDistribuidora && product.unidad && product.unidad !== "unidad" && !isWholesaleApplied && (
-                                <span className="text-xs text-gray-400 font-bold">/{product.unidad}</span>
+                                <span className="text-xs text-gray-400 dark:text-zinc-500 font-bold">/{product.unidad}</span>
                             )}
                         </div>
                         {hasWholesale && !isWholesaleApplied ? (
@@ -97,8 +97,8 @@ export default function ProductCard({
                             </span>
                         ) : isDistribuidora && product.cantidad_minima > 1 && (
                             <div className="flex items-center gap-1 mt-0.5">
-                                <Package size={10} className="text-gray-400" />
-                                <span className="text-[10px] text-gray-400 font-bold">Mín. {product.cantidad_minima}</span>
+                                <Package size={10} className="text-gray-400 dark:text-zinc-500" />
+                                <span className="text-[10px] text-gray-400 dark:text-zinc-500 font-bold">Mín. {product.cantidad_minima}</span>
                             </div>
                         )}
                     </div>
@@ -106,7 +106,7 @@ export default function ProductCard({
                     <div className="relative z-20"> {/* Button Wrapper for Z-Index */}
                         {canAdd ? (
                             cartItem ? (
-                                <div className="flex items-center gap-2 sm:gap-3 bg-gray-900 text-white rounded-full px-1.5 py-1.5 shadow-xl shadow-gray-200">
+                                <div className="flex items-center gap-2 sm:gap-3 bg-gray-900 text-white rounded-full px-1.5 py-1.5 shadow-xl shadow-gray-200 dark:shadow-black/20">
                                     <button
                                         onClick={() => onDecrease(cartItem.cartItemId)}
                                         className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-gray-700 text-white rounded-full hover:bg-gray-600 active:scale-95 transition-all"
@@ -118,7 +118,7 @@ export default function ProductCard({
                                     </span>
                                     <button
                                         onClick={() => onAdd(product)}
-                                        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white text-gray-900 rounded-full hover:bg-gray-100 active:scale-95 transition-all"
+                                        className="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 rounded-full hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 active:scale-95 transition-all"
                                     >
                                         <Plus size={14} />
                                     </button>
@@ -150,7 +150,7 @@ export default function ProductCard({
                                 </div>
                             )
                         ) : (
-                            <span className="text-[10px] font-black uppercase text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+                            <span className="text-[10px] font-black uppercase text-gray-400 dark:text-zinc-500 bg-gray-100 dark:bg-white/5 px-3 py-1.5 rounded-full">
                                 Sin Stock
                             </span>
                         )}
