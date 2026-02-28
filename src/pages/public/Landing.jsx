@@ -46,6 +46,7 @@ import {
   AlertTriangle,
   DollarSign,
   Bell,
+  Percent,
   ChefHat,
   ScanBarcode,
   Upload,
@@ -723,19 +724,31 @@ export default function Landing() {
                   <Target size={22} />
                 </div>
                 <h3 className="text-lg font-black text-gray-900 mb-2 tracking-tight">Motor de Promos</h3>
-                <p className="text-gray-500 text-sm font-medium leading-relaxed">Cuando un producto cae en ventas, Autopilot te recomienda un cupón con porcentaje y nombre incluido.</p>
+                <p className="text-gray-500 text-sm font-medium leading-relaxed">Cuando un producto cae en ventas, Autopilot te recomienda un cupón de rescate con porcentaje y nombre incluido.</p>
               </div>
             </div>
 
-            {/* Dead Products */}
-            <div className="bg-white p-7 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-1 hover:shadow-xl hover:border-rose-100 transition-all duration-300">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-rose-50 to-transparent rounded-bl-full opacity-50"></div>
+            {/* Anomalies Engine */}
+            <div className="bg-white p-7 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-1 hover:shadow-xl hover:border-red-100 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-red-50 to-transparent rounded-bl-full opacity-50"></div>
               <div className="relative z-10">
-                <div className="w-12 h-12 bg-gradient-to-br from-rose-50 to-rose-100 text-rose-600 rounded-xl flex items-center justify-center mb-5 border border-rose-200/50 group-hover:bg-rose-600 group-hover:text-white transition-colors">
-                  <AlertTriangle size={22} />
+                <div className="w-12 h-12 bg-gradient-to-br from-red-50 to-red-100 text-red-600 rounded-xl flex items-center justify-center mb-5 border border-red-200/50 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                  <Activity size={22} />
                 </div>
-                <h3 className="text-lg font-black text-gray-900 mb-2 tracking-tight">Alerta de Producto Muerto</h3>
-                <p className="text-gray-500 text-sm font-medium leading-relaxed">Productos activos con 0 ventas en 30 días. Sacalos del menú o haceles una promo antes de que te cuesten.</p>
+                <h3 className="text-lg font-black text-gray-900 mb-2 tracking-tight">Anomalías en Tiempo Real</h3>
+                <p className="text-gray-500 text-sm font-medium leading-relaxed">Te alerta al instante si tus ventas o el ticket promedio de hoy caen abruptamente comparado con tu promedio histórico.</p>
+              </div>
+            </div>
+
+            {/* Margin Analyzer */}
+            <div className="bg-white p-7 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-100 relative overflow-hidden group hover:-translate-y-1 hover:shadow-xl hover:border-amber-100 transition-all duration-300">
+              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-amber-50 to-transparent rounded-bl-full opacity-50"></div>
+              <div className="relative z-10">
+                <div className="w-12 h-12 bg-gradient-to-br from-amber-50 to-amber-100 text-amber-600 rounded-xl flex items-center justify-center mb-5 border border-amber-200/50 group-hover:bg-amber-600 group-hover:text-white transition-colors">
+                  <Percent size={22} />
+                </div>
+                <h3 className="text-lg font-black text-gray-900 mb-2 tracking-tight">Análisis de Rentabilidad</h3>
+                <p className="text-gray-500 text-sm font-medium leading-relaxed">Cruza rotación vs costo. Autopilot identifica si un producto te está quitando margen, o si deberías promocionar uno muy rentable.</p>
               </div>
             </div>
 
