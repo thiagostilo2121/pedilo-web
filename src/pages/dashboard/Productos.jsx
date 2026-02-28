@@ -145,6 +145,7 @@ export default function ProductosDashboard() {
         nombre: formData.nombre,
         descripcion: formData.descripcion,
         precio: parseInt(formData.precio),
+        costo: formData.costo ? parseInt(formData.costo) : null,
         imagen_url: imageUrl,
         categoria: formData.categoria,
         stock: formData.stock,
@@ -309,7 +310,14 @@ export default function ProductosDashboard() {
                     <div className="mt-auto pt-4 flex items-end justify-between border-t border-gray-50 dark:border-white/5">
                       <div>
                         <span className="block text-[10px] text-gray-400 dark:text-zinc-500 font-bold uppercase">Precio</span>
-                        <span className="text-xl font-black text-gray-900 dark:text-zinc-100">${prod.precio}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xl font-black text-gray-900 dark:text-zinc-100">${prod.precio}</span>
+                          {prod.costo && prod.precio > prod.costo && (
+                            <span className="text-xs bg-green-100 text-green-700 dark:bg-green-500/10 dark:text-green-400 px-1.5 py-0.5 rounded-md font-bold shadow-sm">
+                              {Math.round(((prod.precio - prod.costo) / prod.precio) * 100)}% MARGEN
+                            </span>
+                          )}
+                        </div>
                       </div>
 
                       {/* Mobile Actions (Visible) */}
@@ -359,7 +367,11 @@ export default function ProductosDashboard() {
                   {/* Price Desktop */}
                   <div className="hidden sm:block text-right shrink-0 px-4">
                     <span className="block text-2xl font-black text-gray-900 dark:text-zinc-100">${prod.precio}</span>
-                    <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">Unidad</span>
+                    {prod.costo && prod.precio > prod.costo ? (
+                      <span className="text-xs text-green-600 bg-green-50 dark:bg-green-500/10 dark:text-green-400 px-1.5 py-0.5 rounded-md font-bold mt-1 inline-block shadow-sm">{Math.round(((prod.precio - prod.costo) / prod.precio) * 100)}% MARG</span>
+                    ) : (
+                      <span className="text-xs text-gray-400 dark:text-zinc-500 font-medium">Unidad</span>
+                    )}
                   </div>
 
                   {/* Actions */}

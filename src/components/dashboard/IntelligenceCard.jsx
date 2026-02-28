@@ -18,8 +18,12 @@ import {
     RefreshCcw,
     Loader2,
     Minus,
-    ChevronDown,
     ChevronUp,
+    ChevronDown,
+    Activity,
+    Percent,
+    Info,
+    X,
 } from "lucide-react";
 
 const PRIORITY_COLORS = {
@@ -77,6 +81,7 @@ export default function IntelligenceCard() {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [showInfo, setShowInfo] = useState(false);
 
     const loadData = async () => {
         setLoading(true);
@@ -129,10 +134,12 @@ export default function IntelligenceCard() {
         demand_forecast = {},
         roi_simulation = {},
         retention_actions = [],
+        margin_alerts = [],
+        sales_anomalies = [],
     } = data;
 
-    const totalActions = combo_suggestions.length + promo_recommendations.length + retention_actions.length;
-    const criticalActions = retention_actions.filter(a => a.prioridad === "crítica").length;
+    const totalActions = combo_suggestions.length + promo_recommendations.length + retention_actions.length + margin_alerts.length + sales_anomalies.length;
+    const criticalActions = retention_actions.filter(a => a.prioridad === "crítica").length + sales_anomalies.filter(a => a.severidad === "alta").length + margin_alerts.filter(a => a.severidad === "alta").length;
 
     return (
         <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm overflow-hidden">
@@ -151,12 +158,59 @@ export default function IntelligenceCard() {
                             <Zap size={12} />
                             {totalActions} Accion{totalActions !== 1 ? "es" : ""}
                         </span>
+                        <button
+                            onClick={() => setShowInfo(!showInfo)}
+                            className={`p-2 rounded-xl transition-all ${showInfo ? 'bg-violet-100 dark:bg-violet-900/40 text-violet-600 dark:text-violet-400' : 'bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:hover:text-zinc-300'}`}
+                            title="Información sobre Autopilot"
+                        >
+                            {showInfo ? <X size={14} /> : <Info size={14} />}
+                        </button>
                         <button onClick={loadData} className="p-2 rounded-xl bg-gray-50 dark:bg-white/5 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 dark:bg-white/5 dark:hover:bg-white/10 text-gray-400 dark:text-zinc-500 hover:text-gray-600 dark:text-zinc-400 dark:hover:text-zinc-300 transition-all" title="Actualizar">
                             <RefreshCcw size={14} />
                         </button>
                     </div>
                 </div>
             </div>
+
+            {/* Info Panel */}
+            {showInfo && (
+                <div className="p-5 sm:p-6 border-b border-gray-100 dark:border-white/10 bg-violet-50/50 dark:bg-violet-950/10">
+                    <h4 className="font-bold text-gray-900 dark:text-zinc-100 mb-4 flex items-center gap-2">
+                        <BrainCircuit size={18} className="text-violet-500" />
+                        ¿Qué hace el Autopilot de Pedilo?
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-gray-600 dark:text-zinc-400">
+                        <div className="space-y-4">
+                            <div>
+                                <strong className="text-gray-900 dark:text-zinc-100 flex items-center gap-1.5 mb-1"><Activity size={14} className="text-red-500" /> Detección de Anomalías</strong>
+                                Monitorea tus ventas en tiempo real comparándolas con promedios históricos por día de la semana. Te alerta de caídas inusuales o bajas en el ticket promedio.
+                            </div>
+                            <div>
+                                <strong className="text-gray-900 dark:text-zinc-100 flex items-center gap-1.5 mb-1"><Percent size={14} className="text-amber-500" /> Análisis de Rentabilidad</strong>
+                                Cruza la rotación de tus productos con su costo (si lo ingresaste) para alertarte sobre "best-sellers" con bajo margen, o sugerirte promocionar productos de alta ganancia.
+                            </div>
+                            <div>
+                                <strong className="text-gray-900 dark:text-zinc-100 flex items-center gap-1.5 mb-1"><Zap size={14} className="text-red-500" /> Acciones de Retención</strong>
+                                Analiza el comportamiento de compra. Te sugiere contactar a clientes VIP en riesgo de fuga, o crear promociones para reactivar clientes inactivos.
+                            </div>
+                        </div>
+                        <div className="space-y-4">
+                            <div>
+                                <strong className="text-gray-900 dark:text-zinc-100 flex items-center gap-1.5 mb-1"><Sparkles size={14} className="text-violet-500" /> Sugerencia de Combos</strong>
+                                Encuentra qué productos se compran juntos frecuentemente y te recomienda agruparlos para aumentar la facturación y el ticket promedio.
+                            </div>
+                            <div>
+                                <strong className="text-gray-900 dark:text-zinc-100 flex items-center gap-1.5 mb-1"><Target size={14} className="text-orange-500" /> Promos Recomendadas</strong>
+                                Muestra productos cuyas ventas han caído. Sugiere lanzamientos de cupones, 2x1 o promociones para aquellos que no alcanzan su potencial mayorista.
+                            </div>
+                            <div>
+                                <strong className="text-gray-900 dark:text-zinc-100 flex items-center gap-1.5 mb-1"><TrendingUp size={14} className="text-blue-500" /> Pronóstico & ROI</strong>
+                                Estima tus ingresos para los próximos 7 días y visibiliza cuánta plata estás ahorrando al usar Pedilo frente a las comisiones de apps externas.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
 
             <div className="p-4 sm:p-6 space-y-5">
 
@@ -207,6 +261,29 @@ export default function IntelligenceCard() {
                         </div>
                     </div>
                 </div>
+
+                {/* Sales Anomalies — IMMEDIATE ATTENTION */}
+                {sales_anomalies.length > 0 && (
+                    <Section icon={Activity} title="Anomalías Detectadas" count={sales_anomalies.length} color="text-red-600" bgColor="bg-red-50 dark:bg-red-900/20">
+                        {sales_anomalies.map((anom, i) => (
+                            <div key={i} className="p-4 rounded-xl bg-gray-50 mt-4 dark:bg-white/5 border border-red-100 dark:border-red-900/30 hover:border-red-200 dark:hover:border-red-800 transition-all">
+                                <div className="flex items-start justify-between gap-2 mb-2">
+                                    <h5 className="font-bold text-gray-900 dark:text-zinc-100 text-sm leading-tight">{anom.tipo.replace('_', ' ').toUpperCase()}</h5>
+                                    <PriorityBadge priority={anom.severidad} />
+                                </div>
+                                <p className="text-xs text-gray-600 dark:text-zinc-400 leading-relaxed mb-3">
+                                    {anom.mensaje}
+                                </p>
+                                <div className="flex items-center gap-2">
+                                    <TrendingDown size={14} className="text-red-500" />
+                                    <span className="text-xs font-bold text-red-600 dark:text-red-400">
+                                        {anom.metrica}: -{anom.caida_porcentaje}%
+                                    </span>
+                                </div>
+                            </div>
+                        ))}
+                    </Section>
+                )}
 
                 {/* Retention Actions — THE MOST IMPORTANT */}
                 {retention_actions.length > 0 && (
@@ -265,6 +342,31 @@ export default function IntelligenceCard() {
                                         ))}
                                     </div>
                                 )}
+                            </div>
+                        ))}
+                    </Section>
+                )}
+
+                {/* Margin Alerts */}
+                {margin_alerts.length > 0 && (
+                    <Section icon={Percent} title="Análisis de Rentabilidad" count={margin_alerts.length} color="text-amber-600" bgColor="bg-amber-50 dark:bg-amber-900/20">
+                        {margin_alerts.map((alert, i) => (
+                            <div key={i} className="p-4 rounded-xl bg-gray-50 mt-4 dark:bg-white/5 border border-amber-100 dark:border-amber-900/30 hover:border-amber-200 dark:hover:border-amber-800 transition-all">
+                                <div className="flex items-start justify-between gap-2 mb-2">
+                                    <h5 className="font-bold text-gray-900 dark:text-zinc-100 text-sm leading-tight">{alert.producto}</h5>
+                                    <PriorityBadge priority={alert.severidad} />
+                                </div>
+                                <p className="text-xs text-gray-600 dark:text-zinc-400 leading-relaxed mb-3">
+                                    {alert.mensaje}
+                                </p>
+                                <div className="flex items-center justify-between text-xs font-bold">
+                                    <span className={alert.tipo === 'alerta_margen' ? 'text-red-500' : 'text-emerald-500'}>
+                                        {alert.margen}% Margen
+                                    </span>
+                                    <span className="text-gray-500 dark:text-zinc-400">
+                                        {alert.ventas} vendidos
+                                    </span>
+                                </div>
                             </div>
                         ))}
                     </Section>

@@ -19,6 +19,7 @@ export default function ProductForm({
         nombre: "",
         descripcion: "",
         precio: "",
+        costo: "",
         imagen_url: "",
         categoria: "",
         stock: true,
@@ -41,6 +42,7 @@ export default function ProductForm({
                     nombre: scannedData.nombre || initialData.nombre,
                     descripcion: scannedData.descripcion || initialData.descripcion,
                     precio: initialData.precio || "",
+                    costo: scannedData.costo || initialData.costo || "",
                     imagen_url: scannedData.imagen_url || initialData.imagen_url,
                     categoria: categories.find(c => c.nombre === initialData.categoria) ? initialData.categoria : categories[0]?.nombre || "",
                     stock: initialData.stock ?? true,
@@ -58,6 +60,7 @@ export default function ProductForm({
                     nombre: initialData.nombre || "",
                     descripcion: initialData.descripcion || "",
                     precio: initialData.precio || "",
+                    costo: initialData.costo || "",
                     imagen_url: initialData.imagen_url || "",
                     categoria: categories.find(c => c.nombre === initialData.categoria) ? initialData.categoria : categories[0]?.nombre || "",
                     stock: initialData.stock ?? true,
@@ -75,6 +78,7 @@ export default function ProductForm({
                     nombre: scannedData?.nombre || "",
                     descripcion: scannedData?.descripcion || "",
                     precio: "",
+                    costo: scannedData?.costo || "",
                     imagen_url: scannedData?.imagen_url || "",
                     categoria: categories[0]?.nombre || "",
                     stock: true,
@@ -227,18 +231,32 @@ export default function ProductForm({
                                 </div>
                             </div>
                             <div className="space-y-1.5">
-                                <label className="block text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-widest pl-1">Categoría</label>
+                                <label className="block text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-widest pl-1">Costo (Opcional)</label>
                                 <div className="relative">
-                                    <select
-                                        value={form.categoria}
-                                        onChange={(e) => setForm({ ...form, categoria: e.target.value })}
-                                        className="w-full px-4 py-3.5 bg-gray-50 dark:bg-zinc-800/50 border border-transparent rounded-xl focus:bg-white dark:focus:bg-zinc-800 dark:bg-zinc-900 dark:focus:bg-zinc-800 dark:bg-zinc-900 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-bold text-gray-900 dark:text-zinc-100 appearance-none cursor-pointer"
-                                    >
-                                        {categories.map(cat => <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>)}
-                                    </select>
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
-                                        <svg className="w-4 h-4 text-gray-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-                                    </div>
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-500 font-bold">$</span>
+                                    <input
+                                        type="number"
+                                        value={form.costo}
+                                        onChange={(e) => setForm({ ...form, costo: e.target.value })}
+                                        className="w-full pl-8 pr-4 py-3 bg-gray-50 dark:bg-zinc-800/50 border border-transparent rounded-xl focus:bg-white dark:focus:bg-zinc-800 dark:bg-zinc-900 dark:focus:bg-zinc-800 dark:bg-zinc-900 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-black text-gray-900 dark:text-zinc-100 placeholder:font-normal placeholder:text-gray-400 dark:text-zinc-500 text-lg"
+                                        placeholder="0"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="space-y-1.5">
+                            <label className="block text-xs font-bold text-gray-500 dark:text-zinc-400 uppercase tracking-widest pl-1">Categoría</label>
+                            <div className="relative">
+                                <select
+                                    value={form.categoria}
+                                    onChange={(e) => setForm({ ...form, categoria: e.target.value })}
+                                    className="w-full px-4 py-3.5 bg-gray-50 dark:bg-zinc-800/50 border border-transparent rounded-xl focus:bg-white dark:focus:bg-zinc-800 dark:bg-zinc-900 dark:focus:bg-zinc-800 dark:bg-zinc-900 focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 outline-none transition-all font-bold text-gray-900 dark:text-zinc-100 appearance-none cursor-pointer"
+                                >
+                                    {categories.map(cat => <option key={cat.id} value={cat.nombre}>{cat.nombre}</option>)}
+                                </select>
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none">
+                                    <svg className="w-4 h-4 text-gray-500 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                                 </div>
                             </div>
                         </div>
