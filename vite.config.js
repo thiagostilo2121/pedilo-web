@@ -24,6 +24,12 @@ export default defineConfig({
   define: {
     'import.meta.env.VITE_BUILD_TIME': JSON.stringify(new Date().toISOString()),
   },
+  server: {
+    host: true,           // Permite conexiones externas
+    port: 5173,           // El puerto que uses
+    strictPort: true,     // Opcional: no cambia el puerto si está ocupado
+    allowedHosts: ['pedilo.home', 'pediloarg.netlify.app']
+  },
   plugins: [
     react(),
     tailwindcss(),

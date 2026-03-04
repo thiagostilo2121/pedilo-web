@@ -322,13 +322,6 @@ export default function SeguimientoPedido() {
                 </div>
               </div>
             </div>
-
-            {/* Footer with support */}
-            <div className="text-center pt-8 pb-4">
-              <p className="text-gray-400 text-[10px] font-bold uppercase tracking-[0.2em]">
-                Desarrollado con ❤️ por <span className="text-gray-900">Pedilo</span>
-              </p>
-            </div>
           </div>
         )}
       </main>

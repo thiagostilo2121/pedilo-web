@@ -18,7 +18,6 @@ import ConfirmModal from "../../components/ConfirmModal";
 import Skeleton from "../../components/ui/Skeleton";
 import PageHeader from "../../components/dashboard/PageHeader";
 import PrimaryButton from "../../components/dashboard/PrimaryButton";
-import ViewToggle from "../../components/dashboard/ViewToggle";
 import EmptyState from "../../components/dashboard/EmptyState";
 import ModalShell from "../../components/dashboard/ModalShell";
 
@@ -79,15 +78,22 @@ export default function CategoriasDashboard() {
     try {
       const data = new FormData();
       data.append("file", file);
-      data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
 
-      const res = await fetch(CLOUDINARY_UPLOAD_URL, { method: "POST", body: data });
-      if (!res.ok) throw new Error("Falló la subida");
+      if (import.meta.env.PROD) {
+        data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+        const res = await fetch(CLOUDINARY_UPLOAD_URL, { method: "POST", body: data });
+        if (!res.ok) throw new Error("Falló la subida");
 
-      const json = await res.json();
-      if (!json.secure_url) throw new Error("Cloudinary no devolvió URL");
+        const json = await res.json();
+        if (!json.secure_url) throw new Error("Cloudinary no devolvió URL");
+        setForm((prev) => ({ ...prev, imagen_url: json.secure_url }));
+      } else {
+        const res = await api.post("/media/upload", data, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        setForm((prev) => ({ ...prev, imagen_url: res.data.url }));
+      }
 
-      setForm((prev) => ({ ...prev, imagen_url: json.secure_url }));
       toast.success("Imagen subida correctamente.");
     } catch (err) {
       console.error("Error al subir imagen", err);

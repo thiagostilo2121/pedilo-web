@@ -1,7 +1,7 @@
-# Release Notes - v2.0.0
+# Release Notes - v2.1.0
 
-**Fecha:** 28 de Febrero, 2026
-**Versión:** 2.0.0
+**Fecha:** 4 de Marzo, 2026
+**Versión:** 2.1.0
 
 Esta versión introduce **Autopilot**, el motor de inteligencia artificial de Pedilo que analiza pedidos, clientes y productos para generar recomendaciones accionables automáticas. Además, agrega múltiples mejoras UI/UX como un Dark Mode nativo para todo el dashboard administrativo y nuevos componentes reutilizables.
 

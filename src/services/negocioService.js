@@ -31,17 +31,28 @@ const negocioService = {
 
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", UPLOAD_PRESET);
 
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-            method: "POST",
-            body: formData,
-        });
+        // Subida condicional basada en el entorno
+        if (import.meta.env.PROD) {
+            formData.append("upload_preset", UPLOAD_PRESET);
+            const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+                method: "POST",
+                body: formData,
+            });
 
-        if (!res.ok) throw new Error("Error al subir la imagen");
-        const data = await res.json();
-        if (!data.secure_url) throw new Error("Respuesta inválida de Cloudinary");
-        return data.secure_url;
+            if (!res.ok) throw new Error("Error al subir la imagen");
+            const data = await res.json();
+            if (!data.secure_url) throw new Error("Respuesta inválida de Cloudinary");
+            return data.secure_url;
+        } else {
+            // Entorno de desarrollo: Subida a través de nuestro propio backend local
+            const res = await api.post("/media/upload", formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            return res.data.url;
+        }
     }
 };
 

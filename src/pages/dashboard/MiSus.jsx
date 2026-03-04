@@ -110,11 +110,12 @@ export default function MiSuscripcion() {
 
     const currentPlan = user?.plan_actual === "pro" ? "Plan Pro" : "Plan Básico";
     const isBasico = user?.plan_actual === "basico";
+    const isPro = user?.plan_actual === "pro";
 
-    const handleUpgradeToPro = async () => {
+    const handleChangePlan = async (targetPlan) => {
         setCheckoutLoading(true);
         try {
-            const data = await getCheckoutUrl("pro");
+            const data = await getCheckoutUrl(targetPlan);
             if (data.url) {
                 window.location.href = data.url;
             } else {
@@ -196,16 +197,33 @@ export default function MiSuscripcion() {
                     {isBasico && (
                         <div className="p-6 bg-violet-50 dark:bg-violet-900/10 border-t border-violet-100 dark:border-violet-900/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div>
-                                <h4 className="font-black text-violet-900 dark:text-violet-200">Mejora al Plan Pro</h4>
-                                <p className="text-violet-700 dark:text-violet-400 text-sm">Obtené Autopilot, Simulador ROI, y métricas avanzadas.</p>
+                                <h4 className="font-black text-violet-900 dark:text-violet-200">Mejorá al Plan Pro</h4>
+                                <p className="text-violet-700 dark:text-violet-400 text-sm">Obtené Autopilot, Inteligencia de Carrito, y métricas avanzadas.</p>
                             </div>
                             <button
-                                onClick={handleUpgradeToPro}
+                                onClick={() => handleChangePlan("pro")}
                                 disabled={checkoutLoading}
                                 className="bg-violet-600 hover:bg-violet-700 text-white px-6 py-3 rounded-xl font-bold transition-all w-full sm:w-auto shrink-0 flex items-center justify-center gap-2"
                             >
                                 {checkoutLoading ? <Loader2 className="animate-spin" size={18} /> : null}
                                 Cambiar a Pro
+                            </button>
+                        </div>
+                    )}
+
+                    {isPro && (
+                        <div className="p-6 bg-orange-50 dark:bg-orange-900/10 border-t border-orange-100 dark:border-orange-900/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h4 className="font-black text-orange-900 dark:text-orange-200">Bajar al Plan Básico</h4>
+                                <p className="text-orange-700 dark:text-orange-400 text-sm">Cambiar al plan sin IA y con funciones básicas.</p>
+                            </div>
+                            <button
+                                onClick={() => handleChangePlan("basico")}
+                                disabled={checkoutLoading}
+                                className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 rounded-xl font-bold transition-all w-full sm:w-auto shrink-0 flex items-center justify-center gap-2"
+                            >
+                                {checkoutLoading ? <Loader2 className="animate-spin" size={18} /> : null}
+                                Cambiar a Básico
                             </button>
                         </div>
                     )}

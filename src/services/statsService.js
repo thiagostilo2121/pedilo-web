@@ -37,7 +37,7 @@ export const statsService = {
     },
 
     getIntelligence: async (days = 30) => {
-        const response = await api.get(`/stats/intelligence?days=${days}`);
+        const response = await api.get(`/intelligence/report?days=${days}`);
         return response.data;
     }
 };

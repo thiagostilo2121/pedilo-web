@@ -452,7 +452,7 @@ export default function IntelligenceCard() {
                 <Section icon={DollarSign} title="Simulador de ROI" count={0} color="text-emerald-600" bgColor="bg-emerald-50">
                     <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-4 border mt-4 border-gray-100 dark:border-white/10 space-y-3">
                         <div className="flex justify-between text-xs">
-                            <span className="text-gray-500 dark:text-zinc-400 font-medium">Ventas este periodo</span>
+                            <span className="text-gray-500 dark:text-zinc-400 font-medium">Ventas proyectadas (30 días)</span>
                             <span className="font-bold text-gray-900 dark:text-zinc-100">{formatMoney(roi_simulation.ventas_periodo)}</span>
                         </div>
                         <div className="flex justify-between text-xs">
