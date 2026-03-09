@@ -27,7 +27,7 @@ export default function Autopilot() {
                     }
                 />
 
-                {user?.plan_actual === "basico" ? (
+                {user?.plan_actual !== "pro" ? (
                     <div className="bg-white dark:bg-zinc-900 border border-violet-100 dark:border-violet-900/30 rounded-3xl p-8 lg:p-12 text-center max-w-4xl mx-auto shadow-sm">
                         <div className="w-20 h-20 bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 rounded-2xl flex items-center justify-center mx-auto mb-6">
                             <Sparkles size={40} />

@@ -20,6 +20,7 @@ import PageHeader from "../../components/dashboard/PageHeader";
 import PrimaryButton from "../../components/dashboard/PrimaryButton";
 import EmptyState from "../../components/dashboard/EmptyState";
 import ModalShell from "../../components/dashboard/ModalShell";
+import ViewToggle from "../../components/dashboard/ViewToggle";
 
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 

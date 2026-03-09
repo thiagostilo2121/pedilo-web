@@ -108,9 +108,10 @@ export default function MiSuscripcion() {
     const trialEndDate = suscripcion.next_payment_date ? new Date(suscripcion.next_payment_date) : null;
     const daysRemaining = trialEndDate ? Math.max(0, Math.ceil((trialEndDate - new Date()) / (1000 * 60 * 60 * 24))) : 0;
 
-    const currentPlan = user?.plan_actual === "pro" ? "Plan Pro" : "Plan Básico";
+    const currentPlan = user?.plan_actual === "pro" ? "Plan Pro" : (user?.plan_actual === "basico" ? "Plan Básico" : "Plan Gratis");
     const isBasico = user?.plan_actual === "basico";
     const isPro = user?.plan_actual === "pro";
+    const isGratis = user?.plan_actual === "gratis";
 
     const handleChangePlan = async (targetPlan) => {
         setCheckoutLoading(true);
