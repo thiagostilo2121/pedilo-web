@@ -84,11 +84,15 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+              <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
+            </Routes>
+          </Suspense>
         <AuthProvider>
           <Suspense fallback={<PageLoader />}>
             <Routes>
               {/* 1. RUTAS ESTÁTICAS (Prioridad) */}
-              <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
               <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
               <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
               <Route path="/terminos" element={<PublicLayout><Terminos /></PublicLayout>} />

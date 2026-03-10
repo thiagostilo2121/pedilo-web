@@ -20,13 +20,7 @@ import { Github, LogOut, Instagram } from "lucide-react";
 import { useAuth } from "../auth/useAuth";
 
 export default function Footer() {
-  const { user, logout } = useAuth();
   const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate("/");
-  };
 
   return (
     <footer className="py-20 bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-white/10 text-center">
