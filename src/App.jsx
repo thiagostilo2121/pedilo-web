@@ -53,13 +53,15 @@ const PageLoader = () => (
 
 // Wrapper para proteger rutas privadas
 function PrivateRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return <PageLoader />;
   return user ? children : <Navigate to="/login" replace />;
 }
 
 // Wrapper para rutas de admin
 function AdminRoute({ children }) {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return <PageLoader />;
   if (!user) return <Navigate to="/login" replace />;
   if (!user.es_admin) return <Navigate to="/dashboard/inicio" replace />;
   return children;
@@ -84,77 +86,62 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
-            </Routes>
-          </Suspense>
-        <AuthProvider>
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              {/* 1. RUTAS ESTÁTICAS (Prioridad) */}
-              <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
-              <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
-              <Route path="/terminos" element={<PublicLayout><Terminos /></PublicLayout>} />
-              <Route path="/privacidad" element={<PublicLayout><Privacidad /></PublicLayout>} />
-              <Route path="/planes" element={<PublicLayout><Planes /></PublicLayout>} />
-              <Route path="/marketing/brochure" element={<Brochure />} />
-              <Route path="/crear-negocio" element={<PublicLayout><CrearNegocio /></PublicLayout>} />
-              <Route path="/acerca" element={<PublicLayout><About /></PublicLayout>} />
-              <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* 1. RUTAS DE MÁXIMA VELOCIDAD (Sin AuthProvider) */}
+            <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
+            <Route path="/n/:slug" element={<PublicLayout><ProductosWrapper /></PublicLayout>} />
+            <Route path="/n/:slug/checkout" element={<PublicLayout><CheckoutWrapper /></PublicLayout>} />
+            <Route path="/n/:slug/pedidos" element={<PublicLayout><PedidoWrapper /></PublicLayout>} />
+            <Route path="/marketing/brochure" element={<Brochure />} />
+            <Route path="/terminos" element={<PublicLayout><Terminos /></PublicLayout>} />
+            <Route path="/privacidad" element={<PublicLayout><Privacidad /></PublicLayout>} />
+            <Route path="/acerca" element={<PublicLayout><About /></PublicLayout>} />
+            <Route path="/planes" element={<PublicLayout><Planes /></PublicLayout>} />
 
-              {/* 2. RUTAS DE DASHBOARD (Protegidas) */}
-              <Route path="/dashboard/inicio" element={
-                <PrivateRoute><DashboardHome /></PrivateRoute>
-              } />
-              <Route path="/dashboard/pedidos" element={
-                <PrivateRoute><PedidosDashboard /></PrivateRoute>
-              } />
-              <Route path="/dashboard/marketing" element={
-                <PrivateRoute><Marketing /></PrivateRoute>
-              } />
-              <Route path="/dashboard/productos" element={
-                <PrivateRoute><ProductosDashboard /></PrivateRoute>
-              } />
-              <Route path="/dashboard/categorias" element={
-                <PrivateRoute><CategoriasDashboard /></PrivateRoute>
-              } />
-              <Route path="/dashboard/toppings" element={
-                <PrivateRoute><ToppingsDashboard /></PrivateRoute>
-              } />
-              <Route path="/dashboard/configuracion" element={
-                <PrivateRoute><ConfiguracionNegocio /></PrivateRoute>
-              } />
-              <Route path="/dashboard/mi-suscripcion" element={
-                <PrivateRoute><MiSuscripcion /></PrivateRoute>
-              } />
-              <Route path="/dashboard/autopilot" element={
-                <PrivateRoute><Autopilot /></PrivateRoute>
-              } />
+            {/* 2. RUTAS QUE REQUIEREN O LOGUEAN AL USUARIO (Con AuthProvider) */}
+            <Route
+              path="*"
+              element={
+                <AuthProvider>
+                  <Routes>
+                    <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
+                    <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
+                    <Route path="/crear-negocio" element={<PublicLayout><CrearNegocio /></PublicLayout>} />
+                    <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
 
-              {/* RUTAS DE ADMIN */}
-              <Route path="/dashboard/admin" element={
-                <AdminRoute><AdminDashboard /></AdminRoute>
-              } />
-              <Route path="/dashboard/admin/users" element={
-                <AdminRoute><AdminUsers /></AdminRoute>
-              } />
-              <Route path="/dashboard/admin/negocios" element={
-                <AdminRoute><AdminNegocios /></AdminRoute>
-              } />
+                    <Route path="/dashboard/inicio" element={ <PrivateRoute><DashboardHome /></PrivateRoute> } />
+                    <Route path="/dashboard/pedidos" element={ <PrivateRoute><PedidosDashboard /></PrivateRoute> } />
+                    <Route path="/dashboard/marketing" element={ <PrivateRoute><Marketing /></PrivateRoute> } />
+                    <Route path="/dashboard/productos" element={ <PrivateRoute><ProductosDashboard /></PrivateRoute> } />
+                    <Route path="/dashboard/categorias" element={ <PrivateRoute><CategoriasDashboard /></PrivateRoute> } />
+                    <Route path="/dashboard/toppings" element={ <PrivateRoute><ToppingsDashboard /></PrivateRoute> } />
+                    <Route path="/dashboard/configuracion" element={ <PrivateRoute><ConfiguracionNegocio /></PrivateRoute> } />
+                    <Route path="/dashboard/mi-suscripcion" element={ <PrivateRoute><MiSuscripcion /></PrivateRoute> } />
+                    <Route path="/dashboard/autopilot" element={ <PrivateRoute><Autopilot /></PrivateRoute> } />
 
-              {/* 3. RUTAS DINÁMICAS (Clientes) */}
-              <Route path="/n/:slug" element={<PublicLayout><ProductosWrapper /></PublicLayout>} />
-              <Route path="/n/:slug/checkout" element={<PublicLayout><CheckoutWrapper /></PublicLayout>} />
-              <Route path="/n/:slug/pedidos" element={<PublicLayout><PedidoWrapper /></PublicLayout>} />
+                    <Route path="/dashboard/admin" element={ <AdminRoute><AdminDashboard /></AdminRoute> } />
+                    <Route path="/dashboard/admin/users" element={ <AdminRoute><AdminUsers /></AdminRoute> } />
+                    <Route path="/dashboard/admin/negocios" element={ <AdminRoute><AdminNegocios /></AdminRoute> } />
 
-              {/* 4. REDIRECCIÓN POR DEFECTO */}
-              <Route path="/dashboard" element={<Navigate to="/dashboard/inicio" replace />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </AuthProvider>
+                    <Route path="/dashboard" element={<Navigate to="/dashboard/inicio" replace />} />
+                    <Route path="*" element={<LinkNotFound />} />
+                  </Routes>
+                </AuthProvider>
+              }
+            />
+          </Routes>
+        </Suspense>
       </ToastProvider>
     </ThemeProvider>
+  );
+}
+
+// Nueva función para el 404 que use el layout público
+function LinkNotFound() {
+  return (
+    <PublicLayout>
+      <NotFound />
+    </PublicLayout>
   );
 }

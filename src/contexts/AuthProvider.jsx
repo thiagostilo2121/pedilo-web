@@ -100,7 +100,7 @@ export function AuthProvider({ children }) {
             get_usuario,
             refresh_usuario
         }}>
-            {!loading && children}
+            {children}
         </AuthContext.Provider>
     );
 }
