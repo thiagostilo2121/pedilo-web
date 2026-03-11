@@ -16,7 +16,7 @@
  */
 
 import { useState } from "react";
-import { useNavigate, NavLink } from "react-router-dom";
+import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useTheme } from "../contexts/ThemeProvider";
 import { useEffect } from "react";
@@ -422,8 +422,8 @@ export default function DashboardLayout({ children }) {
 
         {/* CONTENIDO SCROLLABLE */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 md:p-8 bg-gray-50 dark:bg-zinc-950 transition-colors duration-300">
-          <div className="max-w-7xl mx-auto">
-            {children}
+          <div className="w-full max-w-screen-2xl mx-auto">
+            {children || <Outlet />}
           </div>
         </main>
       </div>

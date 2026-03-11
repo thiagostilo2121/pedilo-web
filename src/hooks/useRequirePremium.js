@@ -25,14 +25,14 @@ import { useToast } from "../contexts/ToastProvider";
  * Redirects to appropriate pages if user doesn't meet requirements.
  */
 export function useRequirePremium() {
-    const { get_usuario } = useAuth();
+    const { refresh_usuario } = useAuth();
     const navigate = useNavigate();
     const toast = useToast();
 
     useEffect(() => {
         const checkSession = async () => {
             try {
-                const u = await get_usuario();
+                const u = await refresh_usuario();
 
                 if (u.plan_actual === "gratis") {
                     navigate("/planes");
@@ -46,5 +46,5 @@ export function useRequirePremium() {
         };
 
         checkSession();
-    }, [navigate, get_usuario, toast]);
+    }, [navigate, refresh_usuario, toast]);
 }

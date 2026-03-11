@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../../layout/DashboardLayout";
+
 import adminService from "../../../services/adminService";
 import { Users, Store, TrendingUp, RefreshCw, Lock, ShoppingBag } from "lucide-react";
 import StatsCard from "../../../components/dashboard/StatsCard";
@@ -49,10 +49,10 @@ export default function AdminDashboard() {
         }
     };
 
-    if (loading) return <DashboardLayout><div>Cargando panel...</div></DashboardLayout>;
+    if (loading) return <div>Cargando panel...</div>;
 
     return (
-        <DashboardLayout>
+        <>
             <div className="max-w-[1600px] mx-auto space-y-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
 
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -144,6 +144,6 @@ export default function AdminDashboard() {
                 </div>
 
             </div>
-        </DashboardLayout>
+        </>
     );
 }

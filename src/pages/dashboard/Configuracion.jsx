@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useState, useRef } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import { ExternalLink, Loader2, Save, Store, Truck, Clock } from "lucide-react";
 import { useToast } from "../../contexts/ToastProvider";
 import { useRequirePremium } from "../../hooks/useRequirePremium";
@@ -104,7 +104,7 @@ export default function ConfiguracionNegocio() {
   };
 
   if (loading) return (
-    <DashboardLayout>
+    <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 space-y-8 animate-pulse">
         {/* Skeleton Header */}
         <div className="flex justify-between items-center pb-6 border-b border-gray-100 dark:border-white/10">
@@ -123,11 +123,11 @@ export default function ConfiguracionNegocio() {
           <Skeleton className="h-80 rounded-3xl" />
         </div>
       </div>
-    </DashboardLayout>
+    </>
   );
 
   if (error || !negocio) return (
-    <DashboardLayout>
+    <>
       <div className="flex h-[80vh] flex-col items-center justify-center text-center p-4">
         <div className="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-6">
           <Store size={40} />
@@ -141,11 +141,11 @@ export default function ConfiguracionNegocio() {
           Reintentar Carga
         </button>
       </div>
-    </DashboardLayout>
+    </>
   );
 
   return (
-    <DashboardLayout>
+    <>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-24">
 
         {/* HEADER & ACTIONS */}
@@ -270,6 +270,6 @@ export default function ConfiguracionNegocio() {
         </div>
 
       </div>
-    </DashboardLayout>
+    </>
   );
 }

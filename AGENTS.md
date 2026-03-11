@@ -43,7 +43,7 @@ Encapsulate API calls. All services return promises.
 - **`toppingPublicService.js`** - Public topping data for products (via slug)
 
 ### Contexts (`src/contexts/`)
-- **`AuthProvider.jsx`** - Manages user state, provides `login`, `register`, `logout`, `get_usuario`. Wraps app and blocks render until auth initializes.
+- **`AuthProvider.jsx`** - Manages user state, provides `login`, `register`, `logout`, `refresh_usuario`. Wraps app and blocks render until auth initializes.
 - **`ToastProvider.jsx`** - Toast notifications via `useToast()` → `toast.success()`, `toast.error()`, etc.
 
 ### Auth (`src/auth/`)

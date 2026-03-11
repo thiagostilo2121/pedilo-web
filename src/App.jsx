@@ -86,9 +86,10 @@ export default function App() {
   return (
     <ThemeProvider>
       <ToastProvider>
-        <Suspense fallback={<PageLoader />}>
-          <Routes>
-            {/* 1. RUTAS DE MÁXIMA VELOCIDAD (Sin AuthProvider) */}
+        <AuthProvider>
+          <Suspense fallback={<PageLoader />}>
+            <Routes>
+            {/* 1. RUTAS PÚBLICAS */}
             <Route path="/" element={<PublicLayout><Landing /></PublicLayout>} />
             <Route path="/n/:slug" element={<PublicLayout><ProductosWrapper /></PublicLayout>} />
             <Route path="/n/:slug/checkout" element={<PublicLayout><CheckoutWrapper /></PublicLayout>} />
@@ -99,41 +100,39 @@ export default function App() {
             <Route path="/acerca" element={<PublicLayout><About /></PublicLayout>} />
             <Route path="/planes" element={<PublicLayout><Planes /></PublicLayout>} />
 
-            {/* 2. RUTAS QUE REQUIEREN O LOGUEAN AL USUARIO (Con AuthProvider) */}
-            <Route
-              path="*"
-              element={
-                <AuthProvider>
-                  <Routes>
-                    <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
-                    <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
-                    <Route path="/crear-negocio" element={<PublicLayout><CrearNegocio /></PublicLayout>} />
-                    <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
+            {/* 2. RUTAS DE AUTH */}
+            <Route path="/register" element={<PublicLayout><Register /></PublicLayout>} />
+            <Route path="/login" element={<PublicLayout><Login /></PublicLayout>} />
+            <Route path="/crear-negocio" element={<PublicLayout><CrearNegocio /></PublicLayout>} />
+            <Route path="/suscripcion/success" element={<PrivateRoute><SuscripcionSuccess /></PrivateRoute>} />
 
-                    <Route path="/dashboard/inicio" element={ <PrivateRoute><DashboardHome /></PrivateRoute> } />
-                    <Route path="/dashboard/pedidos" element={ <PrivateRoute><PedidosDashboard /></PrivateRoute> } />
-                    <Route path="/dashboard/marketing" element={ <PrivateRoute><Marketing /></PrivateRoute> } />
-                    <Route path="/dashboard/productos" element={ <PrivateRoute><ProductosDashboard /></PrivateRoute> } />
-                    <Route path="/dashboard/categorias" element={ <PrivateRoute><CategoriasDashboard /></PrivateRoute> } />
-                    <Route path="/dashboard/toppings" element={ <PrivateRoute><ToppingsDashboard /></PrivateRoute> } />
-                    <Route path="/dashboard/configuracion" element={ <PrivateRoute><ConfiguracionNegocio /></PrivateRoute> } />
-                    <Route path="/dashboard/mi-suscripcion" element={ <PrivateRoute><MiSuscripcion /></PrivateRoute> } />
-                    <Route path="/dashboard/autopilot" element={ <PrivateRoute><Autopilot /></PrivateRoute> } />
+            {/* 3. DASHBOARD - Rutas anidadas con Outlet */}
+            <Route path="/dashboard" element={<PrivateRoute><DashboardLayout /></PrivateRoute>}>
+              <Route index element={<Navigate to="inicio" replace />} />
+              <Route path="inicio" element={<DashboardHome />} />
+              <Route path="pedidos" element={<PedidosDashboard />} />
+              <Route path="marketing" element={<Marketing />} />
+              <Route path="productos" element={<ProductosDashboard />} />
+              <Route path="categorias" element={<CategoriasDashboard />} />
+              <Route path="toppings" element={<ToppingsDashboard />} />
+              <Route path="configuracion" element={<ConfiguracionNegocio />} />
+              <Route path="mi-suscripcion" element={<MiSuscripcion />} />
+              <Route path="autopilot" element={<Autopilot />} />
+            </Route>
 
-                    <Route path="/dashboard/admin" element={ <AdminRoute><AdminDashboard /></AdminRoute> } />
-                    <Route path="/dashboard/admin/users" element={ <AdminRoute><AdminUsers /></AdminRoute> } />
-                    <Route path="/dashboard/admin/negocios" element={ <AdminRoute><AdminNegocios /></AdminRoute> } />
+            {/* 4. ADMIN - Rutas anidadas con Outlet */}
+            <Route path="/dashboard/admin" element={<AdminRoute><DashboardLayout /></AdminRoute>}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="negocios" element={<AdminNegocios />} />
+            </Route>
 
-                    <Route path="/dashboard" element={<Navigate to="/dashboard/inicio" replace />} />
-                    <Route path="*" element={<LinkNotFound />} />
-                  </Routes>
-                </AuthProvider>
-              }
-            />
+            <Route path="*" element={<LinkNotFound />} />
           </Routes>
         </Suspense>
-      </ToastProvider>
-    </ThemeProvider>
+      </AuthProvider>
+    </ToastProvider>
+  </ThemeProvider>
   );
 }
 

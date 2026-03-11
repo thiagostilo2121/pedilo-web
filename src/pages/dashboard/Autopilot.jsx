@@ -1,4 +1,4 @@
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import IntelligenceCard from "../../components/dashboard/IntelligenceCard";
 import { BrainCircuit, Sparkles, ArrowRight, TrendingUp, ShieldAlert, Zap } from "lucide-react";
 import { useAuth } from "../../contexts/AuthProvider";
@@ -9,7 +9,7 @@ export default function Autopilot() {
     const { user } = useAuth();
     const navigate = useNavigate();
     return (
-        <DashboardLayout>
+        <>
             <div className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-8 space-y-6">
                 <PageHeader
                     title="Autopilot"
@@ -95,6 +95,6 @@ export default function Autopilot() {
                     <IntelligenceCard />
                 )}
             </div>
-        </DashboardLayout>
+        </>
     );
 }

@@ -61,9 +61,11 @@ import {
 import { useState, useEffect, useRef } from "react";
 import { getDemoStats } from "../../services/publicStatsService";
 import LandingFeatures from "./LandingFeatures";
+import { useDocumentTitle } from "../../hooks/useDocumentTitle";
 
 export default function Landing() {
   const navigate = useNavigate();
+  useDocumentTitle("Catálogo Online para tu Negocio");
   const [openFaq, setOpenFaq] = useState(null);
   const [demoStats, setDemoStats] = useState(null);
 

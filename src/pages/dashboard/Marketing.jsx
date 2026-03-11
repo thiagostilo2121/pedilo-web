@@ -5,7 +5,7 @@ import negocioService from "../../services/negocioService";
 import productService from "../../services/productService";
 import toast from "react-hot-toast";
 
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import Skeleton from "../../components/ui/Skeleton";
 import FlyerGenerator from "../../components/marketing/FlyerGenerator";
 import PageHeader from "../../components/dashboard/PageHeader";
@@ -157,7 +157,7 @@ export default function Marketing() {
     };
 
     return (
-        <DashboardLayout>
+        <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-20 space-y-10">
 
                 <PageHeader
@@ -595,6 +595,6 @@ export default function Marketing() {
                     </form>
                 </ModalShell>
             </div>
-        </DashboardLayout>
+        </>
     );
 }

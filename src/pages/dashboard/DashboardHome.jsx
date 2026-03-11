@@ -6,7 +6,7 @@ import Skeleton from "../../components/ui/Skeleton";
 import negocioService from "../../services/negocioService";
 import pedidosService from "../../services/pedidosService";
 
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import SalesChart from "../../components/dashboard/SalesChart";
 import TopProductsCard from "../../components/dashboard/TopProductsCard";
 import TopClientsCard from "../../components/dashboard/TopClientsCard";
@@ -86,8 +86,7 @@ export default function DashboardHome() {
 
     if (loading) {
         return (
-            <DashboardLayout>
-                <div className="max-w-[1600px] mx-auto space-y-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+            <div className="space-y-8 py-4 sm:py-8">
                     <div>
                         <Skeleton className="h-8 w-48 mb-2 rounded-xl" />
                         <Skeleton className="h-4 w-64 rounded-lg" />
@@ -103,8 +102,7 @@ export default function DashboardHome() {
                         <Skeleton className="lg:col-span-8 h-96 rounded-3xl" />
                         <Skeleton className="lg:col-span-4 h-96 rounded-3xl" />
                     </div>
-                </div>
-            </DashboardLayout>
+            </div>
         );
     }
 
@@ -149,8 +147,7 @@ export default function DashboardHome() {
     const dailyTrend = calculateDailyTrend();
 
     return (
-        <DashboardLayout>
-            <div className="max-w-[1600px] mx-auto space-y-8 px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="space-y-8 py-4 sm:py-8">
                 {/* HEADER SECTION */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
                     <div>
@@ -264,6 +261,5 @@ export default function DashboardHome() {
                     </div>
                 </div>
             </div>
-        </DashboardLayout>
     );
 }

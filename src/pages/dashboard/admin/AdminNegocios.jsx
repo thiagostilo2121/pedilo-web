@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../../layout/DashboardLayout";
+
 import adminService from "../../../services/adminService";
 import { Search, ChevronLeft, ChevronRight, Store, Plus, X, Award } from "lucide-react";
 import DynamicIcon from "../../../components/common/DynamicIcon";
@@ -88,7 +88,7 @@ export default function AdminNegocios() {
     };
 
     return (
-        <DashboardLayout>
+        <>
             <div className="max-w-[1600px] mx-auto space-y-6 px-4 md:px-8 py-6 relative">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     <h1 className="text-2xl font-black text-gray-900 dark:text-zinc-100">Gestión de Negocios</h1>
@@ -253,6 +253,6 @@ export default function AdminNegocios() {
                 )}
 
             </div>
-        </DashboardLayout>
+        </>
     );
 }

@@ -30,7 +30,7 @@ import {
 import { getMiSuscripcion, getCheckoutUrl } from "../../services/suscripcionService";
 import { useToast } from "../../contexts/ToastProvider";
 import { useAuth } from "../../auth/useAuth";
-import DashboardLayout from "../../layout/DashboardLayout";
+
 
 export default function MiSuscripcion() {
     const { user } = useAuth();
@@ -72,11 +72,11 @@ export default function MiSuscripcion() {
         }
     };
 
-    if (loading) return <DashboardLayout><div className="p-8 text-center font-bold">Cargando datos de facturación...</div></DashboardLayout>;
+    if (loading) return <div className="p-8 text-center font-bold">Cargando datos de facturación...</div>;
 
     if (!suscripcion || suscripcion.status === "expired" || suscripcion.status === "cancelled") {
         return (
-            <DashboardLayout>
+            <>
                 <div className="p-8 bg-white dark:bg-zinc-900 rounded-3xl border border-dashed border-gray-300 dark:border-white/15 text-center max-w-2xl mx-auto mt-10">
                     <AlertTriangle className="mx-auto text-orange-500 mb-4" size={40} />
                     <h3 className="text-xl font-bold">Sin suscripción activa</h3>
@@ -96,7 +96,7 @@ export default function MiSuscripcion() {
                         )}
                     </button>
                 </div>
-            </DashboardLayout>
+            </>
         );
     }
 
@@ -131,7 +131,7 @@ export default function MiSuscripcion() {
     };
 
     return (
-        <DashboardLayout>
+        <>
             <div className="max-w-2xl mx-auto space-y-6 p-4">
                 <h2 className="text-2xl font-black text-gray-900 dark:text-zinc-100 flex items-center gap-2">
                     <CreditCard className="text-orange-600" /> Mi Suscripción
@@ -253,6 +253,6 @@ export default function MiSuscripcion() {
                     </p>
                 </div>
             </div>
-        </DashboardLayout>
+        </>
     );
 }

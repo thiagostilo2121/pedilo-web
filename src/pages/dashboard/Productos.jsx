@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useState } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import productService from "../../services/productService";
 import negocioService from "../../services/negocioService";
 import { useRequirePremium } from "../../hooks/useRequirePremium";
@@ -195,7 +195,7 @@ export default function ProductosDashboard() {
   );
 
   return (
-    <DashboardLayout>
+    <>
       <div className="flex flex-col gap-6 mb-8">
 
         {/* Header Section */}
@@ -447,6 +447,6 @@ export default function ProductosDashboard() {
         confirmText="Sí, eliminar"
         variant="danger"
       />
-    </DashboardLayout >
+    </>
   );
 }

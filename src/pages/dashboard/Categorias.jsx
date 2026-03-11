@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useState, useRef } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import api from "../../api/api";
 import { Plus, Pencil, Trash2, ImageIcon, Loader2, X } from "lucide-react";
 import { useRequirePremium } from "../../hooks/useRequirePremium";
@@ -147,7 +147,7 @@ export default function CategoriasDashboard() {
   };
 
   return (
-    <DashboardLayout>
+    <>
       <div className="mb-8">
         <PageHeader
           title="Categorías"
@@ -369,6 +369,6 @@ export default function CategoriasDashboard() {
         confirmText="Eliminar"
         variant="danger"
       />
-    </DashboardLayout >
+    </>
   );
 }

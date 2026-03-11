@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState, useEffect, useCallback } from "react";
 import authService from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
@@ -34,6 +34,19 @@ export function AuthProvider({ children }) {
         return userData;
     };
 
+    // Soft logout triggered by Axios interceptor when refresh fails
+    const handleForceLogout = useCallback(() => {
+        authService.logout();
+        setUser(null);
+        navigate("/login");
+    }, [navigate]);
+
+    useEffect(() => {
+        // Listen for auth:logout events from the Axios interceptor
+        window.addEventListener("auth:logout", handleForceLogout);
+        return () => window.removeEventListener("auth:logout", handleForceLogout);
+    }, [handleForceLogout]);
+
     useEffect(() => {
         const initAuth = async () => {
             const token = localStorage.getItem("token");
@@ -44,6 +57,7 @@ export function AuthProvider({ children }) {
                 } catch (error) {
                     console.error("Error loading user profile:", error);
                     localStorage.removeItem("token");
+                    localStorage.removeItem("refresh_token");
                 }
             }
             setLoading(false);
@@ -54,9 +68,11 @@ export function AuthProvider({ children }) {
     const login = async (email, password) => {
         const data = await authService.login(email, password);
         localStorage.setItem("token", data.access_token);
+        localStorage.setItem("refresh_token", data.refresh_token);
         const userData = await authService.getProfile();
-        setUser(normalizeUser(userData));
-        navigate("/dashboard");
+        const normalized = normalizeUser(userData);
+        setUser(normalized);
+        return normalized;
     };
 
     const register = async (userData) => {
@@ -67,17 +83,6 @@ export function AuthProvider({ children }) {
         authService.logout();
         setUser(null);
         navigate("/login");
-    };
-
-    // Compatibility aliases
-    const user_login = login;
-    const user_register = register;
-
-    const get_usuario = async () => {
-        if (user) return user;
-        // Fallback if user is not loaded for some reason, though loading state should prevent this
-        const userData = await authService.getProfile();
-        return normalizeUser(userData);
     };
 
     const refresh_usuario = async () => {
@@ -94,10 +99,6 @@ export function AuthProvider({ children }) {
             register,
             logout,
             loading,
-            // Legacy aliases
-            user_login,
-            user_register,
-            get_usuario,
             refresh_usuario
         }}>
             {children}

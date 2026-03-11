@@ -8,7 +8,7 @@
  */
 
 import { useState, useEffect } from "react";
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import productService from "../../services/productService";
 import { useToast } from "../../contexts/ToastProvider";
 import { useRequirePremium } from "../../hooks/useRequirePremium";
@@ -130,7 +130,7 @@ export default function ToppingsDashboard() {
     };
 
     return (
-        <DashboardLayout>
+        <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-20 space-y-10">
 
                 {/* HEADER */}
@@ -432,6 +432,6 @@ export default function ToppingsDashboard() {
                     variant="danger"
                 />
             </div>
-        </DashboardLayout>
+        </>
     );
 }

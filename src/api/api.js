@@ -21,6 +21,7 @@ const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
+// --- Request interceptor: attach token ---
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -29,14 +30,78 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// Handle expired tokens and auth errors
+// --- Response interceptor: auto-refresh on 401 ---
+let isRefreshing = false;
+let failedQueue = [];
+
+const processQueue = (error, token = null) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) {
+      reject(error);
+    } else {
+      resolve(token);
+    }
+  });
+  failedQueue = [];
+};
+
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      window.location.href = "/login";
+  async (error) => {
+    const originalRequest = error.config;
+
+    // Only attempt refresh for 401 errors that haven't been retried yet
+    // and are NOT the refresh endpoint itself
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !originalRequest.url?.includes("/auth/refresh")
+    ) {
+      if (isRefreshing) {
+        // Queue this request until refresh completes
+        return new Promise((resolve, reject) => {
+          failedQueue.push({ resolve, reject });
+        }).then((token) => {
+          originalRequest.headers.Authorization = `Bearer ${token}`;
+          return api(originalRequest);
+        });
+      }
+
+      originalRequest._retry = true;
+      isRefreshing = true;
+
+      const refreshToken = localStorage.getItem("refresh_token");
+      if (!refreshToken) {
+        isRefreshing = false;
+        processQueue(error, null);
+        // Dispatch soft logout event
+        window.dispatchEvent(new CustomEvent("auth:logout"));
+        return Promise.reject(error);
+      }
+
+      try {
+        const { data } = await axios.post(
+          `${import.meta.env.VITE_API_URL}/auth/refresh`,
+          { refresh_token: refreshToken }
+        );
+
+        localStorage.setItem("token", data.access_token);
+        localStorage.setItem("refresh_token", data.refresh_token);
+
+        // Retry original request with new token
+        originalRequest.headers.Authorization = `Bearer ${data.access_token}`;
+        processQueue(null, data.access_token);
+        return api(originalRequest);
+      } catch (refreshError) {
+        processQueue(refreshError, null);
+        // Dispatch soft logout event
+        window.dispatchEvent(new CustomEvent("auth:logout"));
+        return Promise.reject(refreshError);
+      } finally {
+        isRefreshing = false;
+      }
     }
+
     return Promise.reject(error);
   }
 );

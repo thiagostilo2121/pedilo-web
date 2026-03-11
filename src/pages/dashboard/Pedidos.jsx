@@ -9,7 +9,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import pedidosService from "../../services/pedidosService";
-import DashboardLayout from "../../layout/DashboardLayout";
+
 import { useRequirePremium } from "../../hooks/useRequirePremium";
 import { useToast } from "../../contexts/ToastProvider";
 import {
@@ -197,7 +197,7 @@ export default function PedidosDashboard() {
     });
 
   return (
-    <DashboardLayout>
+    <>
       <PageHeader
         title={
           <>
@@ -602,6 +602,6 @@ export default function PedidosDashboard() {
           </div>
         </div>
       )}
-    </DashboardLayout>
+    </>
   );
 }
