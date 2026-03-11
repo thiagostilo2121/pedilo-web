@@ -1,4 +1,4 @@
-﻿import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import apiPublic from "../../api/apiPublic";
 import toppingPublicService from "../../services/toppingPublicService";
 import { useNavigate } from "react-router-dom";
@@ -96,15 +96,23 @@ export default function PublicNegocio({ slug }) {
 
         // Pre-load toppings
         const productIds = productosRes.data.map(p => p.id);
-        Promise.all(productIds.map(id =>
-          toppingPublicService.getProductoToppings(slug, id)
-            .then(toppings => ({ id, toppings }))
-            .catch(() => ({ id, toppings: [] }))
-        )).then(results => {
-          const cache = {};
-          results.forEach(({ id, toppings }) => { cache[id] = toppings || []; });
-          setToppingsCache(cache);
-        });
+        if (productIds.length > 0) {
+          toppingPublicService.getBulkProductoToppings(slug, productIds)
+            .then((bulkToppings) => {
+              const cache = {};
+              productIds.forEach(id => {
+                cache[id] = bulkToppings[id] || [];
+              });
+              setToppingsCache(cache);
+            })
+            .catch(() => {
+              const cache = {};
+              productIds.forEach(id => { cache[id] = []; });
+              setToppingsCache(cache);
+            });
+        } else {
+          setToppingsCache({});
+        }
 
       } catch (_err) {
         setError("Este menú no está disponible actualmente.");

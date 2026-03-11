@@ -36,8 +36,8 @@ export default function CategoriasDashboard() {
   const fileInputRef = useRef(null);
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, categoryId: null });
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const res = await api.get("/categorias");
       if (!Array.isArray(res.data)) throw new Error("Formato de respuesta inválido");
@@ -46,7 +46,7 @@ export default function CategoriasDashboard() {
       console.error("Error al cargar categorías", err);
       toast.error("No se pudieron cargar las categorías.");
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
@@ -118,7 +118,7 @@ export default function CategoriasDashboard() {
         await api.post("/categorias", form);
         toast.success("Categoría creada con éxito");
       }
-      await fetchData();
+      await fetchData(false);
       closeModal();
     } catch (err) {
       console.error("Error al guardar", err);

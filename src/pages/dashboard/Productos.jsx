@@ -56,8 +56,8 @@ export default function ProductosDashboard() {
   const [gruposToppings, setGruposToppings] = useState([]);
   const [loadingToppings, setLoadingToppings] = useState(false);
 
-  const fetchData = async () => {
-    setLoading(true);
+  const fetchData = async (showLoading = true) => {
+    if (showLoading) setLoading(true);
     try {
       const [prodRes, catRes, gruposRes, negocioRes] = await Promise.all([
         productService.getAll(),
@@ -73,7 +73,7 @@ export default function ProductosDashboard() {
       console.error("Error al cargar datos", err);
       toast.error("Error al cargar productos.");
     } finally {
-      setLoading(false);
+      if (showLoading) setLoading(false);
     }
   };
 
@@ -180,7 +180,7 @@ export default function ProductosDashboard() {
 
       await productService.configurarProductoToppings(productoId, toppingsPayload);
 
-      fetchData();
+      fetchData(false);
       setShowModal(false);
     } catch (err) {
       console.error(err);
@@ -416,7 +416,7 @@ export default function ProductosDashboard() {
         isOpen={showImportModal}
         onClose={() => setShowImportModal(false)}
         onSuccess={() => {
-          fetchData();
+          fetchData(false);
           // Don't close immediately so user can see result
         }}
       />
@@ -436,7 +436,7 @@ export default function ProductosDashboard() {
         onConfirm={async () => {
           try {
             await productService.delete(deleteConfirm.productId);
-            fetchData();
+            fetchData(false);
             toast.success("Producto eliminado");
           } catch (err) {
             toast.error("Error al eliminar");
