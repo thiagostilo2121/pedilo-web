@@ -6,7 +6,9 @@
  * by the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  */
+import { useState } from "react";
 import { ImageIcon, Trash2, Palette, AlertCircle, UploadCloud, Type } from "lucide-react";
+import ImageCropperModal from "../ui/ImageCropperModal";
 
 export default function DatosNegocioPanel({
     negocio,
@@ -18,7 +20,42 @@ export default function DatosNegocioPanel({
     setBannerFile,
     bannerInputRef
 }) {
+    const [imageToCrop, setImageToCrop] = useState(null);
+    const [cropType, setCropType] = useState(null); // 'logo' | 'banner'
+
+    const handleFileChange = (e, type) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImageToCrop(reader.result);
+            setCropType(type);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleCropComplete = (croppedBlob) => {
+        const fileName = cropType === 'logo' ? 'logo.jpg' : 'banner.jpg';
+        const croppedFile = new File([croppedBlob], fileName, { type: 'image/jpeg' });
+        
+        if (cropType === 'logo') {
+            setLogoFile(croppedFile);
+            // También actualizamos la URL de previsualización en el objeto negocio temporalmente
+            const previewUrl = URL.createObjectURL(croppedBlob);
+            setNegocio(prev => ({ ...prev, logo_url: previewUrl }));
+        } else {
+            setBannerFile(croppedFile);
+            const previewUrl = URL.createObjectURL(croppedBlob);
+            setNegocio(prev => ({ ...prev, banner_url: previewUrl }));
+        }
+
+        setImageToCrop(null);
+        setCropType(null);
+    };
+
     return (
+        <>
         <div className="bg-white dark:bg-zinc-900 p-6 sm:p-8 rounded-3xl border border-gray-100 dark:border-white/10 shadow-sm space-y-8">
 
             {/* SECCIÓN INFORMACIÓN BÁSICA */}
@@ -117,7 +154,7 @@ export default function DatosNegocioPanel({
                                 type="file"
                                 accept="image/*"
                                 ref={fileInputRef}
-                                onChange={(e) => setLogoFile(e.target.files?.[0] || null)}
+                                onChange={(e) => handleFileChange(e, 'logo')}
                                 className="hidden"
                             />
                         </div>
@@ -250,7 +287,7 @@ export default function DatosNegocioPanel({
                         type="file"
                         accept="image/*"
                         ref={bannerInputRef}
-                        onChange={(e) => setBannerFile(e.target.files?.[0] || null)}
+                        onChange={(e) => handleFileChange(e, 'banner')}
                         className="hidden"
                     />
                 </div>
@@ -258,6 +295,31 @@ export default function DatosNegocioPanel({
                     Se recomienda una imagen horizontal de al menos 1200x400px.
                 </p>
             </div>
+
         </div>
+
+            {/* Modales de Recorte */}
+            {imageToCrop && cropType === 'logo' && (
+                <ImageCropperModal
+                    isOpen={true}
+                    image={imageToCrop}
+                    onClose={() => setImageToCrop(null)}
+                    onCropComplete={handleCropComplete}
+                    aspect={1}
+                    title="Ajustar Logotipo"
+                />
+            )}
+
+            {imageToCrop && cropType === 'banner' && (
+                <ImageCropperModal
+                    isOpen={true}
+                    image={imageToCrop}
+                    onClose={() => setImageToCrop(null)}
+                    onCropComplete={handleCropComplete}
+                    aspect={3 / 1} // Banner panorámico
+                    title="Ajustar Banner de Portada"
+                />
+            )}
+        </>
     );
 }

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { X, Trash2, ImageIcon, Star, Loader2, Info, Warehouse } from "lucide-react";
+import ImageCropperModal from "../ui/ImageCropperModal";
 
 export default function ProductForm({
     isOpen,
@@ -33,6 +34,11 @@ export default function ProductForm({
     });
     const [imageFile, setImageFile] = useState(null);
     const [productoToppingsConfig, setProductoToppingsConfig] = useState({});
+    
+    // States for cropping
+    const [imageToCrop, setImageToCrop] = useState(null);
+    const [cropperOpen, setCroppedOpen] = useState(false);
+    const fileInputRef = useRef(null);
 
     useEffect(() => {
         if (isOpen) {
@@ -113,6 +119,30 @@ export default function ProductForm({
     }, [isOpen, loadingToppings, toppingsGroups, initialToppingsConfig]);
 
 
+    const handleImageChange = (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setImageToCrop(reader.result);
+            setCroppedOpen(true);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const handleCropComplete = (croppedBlob) => {
+        const croppedFile = new File([croppedBlob], "product_image.jpg", { type: "image/jpeg" });
+        setImageFile(croppedFile);
+        
+        // Creamos una URL local para la previsualización del formulario
+        const previewUrl = URL.createObjectURL(croppedBlob);
+        setForm(prev => ({ ...prev, imagen_url: previewUrl }));
+        
+        setImageToCrop(null);
+        if (fileInputRef.current) fileInputRef.current.value = "";
+    };
+
     const handleSubmit = () => {
         onSubmit(form, imageFile, productoToppingsConfig);
     };
@@ -141,7 +171,7 @@ export default function ProductForm({
                             {imageFile || form.imagen_url ? (
                                 <div className="relative w-full h-full">
                                     <img
-                                        src={imageFile ? URL.createObjectURL(imageFile) : form.imagen_url}
+                                        src={form.imagen_url.startsWith('blob:') ? form.imagen_url : (imageFile ? URL.createObjectURL(imageFile) : form.imagen_url)}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
@@ -169,9 +199,10 @@ export default function ProductForm({
                                 </div>
                             )}
                             <input
+                                ref={fileInputRef}
                                 type="file"
                                 accept="image/*"
-                                onChange={(e) => setImageFile(e.target.files[0])}
+                                onChange={handleImageChange}
                                 className="absolute inset-0 opacity-0 cursor-pointer z-0"
                             />
                         </div>
@@ -459,6 +490,22 @@ export default function ProductForm({
                     </button>
                 </div>
             </div>
+
+            {/* Image Cropper Modal */}
+            {imageToCrop && (
+                <ImageCropperModal
+                    isOpen={cropperOpen}
+                    image={imageToCrop}
+                    onClose={() => {
+                        setCroppedOpen(false);
+                        setImageToCrop(null);
+                        if (fileInputRef.current) fileInputRef.current.value = "";
+                    }}
+                    onCropComplete={handleCropComplete}
+                    aspect={1} // Los productos son cuadrados
+                    title="Recortar Foto del Producto"
+                />
+            )}
         </div>
     );
 }

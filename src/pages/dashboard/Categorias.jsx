@@ -21,6 +21,7 @@ import PrimaryButton from "../../components/dashboard/PrimaryButton";
 import EmptyState from "../../components/dashboard/EmptyState";
 import ModalShell from "../../components/dashboard/ModalShell";
 import ViewToggle from "../../components/dashboard/ViewToggle";
+import ImageCropperModal from "../../components/ui/ImageCropperModal";
 
 const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
 
@@ -35,6 +36,8 @@ export default function CategoriasDashboard() {
   const [viewMode, setViewMode] = useState("grid"); // "grid" | "list"
   const fileInputRef = useRef(null);
   const [deleteConfirm, setDeleteConfirm] = useState({ open: false, categoryId: null });
+  const [imageToCrop, setImageToCrop] = useState(null);
+  const [cropperOpen, setCroppedOpen] = useState(false);
 
   const fetchData = async (showLoading = true) => {
     if (showLoading) setLoading(true);
@@ -71,14 +74,27 @@ export default function CategoriasDashboard() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const handleImageChange = async (e) => {
+  const handleImageChange = (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
+    if (file.size > 5 * 1024 * 1024) return toast.error("La imagen es muy pesada (máx 5MB)");
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageToCrop(reader.result);
+      setCroppedOpen(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropComplete = async (croppedBlob) => {
     setUploadingImage(true);
     try {
       const data = new FormData();
-      data.append("file", file);
+      // El cropper nos devuelve un blob, lo convertimos a archivo para el backend
+      const croppedFile = new File([croppedBlob], "category_image.jpg", { type: "image/jpeg" });
+      data.append("file", croppedFile);
 
       if (import.meta.env.PROD) {
         data.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
@@ -95,13 +111,14 @@ export default function CategoriasDashboard() {
         setForm((prev) => ({ ...prev, imagen_url: res.data.url }));
       }
 
-      toast.success("Imagen subida correctamente.");
+      toast.success("Imagen ajustada y subida correctamente.");
     } catch (err) {
       console.error("Error al subir imagen", err);
       toast.error("Error al subir la imagen. Probá otra vez.");
-      if (fileInputRef.current) fileInputRef.current.value = "";
     } finally {
       setUploadingImage(false);
+      setImageToCrop(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     }
   };
 
@@ -369,6 +386,22 @@ export default function CategoriasDashboard() {
         confirmText="Eliminar"
         variant="danger"
       />
+
+      {/* Image Cropper Modal */}
+      {imageToCrop && (
+        <ImageCropperModal
+          isOpen={cropperOpen}
+          image={imageToCrop}
+          onClose={() => {
+            setCroppedOpen(false);
+            setImageToCrop(null);
+            if (fileInputRef.current) fileInputRef.current.value = "";
+          }}
+          onCropComplete={handleCropComplete}
+          aspect={16 / 9} // Las categorías usan un formato más rectangular
+          title="Recortar Imagen de Categoría"
+        />
+      )}
     </>
   );
 }
