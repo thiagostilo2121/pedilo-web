@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import apiPublic from "../../api/apiPublic";
+import negocioPublicService from "../../services/negocioPublicService";
 import toppingPublicService from "../../services/toppingPublicService";
 import { useNavigate } from "react-router-dom";
 import {
@@ -49,28 +50,30 @@ export default function PublicNegocio({ slug }) {
   const [productToppings, setProductToppings] = useState([]);
   const [toppingsCache, setToppingsCache] = useState({});
   const [addingProductId, setAddingProductId] = useState(null);
+  const isFetching = useRef(false);
 
   useEffect(() => {
+    if (isFetching.current) return;
+
     async function fetchData() {
+      if (!slug) return;
+      isFetching.current = true;
       try {
         setLoading(true);
-        const [negocioRes, productosRes, categoriasRes] = await Promise.all([
-          apiPublic.get(`/${slug}`),
-          apiPublic.get(`/${slug}/productos`),
-          apiPublic.get(`/${slug}/categorias`)
-        ]);
+        const data = await negocioPublicService.getMenuCompleto(slug);
 
-        setNegocio(negocioRes.data);
+        setNegocio(data.negocio);
         // NEW: Auto switch to list view for distribuidoras
-        if (negocioRes.data.tipo_negocio === 'distribuidora') {
+        if (data.negocio.tipo_negocio === 'distribuidora') {
           setViewMode("list");
         }
 
-        const sortedProducts = productosRes.data.sort((a, b) => (b.destacado === true) - (a.destacado === true));
+        const sortedProducts = data.productos.sort((a, b) => (b.destacado === true) - (a.destacado === true));
         setProductos(sortedProducts);
-        setCategorias(categoriasRes.data);
+        setCategorias(data.categorias);
+        setToppingsCache(data.toppings_cache || {});
 
-        document.title = `${negocioRes.data.nombre} | Pedilo`;
+        document.title = `${data.negocio.nombre} | Pedilo`;
 
         // SEO Helpers
         const updateMeta = (name, content, attr = "name") => {
@@ -82,42 +85,23 @@ export default function PublicNegocio({ slug }) {
           }
           meta.setAttribute("content", content);
         };
-        const bizDesc = negocioRes.data.descripcion || `Hacé tu pedido online en ${negocioRes.data.nombre}.`;
+        const bizDesc = data.negocio.descripcion || `Hacé tu pedido online en ${data.negocio.nombre}.`;
         updateMeta("description", bizDesc);
 
         // PWA Color
         const metaTheme = document.querySelector("meta[name=theme-color]");
-        if (metaTheme && negocioRes.data.color_primario) {
-          metaTheme.setAttribute("content", negocioRes.data.color_primario);
+        if (metaTheme && data.negocio.color_primario) {
+          metaTheme.setAttribute("content", data.negocio.color_primario);
         }
 
         const storedCarrito = localStorage.getItem(`carrito_${slug}`);
         if (storedCarrito) setCarrito(JSON.parse(storedCarrito));
 
-        // Pre-load toppings
-        const productIds = productosRes.data.map(p => p.id);
-        if (productIds.length > 0) {
-          toppingPublicService.getBulkProductoToppings(slug, productIds)
-            .then((bulkToppings) => {
-              const cache = {};
-              productIds.forEach(id => {
-                cache[id] = bulkToppings[id] || [];
-              });
-              setToppingsCache(cache);
-            })
-            .catch(() => {
-              const cache = {};
-              productIds.forEach(id => { cache[id] = []; });
-              setToppingsCache(cache);
-            });
-        } else {
-          setToppingsCache({});
-        }
-
       } catch (_err) {
         setError("Este menú no está disponible actualmente.");
       } finally {
         setLoading(false);
+        isFetching.current = false;
       }
     }
     fetchData();

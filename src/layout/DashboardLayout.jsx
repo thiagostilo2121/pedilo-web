@@ -15,11 +15,10 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, NavLink, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
 import { useTheme } from "../contexts/ThemeProvider";
-import { useEffect } from "react";
 import negocioService from "../services/negocioService";
 import CommandPalette from "../components/dashboard/CommandPalette";
 import {
@@ -55,21 +54,28 @@ export default function DashboardLayout({ children }) {
   const [negocio, setNegocio] = useState(null);
   const { logout, user } = useAuth();
   const { isDark, toggleTheme } = useTheme();
+  const isFetching = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
+    if (isFetching.current) return;
+
     const cached = sessionStorage.getItem("negocio_info");
     if (cached) {
       setNegocio(JSON.parse(cached));
-      return; // Already have it, don't fetch
+      return; 
     }
 
+    isFetching.current = true;
     negocioService.getMiNegocio()
       .then(data => {
         setNegocio(data);
         sessionStorage.setItem("negocio_info", JSON.stringify(data));
       })
-      .catch(err => console.error("Error fetching negocio:", err));
+      .catch(err => console.error("Error fetching negocio:", err))
+      .finally(() => {
+        isFetching.current = false;
+      });
   }, []);
 
   const logoutAction = () => {

@@ -15,7 +15,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { createContext, useContext, useState, useEffect, useCallback } from "react";
+import { createContext, useContext, useState, useEffect, useCallback, useRef, useMemo } from "react";
 import authService from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
@@ -24,6 +24,7 @@ const AuthContext = createContext();
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const initialized = useRef(false);
     const navigate = useNavigate();
     
     // Helper para normalizar datos del usuario que vienen del backend
@@ -48,6 +49,9 @@ export function AuthProvider({ children }) {
     }, [handleForceLogout]);
 
     useEffect(() => {
+        if (initialized.current) return;
+        initialized.current = true;
+
         const initAuth = async () => {
             const token = localStorage.getItem("token");
             if (token) {
@@ -65,7 +69,7 @@ export function AuthProvider({ children }) {
         initAuth();
     }, []);
 
-    const login = async (email, password) => {
+    const login = useCallback(async (email, password) => {
         const data = await authService.login(email, password);
         localStorage.setItem("token", data.access_token);
         localStorage.setItem("refresh_token", data.refresh_token);
@@ -73,34 +77,36 @@ export function AuthProvider({ children }) {
         const normalized = normalizeUser(userData);
         setUser(normalized);
         return normalized;
-    };
+    }, []);
 
-    const register = async (userData) => {
+    const register = useCallback(async (userData) => {
         await authService.register(userData);
-    };
+    }, []);
 
-    const logout = () => {
+    const logout = useCallback(() => {
         authService.logout();
         setUser(null);
         navigate("/login");
-    };
+    }, [navigate]);
 
-    const refresh_usuario = async () => {
+    const refresh_usuario = useCallback(async () => {
         const userData = await authService.getProfile();
         const normalized = normalizeUser(userData);
         setUser(normalized);
         return normalized;
-    };
+    }, []);
+
+    const value = useMemo(() => ({
+        user,
+        login,
+        register,
+        logout,
+        loading,
+        refresh_usuario
+    }), [user, login, register, logout, loading, refresh_usuario]);
 
     return (
-        <AuthContext.Provider value={{
-            user,
-            login,
-            register,
-            logout,
-            loading,
-            refresh_usuario
-        }}>
+        <AuthContext.Provider value={value}>
             {children}
         </AuthContext.Provider>
     );
