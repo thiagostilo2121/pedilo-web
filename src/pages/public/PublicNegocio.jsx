@@ -306,10 +306,12 @@ export default function PublicNegocio({ slug }) {
             {negocio.logo_url && <img src={negocio.logo_url} className="w-8 h-8 rounded-full border border-gray-200" alt="Logo" />}
             <span className="font-extrabold text-gray-900 text-sm truncate max-w-[150px]">{negocio.nombre}</span>
             {negocio.insignias?.some(b => b.id === 'FOUNDER') && (
-              <span className="flex items-center gap-1 bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider border border-amber-200/50">
-                <DynamicIcon name="Crown" size={10} fill="currentColor" />
-                <span className="hidden sm:inline">Fundador</span>
-              </span>
+              <div 
+                  className="flex items-center justify-center w-6 h-6 rounded-full shadow-sm border border-white/50 bg-gradient-to-br from-amber-400 to-orange-500 text-white"
+                  title="Negocio Fundador"
+              >
+                  <DynamicIcon name="Award" size={12} />
+              </div>
             )}
           </div>
           <div className="flex gap-2 ml-auto">
