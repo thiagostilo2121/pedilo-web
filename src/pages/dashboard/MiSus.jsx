@@ -100,8 +100,8 @@ export default function MiSuscripcion() {
         );
     }
 
-    const isActive = suscripcion.status === "authorized" || suscripcion.status === "active";
-    const displayStatus = suscripcion.status === "cancelled" ? "Cancelado" : suscripcion.status;
+    const isActive = suscripcion.status === "AUTHORIZED" || suscripcion.status === "ACTIVE";
+    const displayStatus = suscripcion.status === "CANCELLED" ? "Cancelado" : suscripcion.status;
 
     // Detectar si está en período de prueba (monto 0)
     const isTrial = suscripcion.amount === 0;

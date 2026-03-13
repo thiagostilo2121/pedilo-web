@@ -182,7 +182,7 @@ export default function ConfiguracionNegocio() {
         />
 
         {/* MAIN CONTENT GRID */}
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start mb-20 md:mb-0">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 items-start mt-8 mb-20 md:mb-0">
 
           {/* LEFT COLUMN: MAIN SETTINGS */}
           <div className="xl:col-span-2 space-y-10">

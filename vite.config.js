@@ -48,13 +48,13 @@ export default defineConfig({
         scope: "/",
         icons: [
           {
-            src: "/favicons/favicon2.png",
+            src: "/favicons/pedilo-orange.png",
             sizes: "500x500",
             type: "image/png",
             purpose: "any"
           },
           {
-            src: "/favicons/favicon2.png",
+            src: "/favicons/pedilo-orange.png",
             sizes: "500x500",
             type: "image/png",
             purpose: "maskable"
