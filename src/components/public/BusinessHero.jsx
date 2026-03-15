@@ -3,7 +3,8 @@
  */
 
 import React from 'react';
-import { MapPin, Clock } from 'lucide-react';
+import { MapPin, Clock, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { DEFAULT_LOGO } from '../../constants';
 import DynamicIcon from '../common/DynamicIcon';
 import { getBadgeMetadata } from '../../utils/badgeUtils';
@@ -51,25 +52,36 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                                         return (
                                             <div
                                                 key={badge.id}
-                                                className={`group/badge relative flex items-center justify-center gap-1.5 px-2 w-full h-10 rounded-[1rem] shadow-lg border border-white/20 backdrop-blur-md cursor-help transition-all hover:scale-110 ${meta.fullBadgeStyle}`}
+                                                className={`group/badge relative flex items-center justify-center gap-1.5 px-3 py-1.5 h-auto rounded-full shadow-md hover:shadow-xl hover:shadow-white/10 border border-white/20 backdrop-blur-md cursor-help transition-all duration-300 hover:-translate-y-1 hover:scale-105 ${meta.fullBadgeStyle}`}
                                             >
                                                 <DynamicIcon
                                                     name={meta.icon}
                                                     size={16}
-                                                    className="text-white drop-shadow-sm"
+                                                    className="text-white drop-shadow-sm transition-transform duration-300 group-hover/badge:rotate-12 group-hover/badge:scale-110"
                                                 />
-                                                <span className="text-[12px] text-white">
+                                                <span className="text-xs font-bold text-white tracking-wide">
                                                     {meta.shortDesc}
                                                 </span>
 
-                                                {/* TOOLTIP */}
-                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900/95 backdrop-blur-xl text-white text-[10px] font-bold px-3 py-2 rounded-xl opacity-0 group-hover/badge:opacity-100 transition-all pointer-events-none z-50 shadow-2xl border border-white/10 transform scale-95 group-hover/badge:scale-100">
-                                                    <div className="flex flex-col items-center gap-1">
-                                                        <span className={`text-[11px] uppercase tracking-wider ${meta.titleColor}`}>{meta.name}</span>
-                                                        <span className="text-[9px] text-gray-300 font-medium max-w-[150px] text-center leading-tight whitespace-pre-wrap">{meta.description}</span>
-                                                    </div>
-                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white/10"></div>
-                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[5px] border-4 border-transparent border-t-gray-900/95"></div>
+                                                {/* TOOLTIP PREMIUM */}
+                                                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 w-[180px] bg-gray-900/95 backdrop-blur-xl text-white px-3 py-2.5 rounded-xl opacity-0 translate-y-2 group-hover/badge:opacity-100 group-hover/badge:translate-y-0 transition-all duration-300 pointer-events-none z-50 shadow-2xl border border-white/10 flex flex-col items-center justify-center gap-1 text-center">
+                                                    <span className={`text-[10px] font-black uppercase tracking-widest ${meta.titleColor}`}>
+                                                        {meta.name}
+                                                    </span>
+                                                    <span className="text-[10px] text-gray-300 font-medium leading-relaxed max-w-full">
+                                                        {meta.description}
+                                                    </span>
+
+                                                    {/* FLECHA DEL TOOLTIP */}
+                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-[6px] border-transparent border-t-gray-900/95"></div>
+
+                                                    {/* LINK MÁS INFO */}
+                                                    <Link 
+                                                        to="/insignias" 
+                                                        className="mt-1 pt-1.5 border-t border-white/10 w-full flex items-center justify-center gap-1 text-[9px] font-black text-orange-400 hover:text-orange-300 pointer-events-auto transition-colors"
+                                                    >
+                                                        Saber más <ArrowRight size={8} />
+                                                    </Link>
                                                 </div>
                                             </div>
                                         );

@@ -26,6 +26,7 @@ const CrearNegocio = lazy(() => import("./pages/public/CrearNegocio"));
 const SuscripcionSuccess = lazy(() => import("./pages/public/SuscripcionSuccess"));
 const Brochure = lazy(() => import("./pages/marketing/Brochure"));
 const About = lazy(() => import("./pages/public/About"));
+const Insignias = lazy(() => import("./pages/public/Insignias"));
 
 // Dashboard pages
 const DashboardHome = lazy(() => import("./pages/dashboard/DashboardHome"));
@@ -98,6 +99,7 @@ export default function App() {
             <Route path="/terminos" element={<PublicLayout><Terminos /></PublicLayout>} />
             <Route path="/privacidad" element={<PublicLayout><Privacidad /></PublicLayout>} />
             <Route path="/acerca" element={<PublicLayout><About /></PublicLayout>} />
+            <Route path="/insignias" element={<PublicLayout><Insignias /></PublicLayout>} />
             <Route path="/planes" element={<PublicLayout><Planes /></PublicLayout>} />
 
             {/* 2. RUTAS DE AUTH */}

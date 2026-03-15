@@ -5,8 +5,7 @@ export default function CategoryStoryBar({ categorias, activeCategory, onSelectC
     if (categorias.length === 0) return null;
 
     return (
-        <div className="md:hidden sticky top-[72px] z-40 bg-gray-50/95 backdrop-blur-md pb-6 pt-3 -mx-4 px-4 mb-8 border-b border-gray-100/50 shadow-sm transition-all">
-            <div className="flex gap-4 overflow-x-auto scrollbar-responsive pt-2 px-2 pb-2">
+            <div className="md:hidden sticky top-[56px] z-40 bg-gray-50/75 backdrop-blur-md pb-4 pt-4 -mx-4 mt-0 px-4 mb-8 border-b border-gray-100/50 shadow-sm transition-all">            <div className="flex gap-4 overflow-x-auto scrollbar-responsive pt-2 px-2 pb-2">
                 {/* 'Todos' Button */}
                 <button
                     onClick={() => onSelectCategory("todos")}
