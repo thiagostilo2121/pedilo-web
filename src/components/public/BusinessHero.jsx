@@ -3,9 +3,10 @@
  */
 
 import React from 'react';
-import { MapPin, Clock, BadgeHelp } from 'lucide-react';
+import { MapPin, Clock } from 'lucide-react';
 import { DEFAULT_LOGO } from '../../constants';
 import DynamicIcon from '../common/DynamicIcon';
+import { getBadgeMetadata } from '../../utils/badgeUtils';
 
 export default function BusinessHero({ negocio, onShowInfo }) {
     return (
@@ -26,7 +27,7 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                         {/* TOP SECTION: LOGO + STATUS */}
                         <div className="flex items-center mb-2">
                             <div className="relative shrink-0">
-                                <img src={negocio.logo_url || DEFAULT_LOGO} className="w-24 h-24 rounded-[1.8rem] border-[3px] border-white shadow-2xl object-cover bg-white dark:bg-zinc-900" alt="Logo Big" />
+                                <img src={negocio.logo_url || DEFAULT_LOGO} className="w-24 h-24 rounded-[2.1rem] border-[1px] border-white shadow-2xl object-cover bg-white dark:bg-zinc-900" alt="Logo Big" />
                                 <div className={`absolute -top-3 -right-3 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-xl backdrop-blur-md border border-white/10 ${negocio.acepta_pedidos ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
                                     <span className={`w-2 h-2 rounded-full ${negocio.acepta_pedidos ? 'bg-white dark:bg-zinc-900 animate-pulse' : 'bg-white/50'}`}></span>
                                     {negocio.acepta_pedidos ? 'Abierto' : 'Cerrado'}
@@ -44,40 +45,28 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                             {negocio.insignias?.length > 0 && (
                                 <div className="flex flex-wrap items-center justify-end lg:justify-start gap-2 shrink-0">
                                     {negocio.insignias.map((badge) => {
-                                        const isFounder = badge.id === 'FOUNDER';
-                                        const isVeteran = badge.id === 'VETERANO_500';
-                                        const isTopSeller = badge.id === 'TOP_SELLER_100' || badge.id?.includes('TOP_SELLER');
-                                        const isVerified = badge.id === 'VERIFICADO_50' || badge.id?.includes('VERIFICADO');
-
-                                        let badgeStyle = 'bg-white/20';
-                                        let tooltipTitleStyle = 'text-white';
-
-                                        if (isFounder) {
-                                            badgeStyle = 'bg-gradient-to-br from-amber-400 to-orange-500 shadow-orange-500/50 animate-pulse';
-                                            tooltipTitleStyle = 'text-yellow-400';
-                                        } else if (isTopSeller) {
-                                            badgeStyle = 'bg-gradient-to-br from-green-400 to-green-600 shadow-green-500/50'
-                                            tooltipTitleStyle = 'text-green-400';
-                                        } else if (isVeteran) {
-                                            badgeStyle = 'bg-gradient-to-br from-orange-400 to-orange-600 shadow-orange-500/50'
-                                            tooltipTitleStyle = 'text-orange-400';
-                                        } else if (isVerified) {
-                                            badgeStyle = 'bg-gradient-to-br from-blue-400 to-blue-600';
-                                            tooltipTitleStyle = 'text-blue-400';
-                                        }
+                                        const meta = getBadgeMetadata(badge);
+                                        if (!meta) return null;
 
                                         return (
                                             <div
                                                 key={badge.id}
-                                                className={`group/badge relative flex items-center justify-center w-9 h-9 rounded-full shadow-lg border border-white/20 backdrop-blur-md cursor-help transition-all hover:scale-110 ${badgeStyle}`}
+                                                className={`group/badge relative flex items-center justify-center gap-1.5 px-2 w-full h-10 rounded-[1rem] shadow-lg border border-white/20 backdrop-blur-md cursor-help transition-all hover:scale-110 ${meta.fullBadgeStyle}`}
                                             >
-                                                <DynamicIcon name={badge.icon || "Award"} size={18} className="text-white drop-shadow-sm" />
+                                                <DynamicIcon
+                                                    name={meta.icon}
+                                                    size={16}
+                                                    className="text-white drop-shadow-sm"
+                                                />
+                                                <span className="text-[12px] text-white">
+                                                    {meta.shortDesc}
+                                                </span>
 
                                                 {/* TOOLTIP */}
                                                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max bg-gray-900/95 backdrop-blur-xl text-white text-[10px] font-bold px-3 py-2 rounded-xl opacity-0 group-hover/badge:opacity-100 transition-all pointer-events-none z-50 shadow-2xl border border-white/10 transform scale-95 group-hover/badge:scale-100">
                                                     <div className="flex flex-col items-center gap-1">
-                                                        <span className={`text-[11px] uppercase tracking-wider ${tooltipTitleStyle}`}>{badge.name}</span>
-                                                        <span className="text-[9px] text-gray-300 font-medium max-w-[150px] text-center leading-tight whitespace-pre-wrap">{badge.description}</span>
+                                                        <span className={`text-[11px] uppercase tracking-wider ${meta.titleColor}`}>{meta.name}</span>
+                                                        <span className="text-[9px] text-gray-300 font-medium max-w-[150px] text-center leading-tight whitespace-pre-wrap">{meta.description}</span>
                                                     </div>
                                                     <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-white/10"></div>
                                                     <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-[5px] border-4 border-transparent border-t-gray-900/95"></div>

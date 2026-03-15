@@ -77,7 +77,7 @@ export default function HighlyRecommended({
                                         className="text-white text-[10px] font-black px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-lg shadow-orange-500/40 tracking-wide uppercase"
                                         style={{ backgroundColor: negocio.color_primario || '#f97316' }}
                                     >
-                                        <Star size={10} fill="currentColor" /> MÁS VENDIDO
+                                        <Star size={10} fill="currentColor" /> DESTACADO
                                     </span>
                                 </div>
 

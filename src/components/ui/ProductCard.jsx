@@ -58,7 +58,7 @@ export default function ProductCard({
                         className="text-[10px] font-black text-white px-2.5 py-1 rounded-lg uppercase tracking-wider shadow-lg flex items-center gap-1.5"
                         style={{ backgroundColor: negocio?.color_primario || '#f97316' }}
                     >
-                        <Star size={10} fill="currentColor" /> MÁS VENDIDO
+                        <Star size={10} fill="currentColor" /> DESTACADO
                     </span>
                 </div>
             ) : hasWholesale && isWholesaleApplied ? (
