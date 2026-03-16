@@ -17,7 +17,14 @@ import {
   MessageSquare,
   ShoppingBag,
   MapPin,
-  AlertCircle
+  AlertCircle,
+  Banknote,
+  Smartphone, // Nuevos
+  Landmark,   // Nuevos
+  DollarSign, // Nuevos
+  Store,      // Nuevos
+  Bike,       // Nuevos
+  Package     // Nuevos
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { calcularPrecioEfectivo, calcularTotalCarrito } from "../../utils/precioUtils";
@@ -221,21 +228,21 @@ export default function Checkout({ slug }) {
   const cumpleMinimo = total >= montoMinimo;
   const faltaParaMinimo = montoMinimo - total;
 
-  const getIconForOption = (text, type) => {
+  const getIconConfig = (text, type) => {
     const t = text.toLowerCase();
     if (type === 'pago') {
-      if (t.includes('efectivo')) return "💵";
-      if (t.includes('mercado')) return "📲";
-      if (t.includes('tarjeta') || t.includes('débito') || t.includes('crédito')) return "💳";
-      if (t.includes('transferencia')) return "🏦";
-      return "💲";
+      if (t.includes('efectivo')) return { icon: <Banknote size={32} strokeWidth={1.5} />, colorClass: "text-emerald-500" };
+      if (t.includes('mercado')) return { icon: <Smartphone size={32} strokeWidth={1.5} />, colorClass: "text-[#009EE3]" }; // Celeste de MercadoPago
+      if (t.includes('tarjeta') || t.includes('débito') || t.includes('crédito')) return { icon: <CreditCard size={32} strokeWidth={1.5} />, colorClass: "text-indigo-500" };
+      if (t.includes('transferencia')) return { icon: <Landmark size={32} strokeWidth={1.5} />, colorClass: "text-violet-500" };
+      return { icon: <DollarSign size={32} strokeWidth={1.5} />, colorClass: "text-gray-700" };
     }
     if (type === 'entrega') {
-      if (t.includes('local') || t.includes('retiro')) return "🏪";
-      if (t.includes('delivery') || t.includes('envío') || t.includes('moto')) return "🛵";
-      return "📦";
+      if (t.includes('local') || t.includes('retiro')) return { icon: <Store size={32} strokeWidth={1.5} />, colorClass: "text-blue-600" };
+      if (t.includes('delivery') || t.includes('envío') || t.includes('moto')) return { icon: <Bike size={32} strokeWidth={1.5} />, colorClass: "text-red-500" };
+      return { icon: <Package size={32} strokeWidth={1.5} />, colorClass: "text-gray-700" };
     }
-    return "🔹";
+    return { icon: <CheckCircle2 size={32} strokeWidth={1.5} />, colorClass: "text-gray-700" };
   };
 
   return (
@@ -306,20 +313,27 @@ export default function Checkout({ slug }) {
                 <CreditCard size={12} /> Método de Pago
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {(negocio.metodos_pago || ["Efectivo"]).map((m) => (
-                  <label key={m} className="cursor-pointer">
-                    <input
-                      type="radio"
-                      value={m}
-                      {...register("metodo_pago", { required: true })}
-                      className="peer sr-only"
-                    />
-                    <div className="p-3 border-2 border-gray-100 rounded-2xl bg-white hover:bg-gray-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-700 transition-all flex flex-col items-center justify-center gap-1 text-center h-full">
-                      <span className="text-2xl">{getIconForOption(m, 'pago')}</span>
-                      <span className="text-sm font-bold">{m}</span>
-                    </div>
-                  </label>
-                ))}
+                {(negocio.metodos_pago || ["Efectivo"]).map((m) => {
+                  const { icon, colorClass } = getIconConfig(m, 'pago');
+                  return (
+                    <label key={m} className="cursor-pointer">
+                      <input
+                        type="radio"
+                        value={m}
+                        {...register("metodo_pago", { required: true })}
+                        className="peer sr-only"
+                      />
+                      {/* Inyectamos colorClass dinámicamente, y peer-checked lo pisa al seleccionar */}
+                      <div className={`p-3 border-2 border-gray-100 rounded-2xl bg-white ${colorClass} hover:bg-gray-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-600 transition-all flex flex-col items-center justify-center gap-2 text-center h-full`}>
+                        <div className="transition-transform duration-300 peer-checked:scale-110">
+                          {icon}
+                        </div>
+                        {/* El texto lo dejamos oscuro por defecto para que sea legible, pero cambia a naranja al seleccionar */}
+                        <span className="text-sm font-bold text-gray-700 peer-checked:text-orange-600 transition-colors">{m}</span>
+                      </div>
+                    </label>
+                  );
+                })}
               </div>
             </div>
 
@@ -329,20 +343,25 @@ export default function Checkout({ slug }) {
                 <Truck size={12} /> Entrega
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                {(negocio.tipos_entrega || ["Retiro en local"]).map((t) => (
-                  <label key={t} className="cursor-pointer">
-                    <input
-                      type="radio"
-                      value={t}
-                      {...register("tipo_entrega", { required: true })}
-                      className="peer sr-only"
-                    />
-                    <div className="p-3 border-2 border-gray-100 rounded-2xl bg-white hover:bg-gray-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-700 transition-all flex flex-col items-center justify-center gap-1 text-center h-full">
-                      <span className="text-2xl">{getIconForOption(t, 'entrega')}</span>
-                      <span className="text-sm font-bold">{t}</span>
-                    </div>
-                  </label>
-                ))}
+                {(negocio.tipos_entrega || ["Retiro en local"]).map((t) => {
+                  const { icon, colorClass } = getIconConfig(t, 'entrega');
+                  return (
+                    <label key={t} className="cursor-pointer">
+                      <input
+                        type="radio"
+                        value={t}
+                        {...register("tipo_entrega", { required: true })}
+                        className="peer sr-only"
+                      />
+                      <div className={`p-3 border-2 border-gray-100 rounded-2xl bg-white ${colorClass} hover:bg-gray-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:text-orange-600 transition-all flex flex-col items-center justify-center gap-2 text-center h-full`}>
+                        <div className="transition-transform duration-300 peer-checked:scale-110">
+                          {icon}
+                        </div>
+                        <span className="text-sm font-bold text-gray-700 peer-checked:text-orange-600 transition-colors">{t}</span>
+                      </div>
+                    </label>
+                  );
+                })}
               </div>
 
               {/* CAMPO DINÁMICO DE DIRECCIÓN */}
