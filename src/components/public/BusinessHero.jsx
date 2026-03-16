@@ -91,7 +91,7 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                         </div>
 
                         {negocio.descripcion && (
-                            <p className="text-sm sm:text-base font-medium text-white/70 line-clamp-3 max-w-xl break-words drop-shadow-md leading-relaxed mb-2">
+                            <p className="text-sm sm:text-base text-white/70 line-clamp-3 max-w-xl break-words drop-shadow-md leading-relaxed mb-2 mt-2">
                                 {negocio.descripcion}
                             </p>
                         )}

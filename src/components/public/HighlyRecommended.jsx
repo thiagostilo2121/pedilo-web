@@ -55,7 +55,7 @@ export default function HighlyRecommended({
                 className="flex overflow-x-auto gap-4 pb-8 pr-4 -ml-4 pl-4 scrollbar-responsive snap-x pt-2 scroll-smooth"
             >
                 {destacadeProducts.map(prod => {
-                    const cartItem = carrito.find(p => p.id === prod.id);
+                    const cartItem = carrito.find(p => p.id === prod.id && (!p.toppings || p.toppings.length === 0));
                     const canAdd = prod.stock && negocio?.acepta_pedidos;
 
                     return (
