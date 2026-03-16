@@ -450,6 +450,19 @@ export default function PublicNegocio({ slug }) {
               />
             )}
 
+            <div className="flex flex-col items-center my-8 select-none pointer-events-none">
+              <div className="flex flex-col items-center gap-4">
+                <div className="flex flex-col items-center text-center">
+                  <span className="text-[10px] font-black uppercase tracking-[0.8em] text-gray-400 ml-[0.8em]">Catálogo</span>
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="w-1 h-1 rounded-full opacity-40" style={{ backgroundColor: negocio.color_primario || '#f97316' }} />
+                    <span className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">{productos.length} Variedades</span>
+                    <div className="w-1 h-1 rounded-full opacity-40" style={{ backgroundColor: negocio.color_primario || '#f97316' }} />
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* 3.5 VIEW TOGGLE (NEW) */}
             {productos.length > 0 && !searchTerm && (
               <div className="mb-4 flex justify-end">
