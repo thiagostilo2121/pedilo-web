@@ -26,7 +26,8 @@ export default function ProductCard({
     return (
         <div
             id={`producto-${product.id}`}
-            className={`group bg-white dark:bg-zinc-900 p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border border-gray-100 dark:border-white/10 hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative ${isWholesaleApplied ? 'ring-2 ring-green-500/20' : ''}`}
+            className={`group bg-white dark:bg-zinc-900 p-4 sm:p-5 rounded-[2rem] shadow-lg shadow-orange-500/5 border hover:border-orange-100 hover:shadow-2xl hover:shadow-orange-500/10 transition-all flex gap-4 overflow-hidden relative ${isWholesaleApplied ? 'border-green-500/30 ring-2 ring-green-500/20' : cartItem ? 'border-[var(--tw-ring-color)]' : 'border-gray-100 dark:border-white/10'}`}
+            style={cartItem ? { '--tw-ring-color': negocio?.color_primario || '#ea580c' } : {}}
         >
             {/* Imagen Progresiva */}
             <ProgressiveImage
@@ -135,9 +136,9 @@ export default function ProductCard({
                                                 onClick={() => onAdd(product)}
                                                 disabled={isAdding}
                                                 style={{ backgroundColor: negocio?.color_primario || '#ea580c' }}
-                                                className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center text-white rounded-full hover:brightness-110 hover:scale-105 active:scale-95 transition-all shadow-lg font-bold text-xs sm:text-sm gap-1 sm:gap-2"
+                                                className="h-9 sm:h-10 px-3 sm:px-5 flex items-center justify-center text-white rounded-full hover:brightness-110 hover:scale-105 active:scale-95 transition-all shadow-lg font-bold text-xs sm:text-sm gap-1 sm:gap-2 group/btn"
                                             >
-                                                <span className="hidden xs:inline">Agregar</span> <Plus size={16} strokeWidth={3} />
+                                                <span className="hidden xs:inline">Agregar</span> <Plus size={16} strokeWidth={3} className="transition-transform group-hover/btn:rotate-90" />
                                             </button>
                                             {/* Badge for Total Quantity if Cart Item is null (variant mode) */}
                                             {totalQty > 0 && (

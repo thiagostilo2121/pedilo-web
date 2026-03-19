@@ -118,6 +118,13 @@ export default function CartDrawer({
                 </div>
 
                 {cart.length > 0 && (
+                    <div className="mx-5 mb-4 text-center py-3 px-4 bg-orange-50 dark:bg-orange-500/10 rounded-2xl border border-orange-100 dark:border-orange-500/20 shadow-inner">
+                        <p className="text-sm font-bold text-gray-900 dark:text-zinc-100">¿Deseás agregar algo más?</p>
+                        <button onClick={onClose} className="text-xs font-black text-orange-600 dark:text-orange-400 mt-0.5 hover:underline decoration-2 underline-offset-2">Ir a sumar más delicias</button>
+                    </div>
+                )}
+
+                {cart.length > 0 && (
                     <div className="p-6 bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-white/10 pb-8 rounded-t-3xl shadow-[0_-5px_20px_-5px_rgba(0,0,0,0.05)] z-10">
                         <div className="flex justify-between items-end mb-6">
                             <div>
@@ -172,11 +179,11 @@ export default function CartDrawer({
                                         <button
                                             onClick={onCheckout}
                                             disabled={belowMinimum}
-                                            className={`w-full py-4 rounded-2xl font-bold text-xl transition-all shadow-lg active:scale-[0.98] flex justify-between items-center px-6 group ${belowMinimum ? 'bg-gray-300 text-gray-500 dark:text-zinc-400 cursor-not-allowed shadow-none' : 'bg-gray-900 text-white hover:bg-black'}`}
+                                            className={`w-full py-4 rounded-2xl font-bold text-xl transition-all shadow-lg active:scale-[0.98] flex justify-between items-center px-6 group ${belowMinimum ? 'bg-gray-300 text-gray-500 dark:text-zinc-400 cursor-not-allowed shadow-none' : 'bg-gray-900 text-white hover:bg-black hover:-translate-y-0.5 hover:shadow-xl'}`}
                                         >
                                             <span>Confirmar Pedido</span>
                                             <span className={`p-2 rounded-xl transition-colors ${belowMinimum ? 'bg-gray-400/30' : 'bg-white/20 group-hover:bg-white/30'}`}>
-                                                <ChevronLeft className="rotate-180" size={20} />
+                                                <ChevronLeft className="rotate-180 transition-transform group-hover:translate-x-1" size={20} />
                                             </span>
                                         </button>
                                     </>

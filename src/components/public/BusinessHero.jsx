@@ -17,6 +17,8 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                     src={negocio.banner_url || "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1000&q=80"}
                     className="w-full h-full object-cover opacity-90 blur-[2px] scale-105 group-hover:scale-100 transition-transform duration-[3s]"
                     alt="Banner"
+                    loading="eager"
+                    fetchpriority="high"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
             </div>
@@ -28,7 +30,7 @@ export default function BusinessHero({ negocio, onShowInfo }) {
                         {/* TOP SECTION: LOGO + STATUS */}
                         <div className="flex items-center mb-2">
                             <div className="relative shrink-0">
-                                <img src={negocio.logo_url || DEFAULT_LOGO} className="w-24 h-24 rounded-[2.1rem] border-[1px] border-white shadow-2xl object-cover bg-white dark:bg-zinc-900" alt="Logo Big" />
+                                <img src={negocio.logo_url || DEFAULT_LOGO} className="w-24 h-24 rounded-[2.1rem] border-[1px] border-white shadow-2xl object-cover bg-white dark:bg-zinc-900" alt="Logo Big" decoding="async" />
                                 <div className={`absolute -top-3 -right-3 px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider flex items-center gap-1.5 shadow-xl backdrop-blur-md border border-white/10 ${negocio.acepta_pedidos ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
                                     <span className={`w-2 h-2 rounded-full ${negocio.acepta_pedidos ? 'bg-white dark:bg-zinc-900 animate-pulse' : 'bg-white/50'}`}></span>
                                     {negocio.acepta_pedidos ? 'Abierto' : 'Cerrado'}

@@ -13,6 +13,8 @@ import TopClientsCard from "../../components/dashboard/TopClientsCard";
 import RecentOrdersCard from "../../components/dashboard/RecentOrdersCard";
 import CategoryRankingCard from "../../components/dashboard/CategoryRankingCard";
 import WeeklyHeatmap from "../../components/dashboard/WeeklyHeatmap";
+import AutopilotCtaCard from "../../components/dashboard/AutopilotCtaCard";
+import QuickActionsCard from "../../components/dashboard/QuickActionsCard";
 
 export default function DashboardHome() {
     const [overview, setOverview] = useState(null);
@@ -211,24 +213,7 @@ export default function DashboardHome() {
                         </div>
 
                         {/* AUTOPILOT CTA */}
-                        <a href="/dashboard/autopilot" className="block bg-gradient-to-br from-violet-600 to-indigo-600 p-6 rounded-3xl shadow-xl text-white relative overflow-hidden group hover:-translate-y-1 transition-all">
-                            <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff0a_1px,transparent_1px),linear-gradient(to_bottom,#ffffff0a_1px,transparent_1px)] bg-[size:12px_12px] opacity-20 rounded-3xl pointer-events-none"></div>
-                            <div className="relative z-10">
-                                <div className="flex items-center gap-3 mb-3">
-                                    <div className="w-11 h-11 bg-white/15 backdrop-blur-sm rounded-xl flex items-center justify-center border border-white/20">
-                                        <BrainCircuit size={22} />
-                                    </div>
-                                    <div>
-                                        <h3 className="font-black text-base tracking-tight">Autopilot</h3>
-                                        <p className="text-[10px] text-violet-200 font-bold uppercase tracking-wider">Motor de Inteligencia</p>
-                                    </div>
-                                </div>
-                                <p className="text-sm text-violet-100 font-medium leading-relaxed mb-4">Combos sugeridos, pronósticos de demanda, clientes en riesgo y más.</p>
-                                <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-white/90 group-hover:text-white">
-                                    Ir a Autopilot <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                                </div>
-                            </div>
-                        </a>
+                        <AutopilotCtaCard />
 
 
                     </div>
@@ -240,24 +225,8 @@ export default function DashboardHome() {
 
                         <WeeklyHeatmap data={heatmapData} />
 
-                        {/* ACCESOS RÁPIDOS - MEJORADO */}
-                        <div className="bg-gradient-to-br from-gray-900 to-gray-800 dark:from-zinc-900 dark:to-zinc-800 p-6 rounded-3xl shadow-xl text-white">
-                            <h3 className="text-[10px] font-black text-gray-400 dark:text-zinc-300 uppercase tracking-[0.2em] mb-4">Gestión Rápida</h3>
-                            <div className="grid grid-cols-2 gap-3">
-                                <a href="/dashboard/productos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
-                                    <div className="w-10 h-10 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg shadow-orange-600/20 group-hover:scale-110 transition-transform">
-                                        <Plus size={20} className="text-white" />
-                                    </div>
-                                    <span className="text-[10px] font-black uppercase tracking-wider">Nuevo Item</span>
-                                </a>
-                                <a href="/dashboard/pedidos" className="p-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all flex flex-col items-center gap-2 active:scale-95 group">
-                                    <div className="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center shadow-lg shadow-blue-600/20 group-hover:scale-110 transition-transform">
-                                        <ShoppingBag size={18} className="text-white" />
-                                    </div>
-                                    <span className="text-[10px] font-black uppercase tracking-wider">Pedidos</span>
-                                </a>
-                            </div>
-                        </div>
+                        {/* ACCESOS RÁPIDOS */}
+                        <QuickActionsCard />
                     </div>
                 </div>
             </div>

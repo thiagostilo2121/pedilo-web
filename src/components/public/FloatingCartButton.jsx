@@ -9,12 +9,13 @@ export default function FloatingCartButton({ carrito, negocio, onClick }) {
     const totalAmount = calcularTotalCarrito(carrito, negocio);
     const isDistribuidora = negocio.tipo_negocio === 'distribuidora';
     const belowMinimum = isDistribuidora && negocio.pedido_minimo > 0 && totalAmount < negocio.pedido_minimo;
+    const isCloseToMinimum = belowMinimum && totalAmount >= negocio.pedido_minimo * 0.6; // FOMO text
 
     return (
         <div className="fixed bottom-6 inset-x-4 z-50 animate-in slide-in-from-bottom-5 fade-in duration-300 max-w-2xl mx-auto">
             <button
                 onClick={onClick}
-                className="w-full text-white p-2 pl-6 pr-2 rounded-[2.5rem] shadow-2xl flex items-center justify-between border border-white/10 backdrop-blur-xl bg-opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                className="w-full text-white p-2 pl-6 pr-2 rounded-[2.5rem] shadow-2xl flex items-center justify-between border border-white/10 backdrop-blur-xl bg-opacity-95 hover:scale-[1.02] active:scale-[0.98] transition-all group"
                 style={{ backgroundColor: negocio.color_primario || '#111827', boxShadow: `0 20px 25px -5px ${negocio.color_primario}40` }}
             >
                 <div className="flex flex-col items-start leading-none gap-1">
@@ -29,9 +30,12 @@ export default function FloatingCartButton({ carrito, negocio, onClick }) {
                             />
                         </div>
                     )}
+                    {isCloseToMinimum && (
+                        <span className="text-[9px] text-white/90 font-bold mt-1 animate-pulse">¡Falta súper poco!</span>
+                    )}
                 </div>
                 <div className="bg-white dark:bg-zinc-900 text-gray-900 dark:text-zinc-100 px-6 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:bg-gray-100 dark:hover:bg-white/10 dark:bg-white/5 transition-colors">
-                    Ver Pedido <ShoppingBag size={18} />
+                    Ver Pedido <ShoppingBag size={18} className="transition-transform group-hover:-translate-y-1 group-hover:scale-110" />
                 </div>
             </button>
         </div>

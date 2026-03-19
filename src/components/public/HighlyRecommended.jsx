@@ -27,9 +27,9 @@ export default function HighlyRecommended({
         <section className="mb-10 pl-4 animate-in fade-in slide-in-from-bottom-4 duration-700 relative group/carousel">
             <div className="flex flex-col pr-4 mb-4">
                 <h2 className="text-xl font-black text-gray-900 dark:text-zinc-100 flex items-center gap-2">
-                    Imperdibles <Flame className="text-orange-500 animate-pulse" size={24} fill="currentColor" />
+                    Lo más pedido <Flame className="text-orange-500 animate-pulse" size={24} fill="currentColor" />
                 </h2>
-                <p className="text-xs text-gray-500 dark:text-zinc-400 font-medium mt-0.5">Los platos que se agotan más rápido hoy.</p>
+                <p className="text-xs text-gray-500 dark:text-zinc-400 font-medium mt-0.5">Otros clientes ya lo pidieron.</p>
             </div>
 
             {/* Desktop Navigation Arrows */}
