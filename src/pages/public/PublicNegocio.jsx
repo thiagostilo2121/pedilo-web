@@ -31,6 +31,7 @@ export default function PublicNegocio({ slug }) {
   const [productos, setProductos] = useState([]);
   const [categorias, setCategorias] = useState([]);
   const [activeCategory, setActiveCategory] = useState("todos"); // Category Selection
+  const [toppingsCache, setToppingsCache] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showCart, setShowCart] = useState(false);
@@ -54,7 +55,7 @@ export default function PublicNegocio({ slug }) {
     agregarAlCarrito,
     disminuirCantidad,
     handleUpdateQuantity
-  } = useCart(slug, negocio, {});
+  } = useCart(slug, negocio, toppingsCache);
 
   // Fetch Data
   useEffect(() => {
@@ -75,6 +76,10 @@ export default function PublicNegocio({ slug }) {
         const sortedProducts = data.productos.sort((a, b) => (b.destacado === true) - (a.destacado === true));
         setProductos(sortedProducts);
         setCategorias(data.categorias);
+        
+        if (data.toppings_cache) {
+          setToppingsCache(data.toppings_cache);
+        }
 
         document.title = `${data.negocio.nombre} | Pedilo`;
 
