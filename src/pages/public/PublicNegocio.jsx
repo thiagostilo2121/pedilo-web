@@ -223,46 +223,17 @@ export default function PublicNegocio({ slug }) {
         <BusinessHero negocio={negocio} onShowInfo={() => setShowInfoModal(true)} />
       </div>
 
-      <main className="max-w-6xl mx-auto relative z-10 -mt-8 bg-gray-50 rounded-t-[2.5rem] min-h-screen pb-10 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] pt-8">
+      <main className="max-w-[1600px] xl:w-[95%] mx-auto relative z-10 -mt-8 bg-gray-50 rounded-t-[2.5rem] min-h-screen pb-10 shadow-[0_-10px_40px_rgba(0,0,0,0.15)] pt-8">
         
         <MinimumOrderBanner carrito={carrito} negocio={negocio} />
 
-        {/* Search */}
-        <div className="px-4 mb-8">
-          <div className="relative group">
-            <Search
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-600 transition-colors"
-              size={20}
-              style={{ color: searchTerm ? (negocio.color_primario || '#ea580c') : undefined }}
-            />
-            <input
-              type="text"
-              placeholder="Buscar delicias..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full bg-white pl-12 pr-4 py-4 rounded-2xl shadow-sm border border-gray-100 focus:ring-2 focus:border-transparent outline-none text-gray-800 font-bold transition-all placeholder:text-gray-300"
-              style={{ '--tw-ring-color': negocio.color_primario || '#ea580c' }}
-            />
-            {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 bg-gray-100 rounded-full p-1"><X size={14} /></button>}
-          </div>
-        </div>
-
-        <HighlyRecommended
-          productos={productos}
-          negocio={negocio}
-          carrito={carrito}
-          onAdd={handleAddToCart}
-          onDecreaseQuantity={disminuirCantidad}
-          isAddingId={addingProductId}
-        />
-
-        <div className="md:flex md:gap-8 px-4">
-          <aside className="hidden md:block w-64 shrink-0 sticky top-24 h-[calc(100vh-6rem)] overflow-y-auto pb-10">
-            <h3 className="font-bold text-gray-900 mb-4 px-2 text-lg">Categorías</h3>
-            <div className="space-y-1">
+        <div className="md:flex md:gap-8 px-4 md:px-8 lg:px-12">
+          <aside className="hidden md:block w-64 shrink-0 sticky top-28 h-[calc(100vh-7rem)] overflow-y-auto pb-10 scrollbar-hide">
+            <h3 className="font-black text-gray-900 mb-6 px-1 text-xl">Categorías</h3>
+            <div className="space-y-1.5">
               <button
                 onClick={() => scrollToCategory('todos')}
-                className={`w-full text-left px-4 py-3 rounded-xl transition-all font-bold text-sm ${activeCategory === 'todos' ? 'bg-white shadow text-gray-900 ring-1 ring-gray-100' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'}`}
+                className={`w-full text-left px-4 py-3 rounded-2xl transition-all font-bold text-[15px] ${activeCategory === 'todos' ? 'bg-white shadow-sm text-gray-900 border border-gray-100' : 'text-gray-500 hover:bg-white/60 hover:text-gray-800'}`}
               >
                 Todas
               </button>
@@ -270,11 +241,11 @@ export default function PublicNegocio({ slug }) {
                 <button
                   key={cat.id}
                   onClick={() => scrollToCategory(cat.nombre)}
-                  className={`w-full text-left px-4 py-3 rounded-xl transition-all font-bold text-sm flex items-center justify-between group ${activeCategory === cat.nombre ? 'bg-white shadow text-gray-900 ring-1 ring-gray-100' : 'text-gray-500 hover:bg-gray-100 hover:text-gray-700'}`}
+                  className={`w-full text-left px-4 py-3 rounded-2xl transition-all font-bold text-[15px] flex items-center justify-between group ${activeCategory === cat.nombre ? 'bg-white shadow-sm text-gray-900 border border-gray-100' : 'text-gray-500 hover:bg-white/60 hover:text-gray-800'}`}
                 >
-                  <span>{cat.nombre}</span>
+                  <span className="truncate pr-2">{cat.nombre}</span>
                   {productsByCategory[cat.nombre]?.length > 0 && (
-                    <span className={`text-[10px] px-2 py-0.5 rounded-full ${activeCategory === cat.nombre ? 'bg-gray-100 text-gray-900' : 'bg-gray-100 text-gray-400 group-hover:text-gray-600'}`}>
+                    <span className={`text-[11px] px-2 py-0.5 rounded-full font-black ${activeCategory === cat.nombre ? 'bg-gray-100 text-gray-900' : 'bg-gray-200/50 text-gray-400 group-hover:text-gray-600'}`}>
                       {productsByCategory[cat.nombre]?.length}
                     </span>
                   )}
@@ -284,6 +255,35 @@ export default function PublicNegocio({ slug }) {
           </aside>
 
           <div className="flex-1 min-w-0">
+            {/* Search */}
+            <div className="mb-8 md:mb-10">
+              <div className="relative group max-w-2xl">
+                <Search
+                  className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-orange-600 transition-colors"
+                  size={20}
+                  style={{ color: searchTerm ? (negocio.color_primario || '#ea580c') : undefined }}
+                />
+                <input
+                  type="text"
+                  placeholder="Buscar delicias..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="w-full bg-white pl-12 pr-4 py-4 rounded-2xl shadow-sm border border-gray-100 focus:ring-2 focus:border-transparent outline-none text-gray-800 font-bold transition-all placeholder:text-gray-300"
+                  style={{ '--tw-ring-color': negocio.color_primario || '#ea580c' }}
+                />
+                {searchTerm && <button onClick={() => setSearchTerm("")} className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 bg-gray-100 rounded-full p-1"><X size={14} /></button>}
+              </div>
+            </div>
+
+            <HighlyRecommended
+              productos={productos}
+              negocio={negocio}
+              carrito={carrito}
+              onAdd={handleAddToCart}
+              onDecreaseQuantity={disminuirCantidad}
+              isAddingId={addingProductId}
+            />
+
             {!searchTerm && (
               <CategoryStoryBar
                 categorias={categorias}
@@ -325,7 +325,8 @@ export default function PublicNegocio({ slug }) {
                         </span>
                       </h3>
 
-                      <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 gap-5' : 'grid-cols-1'}`}>
+                      {/* Responsive Grid/List adaptation */}
+                      <div className={`grid gap-4 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5' : 'grid-cols-1 lg:grid-cols-2 xl:gap-6 lg:gap-5'}`}>
                         {catProducts.map(prod => (
                           viewMode === 'grid' ? (
                             <ProductCard
@@ -363,7 +364,7 @@ export default function PublicNegocio({ slug }) {
                 )}
               </div>
             ) : (
-              <div className="px-4 flex flex-col gap-6 min-h-[500px]">
+              <div className="flex flex-col gap-6 min-h-[500px]">
                 <div className="flex items-center justify-between mb-2">
                   <h2 className="text-xl font-black text-gray-900">
                     Resultados: "{searchTerm}"
@@ -374,7 +375,7 @@ export default function PublicNegocio({ slug }) {
                 </div>
 
                 {displayedProducts.length > 0 ? (
-                  <div className="grid gap-4 animate-in fade-in duration-500">
+                  <div className={`grid gap-4 animate-in fade-in duration-500 ${viewMode === 'grid' ? 'grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5' : 'grid-cols-1 lg:grid-cols-2 xl:gap-6 lg:gap-5'}`}>
                     {displayedProducts.map(prod => (
                       viewMode === 'list' ? (
                         <ProductCardList
