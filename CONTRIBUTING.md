@@ -8,18 +8,11 @@
 2. Crea una rama para tu característica: `git checkout -b feature/nueva-funcionalidad`.
 3. Realiza tus cambios y asegúrate de seguir los estándares del proyecto.
 4. Ejecuta el linter y formateador:
-   - Backend: `make check`
-   - Frontend: `npm run lint`
+   - `npm run lint`
 5. **Push** a tu rama: `git push origin feature/nueva-funcionalidad`.
 6. Abre un **Pull Request**.
 
 ## 🎨 Estándares de Código
-
-### Backend (FastAPI)
-- Usamos **SQLModel** para modelos y esquemas.
-- Seguimos **PEP 8**.
-- Formateo con `ruff` y `black`.
-- Tipado estricto con `mypy`.
 
 ### Frontend (React)
 - **React 19** con hooks.

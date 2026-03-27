@@ -12,7 +12,8 @@ import {
     LayoutDashboard,
     Pizza,
     ArrowRight,
-    Loader2
+    Loader2,
+    BrainCircuit
 } from "lucide-react";
 import productService from "../../services/productService";
 
@@ -33,6 +34,7 @@ export default function CommandPalette() {
         { name: "Lista de Productos", path: "/dashboard/productos", icon: <Pizza size={18} />, type: "Navegación" },
         { name: "Categorías", path: "/dashboard/categorias", icon: <Tags size={18} />, type: "Navegación" },
         { name: "Configuración", path: "/dashboard/configuracion", icon: <Settings size={18} />, type: "Navegación" },
+        { name: "Autopilot", path: "/dashboard/autopilot", icon: <BrainCircuit size={18} />, type: "Navegación"},
     ];
 
     const actions = [

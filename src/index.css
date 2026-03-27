@@ -1,73 +1,194 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+/* ─────────────────────────────────────────────────────────────────────────────
+   PEDILO — Design System
+   Source of truth for all visual design decisions.
+   Tailwind config extends these values. Components use Tailwind utility classes.
+───────────────────────────────────────────────────────────────────────────── */
+
+/* ── Fonts & Vendors ──────────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap');
 @import "flowbite/src/themes/default";
 @import "tailwindcss";
 @plugin "flowbite/plugin";
 @source "../node_modules/flowbite";
 
-/* Dark Mode via class on <html> */
+/* ── Dark mode via class on <html> ─────────────────────────────────────────── */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Smooth theme transition */
-html {
-    transition: background-color 0.3s ease, color 0.3s ease;
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — Light mode
+
+   BRAND PHILOSOPHY:
+   - Orange (brand-*) = Pedilo core identity: energy, local commerce, trust
+   - Violet (autopilot-*) = Autopilot/AI module ONLY — premium, intelligent
+   - Gray/Zinc = Neutral system colors for text, surfaces, borders
+   - Emerald/Amber/Rose = Semantic status colors (success/warning/error)
+───────────────────────────────────────────────────────────────────────────── */
+:root {
+  /* ── Brand color steps (orange) */
+  --pedilo-50:  #fff7ed;
+  --pedilo-100: #ffedd5;
+  --pedilo-200: #fed7aa;
+  --pedilo-300: #fdba74;
+  --pedilo-400: #fb923c;
+  --pedilo-500: #f97316;
+  --pedilo-600: #ea580c;   /* ← PRIMARY brand color */
+  --pedilo-700: #c2410c;   /* ← Hover / pressed state */
+  --pedilo-800: #9a3412;
+  --pedilo-900: #7c2d12;
+
+  /* ── Brand gradient (CTA buttons, hero accents) */
+  --brand-gradient: linear-gradient(135deg, #ea580c, #f43f5e);  /* orange→rose */
+
+  /* ── Autopilot / IA gradient (use ONLY in /autopilot module) */
+  --autopilot-from: #7c3aed;   /* violet-600 */
+  --autopilot-via:  #6366f1;   /* indigo-500 */
+  --autopilot-to:   #d946ef;   /* fuchsia-500 */
+
+  /* ── Page & surface backgrounds */
+  --color-bg:            #f9fafb;   /* gray-50  — page background */
+  --color-surface:       #ffffff;   /* white    — cards, modals */
+  --color-surface-hover: #f3f4f6;   /* gray-100 — card hover */
+  --color-border:        #e5e7eb;   /* gray-200 — standard border */
+  --color-border-subtle: #f3f4f6;   /* gray-100 — hairline dividers */
+
+  /* ── Text hierarchy */
+  --color-text-primary:   #111827;  /* gray-900 */
+  --color-text-secondary: #4b5563;  /* gray-600 */
+  --color-text-muted:     #9ca3af;  /* gray-400 */
+  --color-text-disabled:  #d1d5db;  /* gray-300 */
+
+  /* ── Semantic status */
+  --color-success: #10b981;   /* emerald-500 */
+  --color-warning: #f59e0b;   /* amber-500   */
+  --color-danger:  #f43f5e;   /* rose-500    */
+  --color-info:    #3b82f6;   /* blue-500    */
+
+  /* ── Elevation (box-shadow) */
+  --shadow-card:  0 1px 4px 0 rgba(0,0,0,0.04), 0 4px 24px 0 rgba(0,0,0,0.06);
+  --shadow-brand: 0 4px 24px 0 rgba(234,88,12,0.20);   /* orange-tinted */
+  --shadow-modal: 0 20px 60px 0 rgba(0,0,0,0.16);
+
+  /* ── Motion timing */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* ── Border radius scale */
+  --radius-sm:  0.5rem;    /*  8px */
+  --radius-md:  0.75rem;   /* 12px */
+  --radius-lg:  1rem;      /* 16px */
+  --radius-xl:  1.25rem;   /* 20px */
+  --radius-2xl: 1.5rem;    /* 24px */
+  --radius-3xl: 2rem;      /* 32px */
 }
 
+/* ─────────────────────────────────────────────────────────────────────────────
+   DESIGN TOKENS — Dark mode
+───────────────────────────────────────────────────────────────────────────── */
 html.dark {
-    background-color: #030712;
-    /* gray-950 */
-    color-scheme: dark;
+  color-scheme: dark;
+  background-color: #09090b; /* zinc-950 */
+
+  --color-bg:            #09090b;   /* zinc-950 */
+  --color-surface:       #18181b;   /* zinc-900 */
+  --color-surface-hover: #27272a;   /* zinc-800 */
+  --color-border:        #3f3f46;   /* zinc-700 */
+  --color-border-subtle: #27272a;   /* zinc-800 */
+
+  --color-text-primary:   #f4f4f5;  /* zinc-100 */
+  --color-text-secondary: #a1a1aa;  /* zinc-400 */
+  --color-text-muted:     #71717a;  /* zinc-500 */
+  --color-text-disabled:  #52525b;  /* zinc-600 */
+
+  --shadow-card:  0 1px 4px 0 rgba(0,0,0,0.4), 0 4px 24px 0 rgba(0,0,0,0.5);
+  --shadow-brand: 0 4px 24px 0 rgba(234,88,12,0.30);
+  --shadow-modal: 0 20px 60px 0 rgba(0,0,0,0.65);
+
+  /* Autopilot gradient is slightly more vibrant in dark mode */
+  --autopilot-from: #8b5cf6;   /* violet-500 */
+  --autopilot-to:   #e879f9;   /* fuchsia-400 */
 }
 
-/* input.css */
-@keyframes fade-in-up {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
+/* ─────────────────────────────────────────────────────────────────────────────
+   BASE STYLES
+───────────────────────────────────────────────────────────────────────────── */
+html {
+  font-family: 'Inter', system-ui, sans-serif;
+  /* Inter OpenType: slashed zero, alternate digits, disambiguation */
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Global selection highlight uses brand color */
+::selection {
+  background-color: #ffedd5;  /* orange-100 */
+  color: #c2410c;             /* orange-700 */
+}
+
+html.dark ::selection {
+  background-color: rgba(234,88,12,0.2);
+  color: #fdba74;  /* orange-300 */
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   BRAND GRADIENT UTILITIES
+   usage: className="bg-brand-gradient" (orange CTA buttons, hero headings)
+   usage: className="bg-autopilot"      (autopilot module ONLY)
+   usage: className="text-autopilot"    (autopilot gradient text ONLY)
+───────────────────────────────────────────────────────────────────────────── */
+.bg-brand-gradient {
+  background: var(--brand-gradient);
+}
+
+.bg-autopilot {
+  background: linear-gradient(135deg, var(--autopilot-from), var(--autopilot-via, #6366f1), var(--autopilot-to));
+}
+
+.text-autopilot {
+  background: linear-gradient(135deg, var(--autopilot-from), var(--autopilot-to));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   ANIMATIONS
+───────────────────────────────────────────────────────────────────────────── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in-up {
-    animation: fade-in-up 0.8s ease-out forwards;
+  animation: fade-in-up 0.6s ease-out both;
 }
 
-/* Responsive Scrollbar */
-.scrollbar-responsive::-webkit-scrollbar {
-    display: none;
-}
-
+/* ─────────────────────────────────────────────────────────────────────────────
+   SCROLLBAR
+───────────────────────────────────────────────────────────────────────────── */
+.scrollbar-responsive::-webkit-scrollbar { display: none; }
 .scrollbar-responsive {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 @media (min-width: 768px) {
-    .scrollbar-responsive::-webkit-scrollbar {
-        display: block;
-        height: 6px;
-    }
-
-    .scrollbar-responsive {
-        -ms-overflow-style: auto;
-        scrollbar-width: thin;
-    }
-
-    .scrollbar-responsive::-webkit-scrollbar-track {
-        background: transparent;
-    }
-
-    .scrollbar-responsive::-webkit-scrollbar-thumb {
-        background-color: #d1d5db;
-        border-radius: 20px;
-        border: 2px solid transparent;
-        background-clip: content-box;
-    }
-
-    .scrollbar-responsive::-webkit-scrollbar-thumb:hover {
-        background-color: #9ca3af;
-    }
+  .scrollbar-responsive::-webkit-scrollbar {
+    display: block;
+    height: 6px;
+    width: 6px;
+  }
+  .scrollbar-responsive { -ms-overflow-style: auto; scrollbar-width: thin; }
+  .scrollbar-responsive::-webkit-scrollbar-track { background: transparent; }
+  .scrollbar-responsive::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+  .scrollbar-responsive::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-text-muted);
+  }
 }

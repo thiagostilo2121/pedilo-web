@@ -83,7 +83,7 @@ export default function DashboardSidebar({ sidebarOpen, setSidebarOpen, user, is
         </button>
 
         {/* Socials Row */}
-        <div className={`flex ${sidebarOpen ? 'flex-row' : 'flex-col'} gap-2 w-full`}>
+        <div className={`flex ${sidebarOpen ? 'flex-row' : 'flex-col'} gap-2 w-full mr-6`}>
           <a
             href="https://whatsapp.com/channel/0029Vb6K9vHKwqSYl9BJdE37"
             target="_blank"

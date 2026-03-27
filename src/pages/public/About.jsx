@@ -209,7 +209,7 @@ export default function About() {
                     <div className="space-y-6">
                         <h2 className="text-3xl font-black leading-tight">Accedé al Código Fuente</h2>
                         <p className="text-gray-400 font-medium">
-                            Pedilo es un proyecto de código abierto. Creemos en la transparencia y en compartir el conocimiento con la comunidad.
+                            El frontend de Pedilo es de código abierto. Creemos en la transparencia y en compartir el conocimiento con la comunidad.
                         </p>
                         <div className="flex flex-wrap gap-4">
                             <a
@@ -219,14 +219,6 @@ export default function About() {
                                 className="flex items-center gap-2 bg-white text-gray-900 px-6 py-3 rounded-2xl font-black hover:scale-105 transition-transform text-sm sm:text-base"
                             >
                                 <Github size={20} /> GitHub Frontend
-                            </a>
-                            <a
-                                href="https://github.com/thiagostilo2121/pedilo-api"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 bg-gray-800 text-white px-6 py-3 rounded-2xl font-black hover:scale-105 border border-gray-700 transition-transform text-sm sm:text-base"
-                            >
-                                <Code2 size={20} /> GitHub Backend
                             </a>
                         </div>
                     </div>

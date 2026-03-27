@@ -10,7 +10,7 @@
 
 **La independencia digital del comercio local: Pedidos online sin intermediarios**
 
-[🔗 Pedilo en Vivo](https://pediloarg.netlify.app) · [⚙️ Backend Repo](https://github.com/thiagostilo2121/pedilo-api) · [🐛 Reportar Bug](https://github.com/thiagostilo2121/pedilo-web/issues)
+[🔗 Pedilo en Vivo](https://pediloarg.netlify.app) · [🐛 Reportar Bug](https://github.com/thiagostilo2121/pedilo-web/issues)
 
 </div>
 
