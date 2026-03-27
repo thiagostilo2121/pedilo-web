@@ -38,30 +38,30 @@ export default function Planes() {
       btnText: "Seleccionar Básico",
       color: "blue",
       caracteristicas: [
-        "Catálogo Digital Ilimitado",
-        "Pedidos por WhatsApp",
-        "Métricas Básicas de Ventas",
-        "Personalización de Marca (PWA)",
-        "Toppings y Agregados",
+        "Menú Web PWA (0% Comisiones)",
+        "Pedidos Ilimitados a WhatsApp",
+        "Modificadores Integrados (Toppings)",
+        "Sistema de Cupones Básico",
+        "Modo Mayorista (B2B)",
+        "Importación Masiva (Excel/Barcode)",
         "Soporte Estándar"
       ]
     },
     {
       id: "pro",
       nombre: "Plan Pro (Recomendado)",
-      precio: "55.000",
+      precio: "27.000",
       periodo: "mes",
       destacado: true,
       btnText: "Empezar prueba gratis",
       color: "violet",
       caracteristicas: [
         "Todo lo del Plan Básico",
-        <span key="autopilot" className="font-black text-violet-700">Autopilot: Recomendaciones con IA</span>,
+        <span key="autopilot" className="font-black text-violet-700">Autopilot: Analítica & IA</span>,
+        "Inteligencia de Carrito y Upsells",
+        "Detección de Caída de Ventas y Tendencias",
         "Sistema Avanzado de Cupones",
-        "Flyer & QR Pro Tool",
-        "Alertas de Riesgo de Abandono",
-        "Simulador de ROI de Envío",
-        "Setup Inicial Asistido Gratis"
+        "Sistema de Cupones Avanzado"
       ]
     }
   ];

@@ -21,6 +21,7 @@ import {
   Activity,
   Zap,
   Smartphone,
+  CirclePercent,
   ChevronRight,
   LayoutDashboard,
   CheckCircle2,
@@ -693,7 +694,7 @@ export default function Landing() {
                 <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Resto Web (0% Comisiones)</li>
                 <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Pedidos Ilimitados en WhatsApp</li>
                 <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Modificadores Integrados (Toppings)</li>
-                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Comando Inteligente Básico</li>
+                <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Modo Mayorista (B2B)</li>
                 <li className="flex items-center gap-3 text-gray-200 font-medium"><CheckCircle2 size={20} className="text-orange-500 shrink-0" /> Importación Masiva Barcode/Excel</li>
               </ul>
               <button onClick={() => navigate("/register")} className="w-full py-4 rounded-2xl bg-gray-700/80 hover:bg-gray-600 text-white font-bold transition-all shadow-md active:scale-95 border border-gray-600">
@@ -709,7 +710,7 @@ export default function Landing() {
               </div>
               <div className="text-orange-400 font-bold text-xs md:text-sm tracking-[0.2em] uppercase mb-4 text-center mt-2">Plan Pro</div>
               <div className="text-white font-black text-5xl md:text-6xl mb-2 flex items-center justify-center gap-2 tracking-tight relative z-10">
-                $55.000<span className="text-lg md:text-xl text-gray-500 font-bold self-end mb-1 tracking-normal">/mes</span>
+                $27.000<span className="text-lg md:text-xl text-gray-500 font-bold self-end mb-1 tracking-normal">/mes</span>
               </div>
               <div className="text-green-400 font-bold text-[11px] md:text-xs mb-6 flex items-center gap-1 justify-center bg-green-500/10 px-3 py-1.5 rounded-full border border-green-500/20"><Sparkles size={14} /> 14 Días de Prueba Gratis</div>
               <p className="text-gray-300 font-medium text-sm md:text-base mb-8 text-center px-4 relative z-10">
@@ -717,10 +718,10 @@ export default function Landing() {
               </p>
               <ul className="space-y-4 text-left w-full max-w-[320px] mb-8 flex-1 relative z-10">
                 <li className="flex items-center gap-3 text-gray-400 font-medium italic"><CheckCircle2 size={20} className="text-gray-600 shrink-0" /> Todo lo del plan Básico, más:</li>
-                <li className="flex items-center gap-3 text-white font-bold"><BrainCircuit size={20} className="text-violet-400 shrink-0" /> Autopilot (Motor de Promos IA)</li>
-                <li className="flex items-center gap-3 text-white font-bold"><Target size={20} className="text-blue-400 shrink-0" /> Inteligencia de Carrito y Upsells</li>
-                <li className="flex items-center gap-3 text-white font-bold"><Flame size={20} className="text-orange-400 shrink-0" /> Mapa de Calor de Demanda</li>
-                <li className="flex items-center gap-3 text-white font-bold"><Truck size={20} className="text-green-400 shrink-0" /> Modo B2B Expandido (Mayorista)</li>
+                <li className="flex items-center gap-3 text-white font-bold"><BrainCircuit size={20} className="text-violet-400 shrink-0" /> Autopilot: Recomendaciones Automáticas</li>
+                <li className="flex items-center gap-3 text-white font-bold"><Target size={20} className="text-blue-400 shrink-0" /> Upsells y Carrito Inteligente</li>
+                <li className="flex items-center gap-3 text-white font-bold"><AlertTriangle size={20} className="text-rose-400 shrink-0" /> Detección de Caída de Ventas</li>
+                <li className="flex items-center gap-3 text-white font-bold"><CirclePercent size={20} className="text-green-400 shrink-0" /> Cupones Avanzados</li>
               </ul>
               <button onClick={() => navigate("/register")} className="w-full py-4 rounded-2xl bg-gradient-to-r from-orange-600 to-rose-600 text-white font-black hover:from-orange-500 hover:to-rose-500 transition-all shadow-lg shadow-orange-500/30 active:scale-95 text-base md:text-lg border-b-4 border-rose-700 hover:border-b-0 hover:translate-y-1 relative z-10">
                 Probar Gratis (14 Días)

@@ -24,8 +24,8 @@ export default function HighlyRecommended({
     };
 
     return (
-        <section className="mb-10 pl-4 animate-in fade-in slide-in-from-bottom-4 duration-700 relative group/carousel">
-            <div className="flex flex-col pr-4 mb-4">
+        <section className="mb-10 animate-in fade-in slide-in-from-bottom-4 duration-700 relative group/carousel">
+            <div className="flex flex-col mb-4">
                 <h2 className="text-xl font-black text-gray-900 dark:text-zinc-100 flex items-center gap-2">
                     Lo más pedido <Flame className="text-orange-500 animate-pulse" size={24} fill="currentColor" />
                 </h2>
@@ -52,7 +52,7 @@ export default function HighlyRecommended({
 
             <div
                 ref={scrollContainerRef}
-                className="flex overflow-x-auto gap-4 pb-8 pr-4 -ml-4 pl-4 scrollbar-responsive snap-x pt-2 scroll-smooth"
+                className="flex overflow-x-auto gap-4 pb-8 -mx-4 px-4 md:mx-0 md:px-0 scrollbar-responsive snap-x pt-2 scroll-smooth"
             >
                 {destacadeProducts.map(prod => {
                     const cartItem = carrito.find(p => p.id === prod.id && (!p.toppings || p.toppings.length === 0));
@@ -118,6 +118,8 @@ export default function HighlyRecommended({
                         </div>
                     );
                 })}
+                {/* Spacer block for mobile flex-scroll trailing padding fix */}
+                <div className="min-w-[4px] md:hidden shrink-0" />
             </div>
         </section>
     );
